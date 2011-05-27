@@ -1,0 +1,27 @@
+<h1>Listing contact_acteurs</h1>
+
+<table>
+  <tr>
+    <th>Qualite procedurale</th>
+    <th>Contact</th>
+    <th>Acteur</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @contact_acteurs.each do |contact_acteur| %>
+  <tr>
+    <td><%= contact_acteur.qualite_procedurale_id %></td>
+    <td><%= contact_acteur.contact_id %></td>
+    <td><%= contact_acteur.acteur_id %></td>
+    <td><%= link_to 'Show', contact_acteur %></td>
+    <td><%= link_to 'Edit', edit_contact_acteur_path(contact_acteur) %></td>
+    <td><%= link_to 'Destroy', contact_acteur, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Contact acteur', new_contact_acteur_path %>

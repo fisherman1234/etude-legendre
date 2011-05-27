@@ -1,0 +1,25 @@
+<h1>Listing acteurs</h1>
+
+<table>
+  <tr>
+    <th>Type acteur</th>
+    <th>Affaire</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @acteurs.each do |acteur| %>
+  <tr>
+    <td><%= acteur.type_acteur_id %></td>
+    <td><%= acteur.dossier_id %></td>
+    <td><%= link_to 'Show', acteur %></td>
+    <td><%= link_to 'Edit', edit_acteur_path(acteur) %></td>
+    <td><%= link_to 'Destroy', acteur, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Acteur', new_acteur_path %>

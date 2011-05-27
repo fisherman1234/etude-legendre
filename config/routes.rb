@@ -1,4 +1,22 @@
 EtudeLegendre::Application.routes.draw do
+  resources :qualite_procedurales
+
+  resources :contact_acteurs
+
+  resources :type_acteurs
+
+  resources :acteurs
+
+  resources :type_decisions
+
+  resources :type_expertises
+
+  resources :institutions
+
+  resources :contacts
+
+  resources :dossiers
+
   resources :users
 
   devise_for :users

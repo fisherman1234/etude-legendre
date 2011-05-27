@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Description:</b>
+  <%= @type_expertise.description %>
+</p>
+
+<p>
+  <b>Commentaires:</b>
+  <%= @type_expertise.commentaires %>
+</p>
+
+
+<%= link_to 'Edit', edit_type_expertise_path(@type_expertise) %> |
+<%= link_to 'Back', type_expertises_path %>

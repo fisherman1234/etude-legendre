@@ -1,0 +1,95 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Nom:</b>
+  <%= @contact.nom %>
+</p>
+
+<p>
+  <b>Prenom:</b>
+  <%= @contact.prenom %>
+</p>
+
+<p>
+  <b>Civilite:</b>
+  <%= @contact.civilite %>
+</p>
+
+<p>
+  <b>Adresse1:</b>
+  <%= @contact.adresse1 %>
+</p>
+
+<p>
+  <b>Adresse2:</b>
+  <%= @contact.adresse2 %>
+</p>
+
+<p>
+  <b>Adresse3:</b>
+  <%= @contact.adresse3 %>
+</p>
+
+<p>
+  <b>Code postal:</b>
+  <%= @contact.code_postal %>
+</p>
+
+<p>
+  <b>Ville:</b>
+  <%= @contact.ville %>
+</p>
+
+<p>
+  <b>Pays:</b>
+  <%= @contact.pays %>
+</p>
+
+<p>
+  <b>Telephone:</b>
+  <%= @contact.telephone %>
+</p>
+
+<p>
+  <b>Fax:</b>
+  <%= @contact.fax %>
+</p>
+
+<p>
+  <b>Portable:</b>
+  <%= @contact.portable %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @contact.email %>
+</p>
+
+<p>
+  <b>Site web:</b>
+  <%= @contact.site_web %>
+</p>
+
+<p>
+  <b>Entreprise:</b>
+  <%= @contact.entreprise_id %>
+</p>
+
+<p>
+  <b>Type intervenant:</b>
+  <%= @contact.type_intervenant %>
+</p>
+
+<p>
+  <b>Genre adresse:</b>
+  <%= @contact.genre_adresse %>
+</p>
+
+<p>
+  <b>Genre lettre:</b>
+  <%= @contact.genre_lettre %>
+</p>
+
+
+<%= link_to 'Edit', edit_contact_path(@contact) %> |
+<%= link_to 'Back', contacts_path %>

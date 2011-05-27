@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Description:</b>
+  <%= @type_decision.description %>
+</p>
+
+<p>
+  <b>Commentaires:</b>
+  <%= @type_decision.commentaires %>
+</p>
+
+
+<%= link_to 'Edit', edit_type_decision_path(@type_decision) %> |
+<%= link_to 'Back', type_decisions_path %>

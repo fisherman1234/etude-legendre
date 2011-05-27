@@ -1,0 +1,21 @@
+<%= form_for(@qualite_procedurale) do |f| %>
+  <% if @qualite_procedurale.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@qualite_procedurale.errors.count, "error") %> prohibited this qualite_procedurale from being saved:</h2>
+
+      <ul>
+      <% @qualite_procedurale.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

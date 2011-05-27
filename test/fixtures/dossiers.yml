@@ -1,0 +1,25 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  ref_cabinet: MyString
+  date_avis_designation: 2011-05-27
+  nom_dossier: MyString
+  nom_juridiction: MyString
+  type_decision: MyString
+  juge_controleu: MyString
+  type_expertise: MyString
+  date_decision: 2011-05-27
+  date_cible_depot_rapport: 2011-05-27
+  date_effective_depot_raport: 2011-05-27
+
+two:
+  ref_cabinet: MyString
+  date_avis_designation: 2011-05-27
+  nom_dossier: MyString
+  nom_juridiction: MyString
+  type_decision: MyString
+  juge_controleu: MyString
+  type_expertise: MyString
+  date_decision: 2011-05-27
+  date_cible_depot_rapport: 2011-05-27
+  date_effective_depot_raport: 2011-05-27

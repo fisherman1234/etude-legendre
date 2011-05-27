@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  qualite_procedurale_id: 1
+  contact_id: 1
+  acteur_id: MyString
+
+two:
+  qualite_procedurale_id: 1
+  contact_id: 1
+  acteur_id: MyString

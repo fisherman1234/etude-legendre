@@ -1,0 +1,29 @@
+<%= form_for(@contact_acteur) do |f| %>
+  <% if @contact_acteur.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@contact_acteur.errors.count, "error") %> prohibited this contact_acteur from being saved:</h2>
+
+      <ul>
+      <% @contact_acteur.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :qualite_procedurale_id %><br />
+    <%= f.text_field :qualite_procedurale_id %>
+  </div>
+  <div class="field">
+    <%= f.label :contact_id %><br />
+    <%= f.text_field :contact_id %>
+  </div>
+  <div class="field">
+    <%= f.label :acteur_id %><br />
+    <%= f.text_field :acteur_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

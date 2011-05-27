@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Nom:</b>
+  <%= @institution.nom %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%= @institution.type %>
+</p>
+
+<p>
+  <b>Chambre:</b>
+  <%= @institution.chambre %>
+</p>
+
+<p>
+  <b>Telephone:</b>
+  <%= @institution.telephone %>
+</p>
+
+<p>
+  <b>Fax:</b>
+  <%= @institution.fax %>
+</p>
+
+<p>
+  <b>Site web:</b>
+  <%= @institution.site_web %>
+</p>
+
+<p>
+  <b>Commentaires:</b>
+  <%= @institution.commentaires %>
+</p>
+
+
+<%= link_to 'Edit', edit_institution_path(@institution) %> |
+<%= link_to 'Back', institutions_path %>

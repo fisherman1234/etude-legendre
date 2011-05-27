@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Type acteur:</b>
+  <%= @acteur.type_acteur_id %>
+</p>
+
+<p>
+  <b>Affaire:</b>
+  <%= @acteur.dossier_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_acteur_path(@acteur) %> |
+<%= link_to 'Back', acteurs_path %>

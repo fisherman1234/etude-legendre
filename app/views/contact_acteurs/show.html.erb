@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Qualite procedurale:</b>
+  <%= @contact_acteur.qualite_procedurale_id %>
+</p>
+
+<p>
+  <b>Contact:</b>
+  <%= @contact_acteur.contact_id %>
+</p>
+
+<p>
+  <b>Acteur:</b>
+  <%= @contact_acteur.acteur_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_contact_acteur_path(@contact_acteur) %> |
+<%= link_to 'Back', contact_acteurs_path %>

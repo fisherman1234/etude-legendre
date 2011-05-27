@@ -1,0 +1,25 @@
+<h1>Listing type_decisions</h1>
+
+<table>
+  <tr>
+    <th>Description</th>
+    <th>Commentaires</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @type_decisions.each do |type_decision| %>
+  <tr>
+    <td><%= type_decision.description %></td>
+    <td><%= type_decision.commentaires %></td>
+    <td><%= link_to 'Show', type_decision %></td>
+    <td><%= link_to 'Edit', edit_type_decision_path(type_decision) %></td>
+    <td><%= link_to 'Destroy', type_decision, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Type decision', new_type_decision_path %>

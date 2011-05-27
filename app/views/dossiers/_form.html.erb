@@ -1,0 +1,57 @@
+<%= form_for(@dossier) do |f| %>
+  <% if @dossier.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dossier.errors.count, "error") %> prohibited this dossier from being saved:</h2>
+
+      <ul>
+      <% @dossier.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :ref_cabinet %><br />
+    <%= f.text_field :ref_cabinet %>
+  </div>
+  <div class="field">
+    <%= f.label :date_avis_designation %><br />
+    <%= f.date_select :date_avis_designation %>
+  </div>
+  <div class="field">
+    <%= f.label :nom_dossier %><br />
+    <%= f.text_field :nom_dossier %>
+  </div>
+  <div class="field">
+    <%= f.label :nom_juridiction %><br />
+    <%= f.text_field :nom_juridiction %>
+  </div>
+  <div class="field">
+    <%= f.label :type_decision %><br />
+    <%= f.text_field :type_decision %>
+  </div>
+  <div class="field">
+    <%= f.label :juge_controleu %><br />
+    <%= f.text_field :juge_controleu %>
+  </div>
+  <div class="field">
+    <%= f.label :type_expertise %><br />
+    <%= f.text_field :type_expertise %>
+  </div>
+  <div class="field">
+    <%= f.label :date_decision %><br />
+    <%= f.date_select :date_decision %>
+  </div>
+  <div class="field">
+    <%= f.label :date_cible_depot_rapport %><br />
+    <%= f.date_select :date_cible_depot_rapport %>
+  </div>
+  <div class="field">
+    <%= f.label :date_effective_depot_raport %><br />
+    <%= f.date_select :date_effective_depot_raport %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

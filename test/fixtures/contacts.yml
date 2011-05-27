@@ -1,0 +1,41 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  nom: MyString
+  prenom: MyString
+  civilite: MyString
+  adresse1: MyString
+  adresse2: MyString
+  adresse3: MyString
+  code_postal: MyString
+  ville: MyString
+  pays: MyString
+  telephone: MyString
+  fax: MyString
+  portable: MyString
+  email: MyString
+  site_web: MyString
+  entreprise_id: MyString
+  type_intervenant: MyString
+  genre_adresse: MyString
+  genre_lettre: MyString
+
+two:
+  nom: MyString
+  prenom: MyString
+  civilite: MyString
+  adresse1: MyString
+  adresse2: MyString
+  adresse3: MyString
+  code_postal: MyString
+  ville: MyString
+  pays: MyString
+  telephone: MyString
+  fax: MyString
+  portable: MyString
+  email: MyString
+  site_web: MyString
+  entreprise_id: MyString
+  type_intervenant: MyString
+  genre_adresse: MyString
+  genre_lettre: MyString
