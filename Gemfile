@@ -1,6 +1,8 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.3'
+gem 'rake', '0.8.7'
+
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -8,11 +10,15 @@ gem 'rails', '3.0.3'
 gem 'ruby-mysql'
 
 #gem 'sqlite3-ruby', :require => 'sqlite3'
+
 gem 'jquery-rails'
 gem 'haml'
 gem 'devise'
 
-
+gem 'ruby-debug'
+gem "hirb"
+gem 'mail'
+gem 'aws-s3', :require => 'aws/s3'
 
 
 # Use unicorn as the web server
