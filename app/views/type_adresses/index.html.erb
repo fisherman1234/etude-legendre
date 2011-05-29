@@ -1,0 +1,29 @@
+<h1>Listing type_adresses</h1>
+
+<table>
+  <tr>
+    <th>Description adresse</th>
+    <th>Description courrier</th>
+    <th>Type intervenant</th>
+    <th>Civilite</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @type_adresses.each do |type_adress| %>
+  <tr>
+    <td><%= type_adress.description_adresse %></td>
+    <td><%= type_adress.description_courrier %></td>
+    <td><%= type_adress.type_intervenant_id %></td>
+    <td><%= type_adress.civilite_id %></td>
+    <td><%= link_to 'Show', type_adress %></td>
+    <td><%= link_to 'Edit', edit_type_adress_path(type_adress) %></td>
+    <td><%= link_to 'Destroy', type_adress, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Type adresse', new_type_adress_path %>

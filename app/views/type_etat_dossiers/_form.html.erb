@@ -1,0 +1,25 @@
+<%= form_for(@type_etat_dossier) do |f| %>
+  <% if @type_etat_dossier.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@type_etat_dossier.errors.count, "error") %> prohibited this type_etat_dossier from being saved:</h2>
+
+      <ul>
+      <% @type_etat_dossier.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
+    <%= f.label :ordre_apparition %><br />
+    <%= f.text_field :ordre_apparition %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

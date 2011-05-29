@@ -1,0 +1,22 @@
+- form_for(@contact_acteur) do |f|
+
+  %table{:border => "0", :class => "dossier main-form"}
+    %tbody
+      %tr
+        = f.hidden_field :acteur_id
+        
+      %tr
+        %td Qualité procédurale
+        %td= select("contact_acteur", "qualite_procedurale_id", QualiteProcedurale.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
+      
+      %tr  
+        %td Contact
+        %td 
+          - if @contact_acteur.contact
+            %input{:id=>"contact_label", :value => @contact_acteur.contact.full_name, :class=>"small"}
+            
+          - else
+            %input{:id=>"contact_label", :class=>"small"}
+          
+          %a{:href=> "#", :onClick => "create_contact();", :class=>"add_juge small-button"} ...  
+          = f.hidden_field :contact_id, :id =>  "contact_id"

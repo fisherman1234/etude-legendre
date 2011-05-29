@@ -1,0 +1,108 @@
+- form_for(@dossier) do |f| 
+
+  %table{:border => "0", :class => "dossier main-form"}
+    %tbody
+      %tr
+        %td{:COLSPAN=>"3"}
+          %h2 
+            Identification du dossier 
+            %input{:id=>"dossier_id",  :value => @dossier.id, :style=>"display:none;",}
+          
+      %tr
+        %td Référence cabinet
+        %td= f.text_field :ref_cabinet
+        %td Type d'expertise
+        %td= select("dossier", "type_expertise_id", TypeExpertise.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
+    
+      %tr
+        %td Nom du dossier
+        %td{:COLSPAN=>"3"}= f.text_field :nom_dossier, :style=>"width: 100%"
+    
+      %tr
+        %td
+          %h2 Juridiction
+      %tr
+        %td Nom de la juridiction
+      
+        %td{:COLSPAN=>"3"}
+          - if @dossier.institution_id!='' && @dossier.institution_id!=nil
+            %input{:id=>"institution_label", :class=>"small", :value => Institution.find(@dossier.institution_id).nom}
+          - else
+            %input{:id=>"institution_label", :class=>"small"}
+          %a{:href=> "#", :id=>"add_institution" ,:onClick => "create_institution();", :class => "small-button"} ...
+
+    
+          = f.hidden_field :institution_id, :id=>"institution_id"
+    
+      %tr
+        %td Date de l'avis de désignation
+        %td= f.text_field :date_avis_designation, :class => "datepicker"
+        %td Date de la décision
+        %td= f.text_field :date_decision, :class => "datepicker"
+    
+      %tr
+        %td Type de décision 
+        %td{:COLSPAN=>"3"}= select("dossier", "type_decision_id", TypeDecision.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
+    
+
+    
+      %tr
+        %td Numéro d'ordre général
+        %td= f.text_field :numero_role_general
+        %td Numéro du service d'expertise
+        %td= f.text_field :numero_service_expertise
+    
+      %tr
+        %td Juge contrôleur
+        %td 
+          - if @dossier.acteur_tribunal
+            %input{:id=>"juge_controlleur_label", :value => @dossier.juge_controlleur.contact.try(:full_name), :class=>"small"}
+            %input{:id=>"juge_controlleur_id", :value=>@dossier.juge_controlleur.contact.try(:id),:type => 'hidden', :name => "dossier[juges][juge_controlleur_id]"}
+          - else
+            %input{:id=>"juge_controlleur_label", :class=>"small"}
+            %input{:id=>"juge_controlleur_id",:type => 'hidden', :name => "dossier[juges][juge_controlleur_id]"}
+            
+          %a{:href=> "#", :onClick => "create_contact();", :class=>"add_juge small-button"} ...
+      
+        %td Juge mission
+        %td 
+          - if @dossier.acteur_tribunal
+            %input{:id=>"juge_mission_label", :value => @dossier.juge_mission.contact.try(:full_name), :class=>"small"}
+            %input{:id=>"juge_mission_id", :type => 'hidden', :value=>@dossier.juge_mission.contact.try(:id) ,:name => "dossier[juges][juge_mission_id]"}
+          - else
+            %input{:id=>"juge_mission_label", :class=>"small"}
+            %input{:id=>"juge_mission_id", :type => 'hidden' ,:name => "dossier[juges][juge_mission_id]"}
+            
+          %a{:href=> "#",:onClick => "create_contact();", :class=>"add_juge small-button"} ...
+    
+    
+      %tr
+        %td
+          %h2 Statut du dossier
+      
+      %tr
+        %td Début des opérations
+        %td= f.text_field :date_debut_op_theorique, :class => "datepicker"
+        %td Date de début effectif
+        %td= f.text_field :date_debut_op_reelle, :class => "datepicker"
+  
+      %tr
+        %td Etat du dossier
+        %td= select("dossier", "type_etat_dossier_id", TypeEtatDossier.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
+        %td Commentaires ?
+        %td todo commentaires
+   
+      %tr
+        %td Rapport à déposer le
+        %td= f.text_field :date_cible_depot_rapport, :class => "datepicker"
+        %td Rapport déposé le
+        %td= f.text_field :date_effective_depot_raport, :class => "datepicker"
+
+
+  %p= f.submit
+  
+
+  
+
+    
+  

@@ -1,0 +1,9 @@
+- form_for(@acteur) do |f|
+
+  = select("acteur", "type_acteur_id", TypeActeur.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
+  
+  %p 
+    Description
+    = f.text_field :description
+  
+

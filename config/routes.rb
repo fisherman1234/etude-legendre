@@ -1,4 +1,14 @@
 EtudeLegendre::Application.routes.draw do
+
+
+  resources :type_etat_dossiers
+
+  resources :type_institutions
+
+  resources :type_adresses
+
+  resources :type_intervenants
+
   resources :qualite_procedurales
 
   resources :contact_acteurs
@@ -22,6 +32,9 @@ EtudeLegendre::Application.routes.draw do
   devise_for :users
 
   root :to => "home#index"
+  match 'dossiers/:id/acteurs', :to => 'dossiers#acteurs' , :method => :get  
+  match 'dossiers/:id/new_partie', :to => 'dossiers#new_partie' , :method => :get  
+  
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,9 +1,9 @@
-body { background-color: #fff; color: #333; }
+body { background-color: #fff; color: #333; margin-top: 0px;}
 
 body, p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
-  font-size:   13px;
-  line-height: 18px;
+  font-size:   12px;
+  line-height: 14px;
 }
 
 pre {

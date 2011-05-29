@@ -1,0 +1,23 @@
+<h1>Listing type_intervenants</h1>
+
+<table>
+  <tr>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @type_intervenants.each do |type_intervenant| %>
+  <tr>
+    <td><%= type_intervenant.description %></td>
+    <td><%= link_to 'Show', type_intervenant %></td>
+    <td><%= link_to 'Edit', edit_type_intervenant_path(type_intervenant) %></td>
+    <td><%= link_to 'Destroy', type_intervenant, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Type intervenant', new_type_intervenant_path %>

@@ -1,0 +1,13 @@
+%div#new-actor
+  %p  
+    Choisir un acteur existant : 
+    = select("acteur", "type_acteur_id", @dossier.acteurs.collect {|u| [u.description,u.id]}, {:id => "id_de_l_expertise",:include_blank => '==Choisir=='})
+    %input{:id=>"dossier_id",  :value => @dossier.id, :style=>"display:none;",}
+    
+    ou ajouter une nouvelle partie : 
+    %input{:id=>"nouvelle_partie", :nom => "nouvelle_partie"}
+
+    %a{:href=> "#", :id=>"ajouter_partie" ,:onClick => "ajouter_partie();", :class => "button"} ...
+  
+  
+  

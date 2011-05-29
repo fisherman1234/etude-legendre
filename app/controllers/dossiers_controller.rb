@@ -1,3 +1,5 @@
+# coding: utf-8
+
 class DossiersController < ApplicationController
   # GET /dossiers
   # GET /dossiers.xml
@@ -44,7 +46,7 @@ class DossiersController < ApplicationController
 
     respond_to do |format|
       if @dossier.save
-        format.html { redirect_to(@dossier, :notice => 'Dossier was successfully created.') }
+        format.html { redirect_to(@dossier, :notice => 'Le dossier a bien été créé') }
         format.xml  { render :xml => @dossier, :status => :created, :location => @dossier }
       else
         format.html { render :action => "new" }
@@ -80,4 +82,34 @@ class DossiersController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  # GET /dossiers/1/new_partie
+  def new_partie
+    @dossier = Dossier.find(params[:id])
+
+    respond_to do |format|
+      format.html # new_partie.html.erb
+    end
+  end
+  
+  
+  # GET /dossiers/1/acteurs.js
+  def acteurs
+    @dossier = Dossier.find(params[:id])
+    @result = []
+    @dossier.acteurs.each do |acteur|
+      acteur.contact_acteurs.each do |contact_acteur|
+        if contact_acteur.contact
+            @result.push([contact_acteur.acteur.type_acteur.description, contact_acteur.contact.try(:nom), contact_acteur.contact.try(:prenom), contact_acteur.contact.institution.try(:nom), contact_acteur.id])
+        end
+      end
+    end
+    
+    respond_to do |format|
+        format.js  { render :json => {"aaData"=>@result}}
+    end
+  end
+  
+  
+  
 end

@@ -25,7 +25,6 @@ class ActeursController < ApplicationController
   # GET /acteurs/new.xml
   def new
     @acteur = Acteur.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @acteur }
@@ -46,6 +45,7 @@ class ActeursController < ApplicationController
       if @acteur.save
         format.html { redirect_to(@acteur, :notice => 'Acteur was successfully created.') }
         format.xml  { render :xml => @acteur, :status => :created, :location => @acteur }
+        format.js { render :json => @acteur, :status => :created, :location => @acteur }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @acteur.errors, :status => :unprocessable_entity }

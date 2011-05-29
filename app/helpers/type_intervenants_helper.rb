@@ -1,0 +1,2 @@
+module TypeIntervenantsHelper
+end

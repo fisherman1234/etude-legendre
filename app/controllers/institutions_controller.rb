@@ -1,12 +1,24 @@
 class InstitutionsController < ApplicationController
+
+  
   # GET /institutions
   # GET /institutions.xml
   def index
-    @institutions = Institution.all
+    if params[:term] != nil
+      if params[:type] != nil
+        @institutions = Institution.find(:all, :conditions => ["nom LIKE ? and type_institution_id=?", "%#{params[:term]}%", "#{params[:type]}"])
+      else
+        @institutions = Institution.find(:all, :conditions => ["nom LIKE ?", "%#{params[:term]}%"])
+      end
+    else
+      @institutions = Institution.all
+    end
+      
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @institutions }
+      format.js {render :json => @institutions.map {|p| {  :label => p.nom  , :value => p.id}} }
     end
   end
 

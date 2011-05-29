@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Description adresse:</b>
+  <%= @type_adress.description_adresse %>
+</p>
+
+<p>
+  <b>Description courrier:</b>
+  <%= @type_adress.description_courrier %>
+</p>
+
+<p>
+  <b>Type intervenant:</b>
+  <%= @type_adress.type_intervenant_id %>
+</p>
+
+<p>
+  <b>Civilite:</b>
+  <%= @type_adress.civilite_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_type_adress_path(@type_adress) %> |
+<%= link_to 'Back', type_adresses_path %>

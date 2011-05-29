@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Description:</b>
+  <%= @type_etat_dossier.description %>
+</p>
+
+<p>
+  <b>Ordre apparition:</b>
+  <%= @type_etat_dossier.ordre_apparition %>
+</p>
+
+
+<%= link_to 'Edit', edit_type_etat_dossier_path(@type_etat_dossier) %> |
+<%= link_to 'Back', type_etat_dossiers_path %>

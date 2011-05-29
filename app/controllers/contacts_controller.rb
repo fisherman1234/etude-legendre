@@ -2,11 +2,24 @@ class ContactsController < ApplicationController
   # GET /contacts
   # GET /contacts.xml
   def index
-    @contacts = Contact.all
+    if params[:term] != nil
+      if params[:type] != nil
+        if params[:institution] != nil
+          @contacts = Contact.find(:all, :conditions => ["(nom LIKE ? or prenom LIKE ?) and institution_id=? and type_intervenant_id=?", "%#{params[:term]}%", "%#{params[:term]}%", "#{params[:institution]}", "#{params[:type]}"])
+        else
+          @contacts = Contact.find(:all, :conditions => ["(nom LIKE ? or prenom LIKE ?) and type_intervenant_id=?", "%#{params[:term]}%", "%#{params[:term]}%", "#{params[:type]}"])
+        end
+      else
+        @contacts = Contact.find(:all, :conditions => ["nom LIKE ? or prenom LIKE ?", "%#{params[:term]}%", "%#{params[:term]}%"])
+      end
+    else
+      @contacts = Contact.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @contacts }
+      format.js {render :json => @contacts.map {|p| {  :label => p.full_name  , :value => p.id}} }
     end
   end
 

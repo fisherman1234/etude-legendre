@@ -2,11 +2,17 @@ class TypeExpertisesController < ApplicationController
   # GET /type_expertises
   # GET /type_expertises.xml
   def index
-    @type_expertises = TypeExpertise.all
+    if params[:term] != nil
+      @type_expertises = TypeExpertise.find(:all, :conditions => ["description LIKE ?", "%#{params[:term]}%"])
+    else
+      @type_expertises = TypeExpertise.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @type_expertises }
+      format.js {render :json => @type_expertises.map {|p| { :value => p.id, :label => p.description }} }
+      
     end
   end
 

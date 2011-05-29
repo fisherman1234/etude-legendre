@@ -15,7 +15,7 @@ one:
   portable: MyString
   email: MyString
   site_web: MyString
-  entreprise_id: MyString
+  institution_id: MyString
   type_intervenant: MyString
   genre_adresse: MyString
   genre_lettre: MyString
@@ -35,7 +35,7 @@ two:
   portable: MyString
   email: MyString
   site_web: MyString
-  entreprise_id: MyString
+  institution_id: MyString
   type_intervenant: MyString
   genre_adresse: MyString
   genre_lettre: MyString

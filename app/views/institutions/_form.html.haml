@@ -1,0 +1,41 @@
+- form_for(@institution) do |f| 
+  - if @institution.errors.any?
+    %div#error_explanation
+      %h2
+        %p= pluralize(@institution.errors.count, "error")
+        prohibited this institution from being saved:
+
+      %ul
+        - @institution.errors.full_messages.each do |msg|
+          %li= msg
+          
+  %table{:border => "0", :class => "main-form"}
+    %tbody
+
+      %tr
+        %td Nom
+        %td{:COLSPAN=>"3"}= f.text_field :nom
+        
+      %tr
+        %td Type
+        %td= select( "institution", "type_institution_id", TypeInstitution.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
+        %td Chambre
+        %td= f.text_field :chambre
+      
+      %tr{:class=>"spacer"}
+      
+      %tr
+        %td Téléphone
+        %td= f.text_field :telephone, :class=>"phone"
+        %td Fax
+        %td= f.text_field :fax, :class=>"phone"
+      
+      %tr
+        %td Site web
+        %td{:COLSPAN=>"3"}= f.text_field :site_web
+      
+      %tr{:class=>"spacer"}
+      
+      %tr
+        %td Commentaires
+        %td{:COLSPAN=>"3"}= f.text_area :commentaires

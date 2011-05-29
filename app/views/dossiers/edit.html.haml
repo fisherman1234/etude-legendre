@@ -1,0 +1,13 @@
+%h1 Edition d'un dossier
+%div#tabs
+  %ul
+    %li
+      %a{:href=> "#tabs-1"} Dossier
+    %li
+      %a{:href=> "#tabs-2"} Intervenants
+
+  %div#tabs-1
+    = render 'form'
+  
+  %div#tabs-2
+    = render 'intervenants'

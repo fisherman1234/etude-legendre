@@ -25,7 +25,9 @@ class ContactActeursController < ApplicationController
   # GET /contact_acteurs/new.xml
   def new
     @contact_acteur = ContactActeur.new
-
+    if params[:acteur]
+      @contact_acteur.acteur_id=params[:acteur]
+    end
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @contact_acteur }

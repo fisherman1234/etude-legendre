@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  description_adresse: MyString
+  description_courier: MyString
+  type_intervenant_id: 1
+  civilite_id: 1
+
+two:
+  description_adresse: MyString
+  description_courier: MyString
+  type_intervenant_id: 1
+  civilite_id: 1
