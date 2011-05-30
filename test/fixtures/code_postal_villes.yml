@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  code_postal: 1
+  ville: MyString
+
+two:
+  code_postal: 1
+  ville: MyString

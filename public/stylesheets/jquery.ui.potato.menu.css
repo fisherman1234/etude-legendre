@@ -13,6 +13,7 @@ ul.potato-menu {
 	width:auto;
 	list-style:none;
 	border-bottom: 1px #77d5f7 solid;
+
 }
 .potato-menu:after {
 	content: " ";

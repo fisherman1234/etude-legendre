@@ -1,6 +1,8 @@
 EtudeLegendre::Application.routes.draw do
 
 
+  resources :code_postal_villes
+
   resources :type_etat_dossiers
 
   resources :type_institutions
@@ -27,13 +29,13 @@ EtudeLegendre::Application.routes.draw do
 
   resources :dossiers
 
-  resources :users
-
   devise_for :users
 
   root :to => "home#index"
   match 'dossiers/:id/acteurs', :to => 'dossiers#acteurs' , :method => :get  
   match 'dossiers/:id/new_partie', :to => 'dossiers#new_partie' , :method => :get  
+  match 'contact_acteurs/:id/destroy', :to => 'contact_acteurs#destroy' , :method => :post
+  match "versions/:id/revert", :to => "versions#revert", :as => "revert_version", :method => :post 
   
   
   # The priority is based upon order of creation:

@@ -3,6 +3,7 @@ class Dossier < ActiveRecord::Base
   belongs_to :type_decision
   belongs_to :type_expertise
   after_create :create_actors
+  has_paper_trail 
   
   def institution_id=(institution_id)
     write_attribute(:institution_id, institution_id)

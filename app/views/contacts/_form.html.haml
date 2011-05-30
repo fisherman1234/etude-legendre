@@ -3,38 +3,59 @@
     %tbody
     
       %tr
-        %td Type d'intervenant
+        %td Civilité
+        %td= select( "contact", "civilite", { "M" => 1, "Mme" => 2, "Mlle" => 3})
+        %td Prénom
+        %td= f.text_field :prenom
+        %td Nom
+        %td= f.text_field :nom
+    
+      %tr{:class=>"spacer"}
+      %tr
+        %td Fonction
         %td= select( "contact", "type_intervenant_id", TypeIntervenant.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
         
         
-        %td Institution
+        %td Raison sociale
         %td{:COLSPAN=>"3"}
           - if @contact.institution_id!='' && @contact.institution_id!=nil
-            %input{:id=>"institution_label", :value => Institution.find(@contact.institution_id).nom, :class=>"small"}
+            %input{:id=>"institution_label", :value => Institution.find(@contact.institution_id).nom, :class=>"small clickable"}
           - else
-            %input{:id=>"institution_label", :class=>"small"}
+            %input{:id=>"institution_label", :class=>"small clickable"}
           %a{:href=> "#", :onClick => "create_institution();", :class=>"add_juge small-button"} ...
             
         
           = f.hidden_field :institution_id, :id=>"institution_id"
+
+      %tr
+        %td
+        %td
+        %td Avocat au bareau
+        %td{:COLSPAN=>"3"}= f.text_field :avocat_au_barreau
+
         
       %tr{:class=>"spacer"}
-      
-      %tr
-        %td Civilité
-        %td= select( "contact", "civilite", { "Mlle" => 1, "Mme" => 2, "M" => 3})
-        %td Nom
-        %td= f.text_field :nom
-        %td Prénom
-        %td= f.text_field :prenom
         
       %tr
         %td Formule adresse
         %td{:COLSPAN=>"2"}= f.text_field :genre_adresse
         %td Formule courrier
-        %td{:COLSPAN=>"2"}= f.text_field :genre_lettre
+        %td{:COLSPAN=>"2"}= f.text_field :genre_lettre, :class => "minuscule"
 
+      %tr
+        %td Méthode de contact
+        %td
+          = f.radio_button :contact_medium_id, '1', :checked => true, :class => "tiny-input"
+          = label :contact_medium_id_1, 'Mail'
+        %td{:COLSPAN=>"2"}
+          = f.radio_button :contact_medium_id, '2', :class => "tiny-input"
+          = label :contact_medium_id_2, 'Lettre simple'
+        %td{:COLSPAN=>"2"}
+          = f.radio_button :contact_medium_id, '3', :class => "tiny-input"
+          = label :contact_medium_id_3, 'Lettre recommandée'
+      
       %tr{:class=>"spacer"}
+      
       
       %tr
         %td Adresse ligne 1
@@ -63,8 +84,6 @@
         %td= f.text_field :portable, :class=>"phone"
         %td Fax
         %td= f.text_field :fax, :class=>"phone"
-
-      %tr{:class=>"spacer"}
       
       %tr
         %td Email
@@ -74,4 +93,7 @@
         %td Site web
         %td{:COLSPAN=>"5"}= f.text_field :site_web
 
+      %tr
+        %td Notes
+        %td{:COLSPAN=>"5"}= f.text_area :notes
   

@@ -5,3 +5,10 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
+CodePostalVille.delete_all
+open("http://dl.dropbox.com/u/8806/insee.csv") do |vehicles|  
+  vehicles.read.each_line do |ville|  
+    ville, cp, dpt, insee = ville.chomp.split(";")  
+    CodePostalVille.create!(:code_postal => cp, :ville => ville)  
+  end
+end

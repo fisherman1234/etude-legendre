@@ -100,7 +100,7 @@ class DossiersController < ApplicationController
     @dossier.acteurs.each do |acteur|
       acteur.contact_acteurs.each do |contact_acteur|
         if contact_acteur.contact
-            @result.push([contact_acteur.acteur.type_acteur.description, contact_acteur.contact.try(:nom), contact_acteur.contact.try(:prenom), contact_acteur.contact.institution.try(:nom), contact_acteur.id])
+            @result.push([contact_acteur.acteur.description, contact_acteur.qualite_procedurale.description, contact_acteur.contact.try(:nom), contact_acteur.contact.try(:prenom), contact_acteur.contact.institution.try(:nom), contact_acteur.id])
         end
       end
     end

@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Code postal:</b>
+  <%= @code_postal_ville.code_postal %>
+</p>
+
+<p>
+  <b>Ville:</b>
+  <%= @code_postal_ville.ville %>
+</p>
+
+
+<%= link_to 'Edit', edit_code_postal_ville_path(@code_postal_ville) %> |
+<%= link_to 'Back', code_postal_villes_path %>

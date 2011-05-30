@@ -2,6 +2,16 @@
 	width: 100%;
 }
 
+input.clickable {
+	color: #2200C1;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.main-form input.tiny-input {
+	width: 20%;
+}
+
 .main-form .small {
 	width: 70%;
 }

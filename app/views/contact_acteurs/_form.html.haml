@@ -20,3 +20,16 @@
           
           %a{:href=> "#", :onClick => "create_contact();", :class=>"add_juge small-button"} ...  
           = f.hidden_field :contact_id, :id =>  "contact_id"
+
+
+      %tr  
+        %td Références correspondance
+        %td= f.text_field :references
+        
+      %tr  
+        %td Montant du devis
+        %td= f.text_field :montant_devis
+        
+      %tr  
+        %td Notes
+        %td= f.text_area :notes

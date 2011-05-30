@@ -26,9 +26,9 @@
       
         %td{:COLSPAN=>"3"}
           - if @dossier.institution_id!='' && @dossier.institution_id!=nil
-            %input{:id=>"institution_label", :class=>"small", :value => Institution.find(@dossier.institution_id).nom}
+            %input{:id=>"institution_label", :class=>"small clickable", :value => Institution.find(@dossier.institution_id).nom}
           - else
-            %input{:id=>"institution_label", :class=>"small"}
+            %input{:id=>"institution_label", :class=>"small clickable"}
           %a{:href=> "#", :id=>"add_institution" ,:onClick => "create_institution();", :class => "small-button"} ...
 
     
@@ -55,22 +55,22 @@
       %tr
         %td Juge contrôleur
         %td 
-          - if @dossier.acteur_tribunal
-            %input{:id=>"juge_controlleur_label", :value => @dossier.juge_controlleur.contact.try(:full_name), :class=>"small"}
+          - if @dossier.acteur_tribunal && @dossier.juge_controlleur
+            %input{:id=>"juge_controlleur_label", :value => @dossier.juge_controlleur.contact.try(:full_name), :class=>"clickable small"}
             %input{:id=>"juge_controlleur_id", :value=>@dossier.juge_controlleur.contact.try(:id),:type => 'hidden', :name => "dossier[juges][juge_controlleur_id]"}
           - else
-            %input{:id=>"juge_controlleur_label", :class=>"small"}
+            %input{:id=>"juge_controlleur_label", :class=>"small clickable"}
             %input{:id=>"juge_controlleur_id",:type => 'hidden', :name => "dossier[juges][juge_controlleur_id]"}
             
           %a{:href=> "#", :onClick => "create_contact();", :class=>"add_juge small-button"} ...
       
         %td Juge mission
         %td 
-          - if @dossier.acteur_tribunal
-            %input{:id=>"juge_mission_label", :value => @dossier.juge_mission.contact.try(:full_name), :class=>"small"}
+          - if @dossier.acteur_tribunal && @dossier.juge_mission
+            %input{:id=>"juge_mission_label", :value => @dossier.juge_mission.contact.try(:full_name), :class=>"small clickable"}
             %input{:id=>"juge_mission_id", :type => 'hidden', :value=>@dossier.juge_mission.contact.try(:id) ,:name => "dossier[juges][juge_mission_id]"}
           - else
-            %input{:id=>"juge_mission_label", :class=>"small"}
+            %input{:id=>"juge_mission_label", :class=>"small clickable"}
             %input{:id=>"juge_mission_id", :type => 'hidden' ,:name => "dossier[juges][juge_mission_id]"}
             
           %a{:href=> "#",:onClick => "create_contact();", :class=>"add_juge small-button"} ...

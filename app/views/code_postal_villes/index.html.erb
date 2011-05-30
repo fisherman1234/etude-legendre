@@ -1,0 +1,25 @@
+<h1>Listing code_postal_villes</h1>
+
+<table>
+  <tr>
+    <th>Code postal</th>
+    <th>Ville</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @code_postal_villes.each do |code_postal_ville| %>
+  <tr>
+    <td><%= code_postal_ville.code_postal %></td>
+    <td><%= code_postal_ville.ville %></td>
+    <td><%= link_to 'Show', code_postal_ville %></td>
+    <td><%= link_to 'Edit', edit_code_postal_ville_path(code_postal_ville) %></td>
+    <td><%= link_to 'Destroy', code_postal_ville, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Code postal ville', new_code_postal_ville_path %>

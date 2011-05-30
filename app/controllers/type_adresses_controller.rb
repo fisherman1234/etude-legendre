@@ -2,11 +2,19 @@ class TypeAdressesController < ApplicationController
   # GET /type_adresses
   # GET /type_adresses.xml
   def index
-    @type_adresses = TypeAdresse.all
-
+    if params[:function]!=nil && params[:function]!=''
+      if params[:civilite]!=nil && params[:civilite]!=''
+        @type_adresses = TypeAdresse.find(:all, :conditions => {:type_intervenant_id => params[:function], :civilite_id => params[:civilite]})
+      else
+        @type_adresses = TypeAdresse.find(:all, :conditions => {:type_intervenant_id => params[:function]})
+      end
+    else
+      @type_adresses = TypeAdresse.all
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @type_adresses }
+      format.js {render :json => @type_adresses }
     end
   end
 

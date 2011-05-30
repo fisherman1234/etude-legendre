@@ -1,11 +1,38 @@
 function primary_formatting(){
+	$('input').unbind("dblclick");
+	
 	$("input").addClass("ui-widget-content ui-corner-all");
+	$("input:not(.minuscule)").change(function(){
+		$(this).val($(this).val().toUpperCase());
+	});
+	$("input.clickable").dblclick(function(){
+		sous_jacent = $(this).attr('id').replace('_label','')+'_id';
+			if ($('#'+sous_jacent).val()!=''){
+					edit_contact_detail($('#'+sous_jacent).val());
+			};
+	});
+	$("#contact_type_intervenant_id").change(function(){
+		load_adress_line();
+	});
+	$("#contact_civilite").change(function(){
+		load_adress_line();
+	});
+	$("form").submit(function(event) {
+		event.preventDefault();
+	});
+	
+	$('#contact_code_postal').change(function(){
+		autocomplete_ville($('#contact_code_postal').val());	
+	});
 	$("textarea").addClass("ui-widget-content ui-corner-all");
 	$( ".datepicker" ).datepicker();
 	$( "#add_institution" ).button({ icons: {primary:'ui-icon-plusthick'}});
 	$( ".add_juge" ).button({ icons: {primary:'ui-icon-plusthick'}});
 	$( ".button" ).button({ icons: {primary:'ui-icon-plusthick'}});
+	$( ".button-save" ).button({ icons: {primary:'ui-icon-disk'}});
+
 	$( "#tabs" ).tabs();
+	$(".phone").mask("+99.9.99.99.99.99");
 	$("#acteur_type_acteur_id").change(function () {
 		load_add_acteur_contact($("#acteur_type_acteur_id").val());
 	});
@@ -52,12 +79,16 @@ function primary_formatting(){
 					{
 						var iDisplayIndex = oSettings._iDisplayStart + i;
 						var sGroup = oSettings.aoData[ oSettings.aiDisplay[iDisplayIndex] ]._aData[0];
+						var sGroup_id = oSettings.aoData[ oSettings.aiDisplay[iDisplayIndex] ]._aData[5];
+						nTrs[i].id=sGroup_id;
+						nTrs[i].className = nTrs[i].className+" acteur_contact_row";
 						if ( sGroup != sLastGroup )
 						{
 							var nGroup = document.createElement( 'tr' );
 							var nCell = document.createElement( 'td' );
 							nCell.colSpan = iColspan;
 							nCell.className = "group";
+							nCell.id=sGroup_id;
 							nCell.innerHTML = sGroup;
 							nGroup.appendChild( nCell );
 							nTrs[i].parentNode.insertBefore( nGroup, nTrs[i] );
@@ -65,9 +96,14 @@ function primary_formatting(){
 						}
 					}
 					$('#data-table-acteurs').css('width', '100%');
+
+					$("#data-table-acteurs tr.acteur_contact_row").click(function(event) {
+							edit_acteur_detail($(this).attr('id'))
+						});
+					
 				},
 		"aoColumnDefs": [
-					{ "bVisible": false, "aTargets": [ 0 ], "bVisible": false, "aTargets": [ 4 ] }
+					{ "bVisible": false, "aTargets": [ 0 ], "bVisible": false, "aTargets": [ 5 ] }
 				]
 	});
 }
@@ -96,7 +132,12 @@ autocomplete_contact ("juge_mission", "?type=1")
 autocomplete_contact ("juge_controlleur", "?type=1")
 autocomplete_contact ("contact", "")
 
-
+function autocomplete_ville(code_postal){
+	$("#contact_ville").autocomplete({
+	  source: "/code_postal_villes.js?code_postal="+code_postal,
+		autoFocus: true
+	});
+}
 
 function autocomplete_institution(form, filtre) {
 	$( form+"  #institution_label" ).autocomplete({
@@ -127,7 +168,7 @@ function create_institution () {
       			height: 500,
       			width: 800,
       			modal: true,
-				title: 'Ajouter une institution',
+				title: 'Ajouter une institutionon',
 				open: function(event, ui) { 
 					setTimeout("primary_formatting();",500); },
 				close: function(event, ui) {
@@ -150,16 +191,15 @@ function create_institution () {
 
 function create_contact(){
 	$('body').append("<div id='add-contact' style=''></div>");
-	$('#add-contact').load('/contacts/new.html #new_contact');
+	$('#add-contact').load('/contacts/new.html #new_contact', function(){
+		primary_formatting();
+		autocomplete_institution(".contact", "");
+	});
      $( "#add-contact" ).dialog({
-     			height: 500,
+     			height: 600,
      			width: 850,
      			modal: true,
 				title: 'Ajouter un contact',
-				open: function(event, ui) { 
-					setTimeout("primary_formatting();",500);
-					setTimeout('autocomplete_institution(".contact", "");',500); 
-				},
 				close: function(event, ui) {
 					$( "#add-contact" ).remove(); },
      			buttons: {
@@ -197,23 +237,21 @@ function load_add_acteur_contact(id){
 
 function ajouter_contact() {
 	$('body').append("<div id='add-contact-partie' style=''></div>");
-	$('#add-contact-partie').load('/dossiers/'+$("#dossier_id").val()+'/new_partie #new-actor');
+	$('#add-contact-partie').load('/dossiers/'+$("#dossier_id").val()+'/new_partie #new-actor', function(){
+		primary_formatting();
+		autocomplete_institution(".contact", "");
+	});
      $( "#add-contact-partie" ).dialog({
      			height: 300,
      			width: 800,
      			modal: true,
 				title: 'Ajouter un intervenant',
-				open: function(event, ui) { 
-					setTimeout("primary_formatting();",500);
-					setTimeout('autocomplete_institution(".contact", "");',500);
-					
-				},
 				close: function(event, ui) {
 					$( "#add-contact-partie" ).remove(); 
 					$("#data-table-acteurs").dataTable().fnReloadAjax();
 					},
      			buttons: {
-           				"Créer le contact": function() {
+           				"Ajouter cet intervenant": function() {
            				  $.post("/contact_acteurs", $("#new_contact_acteur").serialize());
            				  $( this ).dialog( "close" );           				  
            				},
@@ -224,4 +262,83 @@ function ajouter_contact() {
                    				}
                    	}			
      });
+}
+
+function edit_acteur_detail(id){
+		$('body').append("<div id='edit-contact-acteur-dialog' style=''></div>");
+		$('#edit-contact-acteur-dialog').load('/contact_acteurs/'+id+'/edit .edit_contact_acteur', function(){
+			primary_formatting();
+			autocomplete_institution(".contact", "");
+		});
+	     $( "#edit-contact-acteur-dialog" ).dialog({
+	     			height: 300,
+	     			width: 800,
+	     			modal: true,
+					title: 'Editer une partie',
+					close: function(event, ui) {
+						$( "#edit-contact-acteur-dialog" ).remove(); 
+						$("#data-table-acteurs").dataTable().fnReloadAjax();
+						},
+	     			buttons: {
+	           				"Retirer cet inervenant": function() {
+	           				  $.post('/contact_acteurs/'+id+'/destroy');
+	           				  $( this ).dialog( "close" );        				  
+	           				},
+	           				"Enregistrer": function() {
+								$.ajax({
+								   type: "PUT",
+								   url: '/contact_acteurs/'+id+'.json',
+								   data: $(".edit_contact_acteur").serialize()
+								 });
+	                   		$( this ).dialog( "close" );
+	                   		}
+	                   	}			
+	     });
+	
+}
+
+function edit_contact_detail(id){
+		$( "#edit-contact-dialog" ).remove(); 
+		$('body').append("<div id='edit-contact-dialog' style=''></div>");
+		$('#edit-contact-dialog').load('/contacts/'+id+'/edit .edit_contact', function() {
+		  primary_formatting();
+		  autocomplete_institution(".contact", "");
+		});
+	     $( "#edit-contact-dialog" ).dialog({
+	     			height: 600,
+	     			width: 800,
+	     			modal: true,
+					title: 'Editer un contact',
+					close: function(event, ui) {
+						$( "#edit-contact-dialog" ).remove(); 
+						},
+	     			buttons: {
+	           				"Supprimer ce contact": function() {
+	           				  $.post('/contacts/'+id+'/destroy');
+	           				  $( this ).dialog( "close" );        				  
+	           				},
+	           				"Enregistrer": function() {
+								$.ajax({
+								   type: "PUT",
+								   url: '/contacts/'+id+'.json',
+								   data: $(".edit_contact").serialize()
+								 });
+	                   		$( this ).dialog( "close" );
+	                   		}
+	                   	}			
+	     });
+	
+}
+
+
+function load_adress_line(){
+	$.ajax({
+	  type: 'GET',
+	  url: '/type_adresses.js?function='+$("#contact_type_intervenant_id").val()+"&civilite="+$("#contact_civilite").val(),
+	  dataType: "json",
+	  success: function(data) {
+		$("#contact_genre_adresse").val(data[0].type_adresse.description_adresse);
+		$("#contact_genre_lettre").val(data[0].type_adresse.description_courrier);
+		}
+	});
 }
