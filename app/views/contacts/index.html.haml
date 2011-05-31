@@ -1,0 +1,23 @@
+%h3 Répertoire
+
+%table{:id => "repertoire-contact", :style => "width: 100%;"}
+  %thead
+    %th Nom
+    %th Prénom
+    %th Fonction
+    %th Entreprise
+    %th Téléphone
+    %th Mail
+    %th Ville
+    %th ID
+  %tbody
+    - @contacts.each do |contact|
+      %tr{:id=>contact.id}
+        %td=contact.nom
+        %td=contact.prenom
+        %td=contact.type_intervenant.try(:description)
+        %td=contact.institution.try(:nom)
+        %td=contact.telephone
+        %td=contact.email
+        %td=contact.ville
+        %td=contact.id

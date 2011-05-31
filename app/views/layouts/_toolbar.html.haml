@@ -1,0 +1,38 @@
+%div{:id=>"toolbar", :class=>"ui-corner-all"}
+  %button#print Imprimer 
+  %button#save Enregistrer 
+  %button#undo  &nbsp;
+  %button#redo &nbsp;
+  - if notice || alert
+    %span#messages
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      Status : 
+      = notice
+      = alert
+  
+:javascript
+  $( "#print" ).button({
+    icons: {
+      primary: "ui-icon-print"
+    }
+    });
+  
+  $( "#save" ).button({
+    icons: {
+      primary: "ui-icon-disk"
+    }
+    });
+
+
+  $( "#undo" ).button({
+    
+    icons: {
+      primary: "ui-icon-arrowreturnthick-1-w"
+    }
+    });
+    
+  $( "#redo" ).button({
+    icons: {
+      primary: "ui-icon-arrowreturnthick-1-e"
+    }
+    });

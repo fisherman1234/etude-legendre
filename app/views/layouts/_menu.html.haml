@@ -1,48 +1,60 @@
-%ul#menu1
-  %li
-    %a{:href => "#"} Dossiers
-    %ul
-      %li
-        %a{:href => "/dossiers/new"} Nouveau
-      %li
-        %a{:href => "/dossiers/27/edit"} Ouvrir
-      %li
-        %a{:href => "/dossiers"} Liste des dossiers
-  %li
-    %a{:href => "#"} Contacts
-    %ul
-      %li
-        %a{:href => "#", :onclick => "create_contact();"} Nouveau
-      %li
-        %a{:href => "/contacts/8/edit"} Ouvrir
-      %li
-        %a{:href => "/contacts"} Répertoire
-  %li
-    %a{:href => "#"} Institutions
-    %ul
-      %li
-        %a{:href => "#", :onclick => "create_institution();"} Nouveau
-      %li
-        %a{:href => "#"} Rechercher
-  %li
-    %a{:href => "#"} Documents
-    %ul
-      %li
-        %a{:href => "#Menu4a"} Nouveau
-      %li
-        %a{:href => "#", :onclick => "alert('Menu4b');return false;"} Rechercher
-  %li
-    %a{:href => "#"} Paramètres
-    %ul
-      %li
-        %a{:href => "/type_institutions"} Types d'institutions
-      %li
-        %a{:href => "/type_intervenants"} Fonctions entreprise
-      %li
-        %a{:href => "/type_expertises"} Types d'expertises
-      %li
-        %a{:href => "/qualite_procedurales"} Qualité procédurale
-      %li
-        %a{:href => "/type_decisions"} Types de décisions
+%div#topbar
+  %ul{:id => "menu1", :class=>"menu"}
+    %li.menumain
+      %a{:href => "#"} Dossiers
+      %ul
+        %li
+          %a{:href => "#", :onClick => "navigate_page('/dossiers/new');"} Nouveau
+        %li
+          %a{:href => "#", :onClick => "navigate_page('/dossiers/27/edit');"} Ouvrir
+        %li
+          %a{:href => "#", :onClick => "navigate_page('/dossiers');"} Liste des dossiers
+    %li.menumain
+      %a{:href => "#"} Contacts
+      %ul
+        %li
+          %a{:href => "#", :onclick => "create_contact();"} Nouveau
+        %li
+          %a{:href => "#", :onClick => "navigate_page('/contacts/8/edit');"} Ouvrir
+        %li
+          %a{:href => "#", :onClick => "navigate_page('/contacts');"} Répertoire
+    %li.menumain
+      %a{:href => "#"} Institutions
+      %ul
+        %li
+          %a{:href => "#", :onclick => "create_institution();"} Nouveau
+        %li
+          %a{:href => "#"} Rechercher
+    %li.menumain
+      %a{:href => "#"} Documents
+      %ul
+        %li
+          %a{:href => "#Menu4a"} Nouveau
+        %li
+          %a{:href => "#", :onclick => "alert('Menu4b');return false;"} Rechercher
+    %li.menumain
+      %a{:href => "#"} Paramètres
+      %ul
+        %li
+          %a{:href => "/type_institutions"} Types d'institutions
+        %li
+          %a{:href => "/type_intervenants"} Fonctions entreprise
+        %li
+          %a{:href => "/type_expertises"} Types d'expertises
+        %li
+          %a{:href => "/qualite_procedurales"} Qualité procédurale
+        %li
+          %a{:href => "/type_decisions"} Types de décisions
+    %li.menumain
+      | 
+    %li.menumain
+      %a{:href => "#", :id=>"field_username"}
+      %ul
+        %li
+          %a{:href => "#", :onclick => "create_institution();"} Mon compte
+        %li
+          %a{:href => "/users/sign_out"} Se déconnecter  
+      
+  
 
-        
+

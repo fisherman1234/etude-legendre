@@ -1,5 +1,36 @@
 function primary_formatting(){
 	$('input').unbind("dblclick");
+	$(document).unbind('keydown');
+	$(":input").unbind('keydown');
+	
+	$(document).bind('keydown', 'ctrl+s',function (evt){
+	    alert("Ctrl+S");
+	    return false;
+	});
+	$("input").bind('keydown', 'meta+s',function (evt){
+		$.each($('form.dirty-form'), function(key, value) { 
+		  	submit_form($(value));
+			$("#save").removeClass("ui-state-active");
+			action_performed("Modifications enregistrées", "");
+		});
+	    return false;
+	});
+	$(document).bind('keydown', 'meta+s',function (evt){
+		$.each($('form.dirty-form'), function(key, value) { 
+		  	submit_form($(value));
+			$("#save").removeClass("ui-state-active");
+			action_performed("Modifications enregistrées", "");
+		});
+	    return false;
+	});
+	$(":input").bind('keydown', 'meta+s',function (evt){
+		$.each($('form.dirty-form'), function(key, value) { 
+		  	submit_form($(value));
+		});
+		$("#save").removeClass("ui-state-active");
+		action_performed("Modifications enregistrées", "");
+	    return false;
+	});
 	
 	$("input").addClass("ui-widget-content ui-corner-all");
 	$("input:not(.minuscule)").change(function(){
@@ -21,6 +52,21 @@ function primary_formatting(){
 		event.preventDefault();
 	});
 	
+
+	$(':input').change(function(){
+		$(this).parents('form:first').addClass('dirty-form')
+		$(this).addClass('dirty-input')
+		$("#save").addClass("ui-state-active");
+		}
+	);
+	
+	$(':input').change(function(){
+		$(this).parents('form:first').addClass('dirty-form')
+		$(this).addClass('dirty-input')
+		$("#save").addClass("ui-state-active");
+		}
+	);
+	
 	$('#contact_code_postal').change(function(){
 		autocomplete_ville($('#contact_code_postal').val());	
 	});
@@ -36,7 +82,13 @@ function primary_formatting(){
 	$("#acteur_type_acteur_id").change(function () {
 		load_add_acteur_contact($("#acteur_type_acteur_id").val());
 	});
-	$('#menu1').ptMenu();
+	
+	var options = {minWidth: 120, arrowSrc: 'arrow_right.gif', onClick: function(e, menuItem){  
+	    alert('you clicked item "' + $(this).text() + '"');  
+	}};  
+	$('#menu1').menu(options);
+
+
 	$(".data-table-standard").css("width","100%");
 	$(".data-table-standard").dataTable({
 		"bJQueryUI": true,
@@ -49,7 +101,26 @@ function primary_formatting(){
 			"sInfo": "Enregistrements _START_ à _END_ sur _TOTAL_",
 			"sInfoEmpty": "Aucun enregistrement",
 			"sInfoFiltered": "(sur _MAX_ enregistrements au total)"
-		},
+		}
+		
+	});
+	
+	$("#repertoire-contact tr").click(function(event) {
+		navigate_page('/contacts/'+$(this).attr('id')+'/edit');
+	});
+	
+	$("#repertoire-contact").dataTable({
+		"bJQueryUI": true,
+		"sPaginationType": "full_numbers",
+		"bRetrieve": true,
+		"bPaginate": false,
+		"bProcessing": true,
+		"aoColumnDefs": [
+					{ "bVisible": false, "aTargets": [ 0 ], "bVisible": false, "aTargets": [ 5 ] }
+				], 
+		"fnDrawCallback": function ( oSettings ) {
+			$('#repertoire-contact').css('width', '100%');
+		}
 	});
 	$("#data-table-acteurs").dataTable({
 		"bJQueryUI": true,
@@ -107,7 +178,6 @@ function primary_formatting(){
 				]
 	});
 }
-primary_formatting();
 
 function autocomplete_contact (nom, type) {
 	$( "#"+nom+"_label" ).autocomplete({
@@ -128,9 +198,7 @@ function autocomplete_contact (nom, type) {
 	});
 }
 
-autocomplete_contact ("juge_mission", "?type=1")
-autocomplete_contact ("juge_controlleur", "?type=1")
-autocomplete_contact ("contact", "")
+
 
 function autocomplete_ville(code_postal){
 	$("#contact_ville").autocomplete({
@@ -157,9 +225,6 @@ function autocomplete_institution(form, filtre) {
 	});
 }
 
-autocomplete_institution(".contact",'');
-autocomplete_institution(".dossier", "?type=1");
-
 function create_institution () {
 	
     $('body').append("<div id='add-institution' style=''></div>");
@@ -185,9 +250,6 @@ function create_institution () {
       });
 
 }
-
-
-
 
 function create_contact(){
 	$('body').append("<div id='add-contact' style=''></div>");
@@ -342,3 +404,66 @@ function load_adress_line(){
 		}
 	});
 }
+
+function navigate_page(page){
+	$( "#page-content" ).fadeOut('fast', function(){ $(this).html('') });
+	$("#page-content").load(page+' #page-content', function() {
+		primary_formatting();
+		$( "#page-content" ).fadeIn('fast', function(){
+			page_load_scripts();
+		})
+		
+	});
+}
+
+function page_load_scripts(){
+	get_user_infos();
+	autocomplete_institution(".contact",'');
+	autocomplete_institution(".dossier", "?type=1");
+	autocomplete_contact ("juge_mission", "?type=1");
+	autocomplete_contact ("juge_controlleur", "?type=1");
+	autocomplete_contact ("contact", "");
+}
+
+function submit_form(form){
+	$.ajax({
+	  type: 'POST',
+	  url: form.attr('action'), 
+	  data: form.serialize()
+	});
+}
+
+primary_formatting();
+page_load_scripts();
+
+function get_history_list_for_user(){
+	
+	
+}
+
+function get_user_infos(){
+	$.ajax({
+	  type: 'GET',
+	  url: "/users/current_user_signed_in.js",
+	  dataType: "json",
+	  success: function(data) {
+		if (data!=null){
+		$("#field_username").html(data.user.email.toLowerCase());
+		}else{
+			window.location.href = "/users/sign_in";
+			}
+	}
+	});	
+}
+
+
+function action_performed(text, icon){
+	div = '<div id="spinner" class="spinner">'+text+'<br/>';
+	div +='<img id="img-spinner" src="/public/images/sharemyspot/ActivityIndicator.gif" alt="Loading" style="height:25px; margin-top: 10px;"/>';
+	div +='</div>';
+	$('body').append(div);
+	$("#spinner").fadeIn('slow', function(){
+		setTimeout($("#spinner").fadeOut('slow', function(){$("#spinner").remove()}), 1000);
+		});	
+}
+

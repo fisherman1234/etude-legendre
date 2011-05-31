@@ -33,3 +33,33 @@ input.clickable {
 .spacer{
 	height: 20px;
 }
+
+.spinner {
+	position: fixed;
+	top: 50%;
+	margin-left: 10%; /* half width of the spinner gif */
+/*	margin-top: -50px; /* half height of the spinner gif */
+	text-align:center;
+	z-index:1234;
+	overflow: auto;
+	width: 80%; /* width of the spinner gif */
+	/*min-height: 40px; /*hight of the spinner gif +2px to fix IE8 issue */
+	border-radius: 15px;
+	background: rgba(70,70,70, 0.6);
+	color:white;
+	font-family:"Trebuchet MS",Arial,sans-serif;
+	padding: 10px 8px;
+	display:none;
+}
+
+
+
+#toolbar {
+	background: #FAFAFA url(https://ssl.gstatic.com/editor/toolbar-bg.png) repeat-x bottom left;
+	border-bottom: 1px solid #D5D5D5;
+	cursor: default;
+	font: normal 12px Arial,sans-serif;
+	margin: 0;
+	outline: none;
+	border-top: 1px solid white;
+}

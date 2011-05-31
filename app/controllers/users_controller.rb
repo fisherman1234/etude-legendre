@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_filter :authenticate_user!, :only => [:current_user, :destroy_current_user_session]
+  
   # GET /users
   # GET /users.xml
   def index
@@ -78,6 +80,29 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(users_url) }
       format.xml  { head :ok }
+    end
+  end
+  
+  # Current user
+  # GET /users/current_user_signed_in
+  def current_user_signed_in
+    respond_to do |format|
+      format.js  { render :json => current_user }
+    end
+  end
+  
+  def destroy_current_user_session
+    reset_session
+    session[:current_user_id] = nil
+    return :nothing
+  end
+  
+  def connexion
+    @user = User.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @user }
     end
   end
 end

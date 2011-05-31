@@ -1,15 +1,17 @@
-= render 'form'
-
-%h3 Activité liée à ce contact
-
+%h3 Edition d'un contact
 %div#tabs
   %ul
     %li
+      %a{:href=> "#tabs-0"} Fiche récapitulative
+    %li
       %a{:href=> "#tabs-1"} Dossiers
     %li
-      %a{:href=> "#tabs-2"} Activités
+      %a{:href=> "#tabs-2"} Activité
     %li
       %a{:href=> "#tabs-3"} Documents échangés
+
+  %div#tabs-0
+    = render 'form'
 
   %div#tabs-1
     %table{:class => "data-table-standard"}
