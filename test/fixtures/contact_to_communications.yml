@@ -1,0 +1,29 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  contact_id: 1
+  communication_id: 1
+  transmission_medium_id: 1
+  recipient: MyString
+  adresse1: MyString
+  adresse2: MyString
+  adresse3: MyString
+  code_postal: MyString
+  pays: MyString
+  telephone: MyString
+  email: MyString
+  fax: MyString
+
+two:
+  contact_id: 1
+  communication_id: 1
+  transmission_medium_id: 1
+  recipient: MyString
+  adresse1: MyString
+  adresse2: MyString
+  adresse3: MyString
+  code_postal: MyString
+  pays: MyString
+  telephone: MyString
+  email: MyString
+  fax: MyString

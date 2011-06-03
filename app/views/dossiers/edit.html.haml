@@ -1,13 +1,25 @@
-%h3 Edition d'un dossier
+%h3 
+  Dossier : 
+  = @dossier.nom_dossier
 %div#tabs
   %ul
     %li
       %a{:href=> "#tabs-1"} Dossier
     %li
       %a{:href=> "#tabs-2"} Intervenants
+    %li
+      %a{:href=> "#tabs-3"} Documents
+    %li                                
+      %a{:href=> "#tabs-4"} Activité
+      
+    %li{:style=>"float:right;"}
+      %a{:href=> "#tabs-3",  :class => "removeRecord", :onClick => "delete_page('/dossiers/"+@dossier.id.to_s+"/destroy');"} Supprimer
 
   %div#tabs-1
     = render 'form'
   
   %div#tabs-2
     = render 'intervenants'
+    
+  %div#tabs-3
+    = render 'documents'

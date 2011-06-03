@@ -1,0 +1,23 @@
+<h1>Listing transmission_medias</h1>
+
+<table>
+  <tr>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @transmission_medias.each do |transmission_medium| %>
+  <tr>
+    <td><%= transmission_medium.description %></td>
+    <td><%= link_to 'Show', transmission_medium %></td>
+    <td><%= link_to 'Edit', edit_transmission_medium_path(transmission_medium) %></td>
+    <td><%= link_to 'Destroy', transmission_medium, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Transmission medium', new_transmission_medium_path %>

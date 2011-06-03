@@ -1,0 +1,2 @@
+module ConsignationsHelper
+end

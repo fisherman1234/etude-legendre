@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  dossier_id: 1
+  sender_id: 1
+  description: MyString
+  commentaires: MyText
+  activite_id: MyString
+
+two:
+  dossier_id: 1
+  sender_id: 1
+  description: MyString
+  commentaires: MyText
+  activite_id: MyString

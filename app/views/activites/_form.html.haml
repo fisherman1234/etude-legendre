@@ -1,0 +1,83 @@
+- form_for(@activite) do |f|
+  %table{:border=>0, :class=>"main-form"}
+    %tr 
+      %td Type d'activité
+      %td= select("activite", "type_activite_id", TypeActivite.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='}) 
+
+  %table{:border=>0, :class=>"main-form", :id=>"activite-content"}
+    %tr
+      %td Description
+      %td{:COLSPAN=>"3"}=f.text_field :description
+      %td Confidentiel
+      %td= f.check_box :is_confidentiel
+    %tr
+      %td Date
+      %td= f.text_field :date_visite,:class => "datepicker"
+      %td Heure
+      %td= f.text_field :heure
+      %td Ajouter à l'agenda
+      %td todo Coche
+ 
+    %tr{:class => "type-2"}
+      %td No accedit
+      %td= f.text_field :no_accedit
+  
+  %br
+  %div#tabs
+    %ul
+      %li{:class => "type-2 type-1 type-5"}
+        %a{:href=> "#tabs-1"} Lieu
+      %li
+        %a{:href=> "#tabs-2"} Commentaires
+      %li
+        %a{:href=> "#tabs-3"} Documents
+      %li
+        %a{:href=> "#tabs-4"} Communications
+      %li                                
+        %a{:href=> "#tabs-5"} Consignations
+
+
+    %div{:id=>"tabs-1", :class => "type-2 type-1 type-5"}
+      %table{:border=>0, :class=>"main-form"}
+        %tr
+          %td Adresse 1
+          %td{:COLSPAN=>"5"}= f.text_field :adresse1
+        %tr
+          %td Adresse 2
+          %td{:COLSPAN=>"5"}= f.text_field :adresse2        
+        %tr
+          %td Adresse 3
+          %td{:COLSPAN=>"5"}= f.text_field :adresse3
+        %tr
+          %td Code postal
+          %td= f.text_field :code_postal
+          %td Ville
+          %td= f.text_field :ville
+          %td Pays
+          %td= f.text_field :pays
+
+    %div#tabs-2
+      %table{:border=>0, :class=>"main-form"}
+        %tr
+          %td Commentaires
+          %td{:COLSPAN=>"5"}= f.text_area :commentaires
+
+    %div#tabs-3
+      %table
+        - f.fields_for :documents do |document|
+          %tr
+            %td= document.text_field :description
+            %td= document.file_field :file
+            - unless f.object.new_record?
+              %td document.check_box :delete
+
+    %div#tabs-4
+      - @activite.communications.each do |communication|
+        %ul
+          %li communication.description
+
+    %div#tabs-5
+      - @activite.consignations.each do |consignation|
+        %ul
+          %li consignation.id
+

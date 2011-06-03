@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Activite:</b>
+  <%= @consignation.activite_id %>
+</p>
+
+<p>
+  <b>Is private:</b>
+  <%= @consignation.is_private %>
+</p>
+
+
+<%= link_to 'Edit', edit_consignation_path(@consignation) %> |
+<%= link_to 'Back', consignations_path %>

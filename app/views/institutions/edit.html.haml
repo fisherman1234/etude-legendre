@@ -1,0 +1,19 @@
+%h3 Edition d'une entreprise
+
+%div#tabs
+  %ul
+    %li
+      %a{:href=> "#tabs-1"} Détails
+    %li
+      %a{:href=> "#tabs-2"} Documents échangés
+    %li
+      %a{:href=> "#tabs-3"} Dossiers liés   
+      
+    %li{:style=>"float:right;"}
+      %a{:href=> "#",  :class => "removeRecord", :onClick => "delete_page('/institutions/"+@institution.id.to_s+"/destroy');"} Supprimer
+  
+  %div#tabs-1
+    = render 'form'
+  
+  %div#tabs-2
+  %div#tabs-3

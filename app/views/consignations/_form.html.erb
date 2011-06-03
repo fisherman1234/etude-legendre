@@ -1,0 +1,25 @@
+<%= form_for(@consignation) do |f| %>
+  <% if @consignation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@consignation.errors.count, "error") %> prohibited this consignation from being saved:</h2>
+
+      <ul>
+      <% @consignation.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :activite_id %><br />
+    <%= f.text_field :activite_id %>
+  </div>
+  <div class="field">
+    <%= f.label :is_private %><br />
+    <%= f.text_field :is_private %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

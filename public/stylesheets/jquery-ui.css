@@ -574,5 +574,15 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
  *
  * http://docs.jquery.com/UI/Progressbar#theming
  */
-.ui-progressbar { height:2em; text-align: left; }
-.ui-progressbar .ui-progressbar-value {margin: -1px; height:100%; }
+.ui-progressbar-value {
+	margin: -1px; 
+	height:44px; 
+	background-image: url(/images/pbar-ani.gif);
+	background-repeat:repeat-x;
+	display:none;
+	padding-left:100px;
+	padding-right:100px;
+	padding-top:5px;
+	padding-bottom:5px;
+
+}

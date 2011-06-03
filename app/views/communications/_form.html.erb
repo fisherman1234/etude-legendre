@@ -1,0 +1,33 @@
+<%= form_for(@communication) do |f| %>
+  <% if @communication.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@communication.errors.count, "error") %> prohibited this communication from being saved:</h2>
+
+      <ul>
+      <% @communication.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :sender_id %><br />
+    <%= f.text_field :sender_id %>
+  </div>
+  <div class="field">
+    <%= f.label :dossier_id %><br />
+    <%= f.text_field :dossier_id %>
+  </div>
+  <div class="field">
+    <%= f.label :subject_id %><br />
+    <%= f.text_field :subject_id %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

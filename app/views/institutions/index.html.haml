@@ -1,0 +1,17 @@
+%h3 Liste des entreprises
+
+%table{:id => "liste-entreprises", :style => "width: 100%;"}
+  %thead
+    %th Nom
+    %th Chambre
+    %th Type
+    %th Téléphone
+    %th Site web
+  %tbody
+    - @institutions.each do |institution|
+      %tr{:id=>institution.id}
+        %td=institution.nom
+        %td=institution.chambre
+        %td=institution.type_institution.try(:description)
+        %td=institution.telephone
+        %td=institution.site_web

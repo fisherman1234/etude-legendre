@@ -1,47 +1,51 @@
+var previous_page = "";
+var current_page = "";
+var next_page = "";
 function primary_formatting(){
-	$('input').unbind("dblclick");
-	$(document).unbind('keydown');
-	$(":input").unbind('keydown');
+	autocomplete_institution(".contact",'');
+	autocomplete_institution(".dossier", "?type=1");
+	autocomplete_contact ("juge_mission", "?type=1");
+	autocomplete_contact ("juge_controlleur", "?type=1");
+	autocomplete_contact ("contact", "");
+	autocomplete_dossier("dossier","");
 	
 	$(document).bind('keydown', 'ctrl+s',function (evt){
 	    alert("Ctrl+S");
 	    return false;
 	});
-	$("input").bind('keydown', 'meta+s',function (evt){
-		$.each($('form.dirty-form'), function(key, value) { 
+	$(":input:not(.savable)").bind('keydown', 'meta+s',function (evt){
+		$.each($('form.active-form'), function(key, value) { 
 		  	submit_form($(value));
-			$("#save").removeClass("ui-state-active");
-			action_performed("Modifications enregistrées", "");
 		});
 	    return false;
 	});
+	$("input:not(.savable)").addClass('savable');
+	
 	$(document).bind('keydown', 'meta+s',function (evt){
 		$.each($('form.dirty-form'), function(key, value) { 
 		  	submit_form($(value));
-			$("#save").removeClass("ui-state-active");
-			action_performed("Modifications enregistrées", "");
 		});
 	    return false;
 	});
-	$(":input").bind('keydown', 'meta+s',function (evt){
-		$.each($('form.dirty-form'), function(key, value) { 
+	$(":input:not(.savable)").bind('keydown', 'meta+s',function (evt){
+		$.each($('form.active-form'), function(key, value) { 
 		  	submit_form($(value));
 		});
-		$("#save").removeClass("ui-state-active");
-		action_performed("Modifications enregistrées", "");
 	    return false;
 	});
+	$("input:not(.savable)").addClass('savable');
 	
 	$("input").addClass("ui-widget-content ui-corner-all");
 	$("input:not(.minuscule)").change(function(){
 		$(this).val($(this).val().toUpperCase());
 	});
-	$("input.clickable").dblclick(function(){
+	$("input.clickable:not(.dblclickable)").bind("dblclick", function(){
 		sous_jacent = $(this).attr('id').replace('_label','')+'_id';
 			if ($('#'+sous_jacent).val()!=''){
 					edit_contact_detail($('#'+sous_jacent).val());
 			};
 	});
+	$("input.clickable:not(.dblclickable)").addClass("dblclickable");
 	$("#contact_type_intervenant_id").change(function(){
 		load_adress_line();
 	});
@@ -54,7 +58,8 @@ function primary_formatting(){
 	
 
 	$(':input').change(function(){
-		$(this).parents('form:first').addClass('dirty-form')
+		$('.active-form').removeClass('active-form')
+		$(this).parents('form:first').addClass('dirty-form active-form')
 		$(this).addClass('dirty-input')
 		$("#save").addClass("ui-state-active");
 		}
@@ -83,12 +88,6 @@ function primary_formatting(){
 		load_add_acteur_contact($("#acteur_type_acteur_id").val());
 	});
 	
-	var options = {minWidth: 120, arrowSrc: 'arrow_right.gif', onClick: function(e, menuItem){  
-	    alert('you clicked item "' + $(this).text() + '"');  
-	}};  
-	$('#menu1').menu(options);
-
-
 	$(".data-table-standard").css("width","100%");
 	$(".data-table-standard").dataTable({
 		"bJQueryUI": true,
@@ -100,28 +99,32 @@ function primary_formatting(){
 			"sZeroRecords": "Aucun intervenant trouvé",
 			"sInfo": "Enregistrements _START_ à _END_ sur _TOTAL_",
 			"sInfoEmpty": "Aucun enregistrement",
+			"sSearch": "Recherche",
 			"sInfoFiltered": "(sur _MAX_ enregistrements au total)"
 		}
 		
 	});
 	
-	$("#repertoire-contact tr").click(function(event) {
+	//Creation des datatables
+	$("#repertoire-contact tbody tr").click(function(event) {
 		navigate_page('/contacts/'+$(this).attr('id')+'/edit');
 	});
 	
-	$("#repertoire-contact").dataTable({
-		"bJQueryUI": true,
-		"sPaginationType": "full_numbers",
-		"bRetrieve": true,
-		"bPaginate": false,
-		"bProcessing": true,
-		"aoColumnDefs": [
-					{ "bVisible": false, "aTargets": [ 0 ], "bVisible": false, "aTargets": [ 5 ] }
-				], 
-		"fnDrawCallback": function ( oSettings ) {
-			$('#repertoire-contact').css('width', '100%');
-		}
+	formattage_datatable("#repertoire-contact");
+	
+	$("#liste-dossiers tbody tr").click(function(event) {
+		navigate_page('/dossiers/'+$(this).attr('id')+'/edit');
 	});
+	formattage_datatable("#liste-dossiers");
+	
+	$("#liste-entreprises tbody tr").click(function(event) {
+		navigate_page('/institutions/'+$(this).attr('id')+'/edit');
+	});
+	formattage_datatable("#liste-entreprises");
+	
+	
+	formattage_datatable_datasouce("#data-table-documents", '/dossiers/'+$("#dossier_id").val()+"/documents.js", 4);
+	
 	$("#data-table-acteurs").dataTable({
 		"bJQueryUI": true,
 		"sPaginationType": "full_numbers",
@@ -132,6 +135,7 @@ function primary_formatting(){
 		"oLanguage": {
 			"sLengthMenu": "Afficher _MENU_ enregistrements par page",
 			"sZeroRecords": "Aucun intervenant trouvé",
+			"sSearch": "Recherche",
 			"sInfo": "Enregistrements _START_ à _END_ sur _TOTAL_",
 			"sInfoEmpty": "Aucun enregistrement",
 			"sInfoFiltered": "(sur _MAX_ enregistrements au total)"
@@ -198,6 +202,24 @@ function autocomplete_contact (nom, type) {
 	});
 }
 
+function autocomplete_dossier (nom, type) {
+	$( "#"+nom+"_label" ).autocomplete({
+	  source: "/dossiers.js"+type,
+	  minLength: 2,
+	  change: function(event, ui){
+		if (!ui.item){
+			$("#"+nom+"_id").val('');
+			$("#"+nom+"_label").val('');
+		}
+	  },
+	  select: function( event, ui ) {
+	  					$("#"+nom+"_id").val(ui.item.value);
+	  					$("#"+nom+"_label").val(ui.item.label);
+	  					return false;
+				}
+
+	});
+}
 
 
 function autocomplete_ville(code_postal){
@@ -229,6 +251,7 @@ function create_institution () {
 	
     $('body').append("<div id='add-institution' style=''></div>");
 	$('#add-institution').load('/institutions/new.html #new_institution');
+	primary_formatting();
     $( "#add-institution" ).dialog({
       			height: 500,
       			width: 800,
@@ -251,6 +274,36 @@ function create_institution () {
 
 }
 
+function create_document () {
+	
+    $('body').append("<div id='add-document' style=''></div>");
+	$('#add-document').load('/documents/new.html #new_document');
+	primary_formatting();
+    $( "#add-document" ).dialog({
+      			height: 200,
+      			width: 800,
+      			modal: true,
+				title: 'Ajouter un document',
+				open: function(event, ui) { 
+					setTimeout("primary_formatting();",500); },
+				close: function(event, ui) {
+					$( "#add-document" ).remove(); },
+      			buttons: {
+            				"Créer le document": function() {
+							  submit_form($("#new_document"));
+            				  $( this ).dialog( "close" );
+            				},
+            				"Annuler": function() {
+                    					$( this ).dialog( "close" );
+                    				}
+                    	}			
+      });
+
+}
+
+
+
+
 function create_contact(){
 	$('body').append("<div id='add-contact' style=''></div>");
 	$('#add-contact').load('/contacts/new.html #new_contact', function(){
@@ -263,7 +316,8 @@ function create_contact(){
      			modal: true,
 				title: 'Ajouter un contact',
 				close: function(event, ui) {
-					$( "#add-contact" ).remove(); },
+					$( "#add-contact" ).remove();
+					 },
      			buttons: {
            				"Créer le contact": function() {
            				  $.post("/contacts", $("#new_contact").serialize());
@@ -406,31 +460,46 @@ function load_adress_line(){
 }
 
 function navigate_page(page){
-	$( "#page-content" ).fadeOut('fast', function(){ $(this).html('') });
+	previous_page = current_page;
+	current_page = page;
+	$( "#page-content" ).fadeOut('fast', function(){ $("#page-content" ).html('') });
 	$("#page-content").load(page+' #page-content', function() {
 		primary_formatting();
-		$( "#page-content" ).fadeIn('fast', function(){
+		$( "#page-content" ).fadeIn('slow', function(){
 			page_load_scripts();
 		})
 		
 	});
 }
 
+function navigate_back(){
+	next_page=current_page;
+	navigate_page(previous_page);
+}
+function navigate_next(){
+	navigate_page(next_page);
+}
+function delete_page(page){
+	$.post(page);
+	navigate_back();
+}
+
 function page_load_scripts(){
 	get_user_infos();
-	autocomplete_institution(".contact",'');
-	autocomplete_institution(".dossier", "?type=1");
-	autocomplete_contact ("juge_mission", "?type=1");
-	autocomplete_contact ("juge_controlleur", "?type=1");
-	autocomplete_contact ("contact", "");
+	var options = {minWidth: 120};  
+	$('#menu1').menuB(options);
 }
 
 function submit_form(form){
-	$.ajax({
-	  type: 'POST',
-	  url: form.attr('action'), 
-	  data: form.serialize()
-	});
+	$("#progressbar").show();
+	form.ajaxSubmit({
+		success:function(){
+			$("#save").removeClass("ui-state-active");
+			action_performed("Modifications enregistrées", "");
+			$("#progressbar").fadeOut();
+		}
+		});
+	
 }
 
 primary_formatting();
@@ -467,3 +536,101 @@ function action_performed(text, icon){
 		});	
 }
 
+function formattage_datatable(id_table){
+	$(id_table).dataTable({
+		"bJQueryUI": true,
+		"sPaginationType": "full_numbers",
+		"bRetrieve": true,
+		"bPaginate": false,
+		"bProcessing": true,
+		"oLanguage": {
+			"sLengthMenu": "Afficher _MENU_ enregistrements par page",
+			"sZeroRecords": "Aucun intervenant trouvé",
+			"sInfo": "Enregistrements _START_ à _END_ sur _TOTAL_",
+			"sInfoEmpty": "Aucun enregistrement",
+			"sSearch": "Recherche",
+			"sInfoFiltered": "(sur _MAX_ enregistrements au total)"
+		},
+		"fnDrawCallback": function ( oSettings ) {
+			$(id_table).css('width', '100%');
+		}
+	});
+	
+}
+
+function formattage_datatable_datasouce(id_table, path, id_col_index){
+	$(id_table).dataTable({
+		"bJQueryUI": true,
+		"sPaginationType": "full_numbers",
+		"bRetrieve": true,
+		"bPaginate": false,
+		"bProcessing": true,
+		"sAjaxSource": path,
+		"oLanguage": {
+			"sLengthMenu": "Afficher _MENU_ enregistrements par page",
+			"sZeroRecords": "Aucun intervenant trouvé",
+			"sInfo": "Enregistrements _START_ à _END_ sur _TOTAL_",
+			"sInfoEmpty": "Aucun enregistrement",
+			"sSearch": "Recherche",
+			"sInfoFiltered": "(sur _MAX_ enregistrements au total)"
+		},
+		"fnDrawCallback": function ( oSettings ) {
+			if ( oSettings.aiDisplay.length == 0 )
+			{
+				return;
+			}
+
+			var nTrs = $(id_table+' tbody tr');
+			var iColspan = nTrs[0].getElementsByTagName('td').length;
+			var sLastGroup = "";
+			for ( var i=0 ; i<nTrs.length ; i++ )
+			{
+				var iDisplayIndex = oSettings._iDisplayStart + i;
+				var sGroup = oSettings.aoData[ oSettings.aiDisplay[iDisplayIndex] ]._aData[0];
+				var sGroup_id = oSettings.aoData[ oSettings.aiDisplay[iDisplayIndex] ]._aData[id_col_index];
+				nTrs[i].id=sGroup_id;
+				nTrs[i].className = nTrs[i].className+" acteur_contact_row";
+			}
+			$(id_table).css('width', '100%');
+
+			$(id_table+" tbody tr").click(function(event) {
+					edit_document($(this).attr('id'))
+				});
+			},
+		"aoColumnDefs": [
+					{ "bVisible": false, "aTargets": [ 0 ], "bVisible": false, "aTargets": [ id_col_index ] }
+				]
+	});
+}
+
+
+function edit_document (id_file) {
+	
+    $('body').append("<div id='edit-document' style=''></div>");
+	$('#edit-document').load('/documents/'+id_file+'/edit .edit_document', function(){primary_formatting();});
+	
+    $( "#edit-document" ).dialog({
+      			height: 200,
+      			width: 800,
+      			modal: true,
+				title: 'Editer un document',
+				open: function(event, ui) { 
+					setTimeout("primary_formatting();",500); },
+				close: function(event, ui) {
+					$( "#edit-document" ).remove(); },
+      			buttons: {
+            				"Supprimer le document": function() {
+							  $.post('/documents/'+id_file+'/destroy');
+            				  $( this ).dialog( "close" );
+            				},
+							"Enregistrer": function() {
+							  submit_form($(".edit_document"));
+            				  $( this ).dialog( "close" );
+            				},
+            				"Annuler": function() {
+                    					$( this ).dialog( "close" );
+                    				}
+                    	}			
+      });
+
+}

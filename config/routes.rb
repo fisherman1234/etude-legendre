@@ -1,6 +1,20 @@
 EtudeLegendre::Application.routes.draw do
 
 
+  resources :consignations
+
+  resources :type_activites
+
+  resources :activites
+
+  resources :communications
+
+  resources :transmission_media
+
+  resources :contact_to_documents
+
+  resources :documents
+
   resources :code_postal_villes
 
   resources :type_etat_dossiers
@@ -39,6 +53,11 @@ EtudeLegendre::Application.routes.draw do
   match "users/current_user_signed_in", :to => "users#current_user_signed_in", :method => :get 
   match "users/destroy_current_user_session", :to => "users#destroy_current_user_session", :method => :get 
   match "users/connexion", :to => "users#connexion", :method => :get 
+  match "contacts/:id/destroy", :to => "contacts#destroy", :method => :post 
+  match "dossiers/:id/destroy", :to => "dossiers#destroy", :method => :post 
+  match "institutions/:id/destroy", :to => "institutions#destroy", :method => :post 
+  match 'dossiers/:id/documents', :to => 'dossiers#documents' , :method => :get  
+  match "documents/:id/destroy", :to => "documents#destroy", :method => :post 
   
   
   # The priority is based upon order of creation:

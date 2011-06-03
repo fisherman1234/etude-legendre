@@ -2,7 +2,9 @@ class Dossier < ActiveRecord::Base
   has_many :acteurs
   belongs_to :type_decision
   belongs_to :type_expertise
+  belongs_to :institution
   after_create :create_actors
+  has_many :documents
   has_paper_trail 
   
   def institution_id=(institution_id)

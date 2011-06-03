@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  document_id: 1
+  communication_id: 1
+  included_in_communication: 1
+
+two:
+  document_id: 1
+  communication_id: 1
+  included_in_communication: 1

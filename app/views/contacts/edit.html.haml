@@ -9,7 +9,9 @@
       %a{:href=> "#tabs-2"} Activité
     %li
       %a{:href=> "#tabs-3"} Documents échangés
-
+    %li{:style=>"float:right;"}
+      %a{:href=> "#tabs-4",  :class => "removeRecord", :onClick => "delete_page('/contacts/"+@contact.id.to_s+"/destroy');"} Supprimer
+      
   %div#tabs-0
     = render 'form'
 

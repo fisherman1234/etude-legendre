@@ -1,0 +1,19 @@
+- form_for(@document) do |f| 
+  %table{:border => "0", :class => "main-form"}
+    %tr
+      %td Dossier
+      %td
+        - if @document.dossier_id!='' && @document.dossier_id!=nil
+          %input{:id=>"dossier_label", :value => Dossier.find(@document.dossier_id).nom_dossier}
+        - else
+          %input{:id=>"dossier_label", :style => "width=60%"}          
+      
+        = f.hidden_field :dossier_id, :id=>"dossier_id"
+      
+    %tr
+      %td Description
+      %td= f.text_field :description
+      
+    %tr
+      %td Fichier
+      %td= f.file_field :file

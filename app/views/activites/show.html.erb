@@ -1,0 +1,70 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Type activite:</b>
+  <%= @activite.type_activite_id %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @activite.description %>
+</p>
+
+<p>
+  <b>No accedit:</b>
+  <%= @activite.no_accedit %>
+</p>
+
+<p>
+  <b>Date visite:</b>
+  <%= @activite.date_visite %>
+</p>
+
+<p>
+  <b>Adresse1:</b>
+  <%= @activite.adresse1 %>
+</p>
+
+<p>
+  <b>Adresse2:</b>
+  <%= @activite.adresse2 %>
+</p>
+
+<p>
+  <b>Adresse3:</b>
+  <%= @activite.adresse3 %>
+</p>
+
+<p>
+  <b>Code postal:</b>
+  <%= @activite.code_postal %>
+</p>
+
+<p>
+  <b>Ville:</b>
+  <%= @activite.ville %>
+</p>
+
+<p>
+  <b>Pays:</b>
+  <%= @activite.pays %>
+</p>
+
+<p>
+  <b>Heure:</b>
+  <%= @activite.heure %>
+</p>
+
+<p>
+  <b>Commentaires:</b>
+  <%= @activite.commentaires %>
+</p>
+
+<p>
+  <b>Is confidentiel:</b>
+  <%= @activite.is_confidentiel %>
+</p>
+
+
+<%= link_to 'Edit', edit_activite_path(@activite) %> |
+<%= link_to 'Back', activites_path %>

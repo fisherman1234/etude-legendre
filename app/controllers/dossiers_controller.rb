@@ -4,11 +4,15 @@ class DossiersController < ApplicationController
   # GET /dossiers
   # GET /dossiers.xml
   def index
-    @dossiers = Dossier.all
-
+    if params[:term] != nil
+      @dossiers = Dossier.find(:all, :conditions => ['id LIKE :search OR ref_cabinet LIKE :search OR nom_dossier LIKE :search', {:search => "%#{params[:term]}%"}])
+    else
+      @dossiers = Dossier.all
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @dossiers }
+      format.js {render :json => @dossiers.map {|p| {  :label => p.ref_cabinet+' '+p.nom_dossier  , :value => p.id}} }
     end
   end
 
@@ -110,6 +114,16 @@ class DossiersController < ApplicationController
     end
   end
   
-  
+  def documents
+    @dossier = Dossier.find(params[:id])
+    @documents = []
+    @dossier.documents.each do |document|
+      @documents.push([document.description, document.file_file_name, document.file_file_size.to_s, document.file_updated_at, document.id, "<a href="+document.file.url+">Lien</a>"])
+    end
+    
+    respond_to do |format|
+        format.js  { render :json => {"aaData"=>@documents}}
+    end
+  end
   
 end

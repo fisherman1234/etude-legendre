@@ -1,0 +1,21 @@
+<%= form_for(@transmission_medium) do |f| %>
+  <% if @transmission_medium.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@transmission_medium.errors.count, "error") %> prohibited this transmission_medium from being saved:</h2>
+
+      <ul>
+      <% @transmission_medium.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

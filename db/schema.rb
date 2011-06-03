@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110530222832) do
+ActiveRecord::Schema.define(:version => 20110603100451) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -18,6 +18,33 @@ ActiveRecord::Schema.define(:version => 20110530222832) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "description"
+  end
+
+  create_table "activite_to_documents", :force => true do |t|
+    t.integer  "document_id"
+    t.integer  "activite_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "activites", :force => true do |t|
+    t.integer  "type_activite_id"
+    t.string   "description"
+    t.integer  "no_accedit"
+    t.integer  "date_visite"
+    t.string   "adresse1"
+    t.string   "adresse2"
+    t.string   "adresse3"
+    t.string   "code_postal"
+    t.string   "ville"
+    t.string   "pays"
+    t.string   "heure"
+    t.text     "commentaires"
+    t.integer  "is_confidentiel"
+    t.date     "terme_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "dossier_id"
   end
 
   create_table "code_postal_villes", :force => true do |t|
@@ -30,6 +57,23 @@ ActiveRecord::Schema.define(:version => 20110530222832) do
   add_index "code_postal_villes", ["code_postal"], :name => "index_code_postal_villes_on_code_postal"
   add_index "code_postal_villes", ["ville"], :name => "index_code_postal_villes_on_ville"
 
+  create_table "communications", :force => true do |t|
+    t.integer  "sender_id"
+    t.integer  "dossier_id"
+    t.string   "subject_id"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "activite_id"
+  end
+
+  create_table "consignations", :force => true do |t|
+    t.integer  "activite_id"
+    t.integer  "is_private"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "contact_acteurs", :force => true do |t|
     t.integer  "qualite_procedurale_id"
     t.integer  "contact_id"
@@ -40,6 +84,24 @@ ActiveRecord::Schema.define(:version => 20110530222832) do
     t.string   "references"
     t.text     "notes"
     t.float    "montant_devis"
+  end
+
+  create_table "contact_to_communications", :force => true do |t|
+    t.integer  "contact_id"
+    t.integer  "communication_id"
+    t.integer  "transmission_medium_id"
+    t.string   "recipient"
+    t.string   "adresse1"
+    t.string   "adresse2"
+    t.string   "adresse3"
+    t.string   "code_postal"
+    t.string   "pays"
+    t.string   "telephone"
+    t.string   "email"
+    t.string   "fax"
+    t.integer  "doc_sent"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "contacts", :force => true do |t|
@@ -66,6 +128,25 @@ ActiveRecord::Schema.define(:version => 20110530222832) do
     t.string   "avocat_au_barreau"
     t.text     "notes"
     t.integer  "contact_medium_id"
+  end
+
+  create_table "document_to_communications", :force => true do |t|
+    t.integer  "document_id"
+    t.integer  "communication_id"
+    t.integer  "included_in_communication"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "documents", :force => true do |t|
+    t.string   "description"
+    t.integer  "dossier_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.integer  "file_file_size"
+    t.datetime "file_updated_at"
   end
 
   create_table "dossiers", :force => true do |t|
@@ -110,7 +191,19 @@ ActiveRecord::Schema.define(:version => 20110530222832) do
     t.datetime "updated_at"
   end
 
+  create_table "transmission_media", :force => true do |t|
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "type_acteurs", :force => true do |t|
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "type_activites", :force => true do |t|
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"

@@ -9,7 +9,6 @@
     %th Téléphone
     %th Mail
     %th Ville
-    %th ID
   %tbody
     - @contacts.each do |contact|
       %tr{:id=>contact.id}
@@ -20,4 +19,3 @@
         %td=contact.telephone
         %td=contact.email
         %td=contact.ville
-        %td=contact.id

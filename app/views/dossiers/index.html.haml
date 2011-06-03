@@ -1,0 +1,17 @@
+%h3 Liste des dossiers
+
+%table{:id => "liste-dossiers", :style => "width: 100%;"}
+  %thead
+    %th Références
+    %th Nom dossier
+    %th Juridiction
+    %th Avis de designation
+    %th Date rapport cible
+  %tbody
+    - @dossiers.each do |dossier|
+      %tr{:id=>dossier.id}
+        %td=dossier.ref_cabinet
+        %td=dossier.nom_dossier
+        %td=dossier.institution.try(:nom)
+        %td=dossier.date_avis_designation
+        %td=dossier.date_cible_depot_rapport

@@ -1,0 +1,47 @@
+<h1>Listing activites</h1>
+
+<table>
+  <tr>
+    <th>Type activite</th>
+    <th>Description</th>
+    <th>No accedit</th>
+    <th>Date visite</th>
+    <th>Adresse1</th>
+    <th>Adresse2</th>
+    <th>Adresse3</th>
+    <th>Code postal</th>
+    <th>Ville</th>
+    <th>Pays</th>
+    <th>Heure</th>
+    <th>Commentaires</th>
+    <th>Is confidentiel</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @activites.each do |activite| %>
+  <tr>
+    <td><%= activite.type_activite_id %></td>
+    <td><%= activite.description %></td>
+    <td><%= activite.no_accedit %></td>
+    <td><%= activite.date_visite %></td>
+    <td><%= activite.adresse1 %></td>
+    <td><%= activite.adresse2 %></td>
+    <td><%= activite.adresse3 %></td>
+    <td><%= activite.code_postal %></td>
+    <td><%= activite.ville %></td>
+    <td><%= activite.pays %></td>
+    <td><%= activite.heure %></td>
+    <td><%= activite.commentaires %></td>
+    <td><%= activite.is_confidentiel %></td>
+    <td><%= link_to 'Show', activite %></td>
+    <td><%= link_to 'Edit', edit_activite_path(activite) %></td>
+    <td><%= link_to 'Destroy', activite, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Activite', new_activite_path %>

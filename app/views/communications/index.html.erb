@@ -1,0 +1,29 @@
+<h1>Listing communications</h1>
+
+<table>
+  <tr>
+    <th>Sender</th>
+    <th>Dossier</th>
+    <th>Subject</th>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @communications.each do |communication| %>
+  <tr>
+    <td><%= communication.sender_id %></td>
+    <td><%= communication.dossier_id %></td>
+    <td><%= communication.subject_id %></td>
+    <td><%= communication.description %></td>
+    <td><%= link_to 'Show', communication %></td>
+    <td><%= link_to 'Edit', edit_communication_path(communication) %></td>
+    <td><%= link_to 'Destroy', communication, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Communication', new_communication_path %>

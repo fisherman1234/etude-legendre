@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  activite_id: 1
+  is_private: 1
+
+two:
+  activite_id: 1
+  is_private: 1

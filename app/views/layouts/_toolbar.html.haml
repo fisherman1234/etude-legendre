@@ -1,14 +1,17 @@
 %div{:id=>"toolbar", :class=>"ui-corner-all"}
-  %button#print Imprimer 
-  %button#save Enregistrer 
-  %button#undo  &nbsp;
-  %button#redo &nbsp;
-  - if notice || alert
-    %span#messages
-      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-      Status : 
+  %a#print Imprimer 
+  %a#save Enregistrer 
+  %a#undo  &nbsp;
+  %a#redo &nbsp;
+  %a{:id=>"prevpage", :onClick=>"navigate_back();"} Page précédente
+  %a{:id=>"nextpage", :onClick=>"navigate_next();"} Page suivante
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  %span#message
+    - if notice || alert
+      Status :
       = notice
       = alert
+  %span{:id=>"progressbar", :class=>"ui-progressbar-value"} Chargement
   
 :javascript
   $( "#print" ).button({

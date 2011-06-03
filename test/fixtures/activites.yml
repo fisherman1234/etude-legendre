@@ -1,0 +1,31 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  type_activite_id: 1
+  description: MyString
+  no_accedit: 1
+  date_visite: 1
+  adresse1: MyString
+  adresse2: MyString
+  adresse3: MyString
+  code_postal: MyString
+  ville: MyString
+  pays: MyString
+  heure: MyString
+  commentaires: MyText
+  is_confidentiel: 1
+
+two:
+  type_activite_id: 1
+  description: MyString
+  no_accedit: 1
+  date_visite: 1
+  adresse1: MyString
+  adresse2: MyString
+  adresse3: MyString
+  code_postal: MyString
+  ville: MyString
+  pays: MyString
+  heure: MyString
+  commentaires: MyText
+  is_confidentiel: 1
