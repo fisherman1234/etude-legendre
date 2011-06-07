@@ -1,0 +1,25 @@
+<h1>Listing message_templates</h1>
+
+<table>
+  <tr>
+    <th>Message body</th>
+    <th>Type acteurs</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @message_templates.each do |message_template| %>
+  <tr>
+    <td><%= message_template.message_body %></td>
+    <td><%= message_template.type_acteurs %></td>
+    <td><%= link_to 'Show', message_template %></td>
+    <td><%= link_to 'Edit', edit_message_template_path(message_template) %></td>
+    <td><%= link_to 'Destroy', message_template, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Message template', new_message_template_path %>

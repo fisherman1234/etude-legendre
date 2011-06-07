@@ -1,0 +1,21 @@
+<h1>Listing parametres_cabinets</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @parametres_cabinets.each do |parametres_cabinet| %>
+  <tr>
+    <td><%= link_to 'Show', parametres_cabinet %></td>
+    <td><%= link_to 'Edit', edit_parametres_cabinet_path(parametres_cabinet) %></td>
+    <td><%= link_to 'Destroy', parametres_cabinet, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Parametres cabinet', new_parametres_cabinet_path %>

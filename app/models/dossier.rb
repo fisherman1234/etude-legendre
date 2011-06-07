@@ -5,7 +5,23 @@ class Dossier < ActiveRecord::Base
   belongs_to :institution
   after_create :create_actors
   has_many :documents
-  has_paper_trail 
+  has_many :activites
+  has_paper_trail
+  
+  
+  liquid_methods :nom_dossier, :ref_cabinet, :date_decision, :date_avis_designation, :date_cible_depot_rapport, :date_effective_depot_raport, :numero_role_general, :typeExpertise, :typeDecision, :juridiction, :date_debut_op_theorique
+  
+  def typeExpertise
+    return self.type_expertise.description
+  end
+  
+  def typeDecision
+    return self.type_decision.description
+  end
+  
+  def juridiction
+    return self.institution.nom
+  end
   
   def institution_id=(institution_id)
     write_attribute(:institution_id, institution_id)
@@ -20,6 +36,7 @@ class Dossier < ActiveRecord::Base
     Acteur.create(:type_acteur_id => 4, :dossier_id => self.id, :description => TypeActeur.find(4).description)
     Acteur.create(:type_acteur_id => 5, :dossier_id => self.id, :description => TypeActeur.find(5).description)
     Acteur.create(:type_acteur_id => 6, :dossier_id => self.id, :description => TypeActeur.find(6).description)
+    Acteur.create(:type_acteur_id => 7, :dossier_id => self.id, :description => TypeActeur.find(7).description)
   end
   
   def acteur_tribunal

@@ -1,6 +1,10 @@
 EtudeLegendre::Application.routes.draw do
 
 
+  resources :message_templates
+
+  resources :parametres_cabinets
+
   resources :consignations
 
   resources :type_activites
@@ -58,6 +62,7 @@ EtudeLegendre::Application.routes.draw do
   match "institutions/:id/destroy", :to => "institutions#destroy", :method => :post 
   match 'dossiers/:id/documents', :to => 'dossiers#documents' , :method => :get  
   match "documents/:id/destroy", :to => "documents#destroy", :method => :post 
+  match "dossiers/:id/new_communication", :to => "dossiers#new_communication", :method => :get 
   
   
   # The priority is based upon order of creation:

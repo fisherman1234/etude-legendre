@@ -52,7 +52,7 @@ function primary_formatting(){
 	$("#contact_civilite").change(function(){
 		load_adress_line();
 	});
-	$("form").submit(function(event) {
+	$("form:not(.non-ajax)").submit(function(event) {
 		event.preventDefault();
 	});
 	
@@ -491,6 +491,7 @@ function page_load_scripts(){
 }
 
 function submit_form(form){
+	tinyMCE.triggerSave();
 	$("#progressbar").show();
 	form.ajaxSubmit({
 		success:function(){

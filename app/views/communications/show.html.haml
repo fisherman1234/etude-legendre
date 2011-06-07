@@ -1,0 +1,62 @@
+%div#page-content-inner
+  %h1 Fiche communication
+  %br
+  %table{:style => "width:100%" , :class=>"main-grid"}
+    %tr
+      %td Numéro de la communication
+      %td= @communication.id
+      %td Date
+      %td= @communication.created_at
+
+    %tr
+      %td Dossier
+      %td{:colspan => "3"}= @communication.dossier.nom_dossier
+    %tr
+      %td Expéditeur
+      %td{:colspan => "3"} #{@communication.contact.prenom} #{@communication.contact.nom}
+    %tr
+      %td Destinataires
+      %td{:colspan => "3"}
+        %table
+          %thead
+            %th Nom
+            %th Prénom
+            %th Entreprise
+            %th Moyen de contact
+          %tbody
+            - @communication.contact_to_communications.each do |concom|
+              %tr
+                %td=concom.contact.try(:nom)
+                %td=concom.contact.try(:prenom)
+                - if concom.contact.institution
+                  %td=concom.contact.institution.try(:nom)
+                -else
+                  %td
+                -if concom.transmission_medium
+                  %td=concom.transmission_medium.try(:description)
+                -else
+                  %td
+    %tr
+      %td Sujet
+      %td{:colspan => "3"}= @communication.subject_id
+    %tr
+      %td Message
+      %td{:colspan => "3"}= @communication.description
+    %tr
+      %td Documents inclus
+      %td{:colspan => "3"}
+        %table{:style => "width:100%", :class=>"documents"}
+          %thead
+            %th Fichier
+            %th Taille
+            %th Lien
+            %th QR-Code
+          %tbody
+            - @communication.document_to_communications.each do |doccom|
+              %tr
+                %td= doccom.document.file_file_name
+                %td= number_to_human_size(doccom.document.file_file_size)
+                %td= doccom.document.generate_link
+                %td
+                  %img{:src=>doccom.document.generate_link+".qrcode", :id=>"qrcode"}
+        

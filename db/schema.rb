@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110603100451) do
+ActiveRecord::Schema.define(:version => 20110606220517) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(:version => 20110603100451) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "activite_id"
+    t.integer  "message_template_id"
   end
 
   create_table "consignations", :force => true do |t|
@@ -102,6 +103,15 @@ ActiveRecord::Schema.define(:version => 20110603100451) do
     t.integer  "doc_sent"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "communication_template_id"
+    t.string   "genre_lettre"
+    t.string   "genre_adresse"
+    t.string   "references_courrier"
+    t.string   "ville"
+    t.string   "final_file_file_name"
+    t.string   "final_file_content_type"
+    t.integer  "final_file_file_size"
+    t.datetime "final_file_updated_at"
   end
 
   create_table "contacts", :force => true do |t|
@@ -183,6 +193,25 @@ ActiveRecord::Schema.define(:version => 20110603100451) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "type_institution_id"
+  end
+
+  create_table "message_templates", :force => true do |t|
+    t.text     "message_body"
+    t.text     "type_acteurs"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "mail_subject"
+    t.text     "letter_body"
+  end
+
+  create_table "message_templates_type_acteurs", :id => false, :force => true do |t|
+    t.integer "type_acteur_id"
+    t.integer "message_template_id"
+  end
+
+  create_table "parametres_cabinets", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "qualite_procedurales", :force => true do |t|

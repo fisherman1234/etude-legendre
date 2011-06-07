@@ -1,4 +1,4 @@
-- form_for(@activite) do |f|
+- nested_form_for(@activite) do |f|
   %table{:border=>0, :class=>"main-form"}
     %tr 
       %td Type d'activité
@@ -63,18 +63,28 @@
           %td{:COLSPAN=>"5"}= f.text_area :commentaires
 
     %div#tabs-3
-      %table
+      Documents actuels :
+      %ul
+        - @activite.documents.each do |document|
+          %li
+            %a{:href => document.file.url}= document.file_file_name
+      
+      %div{:style => "display:none;"}
         - f.fields_for :documents do |document|
+          Documents ajoutés :
           %tr
+            %td Description
             %td= document.text_field :description
+            %td Fichier
             %td= document.file_field :file
-            - unless f.object.new_record?
-              %td document.check_box :delete
+            
+      %p= f.link_to_add "Ajouter", :documents
 
     %div#tabs-4
       - @activite.communications.each do |communication|
         %ul
           %li communication.description
+
 
     %div#tabs-5
       - @activite.consignations.each do |consignation|

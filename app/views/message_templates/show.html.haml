@@ -1,0 +1,9 @@
+%p
+  %p Message body:
+  %p= sanitize(raw @template.render( 'dossier' => @dossier, 'destinataire'=> @concom ))
+  
+%p
+  %p Type acteurs:
+  %p= @message_template.type_acteurs
+
+%p Bonjour #{@dossier.nom_dossier} OK pour ce soir.

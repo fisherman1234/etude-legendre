@@ -1,0 +1,7 @@
+%html{:lang => 'fr'}
+  %head
+    %meta{:charset => 'utf-8'}
+
+    = stylesheet_link_tag "#{request.protocol}#{request.host_with_port}/stylesheets/images/pdf.css", :media => "all"
+  %body
+    = yield(:layout)

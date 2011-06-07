@@ -1,0 +1,106 @@
+- form_for(@message_template, :html => { :class => "non_ajax"}) do |f|
+  %table{:class=>"template-factory-left"}
+    %tr
+      %td Acteurs à sélectionner
+      %td
+        - for typeActeur in TypeActeur.find(:all)        
+          = check_box_tag "message_template[type_acteur_ids][]", typeActeur.id, @message_template.type_acteurs.include?(typeActeur)
+          = typeActeur.description
+    %tr
+      %td Sujet de la correspondance
+      %td= f.text_field :mail_subject, :class => "template"
+    %tr
+      %td Corps du mail d'accompagnement
+      %td= f.text_area :message_body, :class => "template"
+    %tr
+      %td Corps de la lettre
+      %td= f.text_area :letter_body, :class => "template"
+
+          
+%table{:class=>"template-factory-right"}
+  %thead
+    %th Variable
+    %th Description
+  %tbody
+    %tr
+      %td @dossier.nom_dossier
+      %td Nom du dossier
+    %tr
+      %td @dossier.ref_cabinet
+      %td Références cabinet
+    %tr
+      %td @dossier.date_decision
+      %td Date finale de la décision
+    %tr
+      %td @dossier.date_avis_designation
+      %td
+    %tr
+      %td @dossier.date_cible_depot_rapport
+      %td
+    %tr
+      %td @dossier.date_effective_depot_raport
+      %td
+    %tr
+      %td @dossier.numero_role_general
+      %td
+    %tr
+      %td @dossier.typeExpertise
+      %td
+    %tr
+      %td @dossier.typeDecision
+      %td 
+    %tr
+      %td @dossier.juridiction
+      %td
+    %tr
+      %td @dossier.date_debut_op_theorique
+      %td
+    %tr
+      %td @destinataire.moyenTransmission
+      %td
+    %tr
+      %td @destinataire.nomDestinataire
+      %td
+    %tr
+      %td @destinataire.prenomDestinataire
+      %td
+    %tr
+      %td @destinataire.adresse1
+      %td
+    %tr
+      %td @destinataire.adresse2
+      %td
+    %tr
+      %td @destinataire.adresse3
+      %td
+    %tr
+      %td @destinataire.code_postal
+      %td
+    %tr
+      %td @destinataire.ville
+      %td
+    %tr
+      %td @destinataire.pays
+      %td
+    %tr
+      %td @destinataire.telephone
+      %td
+    %tr
+      %td @destinataire.email
+      %td
+    %tr
+      %td @destinataire.fax
+      %td
+    %tr
+      %td @destinataire.genre_lettre
+      %td
+    %tr
+      %td @destinataire.genre_adresse
+      %td
+    %tr
+      %td @destinataire.references_courrier
+      %td
+      
+
+  
+  

@@ -1,0 +1,73 @@
+- nested_form_for(@communication) do |f|
+  %table{:border=>0, :class=>"main-form"}
+    %tr 
+      %td Emetteur
+      %td{:COLSPAN=>"3"}
+        = select("communication", "sender_id", @contacts.collect {|u| [u.nom+' '+u.prenom,u.id]}, {:include_blank => '==Choisir=='})
+        = f.hidden_field :dossier_id
+    %tr
+      %td Destinataires
+      %td
+        %table{:border=>0, :class=>"main-form", :id=>"communication-recipients"}          
+          - f.fields_for :contact_to_communications do |builder|
+            
+            %tr
+              %td= builder.object.partie
+              %td= builder.object.contact.type_intervenant.try(:description)
+              %td
+                = builder.object.recipient
+                = builder.hidden_field :recipient
+                = builder.hidden_field :contact_id
+              %td
+                = builder.radio_button :transmission_medium_id, '0', :class => "tiny-tiny-input"
+                = label :contact_medium_id_0, 'Ne pas inclure'
+                -if !builder.object.contact.email.empty?
+                  = builder.radio_button :transmission_medium_id, '1', :class => "tiny-tiny-input"
+                  = label :contact_medium_id_1, 'Mail'
+                -else
+                  | 
+                  %em Email non renseigné
+                -if !builder.object.contact.adresse1.empty? && !builder.object.contact.code_postal.empty? && !builder.object.contact.ville.empty?
+                  = builder.radio_button :transmission_medium_id, '2', :class => "tiny-tiny-input"
+                  = label :contact_medium_id_2, 'Lettre simple'
+                  = builder.radio_button :transmission_medium_id, '3', :class => "tiny-tiny-input"
+                  = label :contact_medium_id_3, 'Lettre recommandée'
+                -else
+                  | 
+                  %em Adresse non renseignée 
+                  |
+
+    %tr
+      %td Sujet
+      %td= f.text_field :subject_id
+    %tr
+      %td Message
+      %td= f.text_area :description
+      
+    %tr
+      %td Pièces jointes
+      %td
+        %table{:border=>0, :class=>"main-form"}        
+          - f.fields_for :document_to_communications do |builder2|
+          
+            %tr
+              %td
+                = builder2.check_box :included_in_communication, :class => "tiny-tiny-input"
+                = builder2.object.document.file_file_name
+                (
+                = builder2.object.document.file_file_size
+                )
+                = builder2.hidden_field :document_id
+
+  %div{:style => "display:none;"}
+    - f.fields_for :documents do |document|
+      Documents ajoutés :
+      %tr
+        %td Description
+        %td
+          = document.text_field :description
+          = document.hidden_field :dossier_id, :value => @communication.dossier_id
+        %td Fichier
+        %td= document.file_field :file
+
+  %p= f.link_to_add "Ajouter", :documents

@@ -12,6 +12,9 @@ input.clickable {
 	width: 20%;
 }
 
+.main-form input.tiny-tiny-input {
+	width: 15px;
+}
 .main-form .small {
 	width: 70%;
 }
@@ -63,4 +66,17 @@ input.clickable {
 	outline: none;
 	border-top: 1px solid white;
 	padding:5px;
+}
+
+.template{
+	width:100%;
+}
+
+.template-factory-left{
+	width:60%;
+	float:left;
+}
+.template-factory-right{
+	width:25%;
+	margin-left:65%;
 }

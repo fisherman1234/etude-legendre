@@ -6,6 +6,13 @@ gem 'rake', '0.8.7'
 gem 'paper_trail'
 gem 'paperclip'
 gem "nested_form", :git => "git://github.com/madebydna/nested_form.git"
+gem 'bitly'
+gem "prawn"
+gem "pdfkit"
+gem 'liquid'
+gem "tiny_mce"
+
+#gem "RedCloth", "4.2.7", :require => 'redcloth'
 
 
 # Bundle edge Rails instead:
