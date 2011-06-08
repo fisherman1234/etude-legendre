@@ -1,6 +1,8 @@
 EtudeLegendre::Application.routes.draw do
 
 
+  resources :add_contact_acteur_to_contact_to_communications
+
   resources :message_templates
 
   resources :parametres_cabinets
@@ -46,7 +48,7 @@ EtudeLegendre::Application.routes.draw do
   resources :contacts
 
   resources :dossiers
-
+  resources :users
   devise_for :users
 
   root :to => "home#index"
@@ -63,6 +65,8 @@ EtudeLegendre::Application.routes.draw do
   match 'dossiers/:id/documents', :to => 'dossiers#documents' , :method => :get  
   match "documents/:id/destroy", :to => "documents#destroy", :method => :post 
   match "dossiers/:id/new_communication", :to => "dossiers#new_communication", :method => :get 
+  match "footer", :to => "message_templates#footer"
+
   
   
   # The priority is based upon order of creation:

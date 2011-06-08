@@ -1,9 +1,124 @@
-%p
-  %p Message body:
-  %p= sanitize(raw @template.render( 'dossier' => @dossier, 'destinataire'=> @concom ))
-  
-%p
-  %p Type acteurs:
-  %p= @message_template.type_acteurs
+%div#page-content-inner
 
-%p Bonjour #{@dossier.nom_dossier} OK pour ce soir.
+  #sender_adress
+    = @communication.contact.genre_adresse
+    = @communication.contact.prenom
+    = @communication.contact.nom
+    %br
+    = @communication.contact.adresse1
+    - if !@communication.contact.adresse2.empty?
+      %br
+      = @communication.contact.adresse2
+    - if !@communication.contact.adresse3.empty?
+      %br
+      = @communication.contact.adresse3
+    %br
+    = @communication.contact.code_postal
+    = @communication.contact.ville
+    %br
+    = @communication.contact.pays
+    
+    - if !@communication.contact.telephone.empty?
+      %br
+      Tel : 
+      = @communication.contact.telephone
+    - if !@communication.contact.fax.empty?
+      %br
+      Fax : 
+      = @communication.contact.fax
+    - if !@communication.contact.email.empty?
+      %br
+      Email : 
+      = @communication.contact.email.downcase
+    
+      
+      
+  #recipient_adress
+    = @concom.genre_adresse
+    = @concom.prenomDestinataire
+    = @concom.nomDestinataire
+    %br
+    = @concom.adresse1
+    - if !@concom.adresse2.empty?
+      %br
+      = @concom.adresse2
+    - if !@concom.adresse3.empty?
+      %br
+      = @concom.adresse3
+    %br
+    = @concom.code_postal
+    = @concom.ville
+    %br
+    = @concom.pays
+    
+  #date-adresse
+    
+  
+  #references
+    Objet : 
+    = raw @template_sujet.render( 'dossier' => @dossier, 'destinataire'=> @concom, 'expert' => @expert, 'communication' => @communication)
+    -if @concom.contact_acteur.references
+      %br
+      V/Réf : 
+      = @concom.contact_acteur.references
+    %br
+    N/Réf : 
+    = @dossier.ref_cabinet
+    - if @dossier.numero_service_expertise
+      %br
+      N° S.E. :
+      = @dossier.numero_service_expertise
+    - if @dossier.numero_role_general
+      %br
+      N° R.G. : 
+      = @dossier.numero_role_general
+    %br
+    Dossier :
+    = @dossier.nom_dossier
+    %br
+    Juridiction :
+    = @dossier.juridiction
+    %br
+    %br
+    Courrier envoyé par :
+    = @concom.transmission_medium.description.capitalize
+  
+  
+  #corps-message
+    %p #{@concom.genre_adresse},
+    %p= raw @template.render( 'dossier' => @dossier, 'destinataire'=> @concom, 'expert' => @expert, 'communication' => @communication) 
+    #salutation
+      %p Veuillez agréer, #{@concom.genre_adresse}, l'expression de mes salutations distinguées.
+      %p#signature= raw @template_signature.render( 'dossier' => @dossier, 'destinataire'=> @concom, 'expert' => @expert, 'communication' => @communication)
+  
+  #autres-destinataires
+    - if @other_recipients.count != 0
+      Document envoyé à : 
+      %ul
+        - @other_recipients.each do |concom_autre|
+          %li
+          = concom_autre.contact.prenom
+          = concom_autre.contact.nom
+        
+  
+  %div{:id=>"pieces-jointes", :class=>"pbi_avoid"}
+    -if @communication.documents.count != 0
+      %p Documents attachés :
+      %br
+      %table{:style => "width:100%", :class=>"template-attachements"}
+        %thead
+          %th Fichier
+          %th Taille
+          %th Lien
+          %th QR-Code
+        %tbody
+          - @communication.document_to_communications.each do |doccom|
+            %tr
+              %td
+                = doccom.document.description
+                %br
+                = doccom.document.file_file_name
+              %td= number_to_human_size(doccom.document.file_file_size)
+              %td= doccom.document.generate_link
+              %td
+                %img{:src=>doccom.document.generate_link+".qrcode", :id=>"qrcode"}

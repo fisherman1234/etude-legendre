@@ -7,6 +7,8 @@ class Dossier < ActiveRecord::Base
   has_many :documents
   has_many :activites
   has_paper_trail
+  belongs_to :parametres_cabinet
+  belongs_to :user
   
   
   liquid_methods :nom_dossier, :ref_cabinet, :date_decision, :date_avis_designation, :date_cible_depot_rapport, :date_effective_depot_raport, :numero_role_general, :typeExpertise, :typeDecision, :juridiction, :date_debut_op_theorique

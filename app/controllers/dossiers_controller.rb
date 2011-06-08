@@ -12,7 +12,7 @@ class DossiersController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @dossiers }
-      format.js {render :json => @dossiers.map {|p| {  :label => p.ref_cabinet+' '+p.nom_dossier  , :value => p.id}} }
+      format.js {render :json => @dossiers.map {|p| {  :label => p.try(:ref_cabinet)+' '+p.try(:nom_dossier)  , :value => p.id}} }
     end
   end
 

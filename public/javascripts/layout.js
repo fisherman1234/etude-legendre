@@ -10,7 +10,9 @@ function primary_formatting(){
 	autocomplete_dossier("dossier","");
 	
 	$(document).bind('keydown', 'ctrl+s',function (evt){
-	    alert("Ctrl+S");
+	    $.each($('form.dirty-form'), function(key, value) { 
+		  	submit_form($(value));
+		});
 	    return false;
 	});
 	$(":input:not(.savable)").bind('keydown', 'meta+s',function (evt){
@@ -52,7 +54,7 @@ function primary_formatting(){
 	$("#contact_civilite").change(function(){
 		load_adress_line();
 	});
-	$("form:not(.non-ajax)").submit(function(event) {
+	$("form").submit(function(event) {
 		event.preventDefault();
 	});
 	
@@ -491,7 +493,7 @@ function page_load_scripts(){
 }
 
 function submit_form(form){
-	tinyMCE.triggerSave();
+	if (window.tinyMCE){tinyMCE.triggerSave();};	
 	$("#progressbar").show();
 	form.ajaxSubmit({
 		success:function(){
@@ -604,6 +606,11 @@ function formattage_datatable_datasouce(id_table, path, id_col_index){
 	});
 }
 
+function saveDirtyForms () {
+	$.each($('form.dirty-form'), function(key, value) { 
+	  	submit_form($(value));
+	});
+}
 
 function edit_document (id_file) {
 	

@@ -1,0 +1,24 @@
+= raw @body_content
+
+%br
+%br
+Documents attachés
+%table{:style => "width:100%"}
+  %thead
+    %th Fichier
+    %th Taille
+    %th Lien
+  %tbody
+    - if @concom.final_file
+      %tr
+        %td= @concom.final_file_file_name
+        %td= number_to_human_size(@concom.final_file_file_size)
+        %td= @concom.generate_template_doc_link
+    - @concom.communication.document_to_communications.each do |doccom|
+      %tr
+        %td
+          = doccom.document.description
+          %br
+          = doccom.document.file_file_name
+        %td= number_to_human_size(doccom.document.file_file_size)
+        %td= doccom.document.generate_link

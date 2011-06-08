@@ -8,13 +8,13 @@
           = typeActeur.description
     %tr
       %td Sujet de la correspondance
-      %td= f.text_field :mail_subject, :class => "template"
+      %td= f.text_field :mail_subject, :class => "template minuscule"
     %tr
       %td Corps du mail d'accompagnement
-      %td= f.text_area :message_body, :class => "template"
+      %td= f.text_area :message_body, :class => "template mceEditor"
     %tr
       %td Corps de la lettre
-      %td= f.text_area :letter_body, :class => "template"
+      %td= f.text_area :letter_body, :class => "template mceEditor"
 
           
 %table{:class=>"template-factory-right"}

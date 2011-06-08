@@ -1,6 +1,6 @@
 %div{:id=>"toolbar", :class=>"ui-corner-all"}
   %a#print Imprimer 
-  %a#save Enregistrer 
+  %a{:id=>"save", :onClick=>"saveDirtyForms();"}Enregistrer
   %a#undo  &nbsp;
   %a#redo &nbsp;
   %a{:id=>"prevpage", :onClick=>"navigate_back();"} Page précédente

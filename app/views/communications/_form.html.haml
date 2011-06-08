@@ -18,6 +18,20 @@
                 = builder.object.recipient
                 = builder.hidden_field :recipient
                 = builder.hidden_field :contact_id
+                
+                = builder.hidden_field :adresse1
+                = builder.hidden_field :adresse2
+                = builder.hidden_field :adresse3
+                = builder.hidden_field :code_postal
+                = builder.hidden_field :ville
+                = builder.hidden_field :pays
+                = builder.hidden_field :email
+                = builder.hidden_field :fax
+                = builder.hidden_field :genre_adresse
+                = builder.hidden_field :genre_lettre
+                = builder.hidden_field :references_courrier
+                = builder.hidden_field :contact_acteur_id
+                
               %td
                 = builder.radio_button :transmission_medium_id, '0', :class => "tiny-tiny-input"
                 = label :contact_medium_id_0, 'Ne pas inclure'

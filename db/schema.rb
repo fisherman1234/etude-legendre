@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110606220517) do
+ActiveRecord::Schema.define(:version => 20110608085444) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(:version => 20110606220517) do
     t.string   "final_file_content_type"
     t.integer  "final_file_file_size"
     t.datetime "final_file_updated_at"
+    t.integer  "contact_acteur_id"
   end
 
   create_table "contacts", :force => true do |t|
@@ -176,6 +177,8 @@ ActiveRecord::Schema.define(:version => 20110606220517) do
     t.date     "date_debut_op_theorique"
     t.date     "date_debut_op_reelle"
     t.integer  "type_etat_dossier_id"
+    t.integer  "user_id"
+    t.integer  "parametres_cabinet_id"
   end
 
   create_table "drop_type_adresses", :force => true do |t|
@@ -212,6 +215,34 @@ ActiveRecord::Schema.define(:version => 20110606220517) do
   create_table "parametres_cabinets", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "nom_cabinet"
+    t.string   "adresse1"
+    t.string   "adresse2"
+    t.string   "adresse3"
+    t.string   "code_postal"
+    t.string   "ville"
+    t.string   "pays"
+    t.string   "telephone"
+    t.string   "fax"
+    t.string   "email"
+    t.string   "site_internet"
+    t.text     "en_tete_lettres"
+    t.text     "pied_page_lettres"
+    t.text     "marge_gauche_lettres"
+    t.string   "siret"
+    t.string   "naf"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.integer  "en_tete_marge_haut"
+    t.integer  "en_tete_marge_gauche"
+    t.integer  "en_tete_marge_droite"
+    t.integer  "en_tete_marge_bas"
+    t.string   "papier_en_tete_file_name"
+    t.string   "papier_en_tete_content_type"
+    t.integer  "papier_en_tete_file_size"
+    t.datetime "papier_en_tete_updated_at"
   end
 
   create_table "qualite_procedurales", :force => true do |t|
@@ -281,19 +312,37 @@ ActiveRecord::Schema.define(:version => 20110606220517) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                               :default => "", :null => false
-    t.string   "encrypted_password",   :limit => 128, :default => "", :null => false
-    t.string   "password_salt",                       :default => "", :null => false
+    t.string   "email",                                :default => "", :null => false
+    t.string   "encrypted_password",    :limit => 128, :default => "", :null => false
+    t.string   "password_salt",                        :default => "", :null => false
     t.string   "reset_password_token"
     t.string   "remember_token"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                       :default => 0
+    t.integer  "sign_in_count",                        :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "nom"
+    t.string   "civilite"
+    t.string   "prenom"
+    t.string   "titre_lettres"
+    t.string   "fonction"
+    t.string   "adresse1"
+    t.string   "adresse2"
+    t.string   "adresse3"
+    t.string   "code_postal"
+    t.string   "ville"
+    t.string   "pays"
+    t.string   "telephone"
+    t.string   "fax"
+    t.text     "signature_lettres"
+    t.string   "genre_adresse"
+    t.string   "genre_lettre"
+    t.string   "site_web"
+    t.integer  "parametres_cabinet_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
