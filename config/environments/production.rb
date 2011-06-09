@@ -1,4 +1,7 @@
 EtudeLegendre::Application.configure do
+  DATABASE_OPERATOR = {
+      :like_operator => 'ILIKE' #postgres awfulness
+    }
   # Settings specified here will take precedence over those in config/application.rb
 
   # The production environment is meant for finished, "live" apps.

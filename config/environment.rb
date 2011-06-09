@@ -3,7 +3,9 @@ require File.expand_path('../application', __FILE__)
 
 
 EtudeLegendre::Application.configure do
-
+  DATABASE_OPERATOR = {
+      :like_operator => "LIKE"
+    }
 
 config.action_mailer.delivery_method = :smtp
 config.action_mailer.smtp_settings = {
