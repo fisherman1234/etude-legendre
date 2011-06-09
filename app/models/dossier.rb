@@ -10,8 +10,21 @@ class Dossier < ActiveRecord::Base
   belongs_to :parametres_cabinet
   belongs_to :user
   
+  before_update :set_cabinet
+  before_create :set_cabinet
   
   liquid_methods :nom_dossier, :ref_cabinet, :date_decision, :date_avis_designation, :date_cible_depot_rapport, :date_effective_depot_raport, :numero_role_general, :typeExpertise, :typeDecision, :juridiction, :date_debut_op_theorique
+  
+  def set_cabinet
+    if self.user_id && self.user_id_changed?
+      a = User.find(user_id)
+      self.parametres_cabinet_id = a.parametres_cabinet_id
+      acteur = self.acteurs.find_or_initialize_by_type_acteur_id(7)
+      acteur.description = TypeActeur.find(7).description
+      contactacteur = acteur.contact_acteurs.build(:qualite_procedurale_id => 13, :contact_id => User.find(user_id).contacts.first.id)
+      contactacteur.save
+    end
+  end
   
   def typeExpertise
     return self.type_expertise.description
@@ -58,6 +71,7 @@ class Dossier < ActiveRecord::Base
     a = self.acteur_tribunal
     if a == nil
       b = self.acteurs.build(:type_acteur_id => 1)
+      b.description = Institution.find(institution_id).nom
       b.contact_acteurs.build(:qualite_procedurale_id => 2, :contact_id => juges["juge_mission_id"])
       b.contact_acteurs.build(:qualite_procedurale_id => 1, :contact_id => juges["juge_controlleur_id"])
     else

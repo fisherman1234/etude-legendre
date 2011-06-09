@@ -521,7 +521,7 @@ function get_user_infos(){
 		if (data!=null){
 		$("#field_username").html(data.user.email.toLowerCase());
 		}else{
-			window.location.href = "/users/sign_in";
+			window.location.href = "/login";
 			}
 	}
 	});	

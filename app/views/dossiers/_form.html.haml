@@ -17,6 +17,9 @@
       %tr
         %td Nom du dossier
         %td{:COLSPAN=>"3"}= f.text_field :nom_dossier, :style=>"width: 100%"
+      %tr
+        %td Responsable
+        %td= select("dossier", "user_id", current_user.parametres_cabinet.users.all.collect {|u| [u.prenom+' '+u.nom,u.id]})
     
       %tr
         %td
