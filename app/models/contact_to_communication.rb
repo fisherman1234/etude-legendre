@@ -85,7 +85,7 @@ class ContactToCommunication < ActiveRecord::Base
     kit = kit.to_pdf
     puts "text pdf content rendered"
     ##stamping
-    file_top = File.open("#{RAILS_ROOT}/tmp/myfile_#{Process.pid}",'w')
+    file_top = Tempfile.open("bak")
     file_top.write kit.to_s
     
     file_bak = open(@dossier.parametres_cabinet.en_tete)
