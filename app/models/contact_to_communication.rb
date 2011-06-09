@@ -75,7 +75,7 @@ class ContactToCommunication < ActiveRecord::Base
       :@expert=> @expert})
     
     puts "html rendered"
-    
+    puts html
     kit = PDFKit.new(html, :print_media_type => true, :page_size => 'A4', :no_background => true,         
     :margin_top => @margins_top, 
     :margin_right =>@margins_right,
@@ -83,11 +83,11 @@ class ContactToCommunication < ActiveRecord::Base
     :footer_right => "Page [page]/[toPage]", 
     :footer_font_size => "10")
     kit = kit.to_pdf
+    puts kit
     puts "text pdf content rendered"
     ##stamping
     file_top = Tempfile.open("bak")
     file_top.write kit.to_s
-    
     file_bak = open(@dossier.parametres_cabinet.en_tete)
     puts "remote background fetched"
     pdf_output = `pdftk #{file_top.path} background #{file_bak.path} output - flatten`
