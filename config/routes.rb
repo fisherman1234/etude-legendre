@@ -56,7 +56,7 @@ EtudeLegendre::Application.routes.draw do
   match 'dossiers/:id/new_partie', :to => 'dossiers#new_partie' , :method => :get  
   match 'contact_acteurs/:id/destroy', :to => 'contact_acteurs#destroy' , :method => :post
   match "versions/:id/revert", :to => "versions#revert",  :method => :post 
-  match "users/current_user_signed_in", :to => "users#current_user_signed_in", :method => :get 
+  match "current_user_signed_in", :to => "users#current_user_signed_in", :method => :get 
   match "users/destroy_current_user_session", :to => "users#destroy_current_user_session", :method => :get 
   match "users/connexion", :to => "users#connexion", :method => :get 
   match "contacts/:id/destroy", :to => "contacts#destroy", :method => :post 
@@ -65,7 +65,6 @@ EtudeLegendre::Application.routes.draw do
   match 'dossiers/:id/documents', :to => 'dossiers#documents' , :method => :get  
   match "documents/:id/destroy", :to => "documents#destroy", :method => :post 
   match "dossiers/:id/new_communication", :to => "dossiers#new_communication", :method => :get 
-  match "footer", :to => "message_templates#footer"
 
   
   
