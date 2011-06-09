@@ -90,10 +90,12 @@ class ContactToCommunication < ActiveRecord::Base
     ##stamping
     #file_top = Tempfile.open("bak")
     #file_top.write kit.to_s
+    file_top = File.new("#{RAILS_ROOT}/tmp/myfile_#{Process.pid}", "w+")
     
-    file_top = File.open("#{RAILS_ROOT}/tmp/myfile_#{Process.pid}", "w+") do |f|
+    File.open(file_top.path, "w+") do |f|
       f.write(kit.to_s)
     end
+    
     file_bak = open(@dossier.parametres_cabinet.en_tete)
     puts "remote background fetched"
     pdf_output = `pdftk #{file_top.path} background #{file_bak.path} output - flatten`
