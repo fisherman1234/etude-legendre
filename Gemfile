@@ -12,6 +12,7 @@ gem "pdfkit"
 gem 'liquid'
 gem "tiny_mce"
 gem 'yaml_db'
+gem "searchlogic"
 
 #gem "RedCloth", "4.2.7", :require => 'redcloth'
 
