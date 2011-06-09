@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
     end
     contact.nom = nom
     contact.civilite = civilite
+    contact.email = email
     contact.prenom = prenom
     contact.adresse1 = adresse1
     contact.adresse2 = adresse2

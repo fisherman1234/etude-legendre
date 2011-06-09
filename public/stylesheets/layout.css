@@ -81,3 +81,27 @@ input.clickable {
 	margin-left:65%;
 }
 
+#communication-recipients{
+	width:100%;
+}
+
+#recipients-box{
+	height:150px;
+	overflow:auto;
+}
+
+#communication-recipients td{
+	border-bottom: 1px grey dotted;
+	border-spacing: 0px 0px;
+	font-size:11px;
+}
+
+#activite-left{
+	width:40%;
+	float:left;
+}
+
+#activite-right{
+	width:50%;
+	margin-left:45%;
+}

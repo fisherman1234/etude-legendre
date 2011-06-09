@@ -1,6 +1,9 @@
 - nested_form_for(@activite) do |f|
   %table{:border=>0, :class=>"main-form"}
     %tr 
+      %td Modèle
+      %td= select("activite", "type_activite_id", TypeActivite.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
+    %tr 
       %td Type d'activité
       %td= select("activite", "type_activite_id", TypeActivite.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='}) 
 
@@ -20,7 +23,10 @@
  
     %tr{:class => "type-2"}
       %td No accedit
-      %td= f.text_field :no_accedit
+      %td{:COLSPAN=>"5"}= f.text_field :no_accedit
+    %tr
+      %td Commentaires
+      %td{:COLSPAN=>"5"}= f.text_area :commentaires
   
   %br
   %div#tabs
@@ -28,11 +34,7 @@
       %li{:class => "type-2 type-1 type-5"}
         %a{:href=> "#tabs-1"} Lieu
       %li
-        %a{:href=> "#tabs-2"} Commentaires
-      %li
         %a{:href=> "#tabs-3"} Documents
-      %li
-        %a{:href=> "#tabs-4"} Communications
       %li                                
         %a{:href=> "#tabs-5"} Consignations
 
@@ -56,11 +58,8 @@
           %td Pays
           %td= f.text_field :pays
 
-    %div#tabs-2
-      %table{:border=>0, :class=>"main-form"}
-        %tr
-          %td Commentaires
-          %td{:COLSPAN=>"5"}= f.text_area :commentaires
+
+        
 
     %div#tabs-3
       Documents actuels :
@@ -71,8 +70,8 @@
       
       %div{:style => "display:none;"}
         - f.fields_for :documents do |document|
-          Documents ajoutés :
           %tr
+            %td Nouveau : 
             %td Description
             %td= document.text_field :description
             %td Fichier
@@ -80,10 +79,7 @@
             
       %p= f.link_to_add "Ajouter", :documents
 
-    %div#tabs-4
-      - @activite.communications.each do |communication|
-        %ul
-          %li communication.description
+
 
 
     %div#tabs-5
