@@ -14,7 +14,7 @@
             
               %tr
                 %td
-                  = builder.object.partie.description
+                  = builder.object.partie
                   = builder.object.contact.type_intervenant.try(:description)
                   = builder.object.recipient
                   = builder.hidden_field :recipient
@@ -34,7 +34,7 @@
                   = builder.hidden_field :contact_acteur_id
                 
                 %td
-                  = builder.radio_button :transmission_medium_id, '0', :class => "tiny-tiny-input typeacteur_id_"+builder.object.partie.type_acteur_id.to_s
+                  = builder.radio_button :transmission_medium_id, '0', :class => "tiny-tiny-input"
                   = label :contact_medium_id_0, 'N/A'
                 %td
                   -if builder.object.contact.email && !builder.object.contact.email.empty?

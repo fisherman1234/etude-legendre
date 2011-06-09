@@ -9,33 +9,33 @@ function primary_formatting(){
 	autocomplete_contact ("contact", "");
 	autocomplete_dossier("dossier","");
 	
-	$(document).bind('keydown', 'ctrl+s',function (evt){
-	    $.each($('form.dirty-form'), function(key, value) { 
-		  	submit_form($(value));
-		});
-	    return false;
-	});
-	$(":input:not(.savable)").bind('keydown', 'meta+s',function (evt){
-		$.each($('form.active-form'), function(key, value) { 
-		  	submit_form($(value));
-		});
-	    return false;
-	});
-	$("input:not(.savable)").addClass('savable');
-	
-	$(document).bind('keydown', 'meta+s',function (evt){
-		$.each($('form.dirty-form'), function(key, value) { 
-		  	submit_form($(value));
-		});
-	    return false;
-	});
-	$(":input:not(.savable)").bind('keydown', 'meta+s',function (evt){
-		$.each($('form.active-form'), function(key, value) { 
-		  	submit_form($(value));
-		});
-	    return false;
-	});
-	$("input:not(.savable)").addClass('savable');
+	// $(document).bind('keydown', 'ctrl+s',function (evt){
+	//     $.each($('form.dirty-form'), function(key, value) { 
+	// 	  	submit_form($(value));
+	// 	});
+	//     return false;
+	// });
+	// $(":input:not(.savable)").bind('keydown', 'meta+s',function (evt){
+	// 	$.each($('form.active-form'), function(key, value) { 
+	// 	  	submit_form($(value));
+	// 	});
+	//     return false;
+	// });
+	// $("input:not(.savable)").addClass('savable');
+	// 
+	// $(document).bind('keydown', 'meta+s',function (evt){
+	// 	$.each($('form.dirty-form'), function(key, value) { 
+	// 	  	submit_form($(value));
+	// 	});
+	//     return false;
+	// });
+	// $(":input:not(.savable)").bind('keydown', 'meta+s',function (evt){
+	// 	$.each($('form.active-form'), function(key, value) { 
+	// 	  	submit_form($(value));
+	// 	});
+	//     return false;
+	// });
+	// $("input:not(.savable)").addClass('savable');
 	
 	$("input").addClass("ui-widget-content ui-corner-all");
 	$("input:not(.minuscule)").change(function(){
@@ -607,7 +607,36 @@ function formattage_datatable_datasouce(id_table, path, id_col_index){
 
 function saveDirtyForms () {
 	$.each($('form.dirty-form'), function(key, value) { 
-	  	submit_form($(value));
+		if (value.id == "new_activite"){
+				if (window.tinyMCE){tinyMCE.triggerSave();};	
+				$("#progressbar").show();
+				$(value).ajaxSubmit({
+					success:function(data){
+						$("#save").removeClass("ui-state-active");
+
+						console.log(data.activite.activite.id);
+						console.log(data.communication.communication.id);
+						$("#page-content" ).fadeOut('fast', function(){ $("#page-content" ).html('') });
+						$("#page-content").load('/activites/'+data.activite.activite.id+'/edit'+' #page-content', function(){
+							$("#activite-right").load('/communications/'+data.communication.communication.id+'/edit #edit-form-com', function() {
+								primary_formatting();
+
+								$( "#page-content" ).fadeIn('slow', function(){
+									page_load_scripts();
+									action_performed("Modifications enregistrées", "");
+									$("#progressbar").fadeOut();
+								})
+				
+								});
+					    	}	
+					   );
+					}
+					});
+		}else{
+			console.log("not our form");
+			submit_form($(value));
+		}
+	  	
 	});
 }
 

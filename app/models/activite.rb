@@ -5,14 +5,18 @@ class Activite < ActiveRecord::Base
   has_many :activite_to_documents
   belongs_to :dossier
   accepts_nested_attributes_for :documents, 
-                                  :allow_destroy => true, 
-                                  :reject_if => :all_blank
+                                  :allow_destroy => true 
+                                  
 
   accepts_nested_attributes_for :consignations, 
                                 :allow_destroy => true, 
                                 :reject_if => :all_blank
 
-  accepts_nested_attributes_for :communications, 
-                                :allow_destroy => true, 
-                                :reject_if => :all_blank
+                                
+  accepts_nested_attributes_for :activite_to_documents, 
+                                :allow_destroy => true,
+                                
+  
+
+  
 end

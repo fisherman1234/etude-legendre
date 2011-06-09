@@ -102,7 +102,7 @@
         
   
   %div{:id=>"pieces-jointes", :class=>"pbi_avoid"}
-    -if @communication.documents.count != 0
+    -if @communication.activite.activite_to_documents.where(:included_in_activite => 1).map {|p| p.document}.count != 0
       %p Documents attachés :
       %br
       %table{:style => "width:100%", :class=>"template-attachements"}
@@ -112,7 +112,7 @@
           %th Lien
           %th QR-Code
         %tbody
-          - @communication.document_to_communications.each do |doccom|
+          - @communication.activite.activite_to_documents.where(:included_in_activite => 1).each do |doccom|
             %tr
               %td
                 = doccom.document.description

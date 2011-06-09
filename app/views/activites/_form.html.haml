@@ -1,8 +1,10 @@
 - nested_form_for(@activite) do |f|
+  = f.hidden_field :dossier_id
+  
   %table{:border=>0, :class=>"main-form"}
     %tr 
       %td Modèle
-      %td= select("activite", "type_activite_id", TypeActivite.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
+      %td= select("activite", "message_template_id", MessageTemplate.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
     %tr 
       %td Type d'activité
       %td= select("activite", "type_activite_id", TypeActivite.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='}) 
@@ -62,26 +64,29 @@
         
 
     %div#tabs-3
-      Documents actuels :
-      %ul
-        - @activite.documents.each do |document|
-          %li
-            %a{:href => document.file.url}= document.file_file_name
-      
+      %table
+        - f.fields_for :activite_to_documents do |builder2|
+          %tr
+            %td
+              = builder2.check_box :included_in_activite, :class => "tinytinyinput"
+              = builder2.object.document.try(:file_file_name)
+              (
+              = builder2.object.document.try(:file_file_size)
+              )
+              = builder2.hidden_field :document_id
+      %p= f.link_to_add "Ajouter", :documents
       %div{:style => "display:none;"}
         - f.fields_for :documents do |document|
+          Documents ajoutés :
           %tr
-            %td Nouveau : 
             %td Description
-            %td= document.text_field :description
+            %td
+              = document.text_field :description
+              = document.hidden_field :dossier_id, :value => @activite.dossier_id
             %td Fichier
             %td= document.file_field :file
+
             
-      %p= f.link_to_add "Ajouter", :documents
-
-
-
-
     %div#tabs-5
       - @activite.consignations.each do |consignation|
         %ul

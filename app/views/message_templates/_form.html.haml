@@ -1,6 +1,9 @@
 - form_for(@message_template, :html => { :class => "non_ajax"}) do |f|
   %table{:class=>"template-factory-left"}
     %tr
+      %td Description
+      %td= f.text_field :description, :class => "template minuscule"
+    %tr
       %td Acteurs à sélectionner
       %td
         - for typeActeur in TypeActeur.find(:all)        
