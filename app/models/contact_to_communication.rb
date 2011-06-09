@@ -75,16 +75,18 @@ class ContactToCommunication < ActiveRecord::Base
       :@expert=> @expert})
     
     puts "html rendered"
-    puts html
+
     kit = PDFKit.new(html, :print_media_type => true, :page_size => 'A4', :no_background => true,         
     :margin_top => @margins_top, 
     :margin_right =>@margins_right,
     :margin_left => @margins_left,
     :footer_right => "Page [page]/[toPage]", 
     :footer_font_size => "10")
+
     kit = kit.to_pdf
     puts kit
     puts "text pdf content rendered"
+
     ##stamping
     file_top = Tempfile.open("bak")
     file_top.write kit.to_s
