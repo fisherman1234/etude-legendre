@@ -14,8 +14,7 @@ class Activite < ActiveRecord::Base
 
                                 
   accepts_nested_attributes_for :activite_to_documents, 
-                                :allow_destroy => true,
-                                
+                                :allow_destroy => true
   
 
   
