@@ -49,7 +49,7 @@ EtudeLegendre::Application.routes.draw do
 
   resources :dossiers
   resources :users
-  devise_for :users
+  devise_for :users, :path => '', :path_names => { :sign_in => "login", :sign_out => "logout", :sign_up => "register" }
 
   root :to => "home#index"
   match 'dossiers/:id/acteurs', :to => 'dossiers#acteurs' , :method => :get  

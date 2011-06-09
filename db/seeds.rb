@@ -12,3 +12,4 @@ open("http://dl.dropbox.com/u/8806/insee.csv") do |vehicles|
     CodePostalVille.create!(:code_postal => cp, :ville => ville)  
   end
 end
+ 
