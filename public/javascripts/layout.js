@@ -487,7 +487,6 @@ function delete_page(page){
 }
 
 function page_load_scripts(){
-	get_user_infos();
 	var options = {minWidth: 120};  
 	$('#menu1').menuB(options);
 }
@@ -516,7 +515,7 @@ function get_history_list_for_user(){
 function get_user_infos(){
 	$.ajax({
 	  type: 'GET',
-	  url: "/users/current_user_signed_in.js",
+	  url: "/current_user_signed_in.js",
 	  dataType: "json",
 	  success: function(data) {
 		if (data!=null){
@@ -642,3 +641,5 @@ function edit_document (id_file) {
       });
 
 }
+
+get_user_infos();
