@@ -18,7 +18,7 @@ class MessageTemplatesController < ApplicationController
   # GET /message_templates/1.xml
   def show
     
-    render :nothing
+    render :nothing => true, :status => 200, :content_type => 'text/html'
     end
     # @message_template = MessageTemplate.find(params[:id])
     #     @concom = ContactToCommunication.find(params[:concom_id])
