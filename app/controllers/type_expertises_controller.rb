@@ -3,7 +3,7 @@ class TypeExpertisesController < ApplicationController
   # GET /type_expertises.xml
   def index
     if params[:term] != nil
-      @type_expertises = TypeExpertise.find(:all, :conditions => ["description LIKE ?", "%#{params[:term]}%"])
+      @type_expertises = TypeExpertise.find(:all, :conditions => ["LOWER(description) LIKE LOWER(?)", "%#{params[:term]}%"])
     else
       @type_expertises = TypeExpertise.all
     end

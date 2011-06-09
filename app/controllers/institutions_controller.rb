@@ -6,9 +6,9 @@ class InstitutionsController < ApplicationController
   def index
     if params[:term] != nil
       if params[:type] != nil
-        @institutions = Institution.find(:all, :conditions => ["nom LIKE ? and type_institution_id=?", "%#{params[:term]}%", "#{params[:type]}"])
+        @institutions = Institution.find(:all, :conditions => ["LOWER(nom) LIKE LOWER(?) and type_institution_id=?", "%#{params[:term]}%", "#{params[:type]}"])
       else
-        @institutions = Institution.find(:all, :conditions => ["nom LIKE ?", "%#{params[:term]}%"])
+        @institutions = Institution.find(:all, :conditions => ["LOWER(nom) LIKE LOWER(?)", "%#{params[:term]}%"])
       end
     else
       @institutions = Institution.all

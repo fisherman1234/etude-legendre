@@ -5,7 +5,7 @@ class DossiersController < ApplicationController
   # GET /dossiers.xml
   def index
     if params[:term] != nil
-      @dossiers = Dossier.find(:all, :conditions => ['id LIKE :search OR ref_cabinet LIKE :search OR nom_dossier LIKE :search', {:search => "%#{params[:term]}%"}])
+      @dossiers = Dossier.find(:all, :conditions => ['id LIKE :search OR LOWER(ref_cabinet) LIKE LOWER(:search) OR LOWER(nom_dossier) LIKE LOWER(:search)', {:search => "%#{params[:term]}%"}])
     else
       @dossiers = Dossier.all
     end

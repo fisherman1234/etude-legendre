@@ -5,12 +5,12 @@ class ContactsController < ApplicationController
     if params[:term] != nil
       if params[:type] != nil
         if params[:institution] != nil
-          @contacts = Contact.find(:all, :conditions => ["(nom LIKE ? or prenom LIKE ?) and institution_id=? and type_intervenant_id=?", "%#{params[:term]}%", "%#{params[:term]}%", "#{params[:institution]}", "#{params[:type]}"])
+          @contacts = Contact.find(:all, :conditions => ["(LOWER(nom) LIKE LOWER(?) or LOWER(prenom) LIKE LOWER(?)) and institution_id=? and type_intervenant_id=?", "%#{params[:term]}%", "%#{params[:term]}%", "#{params[:institution]}", "#{params[:type]}"])
         else
-          @contacts = Contact.find(:all, :conditions => ["(nom LIKE ? or prenom LIKE ?) and type_intervenant_id=?", "%#{params[:term]}%", "%#{params[:term]}%", "#{params[:type]}"])
+          @contacts = Contact.find(:all, :conditions => ["(LOWER(nom) LIKE LOWER(?) or LOWER(prenom) LIKE LOWER(?)) and type_intervenant_id=?", "%#{params[:term]}%", "%#{params[:term]}%", "#{params[:type]}"])
         end
       else
-        @contacts = Contact.find(:all, :conditions => ["nom LIKE ? or prenom LIKE ?", "%#{params[:term]}%", "%#{params[:term]}%"])
+        @contacts = Contact.find(:all, :conditions => ["LOWER(nom) LIKE LOWER(?) or LOWER(prenom) LIKE LOWER(?)", "%#{params[:term]}%", "%#{params[:term]}%"])
       end
     else
       @contacts = Contact.all
