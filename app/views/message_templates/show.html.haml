@@ -85,20 +85,21 @@
   
   
   #corps-message
-    %p #{@concom.genre_adresse},
+    %p #{@concom.genre_lettre},
     %p= raw @template.render( 'dossier' => @dossier, 'destinataire'=> @concom, 'expert' => @expert, 'communication' => @communication) 
     #salutation
-      %p Veuillez agréer, #{@concom.genre_adresse}, l'expression de mes salutations distinguées.
+      %p Veuillez agréer, #{@concom.genre_lettre}, l'expression de mes salutations distinguées.
       %p#signature= raw @template_signature.render( 'dossier' => @dossier, 'destinataire'=> @concom, 'expert' => @expert, 'communication' => @communication)
   
   #autres-destinataires
     - if @other_recipients.count != 0
-      Document envoyé à : 
+      Copie à : 
       %ul
         - @other_recipients.each do |concom_autre|
           %li
           = concom_autre.contact.prenom
           = concom_autre.contact.nom
+      %br
         
   
   %div{:id=>"pieces-jointes", :class=>"pbi_avoid"}

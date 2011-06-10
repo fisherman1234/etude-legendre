@@ -1,6 +1,7 @@
 var previous_page = "";
 var current_page = "";
 var next_page = "";
+var current_communication = "";
 function primary_formatting(){
 	autocomplete_institution(".contact",'');
 	autocomplete_institution(".dossier", "?type=1");
@@ -8,6 +9,15 @@ function primary_formatting(){
 	autocomplete_contact ("juge_controlleur", "?type=1");
 	autocomplete_contact ("contact", "");
 	autocomplete_dossier("dossier","");
+
+	tinyMCE.init({
+	editor_selector : 'mceEditor',
+	language : 'en',
+	mode : 'textareas',
+	theme : 'simple'
+
+	});
+
 	
 	// $(document).bind('keydown', 'ctrl+s',function (evt){
 	//     $.each($('form.dirty-form'), function(key, value) { 
@@ -85,6 +95,11 @@ function primary_formatting(){
 	$( ".button-save" ).button({ icons: {primary:'ui-icon-disk'}});
 
 	$( "#tabs" ).tabs();
+	$( ".accordion" ).accordion({
+				collapsible: true, 
+				autoHeight: false 
+			});
+	
 	$(".phone").mask("+99.9.99.99.99.99");
 	$("#acteur_type_acteur_id").change(function () {
 		load_add_acteur_contact($("#acteur_type_acteur_id").val());
@@ -616,18 +631,15 @@ function saveDirtyForms () {
 
 						console.log(data.activite.activite.id);
 						console.log(data.communication.communication.id);
+						current_communication = data.communication.communication.id;
 						$("#page-content" ).fadeOut('fast', function(){ $("#page-content" ).html('') });
 						$("#page-content").load('/activites/'+data.activite.activite.id+'/edit'+' #page-content', function(){
-							$("#activite-right").load('/communications/'+data.communication.communication.id+'/edit #edit-form-com', function() {
 								primary_formatting();
+								page_load_scripts();
+								action_performed("Modifications enregistrées", "");
+								$("#progressbar").fadeOut();
+								$("#page-content" ).fadeIn();
 
-								$( "#page-content" ).fadeIn('slow', function(){
-									page_load_scripts();
-									action_performed("Modifications enregistrées", "");
-									$("#progressbar").fadeOut();
-								})
-				
-								});
 					    	}	
 					   );
 					}
@@ -638,6 +650,11 @@ function saveDirtyForms () {
 		}
 	  	
 	});
+}
+
+function create_com_docs(id){
+	saveDirtyForms();
+	$.get('/communications/'+id+'/generate_attachments_docs');
 }
 
 function edit_document (id_file) {

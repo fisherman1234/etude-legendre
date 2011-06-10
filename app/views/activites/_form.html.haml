@@ -1,48 +1,34 @@
 - nested_form_for(@activite) do |f|
   = f.hidden_field :dossier_id
-  
-  %table{:border=>0, :class=>"main-form"}
-    %tr 
-      %td Modèle
-      %td= select("activite", "message_template_id", MessageTemplate.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
-    %tr 
-      %td Type d'activité
-      %td= select("activite", "type_activite_id", TypeActivite.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='}) 
-
-  %table{:border=>0, :class=>"main-form", :id=>"activite-content"}
-    %tr
-      %td Description
-      %td{:COLSPAN=>"3"}=f.text_field :description
-      %td Confidentiel
-      %td= f.check_box :is_confidentiel
-    %tr
-      %td Date
-      %td= f.text_field :date_visite,:class => "datepicker"
-      %td Heure
-      %td= f.text_field :heure
-      %td Ajouter à l'agenda
-      %td todo Coche
- 
-    %tr{:class => "type-2"}
-      %td No accedit
-      %td{:COLSPAN=>"5"}= f.text_field :no_accedit
-    %tr
-      %td Commentaires
-      %td{:COLSPAN=>"5"}= f.text_area :commentaires
-  
-  %br
-  %div#tabs
-    %ul
-      %li{:class => "type-2 type-1 type-5"}
-        %a{:href=> "#tabs-1"} Lieu
-      %li
-        %a{:href=> "#tabs-3"} Documents
-      %li                                
-        %a{:href=> "#tabs-5"} Consignations
-
-
-    %div{:id=>"tabs-1", :class => "type-2 type-1 type-5"}
+  %div.accordion
+    %h3
+      %a{:href=>"#"} Fiche descriptive
+    %div
       %table{:border=>0, :class=>"main-form"}
+        %tr 
+          %td Modèle
+          %td= select("activite", "message_template_id", MessageTemplate.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
+        %tr 
+          %td Type d'activité
+          %td= select("activite", "type_activite_id", TypeActivite.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='}) 
+
+      %table{:border=>0, :class=>"main-form", :id=>"activite-content"}
+        %tr
+          %td Description
+          %td{:COLSPAN=>"3"}=f.text_field :description
+          %td Confidentiel
+          %td= f.check_box :is_confidentiel
+        %tr
+          %td Date
+          %td= f.text_field :date_visite,:class => "datepicker"
+          %td Heure
+          %td= f.text_field :heure
+          %td Ajouter à l'agenda
+          %td todo Coche
+
+        %tr{:class => "type-2"}
+          %td No accedit
+          %td{:COLSPAN=>"5"}= f.text_field :no_accedit
         %tr
           %td Adresse 1
           %td{:COLSPAN=>"5"}= f.text_field :adresse1
@@ -59,21 +45,23 @@
           %td= f.text_field :ville
           %td Pays
           %td= f.text_field :pays
+        %tr
+          %td Commentaires
+          %td{:COLSPAN=>"5"}= f.text_area :commentaires
 
-
-        
-
-    %div#tabs-3
+    %h3
+      %a{:href=>"#"} Documents
+    %div
       %table
+        %ul
         - f.fields_for :activite_to_documents do |builder2|
-          %tr
-            %td
-              = builder2.check_box :included_in_activite, :class => "tinytinyinput"
-              = builder2.object.document.try(:file_file_name)
-              (
-              = builder2.object.document.try(:file_file_size)
-              )
-              = builder2.hidden_field :document_id
+          %li
+            = builder2.check_box :included_in_activite, :class => "tinytinyinput"
+            = builder2.object.document.try(:file_file_name)
+            (
+            = builder2.object.document.try(:file_file_size)
+            )
+            = builder2.hidden_field :document_id
       %p= f.link_to_add "Ajouter", :documents
       %div{:style => "display:none;"}
         - f.fields_for :documents do |document|
@@ -86,9 +74,10 @@
             %td Fichier
             %td= document.file_field :file
 
-            
-    %div#tabs-5
+    %h3
+      %a{:href=>"#"} Consignations      
+    %div
       - @activite.consignations.each do |consignation|
         %ul
-          %li consignation.id
+          %li= consignation.id
 

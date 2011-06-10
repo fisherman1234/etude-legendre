@@ -1,0 +1,66 @@
+- nested_form_for(@communication) do |f|
+  %table{:border=>0, :class=>"main-form"}
+    %tr 
+      %td Emetteur
+      %td{:COLSPAN=>"3"}
+        = select("communication", "sender_id", @contacts.collect {|u| [u.nom+' '+u.prenom,u.id]}, {:include_blank => '==Choisir==', :selected => current_user.contacts.first.id })
+        = f.hidden_field :dossier_id
+    %tr
+      %td Destinataires
+      %td
+        %div#recipients-box
+          %table{:id=>"communication-recipients"}          
+            - f.fields_for :contact_to_communications do |builder|
+            
+              %tr
+                %td
+                  = builder.object.partie
+                  = builder.object.contact.type_intervenant.try(:description)
+                  = builder.object.recipient
+                  = builder.hidden_field :recipient
+                  = builder.hidden_field :contact_id
+                
+                  = builder.hidden_field :adresse1
+                  = builder.hidden_field :adresse2
+                  = builder.hidden_field :adresse3
+                  = builder.hidden_field :code_postal
+                  = builder.hidden_field :ville
+                  = builder.hidden_field :pays
+                  = builder.hidden_field :email
+                  = builder.hidden_field :fax
+                  = builder.hidden_field :genre_adresse
+                  = builder.hidden_field :genre_lettre
+                  = builder.hidden_field :references_courrier
+                  = builder.hidden_field :contact_acteur_id
+                
+                %td
+                  = builder.radio_button :transmission_medium_id, '0', :class => "tiny-tiny-input"
+                  = label :contact_medium_id_0, 'N/A'
+                %td
+                  -if builder.object.contact.email && !builder.object.contact.email.empty?
+                    = builder.radio_button :transmission_medium_id, '1', :class => "tiny-tiny-input"
+                    = label :contact_medium_id_1, 'Mail'
+                  -else
+                  
+              
+                -if !builder.object.contact.adresse1.empty? && !builder.object.contact.code_postal.empty? && !builder.object.contact.ville.empty?
+                  %td
+                    = builder.radio_button :transmission_medium_id, '2', :class => "tiny-tiny-input"
+                    = label :contact_medium_id_2, 'Lettre'
+                  %td
+                    = builder.radio_button :transmission_medium_id, '3', :class => "tiny-tiny-input"
+                    = label :contact_medium_id_3, 'LR/AR'
+                -else
+                  %td{:colspan=>2}
+                  
+
+    %tr
+      %td Sujet
+      %td= f.text_field :subject_id
+    %tr
+      %td Message
+      %td= f.text_area :description, :style => "width:100%;", :class => "mceEditor"
+      
+    %tr
+      %td Contenu de la lettre
+      %td= f.text_area :letter_body, :style => "width:100%;", :class => "mceEditor"

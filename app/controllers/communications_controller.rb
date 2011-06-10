@@ -106,4 +106,19 @@ class CommunicationsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def generate_attachments_docs
+    @communication = Communication.find(params[:id])
+    @communication.contact_to_communications.where('transmission_medium_id != 0').each do |concom|
+      concom.render_final_file  
+    end
+  end
+  
+  def send_documents
+    @communication = Communication.find(params[:id])
+    @communication.contact_to_communications.where(:transmission_medium_id => 1).each do |concom|
+      concom.send_communication  
+    end
+  end
+  
 end

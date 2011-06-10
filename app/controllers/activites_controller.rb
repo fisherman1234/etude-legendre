@@ -1,6 +1,8 @@
 class ActivitesController < ApplicationController
   # GET /activites
   # GET /activites.xml
+  uses_tiny_mce 
+  
   def index
     @activites = Activite.all
 
@@ -43,6 +45,14 @@ class ActivitesController < ApplicationController
   # GET /activites/1/edit
   def edit
     @activite = Activite.find(params[:id])
+    @communication = @activite.communications.first
+    @contacts = []
+    @documents = []
+    @activite.dossier.acteurs.each do |acteur|
+      acteur.contact_acteurs.each do |contact_acteurs|
+        @contacts.push(contact_acteurs.contact)
+      end
+    end
   end
 
   # POST /activites
@@ -52,6 +62,9 @@ class ActivitesController < ApplicationController
     @dossier = Dossier.find(@activite.dossier_id)
     @template = []
     @communication =  @activite.communications.build
+    @communication.sender_id = current_user.id
+    @communication.dossier_id = @activite.dossier_id 
+    
     @remove_actors = []
     @contacts = []
     
@@ -93,6 +106,7 @@ class ActivitesController < ApplicationController
   def update
     @activite = Activite.find(params[:id])
 
+    
     respond_to do |format|
       if @activite.update_attributes(params[:activite])
         format.html { redirect_to(@activite, :notice => 'Activite was successfully updated.') }

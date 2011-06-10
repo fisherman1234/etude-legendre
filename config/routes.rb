@@ -65,7 +65,9 @@ EtudeLegendre::Application.routes.draw do
   match 'dossiers/:id/documents', :to => 'dossiers#documents' , :method => :get  
   match "documents/:id/destroy", :to => "documents#destroy", :method => :post 
   match "dossiers/:id/new_communication", :to => "dossiers#new_communication", :method => :get 
-
+  match "communications/:id/send_documents", :to => "communications#send_documents", :method => :get
+  match "communications/:id/generate_attachments_docs", :to => "communications#generate_attachments_docs", :method => :get 
+  
   
   
   # The priority is based upon order of creation:

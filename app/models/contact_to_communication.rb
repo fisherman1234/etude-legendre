@@ -47,6 +47,10 @@ class ContactToCommunication < ActiveRecord::Base
     return static_files
   end
   
+  def send_communication
+    CommunicationMailer.send_communication(self).deliver
+  end
+  
   
   def render_final_file
     @concom = self
@@ -84,7 +88,7 @@ class ContactToCommunication < ActiveRecord::Base
     :footer_font_size => "10")
 
     kit = kit.to_pdf
-    puts kit
+    #puts kit
     puts "text pdf content rendered"
 
     ##stamping
