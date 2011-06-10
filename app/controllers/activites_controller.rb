@@ -62,7 +62,7 @@ class ActivitesController < ApplicationController
     @dossier = Dossier.find(@activite.dossier_id)
     @template = []
     @communication =  @activite.communications.build
-    @communication.sender_id = current_user.id
+    @communication.sender_id = current_user.contacts.first.id
     @communication.dossier_id = @activite.dossier_id 
     
     @remove_actors = []
@@ -74,8 +74,6 @@ class ActivitesController < ApplicationController
       @communication.letter_body = @template.letter_body
       @communication.subject_id = @template.mail_subject
       @communication.description = @template.message_body
-      @communication.dossier_id = @activite.dossier_id 
-      @communication.sender_id = current_user.id
       @activite.save
       @remove_actors = (TypeActeur.all - MessageTemplate.last.type_acteurs).map {|p| p.id}
     end

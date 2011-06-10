@@ -654,7 +654,18 @@ function saveDirtyForms () {
 
 function create_com_docs(id){
 	saveDirtyForms();
-	$.get('/communications/'+id+'/generate_attachments_docs');
+	$('#page-content').load('/communications/'+id+'/generate_attachments_docs #page-content', function(){primary_formatting();});
+}
+
+function deliverDocs(id){
+	$.blockUI({ message: '<h1><img src="busy.gif" /> Just a moment...</h1>' });
+	$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+	$.get('/communications/'+id+'/send_documents')
+	
+}
+
+function editCom(id){
+	
 }
 
 function edit_document (id_file) {

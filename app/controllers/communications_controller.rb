@@ -112,12 +112,20 @@ class CommunicationsController < ApplicationController
     @communication.contact_to_communications.where('transmission_medium_id != 0').each do |concom|
       concom.render_final_file  
     end
+    redirect_to :action => "review", :id => params[:id]
   end
   
   def send_documents
     @communication = Communication.find(params[:id])
     @communication.contact_to_communications.where(:transmission_medium_id => 1).each do |concom|
       concom.send_communication  
+    end
+  end
+  
+  def review
+    @communication = Communication.find(params[:id])
+    respond_to do |format|
+      format.html # index.html.erb
     end
   end
   

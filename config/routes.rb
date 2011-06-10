@@ -67,6 +67,7 @@ EtudeLegendre::Application.routes.draw do
   match "dossiers/:id/new_communication", :to => "dossiers#new_communication", :method => :get 
   match "communications/:id/send_documents", :to => "communications#send_documents", :method => :get
   match "communications/:id/generate_attachments_docs", :to => "communications#generate_attachments_docs", :method => :get 
+  match "communications/:id/review", :to => "communications#review", :method => :get
   
   
   
