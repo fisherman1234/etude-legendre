@@ -1,21 +1,22 @@
-%h1 Récapitulatif
-%table
-  %thead
-    %th Nom
-    %th Prénom
-    %th Document
-    %th Envoi par
-  %tbody
-    - @communication.contact_to_communications.where('transmission_medium_id != 0').each do |concom|
-      %tr
-        %td= concom.contact.nom
-        %td= concom.contact.prenom
-        %td
-          %a{:href=> concom.generate_template_doc_link , :target=>'_blank'} Fichier envoyé
-        %td= concom.transmission_medium.description
+%div#review-docs
+  %h1 Récapitulatif
+  %table
+    %thead
+      %th Nom
+      %th Prénom
+      %th Document
+      %th Envoi par
+    %tbody
+      - @communication.contact_to_communications.where('transmission_medium_id != 0').each do |concom|
+        %tr
+          %td= concom.contact.nom
+          %td= concom.contact.prenom
+          %td
+            %a{:href=> concom.generate_template_doc_link , :target=>'_blank'} Fichier envoyé
+          %td= concom.transmission_medium.description
 
-%a{:href=>"#", :onClick => "deliverDocs("+@communication.id.to_s+");"}Envoyer
-%a{:href=>"#", :onClick => "editCom("+@communication.id.to_s+");"}Modifier
+  %a{:href=>"#", :onClick => "deliverDocs("+@communication.id.to_s+");"}Envoyer
+  %a{:href=>"#", :onClick => "editCom("+@communication.id.to_s+");"}Modifier
 
         
     

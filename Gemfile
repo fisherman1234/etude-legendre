@@ -12,6 +12,7 @@ gem "pdfkit"
 gem 'liquid'
 gem "tiny_mce"
 gem 'yaml_db'
+gem 'gcal4ruby'
 
 # gem "meta_search"
 

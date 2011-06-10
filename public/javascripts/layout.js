@@ -512,7 +512,7 @@ function submit_form(form){
 	form.ajaxSubmit({
 		success:function(){
 			$("#save").removeClass("ui-state-active");
-			action_performed("Modifications enregistrées", "");
+	       $.growlUI('', 'Modifications enregistrées !'); 
 			$("#progressbar").fadeOut();
 		}
 		});
@@ -653,19 +653,35 @@ function saveDirtyForms () {
 }
 
 function create_com_docs(id){
+	$.blockUI({ message: '<h3>Génération des documents...</h3>' });
+	$.blockUI
 	saveDirtyForms();
-	$('#page-content').load('/communications/'+id+'/generate_attachments_docs #page-content', function(){primary_formatting();});
+	$('#add-activite-window').load('/communications/'+id+'/generate_attachments_docs #review-docs', function(){
+		$.unblockUI	
+		primary_formatting();	
+		});
 }
 
 function deliverDocs(id){
-	$.blockUI({ message: '<h1><img src="busy.gif" /> Just a moment...</h1>' });
-	$(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
-	$.get('/communications/'+id+'/send_documents')
+	$.blockUI({ message: '<h1>Envoi en cours...</h1>' });
+	$.blockUI;
+	$.get('/communications/'+id+'/send_documents', function(){$.unblockUI})
 	
 }
 
+
+
 function editCom(id){
-	
+		//$("#add-activite-window" ).fadeOut('fast', function(){ $("#add-activite-window" ).html('') });
+		$("#add-activite-window").load('/activites/'+id+'/edit'+' #activite-page', function(){
+				primary_formatting();
+				page_load_scripts();
+				//action_performed("Modifications enregistrées", "");
+				$("#progressbar").fadeOut();
+				//$("#add-activite-window" ).fadeIn();
+
+	    	}	
+	   );
 }
 
 function edit_document (id_file) {
@@ -698,5 +714,60 @@ function edit_document (id_file) {
       });
 
 }
+
+function ajouter_activité() {
+	$('body').append("<div id='add-activite-window' style=''></div>");
+	$('#add-activite-window').load('/activites/new?dossier='+$("#dossier_id").val()+' #activite-page', function(){
+		primary_formatting();
+	});
+     $( "#add-activite-window" ).dialog({
+     			height: 650,
+     			width: 1100,
+     			modal: true,
+				title: 'Ajouter une activité',
+				close: function(event, ui) {
+					$( "#add-activite-window" ).remove(); 
+					$("#data-table-activites").dataTable().fnReloadAjax();
+					},
+     			buttons: {
+           				"Créer cette activité": function() {
+							if (window.tinyMCE){tinyMCE.triggerSave();};	
+							$("#progressbar").show();
+							$("#new_activite").ajaxSubmit({
+								success:function(data){
+									$("#save").removeClass("ui-state-active");
+									editCom( data.activite.activite.id);
+									$( "#add-activite-window" ).dialog( "option", "buttons", [
+								    {
+								        text: "Générer les documents pour envoi",
+								        click: function() { 
+											create_com_docs(data.communication.communication.id); }
+								    },
+									    {
+									        text: "Enregistrer les modifications",
+									        click: function() { 
+												saveDirtyForms();
+												$(this).dialog("close"); 
+												$( "#add-contact-partie" ).remove(); }
+									    },
+										{
+									        text: "Fermer",
+									        click: function() { 
+												$(this).dialog("close"); 
+												$( "#add-contact-partie" ).remove(); }
+									    }
+									] );
+								}
+								});       				  
+           				},
+           				"Annuler": function() {
+                   					$( this ).dialog( "close" );
+									$( "#add-contact-partie" ).remove(); 
+
+                   				}
+                   	}			
+     });
+}
+
 
 get_user_infos();
