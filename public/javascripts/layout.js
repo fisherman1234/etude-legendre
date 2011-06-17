@@ -2,6 +2,12 @@ var previous_page = "";
 var current_page = "";
 var next_page = "";
 var current_communication = "";
+tinyMCE.init({
+	editor_selector : 'mceEditor0',
+	language : 'fr',
+	theme : 'simple'
+});
+
 function primary_formatting(){
 	autocomplete_institution(".contact",'');
 	autocomplete_institution(".dossier", "?type=1");
@@ -10,13 +16,6 @@ function primary_formatting(){
 	autocomplete_contact ("contact", "");
 	autocomplete_dossier("dossier","");
 
-	tinyMCE.init({
-	editor_selector : 'mceEditor',
-	language : 'en',
-	mode : 'textareas',
-	theme : 'simple'
-
-	});
 
 	
 	// $(document).bind('keydown', 'ctrl+s',function (evt){
@@ -84,8 +83,8 @@ function primary_formatting(){
 		}
 	);
 	
-	$('#contact_code_postal').change(function(){
-		autocomplete_ville($('#contact_code_postal').val());	
+	$('.code_postal').change(function(){
+		autocomplete_ville('#'+this.form.id+ ' .ville', this.value);	
 	});
 	$("textarea").addClass("ui-widget-content ui-corner-all");
 	$( ".datepicker" ).datepicker();
@@ -140,7 +139,8 @@ function primary_formatting(){
 	formattage_datatable("#liste-entreprises");
 	
 	
-	formattage_datatable_datasouce("#data-table-documents", '/dossiers/'+$("#dossier_id").val()+"/documents.js", 4);
+	formattage_datatable_datasouce("#data-table-documents", '/dossiers/'+$("#dossier_id").val()+"/documents.js", 4, edit_document);
+	formattage_datatable_datasouce("#data-table-activites", '/dossiers/'+$("#dossier_id").val()+"/activites.js", 5, edit_activite);
 	
 	$("#data-table-acteurs").dataTable({
 		"bJQueryUI": true,
@@ -198,6 +198,20 @@ function primary_formatting(){
 					{ "bVisible": false, "aTargets": [ 0 ], "bVisible": false, "aTargets": [ 5 ] }
 				]
 	});
+	
+	
+	if (window.tinyMCE){
+		tinyMCE.triggerSave();
+		while (tinymce.editors.length!=0)
+		  {
+			tinyMCE.execCommand('mceRemoveControl',false, tinymce.editors[0].id);
+		  }
+		};
+	
+	
+	$.each($(".mceEditor"), function(index, value) { 
+	  tinyMCE.execCommand('mceAddControl', false, value.id);
+	});
 }
 
 function autocomplete_contact (nom, type) {
@@ -239,11 +253,16 @@ function autocomplete_dossier (nom, type) {
 }
 
 
-function autocomplete_ville(code_postal){
-	$("#contact_ville").autocomplete({
+function autocomplete_ville(ville_field, code_postal){
+	$(ville_field).autocomplete({
 	  source: "/code_postal_villes.js?code_postal="+code_postal,
-		autoFocus: true
+		autoFocus: true, 
+		minLength: 0, 
+		select: function(event, ui) { 
+			$('#'+this.form.id+' .pays').val('FRANCE');
+			 }
 	});
+	$(ville_field).autocomplete( "search" , [''] )
 }
 
 function autocomplete_institution(form, filtre) {
@@ -519,8 +538,7 @@ function submit_form(form){
 	
 }
 
-primary_formatting();
-page_load_scripts();
+
 
 function get_history_list_for_user(){
 	
@@ -575,7 +593,7 @@ function formattage_datatable(id_table){
 	
 }
 
-function formattage_datatable_datasouce(id_table, path, id_col_index){
+function formattage_datatable_datasouce(id_table, path, id_col_index, function_on_open){
 	$(id_table).dataTable({
 		"bJQueryUI": true,
 		"sPaginationType": "full_numbers",
@@ -611,7 +629,9 @@ function formattage_datatable_datasouce(id_table, path, id_col_index){
 			$(id_table).css('width', '100%');
 
 			$(id_table+" tbody tr").click(function(event) {
-					edit_document($(this).attr('id'))
+					//window[function_on_open]($(this).attr('id'));
+					function_on_open.call(null,$(this).attr('id') )
+					//edit_document($(this).attr('id'))
 				});
 			},
 		"aoColumnDefs": [
@@ -645,7 +665,6 @@ function saveDirtyForms () {
 					}
 					});
 		}else{
-			console.log("not our form");
 			submit_form($(value));
 		}
 	  	
@@ -655,11 +674,24 @@ function saveDirtyForms () {
 function create_com_docs(id){
 	$.blockUI({ message: '<h3>Génération des documents...</h3>' });
 	$.blockUI
-	saveDirtyForms();
-	$('#add-activite-window').load('/communications/'+id+'/generate_attachments_docs #review-docs', function(){
-		$.unblockUI	
-		primary_formatting();	
+	
+	if (window.tinyMCE){tinyMCE.triggerSave();};	
+	$('.edit_activite').ajaxSubmit({
+		success:function(){
+			$('.edit_communication').ajaxSubmit({
+				success:function(){
+					$('#add-activite-window').load('/communications/'+id+'/generate_attachments_docs #review-docs', function(){
+						primary_formatting();
+						set_communication_send_buttons(id)
+						$.unblockUI();						
+	
+						});
+				}
+			});
+		}
 		});
+
+	
 }
 
 function deliverDocs(id){
@@ -671,11 +703,12 @@ function deliverDocs(id){
 
 
 
-function editCom(id){
+function editCom(activite_id){
 		//$("#add-activite-window" ).fadeOut('fast', function(){ $("#add-activite-window" ).html('') });
-		$("#add-activite-window").load('/activites/'+id+'/edit'+' #activite-page', function(){
+		$("#add-activite-window").load('/activites/'+activite_id+'/edit'+' #activite-page', function(){
 				primary_formatting();
 				page_load_scripts();
+				set_activite_edit_buttons($('#communication_id').val())
 				//action_performed("Modifications enregistrées", "");
 				$("#progressbar").fadeOut();
 				//$("#add-activite-window" ).fadeIn();
@@ -697,7 +730,10 @@ function edit_document (id_file) {
 				open: function(event, ui) { 
 					setTimeout("primary_formatting();",500); },
 				close: function(event, ui) {
-					$( "#edit-document" ).remove(); },
+					$( "#edit-document" ).remove();
+					$("#data-table-documents").dataTable().fnReloadAjax();
+
+					 },
       			buttons: {
             				"Supprimer le document": function() {
 							  $.post('/documents/'+id_file+'/destroy');
@@ -736,38 +772,98 @@ function ajouter_activité() {
 							$("#new_activite").ajaxSubmit({
 								success:function(data){
 									$("#save").removeClass("ui-state-active");
+									console.log(data.activite.activite.id);
+									
 									editCom( data.activite.activite.id);
-									$( "#add-activite-window" ).dialog( "option", "buttons", [
-								    {
-								        text: "Générer les documents pour envoi",
-								        click: function() { 
-											create_com_docs(data.communication.communication.id); }
-								    },
-									    {
-									        text: "Enregistrer les modifications",
-									        click: function() { 
-												saveDirtyForms();
-												$(this).dialog("close"); 
-												$( "#add-contact-partie" ).remove(); }
-									    },
-										{
-									        text: "Fermer",
-									        click: function() { 
-												$(this).dialog("close"); 
-												$( "#add-contact-partie" ).remove(); }
-									    }
-									] );
+								    set_activite_edit_buttons(data.communication.communication.id);
+
 								}
 								});       				  
            				},
            				"Annuler": function() {
                    					$( this ).dialog( "close" );
-									$( "#add-contact-partie" ).remove(); 
+									$( "#add-activite-window" ).remove(); 
 
                    				}
                    	}			
      });
 }
 
+function set_activite_edit_buttons(communication_id){
+	$( "#add-activite-window" ).dialog( "option", "buttons", [
+	{
+        text: "Supprimer",
+        click: function() { 
+			  $.post('/activites/'+$('#activite_id').val()+'/destroy');
+			  $( this ).dialog( "close" ); }
+    },
+    {
+        text: "Générer les documents pour envoi",
+        click: function() { 
+			create_com_docs(communication_id); }
+    },
+	    {
+	        text: "Enregistrer les modifications",
+	        click: function() { 
+				saveDirtyForms();
+				$(this).dialog("close"); 
+				$( "#add-activite-window" ).remove(); }
+	    },
+		{
+	        text: "Fermer",
+	        click: function() { 
+				$(this).dialog("close"); 
+				$( "#add-activite-window" ).remove(); }
+	    }
+	] );
+}
 
+
+function set_communication_send_buttons(communication_id){
+	$( "#add-activite-window" ).dialog( "option", "buttons", [
+    {
+        text: "Envoyer les documents",
+        click: function() { 
+			deliverDocs(communication_id) }
+    },
+	    {
+	        text: "Modifier une information",
+	        click: function() { 
+				editCom($('#activite_id').val());}
+	    },
+		{
+	        text: "Fermer",
+	        click: function() { 
+				$(this).dialog("close"); 
+				$( "#add-activite-window" ).remove(); }
+	    }
+	] );
+}
+
+
+function edit_activite(id) {
+	$('body').append("<div id='add-activite-window' style=''></div>");
+	$('#add-activite-window').load('/activites/'+id+'/edit #activite-page', function(){
+		primary_formatting();
+		$( "#add-activite-window" ).dialog({
+     			height: 650,
+     			width: 1100,
+     			modal: true,
+				title: 'Editer une activité',
+				open: function(event, ui) { 
+					setTimeout("primary_formatting();",500); },
+				close: function(event, ui) {
+					$( "#add-activite-window" ).remove(); 
+					$("#data-table-activites").dataTable().fnReloadAjax();
+					},			
+     });
+		set_activite_edit_buttons($('#communication_id').val());
+	});
+
+
+}
+
+
+primary_formatting();
+page_load_scripts();
 get_user_infos();

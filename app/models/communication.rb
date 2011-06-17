@@ -9,12 +9,10 @@ class Communication < ActiveRecord::Base
   has_many :document_to_communications
   
   accepts_nested_attributes_for :contact_to_communications, 
-                                :allow_destroy => true, 
-                                :reject_if =>  proc { |attributes| attributes['transmission_medium_id']=="0"  }
+                                :allow_destroy => true
                                 
   accepts_nested_attributes_for :document_to_communications, 
-                                :allow_destroy => true, 
-                                :reject_if => proc { |attributes| attributes['included_in_communication']=="0" }
+                                :allow_destroy => true
                                 
   accepts_nested_attributes_for :documents, 
                                 :allow_destroy => true, 

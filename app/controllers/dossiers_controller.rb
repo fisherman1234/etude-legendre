@@ -147,4 +147,20 @@ class DossiersController < ApplicationController
     end
   end
   
+  
+  def activites
+    @dossier = Dossier.find(params[:id])
+    @activites = []
+    @dossier.activites.each do |activite|
+      
+      @activites.push([activite.date_visite, activite.type_activite.try(:description), activite.description, !activite.activite_to_documents.where(:included_in_activite => 1).empty?, !activite.consignations.empty?, activite.id ])
+    end
+    
+    respond_to do |format|
+        format.js  { render :json => {"aaData"=>@activites}}
+    end
+  end
+  
+  
+  
 end

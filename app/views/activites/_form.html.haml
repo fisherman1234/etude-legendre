@@ -1,3 +1,5 @@
+%input{:id=>"activite_id", :value=>@activite.id, :type=>"hidden"}
+
 - nested_form_for(@activite) do |f|
   = f.hidden_field :dossier_id
   %div.accordion
@@ -24,7 +26,7 @@
           %td Heure
           %td= f.text_field :heure
           %td Ajouter à l'agenda
-          %td todo Coche
+          %td= f.check_box :add_to_gcal
 
         %tr{:class => "type-2"}
           %td No accedit
@@ -40,11 +42,11 @@
           %td{:COLSPAN=>"5"}= f.text_field :adresse3
         %tr
           %td Code postal
-          %td= f.text_field :code_postal
+          %td= f.text_field :code_postal, :class => "code_postal"
           %td Ville
-          %td= f.text_field :ville
+          %td= f.text_field :ville, :class => "ville"
           %td Pays
-          %td= f.text_field :pays
+          %td= f.text_field :pays, :class => "pays"
         %tr
           %td Commentaires
           %td{:COLSPAN=>"5"}= f.text_area :commentaires

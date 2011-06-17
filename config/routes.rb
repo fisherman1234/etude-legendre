@@ -60,6 +60,8 @@ EtudeLegendre::Application.routes.draw do
   match "users/destroy_current_user_session", :to => "users#destroy_current_user_session", :method => :get 
   match "users/connexion", :to => "users#connexion", :method => :get 
   match "contacts/:id/destroy", :to => "contacts#destroy", :method => :post 
+  match "activites/:id/destroy", :to => "activites#destroy", :method => :post 
+
   match "dossiers/:id/destroy", :to => "dossiers#destroy", :method => :post 
   match "institutions/:id/destroy", :to => "institutions#destroy", :method => :post 
   match 'dossiers/:id/documents', :to => 'dossiers#documents' , :method => :get  
@@ -68,6 +70,7 @@ EtudeLegendre::Application.routes.draw do
   match "communications/:id/send_documents", :to => "communications#send_documents", :method => :get
   match "communications/:id/generate_attachments_docs", :to => "communications#generate_attachments_docs", :method => :get 
   match "communications/:id/review", :to => "communications#review", :method => :get
+  match 'dossiers/:id/activites', :to => 'dossiers#activites' , :method => :get  
   
   
   

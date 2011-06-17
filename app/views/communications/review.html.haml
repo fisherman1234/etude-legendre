@@ -1,6 +1,9 @@
 %div#review-docs
   %h1 Récapitulatif
-  %table
+  %input{:id=>"activite_id", :value=>@communication.activite.id, :type=>"hidden"}
+  %input{:id=>"communication_id", :value=>@communication.id, :type=>"hidden"}
+  
+  %table{:border => "0", :id=>'data-table-review', :class => 'data-table-standard'}
     %thead
       %th Nom
       %th Prénom
@@ -12,11 +15,8 @@
           %td= concom.contact.nom
           %td= concom.contact.prenom
           %td
-            %a{:href=> concom.generate_template_doc_link , :target=>'_blank'} Fichier envoyé
+            %a{:href=> concom.generate_template_doc_link , :target=>'_blank'} Document final à envoyer
           %td= concom.transmission_medium.description
-
-  %a{:href=>"#", :onClick => "deliverDocs("+@communication.id.to_s+");"}Envoyer
-  %a{:href=>"#", :onClick => "editCom("+@communication.id.to_s+");"}Modifier
 
         
     

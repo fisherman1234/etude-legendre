@@ -18,7 +18,6 @@ gem 'gcal4ruby'
 
 #gem "RedCloth", "4.2.7", :require => 'redcloth'
 
-
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 

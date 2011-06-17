@@ -10,18 +10,5 @@
           %a{:href=>"#"} Communication
         %div
           = render "communication"
-    %div{:id=>'create_com_button', :onClick=>'create_com_docs('+@communication.id.to_s+')'}
-      Enregistrer la communication
-      
-:javascript
-    $('#height-accordion').block({ message: "Message envoyé", css: { 
-                border: 'none', 
-                padding: '15px', 
-                backgroundColor: '#000', 
-                '-webkit-border-radius': '10px', 
-                '-moz-border-radius': '10px', 
-                opacity: .5, 
-                color: '#fff' 
-            }  }); 
-    
+
 
