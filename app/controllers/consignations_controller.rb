@@ -28,7 +28,11 @@ class ConsignationsController < ApplicationController
     if params[:dossier]
       @consignation.dossier_id = params[:dossier]
     end
-
+    
+    TypeStatusConsignation.all.each do |type_consignation|
+      @consignation.consignation_lines.build(:type_status_consignation_id => type_consignation.id)
+    end
+    
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @consignation }

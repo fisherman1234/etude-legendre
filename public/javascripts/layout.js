@@ -182,6 +182,7 @@ function primary_formatting(){
 	formattage_datatable_datasouce("#data-table-activites", '/dossiers/'+$("#dossier_id").val()+"/activites.js", 5, edit_activite);
 	
 	formattage_datatable_datasouce("#data-table-frais", '/dossiers/'+$("#dossier_id").val()+"/frais.js", 9, edit_frais);
+	formattage_datatable_datasouce("#data-table-consignations", '/dossiers/'+$("#dossier_id").val()+"/consignations.js", 6, edit_consignation);
 	
 	$("#data-table-acteurs").dataTable({
 		"bJQueryUI": true,
@@ -1006,21 +1007,69 @@ function update_expense_div(){
 	}
 }
 
-function load_new_consignation_div(){
-	
+function ajouter_consignation(activite_id) {
+	$('body').append("<div id='add-consignation-window' style=''></div>");
+	$('#add-consignation-window').load('/consignations/new?dossier='+$("#dossier_id").val()+'  #consignation-page', function(){
+		primary_formatting();
+	});
+     $( "#add-consignation-window" ).dialog({
+     			height: 300,
+     			width: 1100,
+     			modal: true,
+				title: 'Ajouter une consignation',
+				close: function(event, ui) {
+					$( "#add-consignation-window" ).remove(); 
+					$("#data-table-consignations").dataTable().fnReloadAjax();
+					},
+     			buttons: {
+					"Enregistrer": function() {
+								saveDirtyForms();
+               					$( this ).dialog( "close" );
+								$( "#add-consignation-window" ).remove(); 
+
+               				},
+           				"Fermer": function() {
+                   					$( this ).dialog( "close" );
+									$( "#add-consignation-window" ).remove(); 
+
+                   				}
+                   	}			
+     });
 }
 
-function enregistrer_consignation(){
-	if ($('#expense-list').length){}else{$('#expense-list-container').html('<table border="0" class="dossier main-form" id="expense-list"><thead><tr><th>Activité</th><th>Type dépense</th><th>Date</th><th>Description</th><th>Prix unitaire</th><th>Quantité</th><th>Unite</th><th>TVA</th><th>Total</th></tr></thead><tbody></tbody></table>')}
-	formattage_datatable('#expense-list');
+function edit_consignation(id) {
+	$('body').append("<div id='add-consignation-window' style=''></div>");
+	$('#add-consignation-window').load('/consignations/'+id+'/edit  #consignation-page', function(){
+		primary_formatting();
+	});
+     $( "#add-consignation-window" ).dialog({
+     			height: 300,
+     			width: 1100,
+     			modal: true,
+				title: 'Editer une consignation',
+				close: function(event, ui) {
+					$( "#add-consignation-window" ).remove(); 
+					$("#data-table-consignations").dataTable().fnReloadAjax();
+					},
+     			buttons: {
+					"Supprimer": function() {
+          						$.post('/consignations/'+id+'/destroy');
+               					$( this ).dialog( "close" );
+								$( "#add-consignation-window" ).remove(); 
 
-	$('#new_expense').ajaxSubmit({
-		success:function(data){
-			$('#expense-list tbody').append(data)
-			$('#expense-list').dataTable().fnAddData( [data.activite, data.type_depense, data.date_item, data.description_item, data.prix_unitaire, data.quantite,data.unite, data.tva, data.total   ] );
-			$('#new_expense')[0].reset();
-			}
-		})
+               				},
+					"Enregistrer": function() {
+								saveDirtyForms();
+               					$( this ).dialog( "close" );
+								$( "#add-consignation-window" ).remove(); 
 
+               				},
+           				"Fermer": function() {
+                   					$( this ).dialog( "close" );
+									$( "#add-consignation-window" ).remove(); 
 
+                   				}
+                   	}			
+     });
 }
+

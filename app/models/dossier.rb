@@ -9,6 +9,7 @@ class Dossier < ActiveRecord::Base
   has_paper_trail
   belongs_to :parametres_cabinet
   belongs_to :user
+  has_many :consignations
   
   has_attached_file :recap_frais,
     :storage => :s3,

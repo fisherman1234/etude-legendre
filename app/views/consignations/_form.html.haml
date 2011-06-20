@@ -1,5 +1,38 @@
-- form_for(@consignation) do |f|   
-  = f.hidden_field :dossier_id
+- nested_form_for(@consignation) do |f|   
+  = f.hidden_field :dossier_id  
+  %table
+    %tr
+      %td Description
+      %td= f.text_field :description
+  %br
+  %br
+  %table{:id=>"lignes-consignation"}
+    %thead
+      %th Status
+      %th Contact
+      %th Société
+      %th Date
+      %th Terme
+      %th Montant
+    %tbody
+      - f.fields_for :consignation_lines do |builder|
+        %tr
+          %td
+            = TypeStatusConsignation.find(builder.object.type_status_consignation_id).description
+            = builder.hidden_field :consignation_id
+            = builder.hidden_field :type_status_consignation_id
+          
+          %td= select_tag :contact_id, grouped_options_for_select(@consignation.dossier.acteurs.map{|l| [l.description, l.contact_acteurs.map{|u| [u.contact.full_name, u.contact.id] }]}, builder.object.contact_id, "== Choisir ==")
+
+          %td= builder.select :institution_id, grouped_options_for_select( @consignation.dossier.acteurs.map{|l| [l.description, l.contact_acteurs.map{|u| [u.contact.institution.try(:nom), u.contact.institution.try(:id)] }]}, builder.object.institution_id, "==Choisir==")
+          
+          %td= builder.text_field :date_consignation, :class => "datepicker"
+          %td= builder.text_field :terme_consignation, :class => "datepicker"
+          %td= builder.text_field :montant
+          
+ 
+            
+            
   
 
 

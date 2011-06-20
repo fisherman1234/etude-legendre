@@ -1,11 +1,14 @@
 %p
   %a{:href=> "#", :id=>"ajouter_consignation" ,:onClick => "ajouter_consignation();", :class => "button"} Nouvelle consignation
-%table{:border => "0", :id=>'data-table-activites', :class => 'display'}
+%table{:border => "0", :id=>'data-table-consignations', :class => 'display'}
   %thead
     %tr
-      %th Date
       %th Description
-      %th Montant
-      %th Responsable
-      %th ID
+      %th Montant demandé (Euros)
+      %th Montant ordonné (Euros)
+      %th Montant consigné (Euros)
+      %th Montant payé (Euros)
+      %th Montant provisionné (Euros)
+      %th iD
+
   %tbody

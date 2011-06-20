@@ -185,6 +185,28 @@ class DossiersController < ApplicationController
     end
   end
   
+  
+  def consignations
+    @dossier = Dossier.find(params[:id])
+    @consignations = []
+    @dossier.consignations.each do |consignation|
+      
+      @consignations.push([
+          consignation.description, 
+          consignation.consignation_lines.where(:type_status_consignation_id => 1).first.try(:montant), 
+          consignation.consignation_lines.where(:type_status_consignation_id => 2).first.try(:montant), 
+          consignation.consignation_lines.where(:type_status_consignation_id => 3).first.try(:montant), 
+          consignation.consignation_lines.where(:type_status_consignation_id => 4).first.try(:montant), 
+          consignation.consignation_lines.where(:type_status_consignation_id => 5).first.try(:montant), 
+          consignation.id
+        ])
+    end
+    
+    respond_to do |format|
+        format.js  { render :json => {"aaData"=>@consignations}}
+    end
+  end
+  
   def recap_frais
     @dossier = Dossier.find(params[:id])
     @expenses = @dossier.expenses
