@@ -1,0 +1,23 @@
+<h1>Listing unites</h1>
+
+<table>
+  <tr>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @unites.each do |unite| %>
+  <tr>
+    <td><%= unite.description %></td>
+    <td><%= link_to 'Show', unite %></td>
+    <td><%= link_to 'Edit', edit_unite_path(unite) %></td>
+    <td><%= link_to 'Destroy', unite, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Unite', new_unite_path %>

@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  description: MyString
+  taux_tva_id: 1
+
+two:
+  description: MyString
+  taux_tva_id: 1

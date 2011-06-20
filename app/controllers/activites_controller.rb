@@ -127,4 +127,9 @@ class ActivitesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def expenses
+    @activite = Activite.find(params[:id])
+    render :partial => 'expenses'
+  end
 end

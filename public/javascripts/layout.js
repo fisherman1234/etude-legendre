@@ -16,7 +16,31 @@ function primary_formatting(){
 	autocomplete_contact ("contact", "");
 	autocomplete_dossier("dossier","");
 
+	
+	$('#expense_item_id').change(function() {
 
+    $.ajax({
+      url: "/items/"+$('#expense_item_id').val()+'.js',
+      dataType: 'json',
+
+      success: function(data){
+        $("#expense_prix_unitaire").val(data.item.prix_unitaire);
+        $("#expense_taux_tva_id").val(data.item.taux_tva_id);
+		$("#expense_unite_id").val(data.item.unite_id)
+      }
+    });
+
+  });
+
+  	$('#expense_quantite').change(function() {
+      $("#total").val( parseFloat($("#expense_prix_unitaire").val())*parseFloat($("#expense_quantite").val()) )
+
+  });
+
+	$('#expense_prix_unitaire').change(function() {
+      $("#total").val( parseFloat($("#expense_prix_unitaire").val())*parseFloat($("#expense_quantite").val()) )
+
+  });
 	
 	// $(document).bind('keydown', 'ctrl+s',function (evt){
 	//     $.each($('form.dirty-form'), function(key, value) { 
@@ -92,6 +116,21 @@ function primary_formatting(){
 	$( ".add_juge" ).button({ icons: {primary:'ui-icon-plusthick'}});
 	$( ".button" ).button({ icons: {primary:'ui-icon-plusthick'}});
 	$( ".button-save" ).button({ icons: {primary:'ui-icon-disk'}});
+	$( ".edit-record" ).button({
+          icons: {
+              primary: "ui-icon-pencil"
+          },
+          text: false})
+	$( ".has-expenses" ).button({
+          icons: {
+              primary: "ui-icon-calculator"
+          },
+          text: false})
+	$( ".has-documents" ).button({
+          icons: {
+              primary: "ui-icon-document"
+          },
+          text: false})
 
 	$( "#tabs" ).tabs();
 	$( ".accordion" ).accordion({
@@ -141,6 +180,8 @@ function primary_formatting(){
 	
 	formattage_datatable_datasouce("#data-table-documents", '/dossiers/'+$("#dossier_id").val()+"/documents.js", 4, edit_document);
 	formattage_datatable_datasouce("#data-table-activites", '/dossiers/'+$("#dossier_id").val()+"/activites.js", 5, edit_activite);
+	
+	formattage_datatable_datasouce("#data-table-frais", '/dossiers/'+$("#dossier_id").val()+"/frais.js", 9, edit_frais);
 	
 	$("#data-table-acteurs").dataTable({
 		"bJQueryUI": true,
@@ -498,12 +539,14 @@ function load_adress_line(){
 function navigate_page(page){
 	previous_page = current_page;
 	current_page = page;
-	$( "#page-content" ).fadeOut('fast', function(){ $("#page-content" ).html('') });
+	$("#page-content").hide("slide", { direction: "left" }, 'slow', function(){ $("#page-content" ).html('') } );
+	//$( "#page-content" ).fadeOut('fast', function(){ $("#page-content" ).html('') });
 	$("#page-content").load(page+' #page-content', function() {
 		primary_formatting();
-		$( "#page-content" ).fadeIn('slow', function(){
-			page_load_scripts();
-		})
+		$("#page-content").show("slide", { direction: "right" }, 'slow', function(){ page_load_scripts(); } );
+		//$( "#page-content" ).fadeIn('slow', function(){
+	//		page_load_scripts();
+	//	})
 		
 	});
 }
@@ -864,6 +907,101 @@ function edit_activite(id) {
 }
 
 
+function ajouter_frais(activite_id) {
+	$('body').append("<div id='add-frais-window' style=''></div>");
+	$('#add-frais-window').load('/expenses/new?dossier='+$("#dossier_id").val()+'&activite='+activite_id+'  #expense-page', function(){
+		primary_formatting();
+	});
+     $( "#add-frais-window" ).dialog({
+     			height: 550,
+     			width: 1100,
+     			modal: true,
+				title: 'Ajouter des frais',
+				close: function(event, ui) {
+					$( "#add-frais-window" ).remove(); 
+					$("#data-table-frais").dataTable().fnReloadAjax();
+					update_expense_div();
+					},
+     			buttons: {
+           				"Fermer": function() {
+                   					$( this ).dialog( "close" );
+									$( "#add-frais-window" ).remove(); 
+
+                   				}
+                   	}			
+     });
+}
+
+
 primary_formatting();
 page_load_scripts();
 get_user_infos();
+
+function enregistrer_frais(){
+if ($('#expense-list').length){}else{$('#expense-list-container').html('<table border="0" class="dossier main-form" id="expense-list"><thead><tr><th>Activité</th><th>Type dépense</th><th>Date</th><th>Description</th><th>Prix unitaire</th><th>Quantité</th><th>Unite</th><th>TVA</th><th>Total</th></tr></thead><tbody></tbody></table>')}
+formattage_datatable('#expense-list');
+
+$('#new_expense').ajaxSubmit({
+	success:function(data){
+		$('#expense-list tbody').append(data)
+		$('#expense-list').dataTable().fnAddData( [data.activite, data.type_depense, data.date_item, data.description_item, data.prix_unitaire, data.quantite,data.unite, data.tva, data.total   ] );
+		$('#new_expense')[0].reset();
+		}
+	})
+
+}
+
+function edit_frais(id) {
+	$('body').append("<div id='add-frais-window' style=''></div>");
+	$('#add-frais-window').load('/expenses/'+id+'/edit #expense-page', function(){
+		primary_formatting();
+		$( "#add-frais-window" ).dialog({
+     			height: 150,
+     			width: 1100,
+     			modal: true,
+				title: "Edition d'une dépense",
+				open: function(event, ui) { 
+					setTimeout("primary_formatting();",500); },
+				close: function(event, ui) {
+					$( "#add-frais-window" ).remove(); 
+					$("#data-table-frais").dataTable().fnReloadAjax();
+					update_expense_div();
+					
+					},			
+				buttons: {
+					"Supprimer": function() {
+              				$.post('/expenses/'+id+'/destroy');
+							 $( this ).dialog( "close" );
+							
+              				},
+					"Enregistrer": function() {
+              					saveDirtyForms ();
+              					$( this ).dialog( "close" );
+
+								$( "#add-frais-window" ).remove(); 
+
+              				},
+	          				"Fermer": function() {
+	                  					$( this ).dialog( "close" );
+									$( "#add-frais-window" ).remove(); 
+
+	                  				}
+	                  	}
+     });
+	});
+}
+
+function update_expense_div(){
+	if ($('#activite_id').length){
+		$('#expense-div').load('/activites/'+$('#activite_id').val()+'/expenses', function(){
+				$( ".button" ).button({ icons: {primary:'ui-icon-plusthick'}});
+				$( ".edit-record" ).button({
+			          icons: {
+			              primary: "ui-icon-pencil"
+			          },
+			          text: false})
+				});
+		
+		
+	}
+}

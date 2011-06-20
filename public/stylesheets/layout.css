@@ -128,3 +128,19 @@ input.clickable {
 #create_com_button:hover{
 	 border: 1px solid #448dae; background: #79c9ec 50% 50% repeat-x; font-weight: normal; color: #026890; 	cursor: pointer;
 }
+
+#activite_date_visite_3i{
+	width:auto;
+}
+#activite_date_visite_1i{
+	width:auto;
+}
+#activite_date_visite_2i{
+	width:auto;
+}
+#activite_date_visite_4i{
+	width:auto;
+}
+#activite_date_visite_5i{
+	width:auto;
+}

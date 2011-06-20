@@ -1,0 +1,80 @@
+%h1 
+  Dossier : 
+  = @dossier.nom_dossier
+%table{:border => "0", :id=>"recap_frais", :class=>"recap_frais pbi_avoid"}
+  %tbody
+    %thead
+      %tr
+        %td{:colspan=>8}
+          %h3 Récapitulatif des frais en Euros
+      %tr
+        %th Date
+        %th Action
+        %th Type
+        %th Description
+        %th Qté
+        %th Unité
+        %th Prix unitaire
+        %th Total TTC
+    %tbody
+      - @expenses.group_by { |t| t.item.categorie.description }.each do |key, values|
+        - values.each do |value|
+          %tr
+            %td
+              - if value.date_item
+                = value.date_item.strftime('%d/%m/%Y')
+            %td= value.activite.try(:description)
+            %td= value.item.try(:description)
+            %td= value.description
+            %td= value.quantite
+            %td= value.unite.try(:description)
+            %td= value.prix_unitaire
+            %td{:class=>"figure-left"}= value.total
+        %tr{:class => 'sous-total'}
+          %td{:colspan=>7}
+            SOUS-TOTAL
+            = key
+          %td{:class=>"figure-left"}
+            = values.map{|p| p.total}.sum
+
+%br
+%br
+
+%table{:style=>"width:100%;", :class=>"pbi_avoid"}
+  %tr
+    %td{:width=>'50%'}
+      %h3 Détail TVA en Euros
+    %td{:width=>'10%'}
+    %td
+      %h3 TOTAL en Euros
+  %tr
+    %td
+      %table{:class=>"recap_frais"}
+        %thead
+          %th Taux
+          %th Montant soumis
+          %th TVA à régler
+        %tbody
+          - @dossier.tableau_tva.each do |item|
+            %tr
+              %td= TauxTva.find(item[0]).description
+              %td= item[1]
+              %td= item[2]
+    %td
+    %td
+      %table{:class=>"recap_frais"}
+        %tr
+          %td Total frais
+          %td{:class=>"figure-left"}= @dossier.total_frais
+        %tr
+          %td Total honoraires
+          %td{:class=>"figure-left"}= @dossier.total_honoraires
+        %tr{:class => 'sous-total'}
+          %td Total HT
+          %td{:class=>"figure-left"}= @dossier.total_ht
+        %tr
+          %td Total TVA
+          %td{:class=>"figure-left"}= @dossier.total_tva
+        %tr{:class => 'sous-total'}
+          %td Total TTC
+          %td{:class=>"figure-left"}= @dossier.total_ttc

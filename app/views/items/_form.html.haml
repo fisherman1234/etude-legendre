@@ -1,0 +1,17 @@
+- form_for(@item) do |f| 
+  %table
+    %tr
+      %td Description
+      %td= f.text_field :description
+    %tr
+      %td Categorie
+      %td= select("item", "categorie_id", Categorie.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
+    %tr
+      %td Prix unitaire
+      %td= f.text_field :prix_unitaire
+    %tr
+      %td Unité
+      %td= select("item", "unite_id", Unite.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
+    %tr
+      %td Taux TVA
+      %td= select("item", "taux_tva_id", TauxTva.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})

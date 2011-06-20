@@ -1,0 +1,14 @@
+%table
+  %thead
+    %th
+    %th Description
+    %th Total
+  %tbody
+    = render :partial => @activite.expenses
+        
+%h3 
+  Montant des frais engagés : 
+  =@activite.total_expense
+  Euros
+
+%a{:href=> "#", :id=>"ajouter_frais" ,:onClick => "ajouter_frais("+@activite.id.to_s+");", :class => "button"} Saisir des frais

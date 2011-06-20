@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Description:</b>
+  <%= @categorie.description %>
+</p>
+
+<p>
+  <b>Taux tva:</b>
+  <%= @categorie.taux_tva_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_category_path(@categorie) %> |
+<%= link_to 'Back', categories_path %>

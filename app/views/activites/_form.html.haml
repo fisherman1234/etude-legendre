@@ -22,9 +22,8 @@
           %td= f.check_box :is_confidentiel
         %tr
           %td Date
-          %td= f.text_field :date_visite,:class => "datepicker"
-          %td Heure
-          %td= f.text_field :heure
+          %td{:COLSPAN=>"3"}= f.datetime_select :date_visite,:default => 24.hours.from_now, :minute_step => 15
+                    
           %td Ajouter à l'agenda
           %td= f.check_box :add_to_gcal
 
@@ -77,9 +76,9 @@
             %td= document.file_field :file
 
     %h3
-      %a{:href=>"#"} Consignations      
-    %div
-      - @activite.consignations.each do |consignation|
-        %ul
-          %li= consignation.id
+      %a{:href=>"#"} Frais      
+    %div#expense-div
+      -if !@activite.new_record?
+        = render 'expenses'
+      
 

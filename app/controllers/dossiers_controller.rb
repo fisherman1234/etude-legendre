@@ -152,8 +152,19 @@ class DossiersController < ApplicationController
     @dossier = Dossier.find(params[:id])
     @activites = []
     @dossier.activites.each do |activite|
-      
-      @activites.push([activite.date_visite, activite.type_activite.try(:description), activite.description, !activite.activite_to_documents.where(:included_in_activite => 1).empty?, !activite.consignations.empty?, activite.id ])
+      expense = '&nbsp;'
+      if !activite.expenses.empty?
+        expense = '<span class="ui-button-icon-primary ui-icon ui-icon-calculator"></span>'
+      end
+      documents = '&nbsp;'
+      if !activite.activite_to_documents.where(:included_in_activite => 1).empty?
+        documents = '<span class="ui-button-icon-primary ui-icon ui-icon-document"></span>'
+      end
+      date = ''
+      if activite.date_visite
+        date = activite.date_visite.strftime('%d/%m/%Y - %H:%M')
+      end
+      @activites.push([date, activite.type_activite.try(:description), activite.description, documents, expense, activite.id ])
     end
     
     respond_to do |format|
@@ -161,6 +172,28 @@ class DossiersController < ApplicationController
     end
   end
   
+  def frais
+    @dossier = Dossier.find(params[:id])
+    @expenses = []
+    @dossier.expenses.each do |expense|
+      
+      @expenses.push([expense.activite.try(:description).to_s, expense.item.try(:description).to_s, expense.date_item.to_s, expense.description.to_s, expense.prix_unitaire.to_s,  expense.quantite.to_s,expense.unite.try(:description).to_s, expense.taux_tva.try(:description).to_s, expense.total.to_s, expense.id])
+    end
+    
+    respond_to do |format|
+        format.js  { render :json => {"aaData"=>@expenses}}
+    end
+  end
   
+  def recap_frais
+    @dossier = Dossier.find(params[:id])
+    @expenses = @dossier.expenses
+    render
+  end
   
+  def recap_frais_full
+    @dossier = Dossier.find(params[:id])
+    @expenses = @dossier.expenses
+    render
+  end
 end

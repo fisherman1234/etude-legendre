@@ -1,0 +1,24 @@
+%table{:border => "0", :id=>"recap_frais", :class=>"recap_frais"}
+  %tbody
+    %thead
+      %th Type
+      %th Description
+      %th Quantité
+      %th Unité
+      %th Total TTC
+    %tbody
+      - @expenses.group_by { |t| t.item.categorie.description }.each do |key, values|
+        - values.each do |value|
+          %tr
+            %td= value.item.try(:description)
+            %td= value.description
+            %td= value.quantite
+            %td= value.unite.try(:description)
+            %td{:class=>"figure-left"}= value.total
+        %tr{:class => 'sous-total'}
+          %td{:colspan=>4}
+            SOUS-TOTAL
+            = key
+          %td{:class=>"figure-left"}
+            = values.map{|p| p.total}.sum
+    

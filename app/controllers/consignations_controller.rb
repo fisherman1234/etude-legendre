@@ -25,6 +25,9 @@ class ConsignationsController < ApplicationController
   # GET /consignations/new.xml
   def new
     @consignation = Consignation.new
+    if params[:dossier]
+      @consignation.dossier_id = params[:dossier]
+    end
 
     respond_to do |format|
       format.html # new.html.erb

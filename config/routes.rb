@@ -1,7 +1,21 @@
 EtudeLegendre::Application.routes.draw do
 
 
-  resources :add_contact_acteur_to_contact_to_communications
+
+  resources :expenses
+
+  resources :frais
+
+  resources :status_consignations
+
+  resources :unites
+
+  resources :categories
+
+  resources :items
+
+  resources :taux_tvas
+
 
   resources :message_templates
 
@@ -71,7 +85,13 @@ EtudeLegendre::Application.routes.draw do
   match "communications/:id/generate_attachments_docs", :to => "communications#generate_attachments_docs", :method => :get 
   match "communications/:id/review", :to => "communications#review", :method => :get
   match 'dossiers/:id/activites', :to => 'dossiers#activites' , :method => :get  
+  match 'dossiers/:id/frais', :to => 'dossiers#frais' , :method => :get  
+  match 'dossiers/:id/recap_frais', :to => 'dossiers#recap_frais' , :method => :get  
+  match 'dossiers/:id/recap_frais_full', :to => 'dossiers#recap_frais_full' , :method => :get  
   
+  
+  match "expenses/:id/destroy", :to => "expenses#destroy", :method => :post 
+  match "activites/:id/expenses", :to => "activites#expenses", :method => :get 
   
   
   # The priority is based upon order of creation:

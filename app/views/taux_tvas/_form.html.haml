@@ -1,0 +1,9 @@
+- form_for(@taux_tva) do |f| 
+  %table
+    %tr
+      %td Description
+      %td= f.text_field :description
+    %tr
+      %td Taux TVA
+      %td= f.text_field :taux
+

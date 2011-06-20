@@ -1,0 +1,6 @@
+%tr{:onClick=>"edit_frais("+expense.id.to_s+")"}
+  %td 
+    %a{:class => "edit-record", :style=>"height: 12px; width: 12px;"} Edit
+  %td= expense.description
+  %td= expense.total
+        

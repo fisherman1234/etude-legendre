@@ -1,0 +1,17 @@
+%table{:class=>"recap_frais"}
+  %tr
+    %td Total frais
+    %td{:class=>"figure-left"}= @dossier.total_frais
+  %tr
+    %td Total honoraires
+    %td{:class=>"figure-left"}= @dossier.total_honoraires
+  %tr{:class => 'sous-total'}
+    %td Total HT
+    %td{:class=>"figure-left"}= @dossier.total_ht
+  %tr
+    %td Total TVA
+    %td{:class=>"figure-left"}= @dossier.total_tva
+  %tr{:class => 'sous-total'}
+    %td Total TTC
+    %td{:class=>"figure-left"}= @dossier.total_ttc
+    

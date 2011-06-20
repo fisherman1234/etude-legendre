@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110617143936) do
+ActiveRecord::Schema.define(:version => 20110619215841) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -46,8 +46,15 @@ ActiveRecord::Schema.define(:version => 20110617143936) do
     t.datetime "updated_at"
     t.integer  "dossier_id"
     t.integer  "message_template_id"
-    t.date     "date_visite"
     t.integer  "add_to_gcal"
+    t.datetime "date_visite"
+  end
+
+  create_table "categories", :force => true do |t|
+    t.string   "description"
+    t.integer  "taux_tva_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "code_postal_villes", :force => true do |t|
@@ -79,6 +86,9 @@ ActiveRecord::Schema.define(:version => 20110617143936) do
     t.integer  "is_private"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "dossier_id"
+    t.integer  "user_id"
+    t.integer  "contact_id"
   end
 
   create_table "contact_acteurs", :force => true do |t|
@@ -187,11 +197,32 @@ ActiveRecord::Schema.define(:version => 20110617143936) do
     t.integer  "type_etat_dossier_id"
     t.integer  "user_id"
     t.integer  "parametres_cabinet_id"
+    t.string   "recap_frais_file_name"
+    t.string   "recap_frais_content_type"
+    t.integer  "recap_frais_file_size"
+    t.datetime "recap_frais_updated_at"
   end
 
   create_table "drop_type_adresses", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "expenses", :force => true do |t|
+    t.integer  "consignation_id"
+    t.integer  "item_id"
+    t.string   "description"
+    t.float    "prix_unitaire"
+    t.float    "quantite"
+    t.date     "date_item"
+    t.integer  "taux_tva_id"
+    t.integer  "unite_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "dossier_id"
+    t.integer  "user_id"
+    t.integer  "activite_id"
+    t.integer  "categorie_id"
   end
 
   create_table "institutions", :force => true do |t|
@@ -204,6 +235,31 @@ ActiveRecord::Schema.define(:version => 20110617143936) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "type_institution_id"
+  end
+
+  create_table "items", :force => true do |t|
+    t.string   "description"
+    t.integer  "categorie_id"
+    t.float    "prix_unitaire"
+    t.integer  "taux_tva_id"
+    t.integer  "unite_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ligne_consignation_items", :force => true do |t|
+    t.integer  "consignation_id"
+    t.integer  "item_id"
+    t.string   "description"
+    t.float    "prix_unitaire"
+    t.float    "quantite"
+    t.date     "date_item"
+    t.integer  "taux_tva_id"
+    t.integer  "unite_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "dossier_id"
+    t.integer  "user_id"
   end
 
   create_table "message_templates", :force => true do |t|
@@ -256,6 +312,19 @@ ActiveRecord::Schema.define(:version => 20110617143936) do
 
   create_table "qualite_procedurales", :force => true do |t|
     t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "status_consignations", :force => true do |t|
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "taux_tvas", :force => true do |t|
+    t.string   "description"
+    t.float    "taux"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -315,6 +384,12 @@ ActiveRecord::Schema.define(:version => 20110617143936) do
   end
 
   create_table "type_intervenants", :force => true do |t|
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "unites", :force => true do |t|
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"

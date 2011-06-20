@@ -7,6 +7,7 @@ class Activite < ActiveRecord::Base
   belongs_to :dossier
   belongs_to :type_activite
   after_create :add_to_google_cal
+  has_many :expenses
   
   accepts_nested_attributes_for :documents, 
                                   :allow_destroy => true 
@@ -34,6 +35,14 @@ class Activite < ActiveRecord::Base
      event.reminder = [{:minutes => 15, :method => 'email'}]
      event.save
     
+  end
+  
+  def total_expense
+    total = 0
+    self.expenses.each do |expense|
+      total = total + expense.prix_unitaire * expense.quantite
+    end
+    return total.round(2)
   end
   
 end

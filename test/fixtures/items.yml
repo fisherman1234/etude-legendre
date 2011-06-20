@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  description: MyString
+  categorie_id: 1
+  prix_unitaire: 1.5
+  taux_tva_id: 1
+
+two:
+  description: MyString
+  categorie_id: 1
+  prix_unitaire: 1.5
+  taux_tva_id: 1

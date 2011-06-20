@@ -1,0 +1,65 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Consignation:</b>
+  <%= @expense.consignation_id %>
+</p>
+
+<p>
+  <b>Item:</b>
+  <%= @expense.item_id %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @expense.description %>
+</p>
+
+<p>
+  <b>Prix unitaire:</b>
+  <%= @expense.prix_unitaire %>
+</p>
+
+<p>
+  <b>Quantite:</b>
+  <%= @expense.quantite %>
+</p>
+
+<p>
+  <b>Date item:</b>
+  <%= @expense.date_item %>
+</p>
+
+<p>
+  <b>Taux tva:</b>
+  <%= @expense.taux_tva_id %>
+</p>
+
+<p>
+  <b>Unite:</b>
+  <%= @expense.unite_id %>
+</p>
+
+<p>
+  <b>Created at:</b>
+  <%= @expense.created_at %>
+</p>
+
+<p>
+  <b>Updated at:</b>
+  <%= @expense.updated_at %>
+</p>
+
+<p>
+  <b>Dossier:</b>
+  <%= @expense.dossier_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @expense.user_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_expense_path(@expense) %> |
+<%= link_to 'Back', expenses_path %>

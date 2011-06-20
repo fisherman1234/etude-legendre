@@ -1,0 +1,45 @@
+<h1>Listing expenses</h1>
+
+<table>
+  <tr>
+    <th>Consignation</th>
+    <th>Item</th>
+    <th>Description</th>
+    <th>Prix unitaire</th>
+    <th>Quantite</th>
+    <th>Date item</th>
+    <th>Taux tva</th>
+    <th>Unite</th>
+    <th>Created at</th>
+    <th>Updated at</th>
+    <th>Dossier</th>
+    <th>User</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @expenses.each do |expense| %>
+  <tr>
+    <td><%= expense.consignation_id %></td>
+    <td><%= expense.item_id %></td>
+    <td><%= expense.description %></td>
+    <td><%= expense.prix_unitaire %></td>
+    <td><%= expense.quantite %></td>
+    <td><%= expense.date_item %></td>
+    <td><%= expense.taux_tva_id %></td>
+    <td><%= expense.unite_id %></td>
+    <td><%= expense.created_at %></td>
+    <td><%= expense.updated_at %></td>
+    <td><%= expense.dossier_id %></td>
+    <td><%= expense.user_id %></td>
+    <td><%= link_to 'Show', expense %></td>
+    <td><%= link_to 'Edit', edit_expense_path(expense) %></td>
+    <td><%= link_to 'Destroy', expense, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Expense', new_expense_path %>

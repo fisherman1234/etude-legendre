@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Description:</b>
+  <%= @taux_tva.description %>
+</p>
+
+<p>
+  <b>Taux:</b>
+  <%= @taux_tva.taux %>
+</p>
+
+
+<%= link_to 'Edit', edit_taux_tva_path(@taux_tva) %> |
+<%= link_to 'Back', taux_tvas_path %>

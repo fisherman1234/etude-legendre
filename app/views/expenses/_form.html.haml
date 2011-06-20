@@ -1,0 +1,30 @@
+- form_for(@expense) do |f|
+  = f.hidden_field :dossier_id
+  = f.hidden_field :user_id
+  %table{:border => "0", :class => "dossier main-form"}
+    %thead
+    
+      %th Activité
+      %th Type dépense
+      %th Date
+      %th Description
+      %th Prix unitaire
+      %th Quantité
+      %th Unite
+      %th TVA
+      %th Total
+    %tbody
+      %tr
+        %td= select("expense", "activite_id", Activite.where(:dossier_id=>@expense.dossier_id).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
+        %td= f.select :item_id, grouped_options_for_select(Item.all.group_by(&:categorie_id).map {|k,v| [Categorie.find(k).description,v.map{|l| [ l.description, l.id]}]},@expense.item_id,'==Choisir==')
+        %td= f.text_field :date_item, :class => "datepicker"
+        %td= f.text_field :description 
+        %td= f.text_field :prix_unitaire
+        %td= f.text_field :quantite
+        %td= select("expense", "unite_id", Unite.all.collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
+        %td= select("expense", "taux_tva_id", TauxTva.all.collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
+        %td
+          %input{:id=>"total"}
+        - if @expense.new_record?
+          %td
+            %a{:href=> "#", :id=>"enregistrer_frais" ,:onClick => "enregistrer_frais();", :class => "button"} Ajouter

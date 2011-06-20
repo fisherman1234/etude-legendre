@@ -1,0 +1,9 @@
+%tr
+  %td= @expense.activite.try(:description)
+  %td= @expense.item.description
+  %td= @expense.date_item
+  %td= @expense.description 
+  %td= @expense.prix_unitaire
+  %td= @expense.quantite
+  %td= @expense.taux_tva.description
+  %td= @expense.total

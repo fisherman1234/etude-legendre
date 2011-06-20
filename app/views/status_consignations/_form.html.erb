@@ -1,0 +1,21 @@
+<%= form_for(@status_consignation) do |f| %>
+  <% if @status_consignation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@status_consignation.errors.count, "error") %> prohibited this status_consignation from being saved:</h2>
+
+      <ul>
+      <% @status_consignation.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

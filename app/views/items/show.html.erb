@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Description:</b>
+  <%= @item.description %>
+</p>
+
+<p>
+  <b>Categorie:</b>
+  <%= @item.categorie_id %>
+</p>
+
+<p>
+  <b>Prix unitaire:</b>
+  <%= @item.prix_unitaire %>
+</p>
+
+<p>
+  <b>Taux tva:</b>
+  <%= @item.taux_tva_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_item_path(@item) %> |
+<%= link_to 'Back', items_path %>

@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  consignation_id: 1
+  item_id: 1
+  description: MyString
+  prix_unitaire: 1.5
+  quantite: 1.5
+  date_item: 2011-06-17
+  taux_tva_id: 1
+
+two:
+  consignation_id: 1
+  item_id: 1
+  description: MyString
+  prix_unitaire: 1.5
+  quantite: 1.5
+  date_item: 2011-06-17
+  taux_tva_id: 1

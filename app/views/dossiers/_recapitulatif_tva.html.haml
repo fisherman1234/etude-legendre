@@ -1,0 +1,12 @@
+%table{:class=>"recap_frais"}
+  %thead
+    %th Taux
+    %th Montant soumis
+    %th TVA à régler
+  %tbody
+    - @dossier.tableau_tva.each do |item|
+      %tr
+        %td= TauxTva.find(item[0]).description
+        %td= item[1]
+        %td= item[2]
+    

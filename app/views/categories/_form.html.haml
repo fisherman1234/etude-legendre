@@ -1,0 +1,8 @@
+- form_for(@categorie) do |f| 
+  %table
+    %tr
+      %td Description
+      %td=  f.text_field :description
+    %tr
+      %td Taux TVA
+      %td= select("categorie", "taux_tva_id", TauxTva.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
