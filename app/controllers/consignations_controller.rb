@@ -83,4 +83,12 @@ class ConsignationsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def consignation_list
+    @consignation = Consignation.find(params[:id])
+    respond_to do |format|
+      format.html { redirect_to(consignations_url) }
+      format.xml  { head :ok }
+    end
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110619215841) do
+ActiveRecord::Schema.define(:version => 20110620101630) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -81,6 +81,18 @@ ActiveRecord::Schema.define(:version => 20110619215841) do
     t.integer  "is_sent"
   end
 
+  create_table "consignation_lines", :force => true do |t|
+    t.integer  "contact_id"
+    t.integer  "institution_id"
+    t.float    "montant"
+    t.date     "date_consignation"
+    t.date     "terme_consignation"
+    t.integer  "type_status_consignation_id"
+    t.integer  "consignation_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "consignations", :force => true do |t|
     t.integer  "activite_id"
     t.integer  "is_private"
@@ -89,6 +101,7 @@ ActiveRecord::Schema.define(:version => 20110619215841) do
     t.integer  "dossier_id"
     t.integer  "user_id"
     t.integer  "contact_id"
+    t.string   "description"
   end
 
   create_table "contact_acteurs", :force => true do |t|
@@ -384,6 +397,12 @@ ActiveRecord::Schema.define(:version => 20110619215841) do
   end
 
   create_table "type_intervenants", :force => true do |t|
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "type_status_consignations", :force => true do |t|
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"

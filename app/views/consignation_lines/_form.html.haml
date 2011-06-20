@@ -1,0 +1,21 @@
+- form_for(@consignation_line) do |f|
+  %table
+    %thead
+      %th Contact
+      %th Société
+      %th Date
+      %th Terme
+      %th Status
+      %th Montant
+    %tbody Dossier.last.acteurs.map{|l| [l.description, l.contact_acteurs.map{|u| u.contact}]}
+      %tr
+        %td= f.select :contact_id, grouped_options_for_select(@consignation_line.consignation.dossier.acteurs.map{|l| [l.description, l.contact_acteurs.map{|u| [u.contact.full_name, u.contact.id] }]},@consignation_line.contact_id,'==Choisir==')
+        
+        %td= f.select :item_id, grouped_options_for_select( @consignation_line.consignation.dossier.acteurs.map{|l| [l.description, l.contact_acteurs.map{|u| [u.contact.institution.try(:nom), u.contact.institution.try(:id)] }]}, @consignation_line.institution_id,'==Choisir==')
+        %td= f.date_field :date_consignation, :class => "datepicker"
+        %td= f.text_field :description , :class => "datepicker"
+        %td= f.date_field :terme_consignation, :class => "datepicker"
+        %td= f.text_field :montant
+        %td
+          = select("consignation_line", "unite_id", Unite.all.collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
+          = f.hidden_field :consignation_id, :readonly=>"readonly"

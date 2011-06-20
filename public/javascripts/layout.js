@@ -1005,3 +1005,22 @@ function update_expense_div(){
 		
 	}
 }
+
+function load_new_consignation_div(){
+	
+}
+
+function enregistrer_consignation(){
+	if ($('#expense-list').length){}else{$('#expense-list-container').html('<table border="0" class="dossier main-form" id="expense-list"><thead><tr><th>Activité</th><th>Type dépense</th><th>Date</th><th>Description</th><th>Prix unitaire</th><th>Quantité</th><th>Unite</th><th>TVA</th><th>Total</th></tr></thead><tbody></tbody></table>')}
+	formattage_datatable('#expense-list');
+
+	$('#new_expense').ajaxSubmit({
+		success:function(data){
+			$('#expense-list tbody').append(data)
+			$('#expense-list').dataTable().fnAddData( [data.activite, data.type_depense, data.date_item, data.description_item, data.prix_unitaire, data.quantite,data.unite, data.tva, data.total   ] );
+			$('#new_expense')[0].reset();
+			}
+		})
+
+
+}

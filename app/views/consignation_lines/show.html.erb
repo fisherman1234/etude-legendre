@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Contact:</b>
+  <%= @consignation_line.contact_id %>
+</p>
+
+<p>
+  <b>Date consignation:</b>
+  <%= @consignation_line.date_consignation %>
+</p>
+
+<p>
+  <b>Terme consignation:</b>
+  <%= @consignation_line.terme_consignation %>
+</p>
+
+<p>
+  <b>Type status consignation:</b>
+  <%= @consignation_line.type_status_consignation %>
+</p>
+
+
+<%= link_to 'Edit', edit_consignation_line_path(@consignation_line) %> |
+<%= link_to 'Back', consignation_lines_path %>

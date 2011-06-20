@@ -37,6 +37,11 @@ class Dossier < ActiveRecord::Base
     end
   end
   
+  def contacts
+    return self.acteurs.map{|l| [l.description, l.contact_acteurs.map{|u| u.contact}]}
+  end
+  
+  
   def typeExpertise
     return self.type_expertise.description
   end

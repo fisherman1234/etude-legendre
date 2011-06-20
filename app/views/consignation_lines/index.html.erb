@@ -1,0 +1,29 @@
+<h1>Listing consignation_lines</h1>
+
+<table>
+  <tr>
+    <th>Contact</th>
+    <th>Date consignation</th>
+    <th>Terme consignation</th>
+    <th>Type status consignation</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @consignation_lines.each do |consignation_line| %>
+  <tr>
+    <td><%= consignation_line.contact_id %></td>
+    <td><%= consignation_line.date_consignation %></td>
+    <td><%= consignation_line.terme_consignation %></td>
+    <td><%= consignation_line.type_status_consignation %></td>
+    <td><%= link_to 'Show', consignation_line %></td>
+    <td><%= link_to 'Edit', edit_consignation_line_path(consignation_line) %></td>
+    <td><%= link_to 'Destroy', consignation_line, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Consignation line', new_consignation_line_path %>

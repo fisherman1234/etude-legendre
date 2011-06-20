@@ -31,7 +31,9 @@ $('form a.add_nested_fields').live('click', function() {
   var new_id  = new Date().getTime();
   content     = content.replace(regexp, new_id);
 
-  $(this).before(content);
+
+	$(this).before(content);
+	
   return false;
 });
 

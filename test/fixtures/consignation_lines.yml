@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  contact_id: 
+  date_consignation: 2011-06-20
+  terme_consignation: 2011-06-20
+  type_status_consignation: 1
+
+two:
+  contact_id: 
+  date_consignation: 2011-06-20
+  terme_consignation: 2011-06-20
+  type_status_consignation: 1

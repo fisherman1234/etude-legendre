@@ -1,0 +1,23 @@
+<h1>Listing type_status_consignations</h1>
+
+<table>
+  <tr>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @type_status_consignations.each do |type_status_consignation| %>
+  <tr>
+    <td><%= type_status_consignation.description %></td>
+    <td><%= link_to 'Show', type_status_consignation %></td>
+    <td><%= link_to 'Edit', edit_type_status_consignation_path(type_status_consignation) %></td>
+    <td><%= link_to 'Destroy', type_status_consignation, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Type status consignation', new_type_status_consignation_path %>

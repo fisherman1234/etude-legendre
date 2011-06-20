@@ -23,3 +23,11 @@
 	width:100%;
 	border-collapse:collapse
 }
+
+#recap-frais-consignation{
+	margin-top:20px;
+	margin-bottom:20px;
+	width:100%;
+	background-color:#E2E4FF;
+	border:1px solid #77D5F7;
+}

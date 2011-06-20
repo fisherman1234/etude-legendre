@@ -2,6 +2,10 @@ EtudeLegendre::Application.routes.draw do
 
 
 
+  resources :type_status_consignations
+
+  resources :consignation_lines
+
   resources :expenses
 
   resources :frais
