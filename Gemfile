@@ -15,7 +15,8 @@ gem 'liquid'
 gem "tiny_mce"
 gem 'yaml_db'
 gem 'gcal4ruby'
-gem 'gdata'
+
+#gem 'gdata'
 gem "extjs-mvc"
 
 gem "meta_search"
