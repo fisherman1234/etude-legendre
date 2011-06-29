@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.3'
-gem 'rake', '0.8.7'
+gem 'rails', '3.0.9'
+gem 'rake', '0.9.2'
 
 gem 'paper_trail'
 gem 'paperclip'
@@ -9,12 +9,16 @@ gem "nested_form", :git => "git://github.com/madebydna/nested_form.git"
 gem 'bitly'
 gem "prawn"
 gem "pdfkit"
+
 gem 'liquid'
+
 gem "tiny_mce"
 gem 'yaml_db'
 gem 'gcal4ruby'
 gem 'gdata'
-# gem "meta_search"
+gem "extjs-mvc"
+
+gem "meta_search"
 
 #gem "RedCloth", "4.2.7", :require => 'redcloth'
 
@@ -25,11 +29,11 @@ gem 'ruby-mysql'
 
 #gem 'sqlite3-ruby', :require => 'sqlite3'
 
-gem 'jquery-rails'
+#gem 'jquery-rails'
 gem 'haml'
-gem 'devise'
+gem 'devise', '1.1.3'
 
-gem 'ruby-debug'
+#gem 'ruby-debug'
 gem "hirb"
 gem 'mail'
 gem 'aws-s3', :require => 'aws/s3'

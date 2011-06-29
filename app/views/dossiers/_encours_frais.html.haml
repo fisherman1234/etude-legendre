@@ -1,8 +1,22 @@
-%table{:border => "0", :id=>'recap-frais-consignation'}
+%table{:border => "0", :class=>'recap-frais-consignation'}
   %tr
-    %td Consigné (Euros)
-    %td
-    %td Frais engagés (Euros)
-    %td= @dossier.total_ht
-    %td Restant (Euros)
-    %td
+    %td 
+      Frais engagés : 
+      %span{:class => "recap-frais-figure"}
+        = @dossier.total_ht
+        Eur.
+    %td 
+      Total consigné : 
+      %span{:class => "recap-frais-figure"}
+        = @dossier.montant_consigne
+        Eur.
+    %td 
+      A percevoir : 
+      %span{:class => "recap-frais-figure"}
+        = @dossier.montant_a_recevoir
+        Eur.
+    %td 
+      Reste dû : 
+      %span{:class => "recap-frais-figure"}
+        = @dossier.reste_du
+        Eur.

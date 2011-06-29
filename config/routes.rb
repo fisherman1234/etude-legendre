@@ -92,6 +92,8 @@ EtudeLegendre::Application.routes.draw do
   match 'dossiers/:id/frais', :to => 'dossiers#frais' , :method => :get  
   match 'dossiers/:id/recap_frais', :to => 'dossiers#recap_frais' , :method => :get  
   match 'dossiers/:id/recap_frais_full', :to => 'dossiers#recap_frais_full' , :method => :get  
+  match 'dossiers/:id/encours_frais', :to => 'dossiers#encours_frais' , :method => :get  
+
 
   match 'dossiers/:id/consignations', :to => 'dossiers#consignations' , :method => :get  
   match 'consignations/:id/destroy', :to => 'consignations#destroy' , :method => :post  

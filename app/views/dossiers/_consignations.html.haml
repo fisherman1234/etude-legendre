@@ -1,5 +1,8 @@
 %p
   %a{:href=> "#", :id=>"ajouter_consignation" ,:onClick => "ajouter_consignation();", :class => "button"} Nouvelle consignation
+  
+  =render 'encours_frais'
+  
 %table{:border => "0", :id=>'data-table-consignations', :class => 'display'}
   %thead
     %tr

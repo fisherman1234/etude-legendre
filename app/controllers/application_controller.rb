@@ -2,6 +2,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   layout :layout
   before_filter :define_locale
+  include ExtJS::Controller
+  helper ExtJS::Helpers::Store
+  helper ExtJS::Helpers::Component
 
   def define_locale
     if params[:locale] == nil

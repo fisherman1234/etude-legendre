@@ -4,6 +4,8 @@ class DossiersController < ApplicationController
   # GET /dossiers
   # GET /dossiers.xml
   def index
+    ActiveRecord::Base.include_root_in_json = false
+    
     if params[:term] != nil
       @dossiers = Dossier.find(:all, :conditions => ['id LIKE :search OR LOWER(ref_cabinet) LIKE LOWER(:search) OR LOWER(nom_dossier) LIKE LOWER(:search)', {:search => "%#{params[:term]}%"}])
     else
@@ -13,6 +15,8 @@ class DossiersController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @dossiers }
       format.js {render :json => @dossiers.map {|p| {  :label => p.try(:ref_cabinet)+' '+p.try(:nom_dossier)  , :value => p.id}} }
+      format.json {render :json => {"success"=>true,"data"=>@dossiers} }
+
     end
   end
 
@@ -52,6 +56,8 @@ class DossiersController < ApplicationController
       if @dossier.save
         format.html { redirect_to(@dossier, :notice => 'Le dossier a bien été créé') }
         format.xml  { render :xml => @dossier, :status => :created, :location => @dossier }
+        format.json  { render :json => @dossier, :status => :created, :location => @dossier }
+        
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @dossier.errors, :status => :unprocessable_entity }
@@ -68,6 +74,8 @@ class DossiersController < ApplicationController
       if @dossier.update_attributes(params[:dossier])
         format.html { redirect_to(@dossier, :notice => 'Dossier was successfully updated.') }
         format.xml  { head :ok }
+        format.json  { render :json => { :success => true, :message => "Updated Dossier #{@dossier.id}", :data => @dossier }}
+        
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @dossier.errors, :status => :unprocessable_entity }
@@ -139,7 +147,7 @@ class DossiersController < ApplicationController
     @dossier = Dossier.find(params[:id])
     @documents = []
     @dossier.documents.each do |document|
-      @documents.push([document.description, document.file_file_name, document.file_file_size.to_s, document.file_updated_at, document.id, "<a href="+document.file.url+">Lien</a>"])
+      @documents.push([document.description, document.file_file_name, document.file_file_size.to_s, document.file_updated_at, document.id, "<a href="+document.generate_long_link+">Lien</a>"])
     end
     
     respond_to do |format|
@@ -217,5 +225,10 @@ class DossiersController < ApplicationController
     @dossier = Dossier.find(params[:id])
     @expenses = @dossier.expenses
     render
+  end
+  
+  def encours_frais
+    @dossier = Dossier.find(params[:id])
+    render :partial => 'encours_frais'
   end
 end

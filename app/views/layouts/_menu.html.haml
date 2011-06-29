@@ -6,7 +6,7 @@
         %li
           %a{:href => "#", :onClick => "navigate_page('/dossiers/new');"} Nouveau
         %li
-          %a{:href => "#", :onClick => "navigate_page('/dossiers');"} Ouvrir
+          %a{:href => "/dossiers"} Ouvrir
     %li.menumain
       %a{:href => "#"} Contacts
       %ul
@@ -14,33 +14,8 @@
           %a{:href => "#", :onclick => "create_contact();"} Nouveau
         %li
           %a{:href => "#", :onClick => "navigate_page('/contacts');"} Répertoire
-    %li.menumain
-      %a{:href => "#"} Institutions
-      %ul
-        %li
-          %a{:href => "#", :onclick => "create_institution();"} Nouveau
-        %li
-          %a{:href => "#", :onClick => "navigate_page('/institutions');"} Index
-    %li.menumain
-      %a{:href => "#"} Documents
-      %ul
-        %li
-          %a{:href => "#", :onclick => "create_document();"} Nouveau
-        %li
-          %a{:href => "#", :onClick => "navigate_page('/documents');"} Liste des documents
-    %li.menumain
-      %a{:href => "#"} Paramètres
-      %ul
-        %li
-          %a{:href => "/type_institutions"} Types d'institutions
-        %li
-          %a{:href => "/type_intervenants"} Fonctions entreprise
-        %li
-          %a{:href => "/type_expertises"} Types d'expertises
-        %li
-          %a{:href => "/qualite_procedurales"} Qualité procédurale
-        %li
-          %a{:href => "/type_decisions"} Types de décisions
+
+ 
     %li.menumain
       | 
     %li{:class=>"menumain", :style=>"float:right;"}

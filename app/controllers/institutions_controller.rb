@@ -19,6 +19,8 @@ class InstitutionsController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @institutions }
       format.js {render :json => @institutions.map {|p| {  :label => p.nom  , :value => p.id}} }
+      format.json {render :json => {"success"=>true,"data"=>@institutions} }
+      
     end
   end
 
@@ -30,6 +32,8 @@ class InstitutionsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @institution }
+      format.json {render :json => {"success"=>true,"data"=>@institution} }
+      
     end
   end
 

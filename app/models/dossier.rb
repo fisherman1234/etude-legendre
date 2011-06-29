@@ -11,6 +11,11 @@ class Dossier < ActiveRecord::Base
   belongs_to :user
   has_many :consignations
   
+  include ExtJS::Model
+  extjs_fields :id, :nom_dossier, :ref_cabinet, :date_decision, :date_avis_designation, :date_cible_depot_rapport, :date_effective_depot_raport, :numero_role_general, :typeExpertise, :typeDecision, :juridiction, :date_debut_op_theorique
+  
+  
+  
   has_attached_file :recap_frais,
     :storage => :s3,
     :bucket => 'etude-legendre',
@@ -132,6 +137,25 @@ class Dossier < ActiveRecord::Base
     @expenses = self.expenses.all
     return  @expenses.map{|l| l.total_ttc}.sum.round(2)
   end
+  
+  def montant_consigne
+    @consignations = self.consignations.all
+    return @consignations.map{|l| l.consignation_lines.where(:type_status_consignation_id => 3).first.try(:montant).to_f}.sum.round(2)
+  end
+  
+  def montant_paye
+    @consignations = self.consignations.all
+    return @consignations.map{|l| l.consignation_lines.where(:type_status_consignation_id => 4).first.try(:montant).to_f}.sum.round(2)
+  end
+  
+  def montant_a_recevoir
+    return self.montant_consigne - self.montant_paye
+  end
+  
+  def reste_du
+    return self.total_ht - self.montant_paye
+  end
+  
   
   def render_recap_frais
     @dossier = self

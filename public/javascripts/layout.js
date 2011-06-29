@@ -1050,6 +1050,8 @@ function edit_consignation(id) {
 				close: function(event, ui) {
 					$( "#add-consignation-window" ).remove(); 
 					$("#data-table-consignations").dataTable().fnReloadAjax();
+					$('.recap-frais-consignation').load('/dossiers/'+$("#dossier_id").val()+'/encours_frais');
+					
 					},
      			buttons: {
 					"Supprimer": function() {
@@ -1072,4 +1074,26 @@ function edit_consignation(id) {
                    	}			
      });
 }
+
+function edit_parameter(nom_parametre){
+}
+
+Ext.define('User', {
+    extend: 'Ext.data.Model',
+    fields: [ 'name', 'email', 'phone' ]
+});
+
+var userStore = Ext.create('Ext.data.Store', {
+    model: 'User',
+	groupField: 'department',
+    data: [
+        {department:'home', name: 'Lisa', email: 'lisa@simpsons.com', phone: '555-111-1224' },
+        {department:'home', name: 'Bart', email: 'bart@simpsons.com', phone: '555-222-1234' },
+        {department:'office', name: 'Homer', email: 'home@simpsons.com', phone: '555-222-1244' },
+        {department:'office', name: 'Marge', email: 'marge@simpsons.com', phone: '555-222-1254' }
+    ]
+});
+
+
+
 
