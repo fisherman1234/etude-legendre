@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  active_scaffold :items
+  # active_scaffold :items
   # GET /items
   # GET /items.xml
   def index
