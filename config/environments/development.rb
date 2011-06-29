@@ -14,6 +14,7 @@ EtudeLegendre::Application.configure do
   config.action_view.debug_rjs             = true
   config.action_controller.perform_caching = false
   config.i18n.locale = :fr
+  config.action_mailer.default_url_options = { :host => 'etude-legendre.heroku.com' }
   
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = true
