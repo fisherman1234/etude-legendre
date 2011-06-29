@@ -11,8 +11,7 @@ class Dossier < ActiveRecord::Base
   belongs_to :user
   has_many :consignations
   
-  extjs_fields :id, :nom_dossier, :ref_cabinet, :date_decision, :date_avis_designation, :date_cible_depot_rapport, :date_effective_depot_raport, :numero_role_general, :typeExpertise, :typeDecision, :juridiction, :date_debut_op_theorique
-  
+
   
   
   has_attached_file :recap_frais,
