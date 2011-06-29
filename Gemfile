@@ -25,7 +25,7 @@ gem "meta_search"
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'ruby-mysql'
+gem 'mysql'
 
 #gem 'sqlite3-ruby', :require => 'sqlite3'
 
