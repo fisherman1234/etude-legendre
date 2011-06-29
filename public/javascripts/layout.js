@@ -168,7 +168,7 @@ function primary_formatting(){
 	formattage_datatable("#repertoire-contact");
 	
 	$("#liste-dossiers tbody tr").click(function(event) {
-		navigate_page('/dossiers/'+$(this).attr('id')+'/edit');
+		window.location.href = '/dossiers/'+$(this).attr('id')+'/edit';
 	});
 	formattage_datatable("#liste-dossiers");
 	
