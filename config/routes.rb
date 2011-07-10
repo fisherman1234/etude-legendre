@@ -1,6 +1,8 @@
 EtudeLegendre::Application.routes.draw do
 
-
+  resources :institutions do
+    get :autocomplete_institutions_nom, :on => :collection
+  end
 
   resources :type_status_consignations
 

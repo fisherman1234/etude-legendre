@@ -1,4 +1,5 @@
 class InstitutionsController < ApplicationController
+  autocomplete :institutions, :nom
 
   before_filter :authenticate_user!
   

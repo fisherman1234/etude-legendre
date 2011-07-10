@@ -1,4 +1,4 @@
-- form_for(@dossier) do |f| 
+- form_for @dossier, :validate => true do  |f| 
 
   %table{:border => "0", :class => "dossier main-form"}
     %tbody
@@ -91,10 +91,8 @@
   
       %tr
         %td Etat du dossier
-        %td= select("dossier", "type_etat_dossier_id", TypeEtatDossier.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
-        %td Commentaires ?
-        %td todo commentaires
-   
+        %td{:colspan => "2"}= select("dossier", "type_etat_dossier_id", TypeEtatDossier.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
+
       %tr
         %td Rapport à déposer le
         %td= f.text_field :date_cible_depot_rapport, :class => "datepicker"

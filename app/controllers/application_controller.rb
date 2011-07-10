@@ -18,6 +18,11 @@ class ApplicationController < ActionController::Base
       '/dossiers'
   end
   
+   
+  def after_sign_out_path_for(resource_or_scope)
+    '/login'
+  end
+  
   def to_pdf
     filename = File.join(RAILS_ROOT, 'tmp', 'base.html')
     outname = File.join(RAILS_ROOT, 'tmp', 'out.pdf')

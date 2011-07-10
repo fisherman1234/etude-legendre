@@ -10,6 +10,10 @@ gem 'bitly'
 gem "prawn"
 gem "pdfkit", '0.5.1'
 
+gem 'client_side_validations'
+gem 'rails3-jquery-autocomplete'
+
+
 gem 'liquid'
 
 gem "tiny_mce"
@@ -17,6 +21,8 @@ gem 'yaml_db'
 gem 'gcal4ruby'
 
 gem 'web-app-theme', '>= 0.6.2'
+gem "hpricot"
+gem "ruby_parser"
 
 #gem 'gdata'
 gem "extjs-mvc"
