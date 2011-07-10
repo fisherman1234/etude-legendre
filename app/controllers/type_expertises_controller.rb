@@ -1,4 +1,6 @@
 class TypeExpertisesController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /type_expertises
   # GET /type_expertises.xml
   def index

@@ -1,4 +1,6 @@
 class ContactActeursController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /contact_acteurs
   # GET /contact_acteurs.xml
   def index

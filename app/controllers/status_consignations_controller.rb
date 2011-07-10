@@ -1,4 +1,6 @@
 class StatusConsignationsController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /status_consignations
   # GET /status_consignations.xml
   def index

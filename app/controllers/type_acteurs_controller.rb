@@ -1,4 +1,6 @@
 class TypeActeursController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /type_acteurs
   # GET /type_acteurs.xml
   def index

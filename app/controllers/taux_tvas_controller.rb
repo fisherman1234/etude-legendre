@@ -1,4 +1,6 @@
 class TauxTvasController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /taux_tvas
   # GET /taux_tvas.xml
   def index

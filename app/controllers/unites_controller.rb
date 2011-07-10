@@ -1,4 +1,6 @@
 class UnitesController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /unites
   # GET /unites.xml
   def index

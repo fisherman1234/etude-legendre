@@ -16,6 +16,8 @@ gem "tiny_mce"
 gem 'yaml_db'
 gem 'gcal4ruby'
 
+gem 'web-app-theme', '>= 0.6.2'
+
 #gem 'gdata'
 gem "extjs-mvc"
 

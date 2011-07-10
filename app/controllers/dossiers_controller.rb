@@ -1,6 +1,8 @@
 # coding: utf-8
 
 class DossiersController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /dossiers
   # GET /dossiers.xml
   def index

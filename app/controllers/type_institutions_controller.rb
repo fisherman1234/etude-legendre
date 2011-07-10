@@ -1,4 +1,6 @@
 class TypeInstitutionsController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /type_institutions
   # GET /type_institutions.xml
   def index

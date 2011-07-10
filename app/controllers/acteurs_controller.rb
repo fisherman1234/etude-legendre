@@ -1,4 +1,6 @@
 class ActeursController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /acteurs
   # GET /acteurs.xml
   def index

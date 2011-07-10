@@ -1,4 +1,6 @@
 class TypeAdressesController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /type_adresses
   # GET /type_adresses.xml
   def index

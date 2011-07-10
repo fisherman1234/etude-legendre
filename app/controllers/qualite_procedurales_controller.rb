@@ -1,4 +1,6 @@
 class QualiteProceduralesController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /qualite_procedurales
   # GET /qualite_procedurales.xml
   def index

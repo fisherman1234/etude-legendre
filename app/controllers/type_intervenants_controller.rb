@@ -1,4 +1,6 @@
 class TypeIntervenantsController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /type_intervenants
   # GET /type_intervenants.xml
   def index

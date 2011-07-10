@@ -1,4 +1,6 @@
 class ParametresCabinetsController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /parametres_cabinets
   # GET /parametres_cabinets.xml
   def index

@@ -1,4 +1,6 @@
 class ConsignationLinesController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /consignation_lines
   # GET /consignation_lines.xml
   def index

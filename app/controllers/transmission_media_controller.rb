@@ -1,4 +1,6 @@
 class TransmissionMediaController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /transmission_media
   # GET /transmission_media.xml
   def index

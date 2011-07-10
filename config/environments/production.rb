@@ -46,7 +46,7 @@ EtudeLegendre::Application.configure do
   config.i18n.fallbacks = true
   config.i18n.locale = :fr
   config.action_mailer.default_url_options = { :host => 'etude-legendre.heroku.com' }
-  
+  config.i18n.default_locale = :fr
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify

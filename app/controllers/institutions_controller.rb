@@ -1,5 +1,6 @@
 class InstitutionsController < ApplicationController
 
+  before_filter :authenticate_user!
   
   # GET /institutions
   # GET /institutions.xml

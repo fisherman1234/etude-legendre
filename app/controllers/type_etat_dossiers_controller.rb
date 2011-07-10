@@ -1,4 +1,6 @@
 class TypeEtatDossiersController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /type_etat_dossiers
   # GET /type_etat_dossiers.xml
   def index

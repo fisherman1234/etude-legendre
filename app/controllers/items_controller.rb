@@ -1,4 +1,6 @@
 class ItemsController < ApplicationController
+  before_filter :authenticate_user!
+  
   # active_scaffold :items
   # GET /items
   # GET /items.xml

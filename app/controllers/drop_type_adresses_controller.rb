@@ -1,4 +1,6 @@
 class DropTypeAdressesController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /drop_type_adresses
   # GET /drop_type_adresses.xml
   def index

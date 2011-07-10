@@ -1,4 +1,6 @@
 class TypeActivitesController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /type_activites
   # GET /type_activites.xml
   def index

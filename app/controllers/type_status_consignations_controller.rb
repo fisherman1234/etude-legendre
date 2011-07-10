@@ -1,4 +1,6 @@
 class TypeStatusConsignationsController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /type_status_consignations
   # GET /type_status_consignations.xml
   def index

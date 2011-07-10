@@ -1,4 +1,6 @@
 class CommunicationsController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /communications
   # GET /communications.xml
   def index
