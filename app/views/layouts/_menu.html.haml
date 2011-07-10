@@ -4,7 +4,7 @@
       %a{:href => "#"} Dossiers
       %ul
         %li
-          %a{:href => "#", :onClick => "navigate_page('/dossiers/new');"} Nouveau
+          %a{:href => "/dossiers/new"} Nouveau
         %li
           %a{:href => "/dossiers"} Ouvrir
     %li.menumain
@@ -13,13 +13,13 @@
         %li
           %a{:href => "#", :onclick => "create_contact();"} Nouveau
         %li
-          %a{:href => "#", :onClick => "navigate_page('/contacts');"} Répertoire
+          %a{:href => "/contacts"} Répertoire
 
  
     %li.menumain
       | 
     %li{:class=>"menumain", :style=>"float:right;"}
-      %a{:href => "#", :id=>"field_username"}
+      %a{:href => "#"}= current_user.email 
       %ul
         %li
           %a{:href => "#", :onclick => "create_institution();"} Mon compte

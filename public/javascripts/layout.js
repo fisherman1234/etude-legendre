@@ -1094,6 +1094,8 @@ var userStore = Ext.create('Ext.data.Store', {
     ]
 });
 
-
+function generate_pdf () {
+	$.post("/to_pdf", { body: document.documentElement.outerHTML});
+}
 
 

@@ -8,7 +8,7 @@ gem 'paperclip'
 gem "nested_form", :git => "git://github.com/madebydna/nested_form.git"
 gem 'bitly'
 gem "prawn"
-gem "pdfkit"
+gem "pdfkit", '0.5.1'
 
 gem 'liquid'
 
@@ -26,7 +26,7 @@ gem "meta_search"
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'mysql'
+gem 'ruby-mysql'
 
 #gem 'sqlite3-ruby', :require => 'sqlite3'
 

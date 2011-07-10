@@ -1,7 +1,6 @@
 class ActivitesController < ApplicationController
   # GET /activites
   # GET /activites.xml
-  uses_tiny_mce 
   
   def index
     @activites = Activite.all

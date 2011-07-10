@@ -24,10 +24,18 @@ class DossiersController < ApplicationController
   # GET /dossiers/1.xml
   def show
     @dossier = Dossier.find(params[:id])
+    
 
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @dossier }
+      format.pdf {
+        html = render_to_string( :action => "show")
+        kit = PDFKit.new(html,  :page_size => 'A4')
+        kit = kit.to_pdf
+        send_data(kit, :filename => "labels.pdf", :type => 'application/pdf', :disposition => 'inline')
+        return
+      }
     end
   end
 

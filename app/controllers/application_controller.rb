@@ -17,6 +17,19 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
       '/dossiers'
   end
+  
+  def to_pdf
+    filename = File.join(RAILS_ROOT, 'tmp', 'base.html')
+    outname = File.join(RAILS_ROOT, 'tmp', 'out.pdf')
+    
+    File.open(filename, 'w') do |f|
+          f.write(params[:body])
+    end
+    %x[wkhtmltopdf #{filename} #{outname}]
+    send_file(outname, :disposition => 'inline')
+    return # to avoid double render call
+    
+  end
 
     private
 

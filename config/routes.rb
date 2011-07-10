@@ -102,6 +102,7 @@ EtudeLegendre::Application.routes.draw do
   match "expenses/:id/destroy", :to => "expenses#destroy", :method => :post 
   match "activites/:id/expenses", :to => "activites#expenses", :method => :get 
   
+  match "to_pdf", :to => "application#to_pdf", :method => :post 
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
