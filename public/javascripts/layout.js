@@ -162,7 +162,7 @@ function primary_formatting(){
 	
 	//Creation des datatables
 	$("#repertoire-contact tbody tr").click(function(event) {
-		navigate_page('/contacts/'+$(this).attr('id')+'/edit');
+		window.location.href = '/contacts/'+$(this).attr('id')+'/edit';
 	});
 	
 	formattage_datatable("#repertoire-contact");
@@ -584,25 +584,7 @@ function submit_form(form){
 
 
 
-function get_history_list_for_user(){
-	
-	
-}
 
-function get_user_infos(){
-	$.ajax({
-	  type: 'GET',
-	  url: "/current_user_signed_in.js",
-	  dataType: "json",
-	  success: function(data) {
-		if (data!=null){
-		$("#field_username").html(data.user.email.toLowerCase());
-		}else{
-			window.location.href = "/login";
-			}
-	}
-	});	
-}
 
 
 function action_performed(text, icon){
@@ -936,7 +918,6 @@ function ajouter_frais(activite_id) {
 
 primary_formatting();
 page_load_scripts();
-get_user_infos();
 
 function enregistrer_frais(){
 if ($('#expense-list').length){}else{$('#expense-list-container').html('<table border="0" class="dossier main-form" id="expense-list"><thead><tr><th>Activité</th><th>Type dépense</th><th>Date</th><th>Description</th><th>Prix unitaire</th><th>Quantité</th><th>Unite</th><th>TVA</th><th>Total</th></tr></thead><tbody></tbody></table>')}
@@ -1078,24 +1059,6 @@ function edit_consignation(id) {
 function edit_parameter(nom_parametre){
 }
 
-Ext.define('User', {
-    extend: 'Ext.data.Model',
-    fields: [ 'name', 'email', 'phone' ]
-});
 
-var userStore = Ext.create('Ext.data.Store', {
-    model: 'User',
-	groupField: 'department',
-    data: [
-        {department:'home', name: 'Lisa', email: 'lisa@simpsons.com', phone: '555-111-1224' },
-        {department:'home', name: 'Bart', email: 'bart@simpsons.com', phone: '555-222-1234' },
-        {department:'office', name: 'Homer', email: 'home@simpsons.com', phone: '555-222-1244' },
-        {department:'office', name: 'Marge', email: 'marge@simpsons.com', phone: '555-222-1254' }
-    ]
-});
-
-function generate_pdf () {
-	$.post("/to_pdf", { body: document.documentElement.outerHTML});
-}
 
 
