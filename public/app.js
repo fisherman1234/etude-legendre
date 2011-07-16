@@ -5,7 +5,8 @@ Ext.application({
 	title: 'Cabinet Legendre',
 	controllers: [
 	        'Dossiers', 
-			'Institutions'
+			'Institutions', 
+			'Settings'
 	    ],
 	
 	

@@ -81,6 +81,15 @@ function primary_formatting(){
 			};
 	});
 	$("input.clickable:not(.dblclickable)").addClass("dblclickable");
+	//institutions
+	$("input.inst_clickable:not(.dblclickable)").bind("dblclick", function(){
+		sous_jacent = $(this).attr('id').replace('_label','')+'_id';
+			if ($('#'+sous_jacent).val()!=''){
+					edit_institution_detail($('#'+sous_jacent).val());
+			};
+	});
+	$("input.inst_clickable:not(.dblclickable)").addClass("dblclickable");
+	//...
 	$("#contact_type_intervenant_id").change(function(){
 		load_adress_line();
 	});
@@ -516,6 +525,39 @@ function edit_contact_detail(id){
 								   type: "PUT",
 								   url: '/contacts/'+id+'.json',
 								   data: $(".edit_contact").serialize()
+								 });
+	                   		$( this ).dialog( "close" );
+	                   		}
+	                   	}			
+	     });
+	
+}
+
+
+function edit_institution_detail(id){
+		$( "#edit-institution-dialog" ).remove(); 
+		$('body').append("<div id='edit-institution-dialog' style=''></div>");
+		$('#edit-institution-dialog').load('/institutions/'+id+'/edit .edit_institution', function() {
+		  primary_formatting();
+		});
+	     $( "#edit-institution-dialog" ).dialog({
+	     			height: 600,
+	     			width: 800,
+	     			modal: true,
+					title: 'Editer une société',
+					close: function(event, ui) {
+						$( "#edit-institution-dialog" ).remove(); 
+						},
+	     			buttons: {
+	           				"Supprimer cette société": function() {
+	           				  $.post('/institutions/'+id+'/destroy');
+	           				  $( this ).dialog( "close" );        				  
+	           				},
+	           				"Enregistrer": function() {
+								$.ajax({
+								   type: "PUT",
+								   url: '/institutions/'+id+'.json',
+								   data: $(".edit_institution").serialize()
 								 });
 	                   		$( this ).dialog( "close" );
 	                   		}

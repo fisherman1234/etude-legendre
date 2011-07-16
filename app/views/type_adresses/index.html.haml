@@ -1,0 +1,22 @@
+%h1 Listing type_adresses
+%div#listing
+  %table
+    %thead
+      %th Description adresse
+      %th Description courrier
+      %th Type intervenant
+      %th Civilite
+      %th
+      %th
+      %th
+    %tbody
+      - @type_adresses.each do |type_adress|
+        %tr
+          %td= type_adress.description_adresse
+          %td= type_adress.description_courrier
+          %td= type_adress.type_intervenant_id
+          %td= type_adress.civilite_id
+          %td= link_to 'Show', type_adress
+          %td= link_to 'Edit', edit_type_adress_path(type_adress)
+          %td= link_to 'Destroy', type_adress, :confirm => 'Are you sure?', :method => :delete
+  

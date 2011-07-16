@@ -9,9 +9,7 @@ class Contact < ActiveRecord::Base
     [prenom, nom].join(' ')
   end
   
-  def dossiers
-    self.contact_acteurs.map {|l| [l.acteur.dossier.try(:ref_cabinet), l.acteur.dossier.try(:nom_dossier), Institution.find(l.acteur.dossier.institution_id).try(:nom)] }
-  end
+
 
 
 end

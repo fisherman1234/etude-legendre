@@ -1,0 +1,23 @@
+%div#parameters-list
+  
+  %div#categories-parameters-list
+    %ul{:class=>"parameter-ul"}
+      %li{:class=>"parameter-item", :form_ref=>"parametres_cabinet"} Paramètres du cabinet
+      %li{:class=>"parameter-item", :form_ref=>"type_adresses"} Civilités courrier
+      %li{:class=>"parameter-item", :form_ref=>"qualite_procedurales"} Qualités procédurales
+      %li{:class=>"parameter-item", :form_ref=>"type_status_consignations"} Status des consignations
+      %li{:class=>"parameter-item", :form_ref=>"type_acteurs"} Type d'acteurs
+      %li{:class=>"parameter-item", :form_ref=>"type_activites"} Type d'activités
+      %li{:class=>"parameter-item", :form_ref=>"type_decisions"} Types de décisions
+      %li{:class=>"parameter-item", :form_ref=>"type_etat_dossiers"} Chronologie des dossiers
+      %li{:class=>"parameter-item", :form_ref=>"type_expertises"} Types d'expertise
+      %li{:class=>"parameter-item", :form_ref=>"type_institutions"} Types de sociétés
+      %li{:class=>"parameter-item", :form_ref=>"type_intervenants"} Types d'intervenants
+      %li{:class=>"list-separator"}
+      %li{:class=>"parameter-item", :form_ref=>"unites"} Unités
+      %li{:class=>"parameter-item", :form_ref=>"taux_tvas"} Taux TVA
+      %li{:class=>"parameter-item", :form_ref=>"Catégorie"} Catégories de frais
+      %li{:class=>"parameter-item", :form_ref=>"Item.all"} Types de dépenses
+
+  %div#display-parameters-list
+    = render 'form'

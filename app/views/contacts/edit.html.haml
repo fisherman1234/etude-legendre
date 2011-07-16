@@ -15,19 +15,6 @@
   %div#tabs-0
     = render 'form'
 
-  %div#tabs-1
-    %table{:class => "data-table-standard"}
-      %thead
-        %tr
-          %th Référence
-          %th Juridiction
-          %th Nom de l'affaire
-      %tbody
-        - @contact.dossiers.each do |dossier|
-          %tr
-            %td= dossier[0]
-            %td= dossier[2]
-            %td= dossier[1]
+
   
-  %div#tabs-2
-  %div#tabs-3
+
