@@ -16,6 +16,7 @@ gem 'rails3-jquery-autocomplete'
 #In place edit
 gem "best_in_place"
 
+gem "will_paginate"
 
 gem 'liquid'
 
