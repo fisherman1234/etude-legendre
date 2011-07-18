@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.3'
-gem 'rake', '0.9.2'
+gem 'rake', '0.8.7'
 
 gem 'paper_trail'
 gem 'paperclip'
@@ -12,6 +12,9 @@ gem "pdfkit", '0.5.1'
 
 gem 'client_side_validations'
 gem 'rails3-jquery-autocomplete'
+
+#In place edit
+gem "best_in_place"
 
 
 gem 'liquid'

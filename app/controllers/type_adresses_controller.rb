@@ -72,9 +72,13 @@ class TypeAdressesController < ApplicationController
       if @type_adress.update_attributes(params[:type_adresse])
         format.html { redirect_to(@type_adress, :notice => 'Type adresse was successfully updated.') }
         format.xml  { head :ok }
+        format.json { head :ok }
+        
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @type_adress.errors, :status => :unprocessable_entity }
+        format.json { render :json => @type_adress.errors.full_messages, :status => :unprocessable_entity }
+        
       end
     end
   end

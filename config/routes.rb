@@ -1,5 +1,7 @@
 EtudeLegendre::Application.routes.draw do
 
+  resources :civilites
+
   resources :institutions do
     get :autocomplete_institutions_nom, :on => :collection
   end

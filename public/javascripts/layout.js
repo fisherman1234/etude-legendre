@@ -9,6 +9,8 @@ tinyMCE.init({
 });
 
 function primary_formatting(){
+	jQuery(".best_in_place").best_in_place()
+  
 	autocomplete_institution(".contact",'');
 	autocomplete_institution(".dossier", "?type=1");
 	autocomplete_contact ("juge_mission", "?type=1");
@@ -541,7 +543,7 @@ function edit_institution_detail(id){
 		  primary_formatting();
 		});
 	     $( "#edit-institution-dialog" ).dialog({
-	     			height: 600,
+	     			height: 400,
 	     			width: 800,
 	     			modal: true,
 					title: 'Editer une société',
