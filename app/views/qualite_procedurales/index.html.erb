@@ -1,23 +1,17 @@
-<h1>Listing qualite_procedurales</h1>
-
-<table>
-  <tr>
-    <th>Description</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @qualite_procedurales.each do |qualite_procedurale| %>
-  <tr>
-    <td><%= qualite_procedurale.description %></td>
-    <td><%= link_to 'Show', qualite_procedurale %></td>
-    <td><%= link_to 'Edit', edit_qualite_procedurale_path(qualite_procedurale) %></td>
-    <td><%= link_to 'Destroy', qualite_procedurale, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Qualite procedurale', new_qualite_procedurale_path %>
+<div id="parameter-content">
+  <%= netzke :qualites_procedurales,
+    :class_name => "Basepack::GridPanel",
+    :model => "QualiteProcedurale",
+    :strong_default_attrs => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :columns => [:description],
+    :scope => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :view_config => {
+        :force_fit => true # force the columns to occupy all the available width
+      },
+    :enable_edit_in_form => false
+    #:prohibit_update => true,
+    #:prohibit_delete => true,
+    #:prohibit_create => true
+  
+  %>
+</div>

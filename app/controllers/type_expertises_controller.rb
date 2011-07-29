@@ -11,7 +11,7 @@ class TypeExpertisesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html {render :layout => "light"} # index.html.erb
       format.xml  { render :xml => @type_expertises }
       format.js {render :json => @type_expertises.map {|p| { :value => p.id, :label => p.description }} }
       

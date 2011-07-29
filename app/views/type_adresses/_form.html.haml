@@ -1,0 +1,15 @@
+= form_for(@type_adress) do |f|
+  %table
+    %tr
+      %td Type d'intervenant
+      %td= select( "type_adresse", "type_intervenant_id", TypeIntervenant.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
+    %tr
+      %td Civilité
+      %td= select( "type_adresse", "civilite_id", { "Mlle" => 1, "Mme" => 2, "M" => 3})
+    %tr
+      %td Intitulé enveloppe 
+      %td=f.text_field :description_adresse
+    %tr
+      %td Intitulé courrier
+      %td= f.text_field :description_courrier, :class => "minuscule"
+

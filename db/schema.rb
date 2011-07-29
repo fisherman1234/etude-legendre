@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110620101630) do
+ActiveRecord::Schema.define(:version => 20110725133332) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -53,6 +53,13 @@ ActiveRecord::Schema.define(:version => 20110620101630) do
   create_table "categories", :force => true do |t|
     t.string   "description"
     t.integer  "taux_tva_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "parametres_cabinet_id"
+  end
+
+  create_table "civilites", :force => true do |t|
+    t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -258,6 +265,7 @@ ActiveRecord::Schema.define(:version => 20110620101630) do
     t.integer  "unite_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parametres_cabinet_id"
   end
 
   create_table "ligne_consignation_items", :force => true do |t|
@@ -327,6 +335,7 @@ ActiveRecord::Schema.define(:version => 20110620101630) do
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parametres_cabinet_id"
   end
 
   create_table "status_consignations", :force => true do |t|
@@ -340,6 +349,7 @@ ActiveRecord::Schema.define(:version => 20110620101630) do
     t.float    "taux"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parametres_cabinet_id"
   end
 
   create_table "transmission_media", :force => true do |t|
@@ -352,12 +362,14 @@ ActiveRecord::Schema.define(:version => 20110620101630) do
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parametres_cabinet_id"
   end
 
   create_table "type_activites", :force => true do |t|
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parametres_cabinet_id"
   end
 
   create_table "type_adresses", :force => true do |t|
@@ -367,6 +379,7 @@ ActiveRecord::Schema.define(:version => 20110620101630) do
     t.integer  "civilite_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parametres_cabinet_id"
   end
 
   create_table "type_decisions", :force => true do |t|
@@ -374,6 +387,7 @@ ActiveRecord::Schema.define(:version => 20110620101630) do
     t.text     "commentaires"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parametres_cabinet_id"
   end
 
   create_table "type_etat_dossiers", :force => true do |t|
@@ -381,6 +395,7 @@ ActiveRecord::Schema.define(:version => 20110620101630) do
     t.integer  "ordre_apparition"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parametres_cabinet_id"
   end
 
   create_table "type_expertises", :force => true do |t|
@@ -388,30 +403,35 @@ ActiveRecord::Schema.define(:version => 20110620101630) do
     t.text     "commentaires"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parametres_cabinet_id"
   end
 
   create_table "type_institutions", :force => true do |t|
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parametres_cabinet_id"
   end
 
   create_table "type_intervenants", :force => true do |t|
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parametres_cabinet_id"
   end
 
   create_table "type_status_consignations", :force => true do |t|
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parametres_cabinet_id"
   end
 
   create_table "unites", :force => true do |t|
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parametres_cabinet_id"
   end
 
   create_table "users", :force => true do |t|

@@ -18,6 +18,8 @@ function primary_formatting(){
 	autocomplete_contact ("contact", "");
 	autocomplete_dossier("dossier","");
 
+
+	$(".parameter-item").bind("click",function (evt) {edit_parameter(this.getAttribute("datacontent") )});
 	
 	$('#expense_item_id').change(function() {
 
@@ -158,6 +160,7 @@ function primary_formatting(){
 	$(".data-table-standard").dataTable({
 		"bJQueryUI": true,
 		"bRetrieve": true,
+		"bSortClasses": false,
 		"sPaginationType": "full_numbers",
 		"bProcessing": true,
 		"oLanguage": {
@@ -1100,9 +1103,44 @@ function edit_consignation(id) {
      });
 }
 
-function edit_parameter(nom_parametre){
+function edit_parameter(path_parameter){
+	console.log(path_parameter);
+	$('#display-parameters-list').load(path_parameter, function(){
+		primary_formatting();
+	});
 }
 
 
+function create_parameter(parameter_name, window_title, height){
+	$('body').append("<div id='add-parameter' style=''></div>");
+	$('#add-parameter').load('/'+parameter_name+'s/new #new_'+parameter_name, function(){
+		primary_formatting();
+	});
+     $( "#add-parameter" ).dialog({
+     			height: height,
+     			width: 850,
+     			modal: true,
+				title: window_title,
+				close: function(event, ui) {
+					$( "#add-parameter" ).remove();
+					 },
+     			buttons: {
+           				"Ajouter": function() {
+           				  $.post('/'+parameter_name+'s', $('#new_'+parameter_name).serialize());
+           				  $( this ).dialog( "close" );    
+						window.location.reload();       				  
+           				},
+           				"Annuler": function() {
+                   					$( this ).dialog( "close" );
+                   				}
+                   	}			
+     });
+};
 
-
+function delete_parameter(parameter_name, parameter_id){
+	if (confirm('Voulez-vous vraiement supprimer cet élément ?')){
+		$.post('/'+parameter_name+'s/'+parameter_id+'/destroy');
+		window.location.reload();
+		
+	}
+}

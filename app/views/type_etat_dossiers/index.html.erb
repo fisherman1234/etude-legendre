@@ -1,25 +1,17 @@
-<h1>Listing type_etat_dossiers</h1>
-
-<table>
-  <tr>
-    <th>Description</th>
-    <th>Ordre apparition</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @type_etat_dossiers.each do |type_etat_dossier| %>
-  <tr>
-    <td><%= type_etat_dossier.description %></td>
-    <td><%= type_etat_dossier.ordre_apparition %></td>
-    <td><%= link_to 'Show', type_etat_dossier %></td>
-    <td><%= link_to 'Edit', edit_type_etat_dossier_path(type_etat_dossier) %></td>
-    <td><%= link_to 'Destroy', type_etat_dossier, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Type etat dossier', new_type_etat_dossier_path %>
+<div id="parameter-content">
+  <%= netzke :type_etat_dossiers,
+    :class_name => "Basepack::GridPanel",
+    :model => "TypeEtatDossier",
+    :strong_default_attrs => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :columns => [:description, :ordre_apparition],
+    :scope => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :view_config => {
+        :force_fit => true # force the columns to occupy all the available width
+      },
+    :enable_edit_in_form => false
+    #:prohibit_update => true,
+    #:prohibit_delete => true,
+    #:prohibit_create => true
+  
+  %>
+</div>

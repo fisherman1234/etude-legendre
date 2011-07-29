@@ -1,25 +1,17 @@
-<h1>Listing taux_tvas</h1>
-
-<table>
-  <tr>
-    <th>Description</th>
-    <th>Taux</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @taux_tvas.each do |taux_tva| %>
-  <tr>
-    <td><%= taux_tva.description %></td>
-    <td><%= taux_tva.taux %></td>
-    <td><%= link_to 'Show', taux_tva %></td>
-    <td><%= link_to 'Edit', edit_taux_tva_path(taux_tva) %></td>
-    <td><%= link_to 'Destroy', taux_tva, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Taux tva', new_taux_tva_path %>
+<div id="parameter-content">
+  <%= netzke :taux_tvas,
+    :class_name => "Basepack::GridPanel",
+    :model => "TauxTva",
+    :strong_default_attrs => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :columns => [:description, :taux],
+    :scope => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :view_config => {
+        :force_fit => true # force the columns to occupy all the available width
+      },
+    :enable_edit_in_form => false
+    #:prohibit_update => true,
+    #:prohibit_delete => true,
+    #:prohibit_create => true
+  
+  %>
+</div>

@@ -12,6 +12,8 @@
 	position: relative;
 	white-space: nowrap;
 	width: 100%;
+	border-left: 1px solid #D5D5D5;
+	border-right: 1px solid #D5D5D5;
 }
 
 #root-menu-div ul {

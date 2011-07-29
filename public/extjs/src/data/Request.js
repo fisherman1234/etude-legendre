@@ -1,53 +1,41 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
-/**
- * @author Ed Spencer
- * @class Ext.data.Request
- * @extends Object
- * 
- * <p>Simple class that represents a Request that will be made by any {@link Ext.data.proxy.Server} subclass.
- * All this class does is standardize the representation of a Request as used by any ServerProxy subclass,
- * it does not contain any actual logic or perform the request itself.</p>
- * 
+/*!
+ * Ext JS Library 3.3.1
+ * Copyright(c) 2006-2010 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
  */
-Ext.define('Ext.data.Request', {
+/**
+ * @class Ext.data.Request
+ * A simple Request class used internally to the data package to provide more generalized remote-requests
+ * to a DataProxy.
+ * TODO Not yet implemented.  Implement in Ext.data.Store#execute
+ */
+Ext.data.Request = function(params) {
+    Ext.apply(this, params);
+};
+Ext.data.Request.prototype = {
     /**
-     * @cfg {String} action The name of the action this Request represents. Usually one of 'create', 'read', 'update' or 'destroy'
+     * @cfg {String} action
      */
-    action: undefined,
-    
+    action : undefined,
     /**
-     * @cfg {Object} params HTTP request params. The Proxy and its Writer have access to and can modify this object.
+     * @cfg {Ext.data.Record[]/Ext.data.Record} rs The Store recordset associated with the request.
+     */
+    rs : undefined,
+    /**
+     * @cfg {Object} params HTTP request params
      */
     params: undefined,
-    
     /**
-     * @cfg {String} method The HTTP method to use on this Request (defaults to 'GET'). Should be one of 'GET', 'POST', 'PUT' or 'DELETE'
+     * @cfg {Function} callback The function to call when request is complete
      */
-    method: 'GET',
-    
+    callback : Ext.emptyFn,
     /**
-     * @cfg {String} url The url to access on this Request
+     * @cfg {Object} scope The scope of the callback funtion
      */
-    url: undefined,
-
+    scope : undefined,
     /**
-     * Creates the Request object.
-     * @param {Object} config (optional) Config object.
+     * @cfg {Ext.data.DataReader} reader The DataReader instance which will parse the received response
      */
-    constructor: function(config) {
-        Ext.apply(this, config);
-    }
-});
+    reader : undefined
+};

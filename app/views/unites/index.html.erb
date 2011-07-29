@@ -1,23 +1,17 @@
-<h1>Listing unites</h1>
-
-<table>
-  <tr>
-    <th>Description</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @unites.each do |unite| %>
-  <tr>
-    <td><%= unite.description %></td>
-    <td><%= link_to 'Show', unite %></td>
-    <td><%= link_to 'Edit', edit_unite_path(unite) %></td>
-    <td><%= link_to 'Destroy', unite, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Unite', new_unite_path %>
+<div id="parameter-content">
+  <%= netzke :unites,
+    :class_name => "Basepack::GridPanel",
+    :model => "Unite",
+    :strong_default_attrs => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :columns => [:description],
+    :scope => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :view_config => {
+        :force_fit => true # force the columns to occupy all the available width
+      },
+    :enable_edit_in_form => false
+    #:prohibit_update => true,
+    #:prohibit_delete => true,
+    #:prohibit_create => true
+  
+  %>
+</div>

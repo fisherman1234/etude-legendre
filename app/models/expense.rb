@@ -8,6 +8,7 @@ class Expense < ActiveRecord::Base
   belongs_to :activite
   belongs_to :categorie
   
+  
   def total
     if !prix_unitaire.to_s.empty? && !quantite.to_s.empty?
       return (prix_unitaire*quantite).round(2)

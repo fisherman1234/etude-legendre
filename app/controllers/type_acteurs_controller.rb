@@ -5,9 +5,9 @@ class TypeActeursController < ApplicationController
   # GET /type_acteurs.xml
   def index
     @type_acteurs = TypeActeur.all
-
+    
     respond_to do |format|
-      format.html # index.html.erb
+      format.html {render :layout => "light"} # index.html.erb
       format.xml  { render :xml => @type_acteurs }
     end
   end

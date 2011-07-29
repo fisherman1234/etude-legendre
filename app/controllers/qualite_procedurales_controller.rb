@@ -7,7 +7,7 @@ class QualiteProceduralesController < ApplicationController
     @qualite_procedurales = QualiteProcedurale.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html {render :layout => "light"} # index.html.erb
       format.xml  { render :xml => @qualite_procedurales }
     end
   end

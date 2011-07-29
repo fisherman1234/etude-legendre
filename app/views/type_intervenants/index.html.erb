@@ -1,23 +1,17 @@
-<h1>Listing type_intervenants</h1>
-
-<table>
-  <tr>
-    <th>Description</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @type_intervenants.each do |type_intervenant| %>
-  <tr>
-    <td><%= type_intervenant.description %></td>
-    <td><%= link_to 'Show', type_intervenant %></td>
-    <td><%= link_to 'Edit', edit_type_intervenant_path(type_intervenant) %></td>
-    <td><%= link_to 'Destroy', type_intervenant, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Type intervenant', new_type_intervenant_path %>
+<div id="parameter-content">
+  <%= netzke :type_intervenants,
+    :class_name => "Basepack::GridPanel",
+    :model => "TypeIntervenant",
+    :strong_default_attrs => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :columns => [:description],
+    :scope => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :view_config => {
+        :force_fit => true # force the columns to occupy all the available width
+      },
+    :enable_edit_in_form => false
+    #:prohibit_update => true,
+    #:prohibit_delete => true,
+    #:prohibit_create => true
+  
+  %>
+</div>

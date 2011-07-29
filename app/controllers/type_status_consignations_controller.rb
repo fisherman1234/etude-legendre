@@ -7,7 +7,7 @@ class TypeStatusConsignationsController < ApplicationController
     @type_status_consignations = TypeStatusConsignation.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html  {render :layout => "light"} # index.html.erb
       format.xml  { render :xml => @type_status_consignations }
     end
   end

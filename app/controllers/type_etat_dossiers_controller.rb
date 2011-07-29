@@ -7,7 +7,7 @@ class TypeEtatDossiersController < ApplicationController
     @type_etat_dossiers = TypeEtatDossier.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html {render :layout => "light"} # index.html.erb
       format.xml  { render :xml => @type_etat_dossiers }
     end
   end

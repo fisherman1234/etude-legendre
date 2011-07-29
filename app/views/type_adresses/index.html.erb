@@ -1,29 +1,17 @@
-
-<h1>Edition des intitulés courrier</h1>
-
-<table>
-  <tr>
-    <th>Description adresse</th>
-    <th>Description courrier</th>
-    <th>Type intervenant</th>
-    <th>Civilite</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @type_adresses.each do |type_adress| %>
-  <tr>
-    <td><%= best_in_place type_adress, :description_adresse, :type => :input %></td>
-    <td><%= best_in_place type_adress, :description_courrier, :type => :input %></td>
-    <td><%= best_in_place type_adress, :type_intervenant_id, :type => :input %></td>
-    <td><%= best_in_place type_adress, :civilite_id, :type => :input %></td>
-    <td><%= link_to 'Destroy', type_adress, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-
-
+<div id="parameter-content">
+  <%= netzke :type_adresses,
+    :class_name => "Basepack::GridPanel",
+    :model => "TypeAdresse",
+    :strong_default_attrs => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :columns => [:description_adresse,:description_courrier,  {:name => "type_intervenant__description"},  {:name => "civilite__description"}],
+    :scope => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :view_config => {
+        :force_fit => true # force the columns to occupy all the available width
+      },
+    :enable_edit_in_form => false
+    #:prohibit_update => true,
+    #:prohibit_delete => true,
+    #:prohibit_create => true
+  
+  %>
+</div>

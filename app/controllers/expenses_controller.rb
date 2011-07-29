@@ -7,7 +7,7 @@ class ExpensesController < ApplicationController
     @expenses = Expense.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html  # index.html.erb
       format.xml  { render :xml => @expenses }
     end
   end

@@ -1,45 +1,33 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
+/*!
+ * Ext JS Library 3.3.1
+ * Copyright(c) 2006-2010 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
+ */
 /**
  * @class Ext.dd.DropTarget
  * @extends Ext.dd.DDTarget
  * A simple class that provides the basic implementation needed to make any element a drop target that can have
  * draggable items dropped onto it.  The drop has no effect until an implementation of notifyDrop is provided.
+ * @constructor
+ * @param {Mixed} el The container element
+ * @param {Object} config
  */
-Ext.define('Ext.dd.DropTarget', {
-    extend: 'Ext.dd.DDTarget',
-    requires: ['Ext.dd.ScrollManager'],
-
-    /**
-     * Creates new DropTarget.
-     * @param {Mixed} el The container element
-     * @param {Object} config
-     */
+Ext.dd.DropTarget = Ext.extend(Ext.dd.DDTarget, {
+    
     constructor : function(el, config){
         this.el = Ext.get(el);
-
+    
         Ext.apply(this, config);
-
+    
         if(this.containerScroll){
             Ext.dd.ScrollManager.register(this.el);
         }
-
-        this.callParent([this.el.dom, this.ddGroup || this.group,
-              {isTarget: true}]);
+    
+        Ext.dd.DropTarget.superclass.constructor.call(this, this.el.dom, this.ddGroup || this.group, 
+              {isTarget: true});        
     },
-
+    
     /**
      * @cfg {String} ddGroup
      * A named drag drop group to which this object belongs.  If a group is specified, then this object will only
@@ -53,12 +41,12 @@ Ext.define('Ext.dd.DropTarget', {
      * @cfg {String} dropAllowed
      * The CSS class returned to the drag source when drop is allowed (defaults to "x-dd-drop-ok").
      */
-    dropAllowed : Ext.baseCSSPrefix + 'dd-drop-ok',
+    dropAllowed : "x-dd-drop-ok",
     /**
      * @cfg {String} dropNotAllowed
      * The CSS class returned to the drag source when drop is not allowed (defaults to "x-dd-drop-nodrop").
      */
-    dropNotAllowed : Ext.baseCSSPrefix + 'dd-drop-nodrop',
+    dropNotAllowed : "x-dd-drop-nodrop",
 
     // private
     isTarget : true,
@@ -78,7 +66,7 @@ Ext.define('Ext.dd.DropTarget', {
      */
     notifyEnter : function(dd, e, data){
         if(this.overClass){
-            this.el.addCls(this.overClass);
+            this.el.addClass(this.overClass);
         }
         return this.dropAllowed;
     },
@@ -107,7 +95,7 @@ Ext.define('Ext.dd.DropTarget', {
      */
     notifyOut : function(dd, e, data){
         if(this.overClass){
-            this.el.removeCls(this.overClass);
+            this.el.removeClass(this.overClass);
         }
     },
 
@@ -119,17 +107,16 @@ Ext.define('Ext.dd.DropTarget', {
      * @param {Ext.dd.DragSource} source The drag source that was dragged over this drop target
      * @param {Event} e The event
      * @param {Object} data An object containing arbitrary data supplied by the drag source
-     * @return {Boolean} False if the drop was invalid.
+     * @return {Boolean} True if the drop was valid, else false
      */
     notifyDrop : function(dd, e, data){
         return false;
     },
-
+    
     destroy : function(){
-        this.callParent();
+        Ext.dd.DropTarget.superclass.destroy.call(this);
         if(this.containerScroll){
             Ext.dd.ScrollManager.unregister(this.el);
         }
     }
 });
-

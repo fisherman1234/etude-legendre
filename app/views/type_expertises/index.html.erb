@@ -1,25 +1,17 @@
-<h1>Listing type_expertises</h1>
-
-<table>
-  <tr>
-    <th>Description</th>
-    <th>Commentaires</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @type_expertises.each do |type_expertise| %>
-  <tr>
-    <td><%= type_expertise.description %></td>
-    <td><%= type_expertise.commentaires %></td>
-    <td><%= link_to 'Show', type_expertise %></td>
-    <td><%= link_to 'Edit', edit_type_expertise_path(type_expertise) %></td>
-    <td><%= link_to 'Destroy', type_expertise, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Type expertise', new_type_expertise_path %>
+<div id="parameter-content">
+  <%= netzke :type_expertises,
+    :class_name => "Basepack::GridPanel",
+    :model => "TypeExpertise",
+    :strong_default_attrs => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :columns => [:description],
+    :scope => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :view_config => {
+        :force_fit => true # force the columns to occupy all the available width
+      },
+    :enable_edit_in_form => false
+    #:prohibit_update => true,
+    #:prohibit_delete => true,
+    #:prohibit_create => true
+  
+  %>
+</div>

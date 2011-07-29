@@ -4,7 +4,6 @@
 #  - Sebastien Grosjean - ZenCocoon.com
 #  - Bruno Michel - http://github.com/nono
 #  - Tsutomu Kuroda - http://github.com/kuroda (t-kuroda@oiax.jp)
-
 fr:
   date:
     formats:
@@ -248,3 +247,92 @@ fr:
         subject: "Instructions pour changer le mot de passe"
       unlock_instructions:
         subject: "Instructions pour déverrouiller le compte"
+        
+  netzke:
+    basepack:
+      grid_panel:
+        actions:
+          add: Ajouter
+          edit: Editer
+          del: Supprimer
+          apply: Appliquer
+          add_in_form: Form d'ajout
+          edit_in_form: Form de suppression
+          search: Rechercher
+
+        deleted_n_records: "%{n} enregistrement(s) supprimé(s)"
+        cannot_delete: "Vous n'avez pas l'autorisation de supprimer cet enregistrement"
+        confirmation: Confirmation
+        are_you_sure: Etes-vous sur ?
+
+        empty_msg: Vide
+        first_text: Première page
+        prev_text: Page précédente
+        next_text: Page suivante
+        last_text: Dernière page
+        before_page_text: Page
+        after_page_text: "sur {0}"
+        refresh_text: Recharger
+        display_msg: "Affichage de {0} - {1} sur {2}"
+
+        record_form_window:
+          actions:
+            ok: OK
+            cancel: Annuler
+
+      search_window:
+        title: Recherche étendue
+        actions:
+          search: Rechercher
+          cancel: Annuler
+
+      form_panel:
+        actions:
+          edit: Editer
+          edit_tooltip: Editer
+          cancel: Annuler
+          cancel_tooltip: Annuler l'édition
+          apply: Appliquer
+          apply_tooltip: Appliquer les changements
+
+      search_panel:
+        presets: Presets
+        equals: Equals
+        greater_than: Greater than
+        less_than: Less than
+        contains: Contains
+        matches: Matches
+        date_equals: "On"
+        before: Before
+        after: After
+
+      paging_form_panel:
+        actions:
+          search: Search
+          search_tooltip: Extended search
+
+      query_builder:
+        presets: Presets
+        preset_saved: Preset successfully saved
+        preset_deleted: Preset successfully deleted
+        overwrite_confirm: "Are you sure you want to overwrite preset '{0}'?"
+        overwrite_confirm_title: "Overwriting preset"
+        delete_confirm: "Are you sure you want to delete preset '{0}'?"
+        delete_confirm_title: "Deleting preset"
+        actions:
+          clear_all: Clear
+          clear_all_tooltip: Clear all conditions
+          reset: Reset
+          reset_tooltip: Reset condition values
+          save_preset: Save preset
+          save_preset_tooltip: Save preset
+          delete_preset: Delete preset
+          delete_preset_tooltip: Delete preset
+          apply: Apply
+          apply_tooltip: Apply updated conditions
+
+
+    formats:
+      date: d/m/Y
+      datetime: Y-m-d H:i:s
+      time: H:i:s

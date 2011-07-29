@@ -7,7 +7,7 @@ class TypeInstitutionsController < ApplicationController
     @type_institutions = TypeInstitution.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html {render :layout => "light"}  # index.html.erb
       format.xml  { render :xml => @type_institutions }
     end
   end

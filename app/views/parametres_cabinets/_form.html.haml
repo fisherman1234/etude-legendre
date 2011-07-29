@@ -1,71 +1,72 @@
-- form_for(@parametres_cabinet) do |f| 
-  %table{:border => "0", :class => "main-form"}
-    %tr
-      %td Nom du cabinet
-      %td{:COLSPAN=>"5"}= f.text_field :nom_cabinet
-    %tr
-      %td Siret
-      %td= f.text_field :siret
-      %td Code NAF
-      %td= f.text_field :naf
-      %td Logo
-      %td= f.file_field :logo
-    %tr
-      %td Adresse ligne 1
-      %td{:COLSPAN=>"5"}= f.text_field :adresse1
-    %tr
-      %td Adresse ligne 2
-      %td{:COLSPAN=>"5"}= f.text_field :adresse2
-    %tr
-      %td Adresse ligne 3
-      %td{:COLSPAN=>"5"}= f.text_field :adresse3
+#parameter-content
+  - form_for(@parametres_cabinet) do |f| 
+    %table{:border => "0", :class => "main-form"}
+      %tr
+        %td Nom du cabinet
+        %td{:COLSPAN=>"5"}= f.text_field :nom_cabinet
+      %tr
+        %td Siret
+        %td= f.text_field :siret
+        %td Code NAF
+        %td= f.text_field :naf
+        %td Logo
+        %td= f.file_field :logo
+      %tr
+        %td Adresse ligne 1
+        %td{:COLSPAN=>"5"}= f.text_field :adresse1
+      %tr
+        %td Adresse ligne 2
+        %td{:COLSPAN=>"5"}= f.text_field :adresse2
+      %tr
+        %td Adresse ligne 3
+        %td{:COLSPAN=>"5"}= f.text_field :adresse3
 
-    %tr
-      %td Code Postal
-      %td= f.text_field :code_postal
-      %td Ville
-      %td= f.text_field :ville
-      %td Pays
-      %td= f.text_field :pays
+      %tr
+        %td Code Postal
+        %td= f.text_field :code_postal
+        %td Ville
+        %td= f.text_field :ville
+        %td Pays
+        %td= f.text_field :pays
     
-    %tr{:class=>"spacer"}
+      %tr{:class=>"spacer"}
     
-    %tr
-      %td Téléphone
-      %td= f.text_field :telephone, :class=>"phone"
-      %td Fax
-      %td= f.text_field :fax, :class=>"phone"
+      %tr
+        %td Téléphone
+        %td= f.text_field :telephone, :class=>"phone"
+        %td Fax
+        %td= f.text_field :fax, :class=>"phone"
     
-    %tr
-      %td Email
-      %td{:COLSPAN=>"5"}= f.text_field :email
+      %tr
+        %td Email
+        %td{:COLSPAN=>"5"}= f.text_field :email
 
-    %tr 
-      %td Site web
-      %td{:COLSPAN=>"5"}= f.text_field :site_internet
+      %tr 
+        %td Site web
+        %td{:COLSPAN=>"5"}= f.text_field :site_internet
 
-    %tr
-      %td Papier à en-tête (pdf)
-      %td{:COLSPAN=>"5"}= f.file_field :papier_en_tete
-    %tr
-      %td
-      %td
-      %td Marge haut en mm (défaut : 10mm)
-      %td= f.text_field :en_tete_marge_haut
-      %td
-      %td
-    %tr
-      %td Marge gauche en mm (défaut : 10mm)
-      %td= f.text_field :en_tete_marge_gauche
-      %td
-      %td
-      %td Marge droite en mm (défaut : 10mm)
-      %td= f.text_field :en_tete_marge_droite
-    %tr  
-      %td
-      %td
-      %td Marge bas en mm (défaut : 10mm)
-      %td= f.text_field :en_tete_marge_bas
-      %td
-      %td
+      %tr
+        %td Papier à en-tête (pdf)
+        %td{:COLSPAN=>"5"}= f.file_field :papier_en_tete
+      %tr
+        %td
+        %td
+        %td Marge haut en mm (défaut : 10mm)
+        %td= f.text_field :en_tete_marge_haut
+        %td
+        %td
+      %tr
+        %td Marge gauche en mm (défaut : 10mm)
+        %td= f.text_field :en_tete_marge_gauche
+        %td
+        %td
+        %td Marge droite en mm (défaut : 10mm)
+        %td= f.text_field :en_tete_marge_droite
+      %tr  
+        %td
+        %td
+        %td Marge bas en mm (défaut : 10mm)
+        %td= f.text_field :en_tete_marge_bas
+        %td
+        %td
 

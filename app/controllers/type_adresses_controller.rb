@@ -14,7 +14,7 @@ class TypeAdressesController < ApplicationController
       @type_adresses = TypeAdresse.all
     end
     respond_to do |format|
-      format.html # index.html.erb
+      format.html {render :layout => "light"} # index.html.erb
       format.xml  { render :xml => @type_adresses }
       format.js {render :json => @type_adresses }
     end

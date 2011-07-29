@@ -7,7 +7,7 @@ class TauxTvasController < ApplicationController
     @taux_tvas = TauxTva.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html {render :layout => "light"} # index.html.erb
       format.xml  { render :xml => @taux_tvas }
     end
   end

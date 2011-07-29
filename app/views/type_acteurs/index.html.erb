@@ -1,23 +1,17 @@
-<h1>Listing type_acteurs</h1>
-
-<table>
-  <tr>
-    <th>Description</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @type_acteurs.each do |type_acteur| %>
-  <tr>
-    <td><%= type_acteur.description %></td>
-    <td><%= link_to 'Show', type_acteur %></td>
-    <td><%= link_to 'Edit', edit_type_acteur_path(type_acteur) %></td>
-    <td><%= link_to 'Destroy', type_acteur, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Type acteur', new_type_acteur_path %>
+<div id="parameter-content">
+  <%= netzke :type_acteurs,
+    :class_name => "Basepack::GridPanel",
+    :model => "TypeActeur",
+    :strong_default_attrs => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :columns => [:description],
+    :scope => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :view_config => {
+        :force_fit => true # force the columns to occupy all the available width
+      },
+    :enable_edit_in_form => false
+    #:prohibit_update => true,
+    #:prohibit_delete => true,
+    #:prohibit_create => true
+  
+  %>
+</div>

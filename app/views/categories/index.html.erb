@@ -1,25 +1,17 @@
-<h1>Listing categories</h1>
-
-<table>
-  <tr>
-    <th>Description</th>
-    <th>Taux tva</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @categories.each do |categorie| %>
-  <tr>
-    <td><%= categorie.description %></td>
-    <td><%= categorie.taux_tva_id %></td>
-    <td><%= link_to 'Show', categorie %></td>
-    <td><%= link_to 'Edit', edit_category_path(categorie) %></td>
-    <td><%= link_to 'Destroy', categorie, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Categorie', new_category_path %>
+<div id="parameter-content">
+  <%= netzke :categories,
+    :class_name => "Basepack::GridPanel",
+    :model => "Categorie",
+    :strong_default_attrs => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :columns => [:description, {:name => "taux_tva__description"}],
+    :scope => {:parametres_cabinet_id => current_user.parametres_cabinet_id},
+    :view_config => {
+        :force_fit => true # force the columns to occupy all the available width
+      },
+    :enable_edit_in_form => false
+    #:prohibit_update => true,
+    #:prohibit_delete => true,
+    #:prohibit_create => true
+  
+  %>
+</div>

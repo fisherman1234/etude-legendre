@@ -4,7 +4,7 @@ class ParametresCabinetsController < ApplicationController
   # GET /parametres_cabinets
   # GET /parametres_cabinets.xml
   def index
-    @parametres_cabinets = ParametresCabinet.all
+    @parametres_cabinet = current_user.parametres_cabinet
 
     respond_to do |format|
       format.html # index.html.erb
@@ -37,6 +37,7 @@ class ParametresCabinetsController < ApplicationController
   # GET /parametres_cabinets/1/edit
   def edit
     @parametres_cabinet = ParametresCabinet.find(params[:id])
+    render :layout => "light"
   end
 
   # POST /parametres_cabinets

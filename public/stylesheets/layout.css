@@ -58,8 +58,11 @@ input.clickable {
 
 
 #toolbar {
-	background: #FAFAFA url(https://ssl.gstatic.com/editor/toolbar-bg.png) repeat-x bottom left;
+	background: #FAFAFA;
 	border-bottom: 1px solid #D5D5D5;
+	border-left: 1px solid #D5D5D5;
+	border-right: 1px solid #D5D5D5;
+	
 	cursor: default;
 	font: normal 12px Arial,sans-serif;
 	margin: 0;

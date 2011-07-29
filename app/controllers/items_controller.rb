@@ -8,7 +8,7 @@ class ItemsController < ApplicationController
     @items = Item.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html {render :layout => "light"}  # index.html.erb
       format.xml  { render :xml => @items }
       format.js  { render :json => @items }
     end

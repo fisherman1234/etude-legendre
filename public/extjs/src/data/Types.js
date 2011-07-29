@@ -1,17 +1,9 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
+/*!
+ * Ext JS Library 3.3.1
+ * Copyright(c) 2006-2010 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
+ */
 /**
  * @class Ext.data.Types
  * <p>This is s static class containing the system-supplied data types which may be given to a {@link Ext.data.Field Field}.<p/>
@@ -27,8 +19,8 @@ If you are unsure which license is appropriate for your use, please contact the 
  * <li><b>v</b> : Mixed<div class="sub-desc">The data value as read by the Reader, if undefined will use
  * the configured <tt>{@link Ext.data.Field#defaultValue defaultValue}</tt>.</div></li>
  * <li><b>rec</b> : Mixed<div class="sub-desc">The data object containing the row as read by the Reader.
- * Depending on the Reader type, this could be an Array ({@link Ext.data.reader.Array ArrayReader}), an object
- * ({@link Ext.data.reader.Json JsonReader}), or an XML element.</div></li>
+ * Depending on the Reader type, this could be an Array ({@link Ext.data.ArrayReader ArrayReader}), an object
+ * ({@link Ext.data.JsonReader JsonReader}), or an XML element ({@link Ext.data.XMLReader XMLReader}).</div></li>
  * </ul></div></div></li>
  * <li><code>sortType</code> : <i>Function</i> <div class="sub-desc">A function to convert the stored data into comparable form, as defined by {@link Ext.data.SortTypes}.</div></li>
  * <li><code>type</code> : <i>String</i> <div class="sub-desc">A textual data type name.</div></li>
@@ -47,28 +39,21 @@ Ext.data.Types.VELATLONG = {
     type: 'VELatLong'
 };
 </code></pre>
- * <p>Then, when declaring a Model, use <pre><code>
+ * <p>Then, when declaring a Record, use <pre><code>
 var types = Ext.data.Types; // allow shorthand type access
-Ext.define('Unit',
-    extend: 'Ext.data.Model', 
-    fields: [
-        { name: 'unitName', mapping: 'UnitName' },
-        { name: 'curSpeed', mapping: 'CurSpeed', type: types.INT },
-        { name: 'latitude', mapping: 'lat', type: types.FLOAT },
-        { name: 'latitude', mapping: 'lat', type: types.FLOAT },
-        { name: 'position', type: types.VELATLONG }
-    ]
-});
+UnitRecord = Ext.data.Record.create([
+    { name: 'unitName', mapping: 'UnitName' },
+    { name: 'curSpeed', mapping: 'CurSpeed', type: types.INT },
+    { name: 'latitude', mapping: 'lat', type: types.FLOAT },
+    { name: 'latitude', mapping: 'lat', type: types.FLOAT },
+    { name: 'position', type: types.VELATLONG }
+]);
 </code></pre>
  * @singleton
  */
-Ext.define('Ext.data.Types', {
-    singleton: true,
-    requires: ['Ext.data.SortTypes']
-}, function() {
+Ext.data.Types = new function(){
     var st = Ext.data.SortTypes;
-    
-    Ext.apply(Ext.data.Types, {
+    Ext.apply(this, {
         /**
          * @type Regexp
          * @property stripRe
@@ -83,9 +68,7 @@ Ext.define('Ext.data.Types', {
          * This data type means that no conversion is applied to the raw data before it is placed into a Record.
          */
         AUTO: {
-            convert: function(v) {
-                return v;
-            },
+            convert: function(v){ return v; },
             sortType: st.none,
             type: 'auto'
         },
@@ -96,10 +79,7 @@ Ext.define('Ext.data.Types', {
          * This data type means that the raw data is converted into a String before it is placed into a Record.
          */
         STRING: {
-            convert: function(v) {
-                var defaultValue = this.useNull ? null : '';
-                return (v === undefined || v === null) ? defaultValue : String(v);
-            },
+            convert: function(v){ return (v === undefined || v === null) ? '' : String(v); },
             sortType: st.asUCString,
             type: 'string'
         },
@@ -111,7 +91,7 @@ Ext.define('Ext.data.Types', {
          * <p>The synonym <code>INTEGER</code> is equivalent.</p>
          */
         INT: {
-            convert: function(v) {
+            convert: function(v){
                 return v !== undefined && v !== null && v !== '' ?
                     parseInt(String(v).replace(Ext.data.Types.stripRe, ''), 10) : (this.useNull ? null : 0);
             },
@@ -126,7 +106,7 @@ Ext.define('Ext.data.Types', {
          * <p>The synonym <code>NUMBER</code> is equivalent.</p>
          */
         FLOAT: {
-            convert: function(v) {
+            convert: function(v){
                 return v !== undefined && v !== null && v !== '' ?
                     parseFloat(String(v).replace(Ext.data.Types.stripRe, ''), 10) : (this.useNull ? null : 0);
             },
@@ -142,12 +122,7 @@ Ext.define('Ext.data.Types', {
          * <p>The synonym <code>BOOLEAN</code> is equivalent.</p>
          */
         BOOL: {
-            convert: function(v) {
-                if (this.useNull && v === undefined || v === null || v === '') {
-                    return null;
-                }
-                return v === true || v === 'true' || v == 1;
-            },
+            convert: function(v){ return v === true || v === 'true' || v == 1; },
             sortType: st.none,
             type: 'bool'
         },
@@ -160,24 +135,23 @@ Ext.define('Ext.data.Types', {
          * being applied.
          */
         DATE: {
-            convert: function(v) {
+            convert: function(v){
                 var df = this.dateFormat;
-                if (!v) {
+                if(!v){
                     return null;
                 }
-                if (Ext.isDate(v)) {
+                if(Ext.isDate(v)){
                     return v;
                 }
-                if (df) {
-                    if (df == 'timestamp') {
+                if(df){
+                    if(df == 'timestamp'){
                         return new Date(v*1000);
                     }
-                    if (df == 'time') {
+                    if(df == 'time'){
                         return new Date(parseInt(v, 10));
                     }
-                    return Ext.Date.parse(v, df);
+                    return Date.parseDate(v, df);
                 }
-                
                 var parsed = Date.parse(v);
                 return parsed ? new Date(parsed) : null;
             },
@@ -186,7 +160,7 @@ Ext.define('Ext.data.Types', {
         }
     });
     
-    Ext.apply(Ext.data.Types, {
+    Ext.apply(this, {
         /**
          * @type Object.
          * @property BOOLEAN
@@ -195,7 +169,6 @@ Ext.define('Ext.data.Types', {
          * <p>The synonym <code>BOOL</code> is equivalent.</p>
          */
         BOOLEAN: this.BOOL,
-        
         /**
          * @type Object.
          * @property INTEGER
@@ -203,7 +176,6 @@ Ext.define('Ext.data.Types', {
          * <p>The synonym <code>INT</code> is equivalent.</p>
          */
         INTEGER: this.INT,
-        
         /**
          * @type Object.
          * @property NUMBER
@@ -212,5 +184,4 @@ Ext.define('Ext.data.Types', {
          */
         NUMBER: this.FLOAT    
     });
-});
-
+};
