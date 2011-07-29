@@ -3,6 +3,10 @@
   %head
     %title Expertise
     = stylesheet_link_tag "web-app-theme/base", "web-app-theme/themes/drastic-dark/style", "web-app-theme/override"
+    %link{:media=>"screen", :rel=>"stylesheet", :type=>"text/css", :href=>"/stylesheets/web-app-theme/base.css"}
+    %link{:media=>"screen", :rel=>"stylesheet", :type=>"text/css", :href=>"/stylesheets/web-app-theme/themes/drastic-dark/style.css"}
+    %link{:media=>"screen", :rel=>"stylesheet", :type=>"text/css", :href=>"/stylesheets/web-app-theme/override.css"}
+
     = csrf_meta_tag
   %body
     #container
