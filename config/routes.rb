@@ -106,6 +106,7 @@ EtudeLegendre::Application.routes.draw do
 
   match 'dossiers/:id/consignations', :to => 'dossiers#consignations' , :method => :get  
   match 'consignations/:id/destroy', :to => 'consignations#destroy' , :method => :post  
+  match 'messages_templates/:id/destroy', :to => 'dossiers#destroy' , :method => :get  
   
   
   match "expenses/:id/destroy", :to => "expenses#destroy", :method => :post 

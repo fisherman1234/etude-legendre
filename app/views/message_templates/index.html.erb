@@ -1,25 +1,23 @@
-<h1>Listing message_templates</h1>
+<h1>Liste des modèles de messages</h1>
 
-<table>
+<table id="liste-dossiers" style="width: 100%;">
   <tr>
-    <th>Message body</th>
-    <th>Type acteurs</th>
-    <th></th>
+    <th>Description</th>
+    <th>Sujet</th>
     <th></th>
     <th></th>
   </tr>
 
 <% @message_templates.each do |message_template| %>
   <tr>
-    <td><%= message_template.message_body %></td>
-    <td><%= message_template.type_acteurs %></td>
-    <td><%= link_to 'Show', message_template %></td>
-    <td><%= link_to 'Edit', edit_message_template_path(message_template) %></td>
-    <td><%= link_to 'Destroy', message_template, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= message_template.description %></td>
+    <td><%= message_template.mail_subject %></td>
+    <td><%= link_to 'Editer ', edit_message_template_path(message_template) %></td>
+    <td><%= link_to 'Supprimer', message_template, :confirm => 'Confirmer ?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Message template', new_message_template_path %>
+<%= link_to 'Nouveau', new_message_template_path %>

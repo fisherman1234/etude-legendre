@@ -6,7 +6,7 @@ class MessageTemplatesController < ApplicationController
   # GET /message_templates
   # GET /message_templates.xml
   
-  uses_tiny_mce 
+  #uses_tiny_mce 
   def index
     @message_templates = MessageTemplate.all
 
