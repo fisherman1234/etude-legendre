@@ -1,0 +1,25 @@
+<div id="parameter-content">
+  <%= netzke :reminders,
+    :class_name => "Basepack::GridPanel",
+    :model => "Reminder",
+    :strong_default_attrs => {:dossier_id => @dossier.id},
+    :columns => [
+      :reminder_date, 
+      :description, 
+      {:name => "activite__description",
+        :scope => {:dossier_id => @dossier.id},
+        :label => "Activité"
+
+        }, 
+      {:name => "user__full_name", :label => "Utilisateur"}],
+    :scope => {:dossier_id => @dossier.id},
+    :view_config => {
+        :force_fit => true # force the columns to occupy all the available width
+      },
+    :enable_edit_in_form => false
+    #:prohibit_update => true,
+    #:prohibit_delete => true,
+    #:prohibit_create => true
+  
+  %>
+</div>

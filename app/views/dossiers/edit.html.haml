@@ -17,6 +17,8 @@
       %a{:href=> "#tabs-5"} Frais
     %li                                
       %a{:href=> "#tabs-6"} Consignations
+    %li                                
+      %a{:href=> "#tabs-7"} Rappels
       
     %li{:style=>"float:right;"}
       %a{:href=> "#tabs-3",  :class => "removeRecord", :onClick => "delete_page('/dossiers/"+@dossier.id.to_s+"/destroy');"} Supprimer
@@ -38,5 +40,7 @@
         
   %div#tabs-6
     = render 'consignations'
-
+    
+  %div#tabs-7
+    = render 'reminders'
     

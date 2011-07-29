@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  reminder_date: 2011-07-29
+  description: MyString
+  activite_id: 1
+  user_id: 1
+  dossier_id: 1
+
+two:
+  reminder_date: 2011-07-29
+  description: MyString
+  activite_id: 1
+  user_id: 1
+  dossier_id: 1

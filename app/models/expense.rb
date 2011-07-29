@@ -8,6 +8,7 @@ class Expense < ActiveRecord::Base
   belongs_to :activite
   belongs_to :categorie
   
+  validates_presence_of :description, :prix_unitaire, :quantite, :taux_tva_id, :unite_id
   
   def total
     if !prix_unitaire.to_s.empty? && !quantite.to_s.empty?

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110725133332) do
+ActiveRecord::Schema.define(:version => 20110729204026) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -336,6 +336,16 @@ ActiveRecord::Schema.define(:version => 20110725133332) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "parametres_cabinet_id"
+  end
+
+  create_table "reminders", :force => true do |t|
+    t.date     "reminder_date"
+    t.string   "description"
+    t.integer  "activite_id"
+    t.integer  "user_id"
+    t.integer  "dossier_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "status_consignations", :force => true do |t|

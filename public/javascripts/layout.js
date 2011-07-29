@@ -9,6 +9,8 @@ tinyMCE.init({
 });
 
 function primary_formatting(){
+
+	
 	jQuery(".best_in_place").best_in_place()
   
 	autocomplete_institution(".contact",'');
@@ -263,11 +265,9 @@ function primary_formatting(){
 			tinyMCE.execCommand('mceRemoveControl',false, tinymce.editors[0].id);
 		  }
 		};
+
+
 	
-	
-	$.each($(".mceEditor"), function(index, value) { 
-	  tinyMCE.execCommand('mceAddControl', false, value.id);
-	});
 }
 
 function autocomplete_contact (nom, type) {
@@ -307,7 +307,6 @@ function autocomplete_dossier (nom, type) {
 
 	});
 }
-
 
 function autocomplete_ville(ville_field, code_postal){
 	$(ville_field).autocomplete({
@@ -393,9 +392,6 @@ function create_document () {
 
 }
 
-
-
-
 function create_contact(){
 	$('body').append("<div id='add-contact' style=''></div>");
 	$('#add-contact').load('/contacts/new.html #new_contact', function(){
@@ -421,8 +417,6 @@ function create_contact(){
                    	}			
      });
 };
-
-
 
 function ajouter_partie(){
 	$.ajax({
@@ -538,7 +532,6 @@ function edit_contact_detail(id){
 	
 }
 
-
 function edit_institution_detail(id){
 		$( "#edit-institution-dialog" ).remove(); 
 		$('body').append("<div id='edit-institution-dialog' style=''></div>");
@@ -570,7 +563,6 @@ function edit_institution_detail(id){
 	     });
 	
 }
-
 
 function load_adress_line(){
 	$.ajax({
@@ -628,11 +620,6 @@ function submit_form(form){
 		});
 	
 }
-
-
-
-
-
 
 function action_performed(text, icon){
 	div = '<div id="spinner" class="spinner">'+text+'<br/>';
@@ -774,8 +761,6 @@ function deliverDocs(id){
 	
 }
 
-
-
 function editCom(activite_id){
 		//$("#add-activite-window" ).fadeOut('fast', function(){ $("#add-activite-window" ).html('') });
 		$("#add-activite-window").load('/activites/'+activite_id+'/edit'+' #activite-page', function(){
@@ -891,7 +876,6 @@ function set_activite_edit_buttons(communication_id){
 	] );
 }
 
-
 function set_communication_send_buttons(communication_id){
 	$( "#add-activite-window" ).dialog( "option", "buttons", [
     {
@@ -912,7 +896,6 @@ function set_communication_send_buttons(communication_id){
 	    }
 	] );
 }
-
 
 function edit_activite(id) {
 	$('body').append("<div id='add-activite-window' style=''></div>");
@@ -935,7 +918,6 @@ function edit_activite(id) {
 
 
 }
-
 
 function ajouter_frais(activite_id) {
 	$('body').append("<div id='add-frais-window' style=''></div>");
@@ -963,8 +945,6 @@ function ajouter_frais(activite_id) {
 }
 
 
-primary_formatting();
-page_load_scripts();
 
 function enregistrer_frais(){
 if ($('#expense-list').length){}else{$('#expense-list-container').html('<table border="0" class="dossier main-form" id="expense-list"><thead><tr><th>Activité</th><th>Type dépense</th><th>Date</th><th>Description</th><th>Prix unitaire</th><th>Quantité</th><th>Unite</th><th>TVA</th><th>Total</th></tr></thead><tbody></tbody></table>')}
@@ -1110,7 +1090,6 @@ function edit_parameter(path_parameter){
 	});
 }
 
-
 function create_parameter(parameter_name, window_title, height){
 	$('body').append("<div id='add-parameter' style=''></div>");
 	$('#add-parameter').load('/'+parameter_name+'s/new #new_'+parameter_name, function(){
@@ -1144,3 +1123,8 @@ function delete_parameter(parameter_name, parameter_id){
 		
 	}
 }
+
+$(document).ready(function() {
+	setTimeout(primary_formatting, 10);
+});
+page_load_scripts();

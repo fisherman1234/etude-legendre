@@ -15,6 +15,7 @@ gem 'rails3-jquery-autocomplete'
 
 #In place edit
 gem "best_in_place"
+gem "spreadsheet", "~> 0.6.5.7"
 
 
 gem 'netzke-core', :git => "git://github.com/skozlov/netzke-core.git"

@@ -1,5 +1,7 @@
 EtudeLegendre::Application.routes.draw do
 
+  resources :reminders
+
   resources :civilites
 
   resources :institutions do

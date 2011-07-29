@@ -19,6 +19,10 @@ class User < ActiveRecord::Base
   
   liquid_methods :email, :nom, :civilite, :prenom, :titre_lettres, :fonction, :adresse1, :adresse2, :adresse3, :code_postal, :ville, :pays, :telephone, :fax, :signature_lettres, :genre_adresse, :genre_lettre, :site_web, :parametres_cabinet_id
   
+  def full_name
+    return prenom+' '+nom
+  end
+  
   def update_contact
     contact = self.contacts.first
     if !contact
