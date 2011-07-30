@@ -96,7 +96,7 @@ class ContactToCommunication < ActiveRecord::Base
     #file_top.write kit.to_s
     file_top = File.new("#{RAILS_ROOT}/tmp/myfile_#{Process.pid}", "w+")
     
-    File.open(file_top.path, "w+") do |f|
+    File.open(file_top.path, "w+b") do |f|
       f.write(kit.to_s)
     end
     
