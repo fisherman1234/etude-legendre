@@ -12,7 +12,8 @@ class User < ActiveRecord::Base
   
   belongs_to :parametres_cabinet
   has_many :contacts
-  
+  has_many :reminders
+  has_many :dossiers
 
   
   
