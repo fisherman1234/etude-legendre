@@ -1,13 +1,16 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, :only => [:current_user, :destroy_current_user_session]
+  before_filter :authenticate_user!, :only => [:show, :current_user, :destroy_current_user_session]
   
 
 
   # GET /users/1
   # GET /users/1.xml
   def show
-    @user = User.find(params[:id])
-
+    if params[:id]
+      @user = User.find(params[:id])
+    else
+      @user = current_user
+    end
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @user }

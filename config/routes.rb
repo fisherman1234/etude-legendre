@@ -78,7 +78,7 @@ EtudeLegendre::Application.routes.draw do
   resources :users
   devise_for :users, :path => '', :path_names => { :sign_in => "login", :sign_out => "logout", :sign_up => "register" }
 
-  root :to => "home#index"
+  root :to => "users#show"
   match 'dossiers/:id/acteurs', :to => 'dossiers#acteurs' , :method => :get  
   match 'dossiers/:id/new_partie', :to => 'dossiers#new_partie' , :method => :get  
   match 'contact_acteurs/:id/destroy', :to => 'contact_acteurs#destroy' , :method => :post
@@ -166,7 +166,6 @@ EtudeLegendre::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => "welcome#index"
 
   # See how all your routes lay out with "rake routes"
 

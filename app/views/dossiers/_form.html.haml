@@ -29,9 +29,9 @@
       
         %td{:COLSPAN=>"3"}
           - if @dossier.institution_id!='' && @dossier.institution_id!=nil
-            %input{:id=>"institution_label", :class=>"small inst_clickable", :value => Institution.find(@dossier.institution_id).nom}
+            %input{"data-validate" => "true", :id=>"institution_label", :class=>"small inst_clickable", :value => Institution.find(@dossier.institution_id).nom}
           - else
-            %input{:id=>"institution_label", :class=>"small clickable"}
+            %input{"data-validate" => "{'required':true}", :id=>"institution_label", :class=>"small clickable"}
           %a{:href=> "#", :id=>"add_institution" ,:onClick => "create_institution();", :class => "small-button"} ...
 
     
