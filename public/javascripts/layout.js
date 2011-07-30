@@ -483,7 +483,7 @@ function edit_acteur_detail(id){
 						},
 	     			buttons: {
 	           				"Retirer cet inervenant": function() {
-	           				  $.post('/contact_acteurs/'+id+'/destroy');
+	           				  delete_page('/contact_acteurs/'+id+'/destroy');
 	           				  $( this ).dialog( "close" );        				  
 	           				},
 	           				"Enregistrer": function() {
@@ -516,7 +516,7 @@ function edit_contact_detail(id){
 						},
 	     			buttons: {
 	           				"Supprimer ce contact": function() {
-	           				  $.post('/contacts/'+id+'/destroy');
+	           				  delete_page('/contacts/'+id+'/destroy');
 	           				  $( this ).dialog( "close" );        				  
 	           				},
 	           				"Enregistrer": function() {
@@ -548,7 +548,7 @@ function edit_institution_detail(id){
 						},
 	     			buttons: {
 	           				"Supprimer cette société": function() {
-	           				  $.post('/institutions/'+id+'/destroy');
+	           				  delete_page('/institutions/'+id+'/destroy');
 	           				  $( this ).dialog( "close" );        				  
 	           				},
 	           				"Enregistrer": function() {
@@ -599,8 +599,11 @@ function navigate_next(){
 	navigate_page(next_page);
 }
 function delete_page(page){
-	$.post(page);
-	navigate_back();
+	if (confirm("Confirmer la suppression ?")) { // Clic sur OK
+	           $.post(page);
+						navigate_back();
+	       }
+
 }
 
 function page_load_scripts(){
@@ -794,7 +797,7 @@ function edit_document (id_file) {
 					 },
       			buttons: {
             				"Supprimer le document": function() {
-							  $.post('/documents/'+id_file+'/destroy');
+							  delete_page('/documents/'+id_file+'/destroy');
             				  $( this ).dialog( "close" );
             				},
 							"Enregistrer": function() {
@@ -852,7 +855,7 @@ function set_activite_edit_buttons(communication_id){
 	{
         text: "Supprimer",
         click: function() { 
-			  $.post('/activites/'+$('#activite_id').val()+'/destroy');
+			  delete_page('/activites/'+$('#activite_id').val()+'/destroy');
 			  $( this ).dialog( "close" ); }
     },
     {
@@ -979,7 +982,7 @@ function edit_frais(id) {
 					},			
 				buttons: {
 					"Supprimer": function() {
-              				$.post('/expenses/'+id+'/destroy');
+              				delete_page('/expenses/'+id+'/destroy');
 							 $( this ).dialog( "close" );
 							
               				},
@@ -1063,7 +1066,7 @@ function edit_consignation(id) {
 					},
      			buttons: {
 					"Supprimer": function() {
-          						$.post('/consignations/'+id+'/destroy');
+          						delete_page('/consignations/'+id+'/destroy');
                					$( this ).dialog( "close" );
 								$( "#add-consignation-window" ).remove(); 
 

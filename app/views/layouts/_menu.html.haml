@@ -1,6 +1,12 @@
 %div#topbar
   %ul{:id => "menu1", :class=>"menu"}
     %li.menumain
+      %a{:href => "#"} Tableau de bord
+      %ul
+        %li
+          %a{:href => "/users/"+current_user.id.to_s} Tableau de bord
+
+    %li.menumain
       %a{:href => "#"} Dossiers
       %ul
         %li
@@ -19,7 +25,20 @@
       %ul
         %li
           %a{:href => "/parametres_cabinets"} Parametres
-
+    -if @dossier
+      %li.menumain
+        %a{:href => "#"} Exporter
+        %ul
+          %li
+            %a{:href => "/export/contacts?id="+@dossier.id.to_s} Description et rôle des parties
+          %li
+            %a{:href => "/export/documents?id="+@dossier.id.to_s} Liste des pièces
+          %li
+            %a{:href => "#"} Liste des courriers échangés            
+          %li
+            %a{:href => "#"} Liste des accédits (n°, date et heure)
+          %li
+            %a{:href => "#"} 1re page du rapport (juridiction, affaire, références, parties)
  
     %li.menumain
       | 

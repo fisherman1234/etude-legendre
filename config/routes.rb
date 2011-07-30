@@ -106,13 +106,16 @@ EtudeLegendre::Application.routes.draw do
 
   match 'dossiers/:id/consignations', :to => 'dossiers#consignations' , :method => :get  
   match 'consignations/:id/destroy', :to => 'consignations#destroy' , :method => :post  
-  match 'messages_templates/:id/destroy', :to => 'dossiers#destroy' , :method => :get  
+  match 'message_templates/:id/destroy', :to => 'dossiers#destroy' , :method => :get  
   
   
   match "expenses/:id/destroy", :to => "expenses#destroy", :method => :post 
   match "activites/:id/expenses", :to => "activites#expenses", :method => :get 
   
   match "to_pdf", :to => "application#to_pdf", :method => :post 
+  match "export/contacts", :to => "export#partieList"
+  match "export/documents", :to => "export#documents"
+  
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

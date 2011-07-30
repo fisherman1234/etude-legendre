@@ -139,7 +139,7 @@ class DossiersController < ApplicationController
   def acteurs
     @dossier = Dossier.find(params[:id])
     @result = []
-    @dossier.acteurs.each do |acteur|
+    @dossier.acteurs.where(:type_acteur_id => 2).each do |acteur|
       acteur.contact_acteurs.each do |contact_acteur|
         if contact_acteur.contact
             @result.push([contact_acteur.acteur.description, contact_acteur.qualite_procedurale.description, contact_acteur.contact.try(:nom), contact_acteur.contact.try(:prenom), contact_acteur.contact.institution.try(:nom), contact_acteur.id])
