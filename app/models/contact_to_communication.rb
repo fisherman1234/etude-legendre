@@ -100,7 +100,10 @@ class ContactToCommunication < ActiveRecord::Base
       f.write(kit.to_s)
     end
     
-    file_bak = open(@dossier.parametres_cabinet.en_tete)
+    #file_bak = open(@dossier.parametres_cabinet.en_tete)
+    file_bak = open("http://dl.dropbox.com/u/8806/bak.pdf")
+
+    
     puts "remote background fetched"
     pdf_output = `pdftk #{file_top.path} background #{file_bak.path} output - flatten`
     puts "output generated"
