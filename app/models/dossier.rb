@@ -11,7 +11,7 @@ class Dossier < ActiveRecord::Base
   belongs_to :user
   has_many :consignations
   
-  validates_presence_of :user_id, :institution_id, :type_expertise_id, :parametres_cabinet_id, :ref_cabinet, :nom_dossier, :date_avis_designation, :date_cible_depot_rapport
+  validates_presence_of :institution_id, :parametres_cabinet_id, :ref_cabinet, :nom_dossier
   
   
   has_attached_file :recap_frais,

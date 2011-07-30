@@ -9,13 +9,13 @@
             %input{:id=>"dossier_id",  :value => @dossier.id, :style=>"display:none;"}
           
       %tr
-        %td Référence cabinet
+        %td Référence cabinet *
         %td= f.text_field :ref_cabinet
         %td Type d'expertise
         %td= select("dossier", "type_expertise_id", TypeExpertise.find(:all).collect {|u| [u.description,u.id]}, {:include_blank => '==Choisir=='})
     
       %tr
-        %td Nom du dossier
+        %td Nom du dossier *
         %td{:COLSPAN=>"3"}= f.text_field :nom_dossier, :style=>"width: 100%"
       %tr
         %td Responsable
@@ -25,7 +25,7 @@
         %td
           %h2 Juridiction
       %tr
-        %td Nom de la juridiction
+        %td Nom de la juridiction *
       
         %td{:COLSPAN=>"3"}
           - if @dossier.institution_id!='' && @dossier.institution_id!=nil
