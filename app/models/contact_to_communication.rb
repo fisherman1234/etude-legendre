@@ -100,6 +100,7 @@ class ContactToCommunication < ActiveRecord::Base
       f.write(kit.to_s)
     end
     
+    #todo : bloque 404 sur heroku ??
     #file_bak = open(@dossier.parametres_cabinet.en_tete)
     file_bak = open("http://dl.dropbox.com/u/8806/bak.pdf")
 

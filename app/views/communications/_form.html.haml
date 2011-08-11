@@ -59,8 +59,8 @@
       %td= f.text_field :subject_id
     %tr
       %td Message
-      %td= f.text_area :description
+      %td= f.text_area :description, :id => "msgCtent"
       
     %tr
       %td Contenu de la lettre
-      %td= f.text_area :letter_body, :style => "height:200px;"
+      %td= f.text_area :letter_body, :style => "height:200px;", :id => "letterCtent"

@@ -24,6 +24,7 @@ Ext.define('TP.controller.Dossiers', {
         });
     },
 
+
     editDossier: function(grid, record) {
        	var view = Ext.widget('dossieredit');		
         view.down('form').loadRecord(record);    

@@ -1,187 +1,163 @@
+<!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />    
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>The source code</title>
-    <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
-    <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
 </head>
-<body  onload="prettyPrint();">
-    <pre class="prettyprint lang-js">/*!
- * Ext JS Library 3.3.1
- * Copyright(c) 2006-2010 Sencha Inc.
- * licensing@sencha.com
- * http://www.sencha.com/license
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-grid-ColumnLayout'>/**
+</span> * @class Ext.grid.ColumnLayout
+ * @extends Ext.layout.container.HBox
+ * @private
+ *
+ * &lt;p&gt;This class is used only by the grid's HeaderContainer docked child.&lt;/p&gt;
+ *
+ * &lt;p&gt;This class adds the ability to shrink the vertical size of the inner container element back if a grouped
+ * column header has all its child columns dragged out, and the whole HeaderContainer needs to shrink back down.&lt;/p&gt;
+ *
+ * &lt;p&gt;It also enforces the grid's HeaderContainer's forceFit config by, after every calaculateChildBoxes call, converting
+ * all pixel widths into flex values, so that propertions are maintained upon width change of the grid.&lt;/p&gt;
+ *
+ * &lt;p&gt;Also, after every layout, after all headers have attained their 'stretchmax' height, it goes through and calls
+ * &lt;code&gt;setPadding&lt;/code&gt; on the columns so that they lay out correctly. TODO: implement a ColumnHeader component
+ * layout which takes responsibility for this, and will run upon resize.&lt;/p&gt;
  */
-<div id="cls-Ext.layout.ColumnLayout"></div>/**
- * @class Ext.layout.ColumnLayout
- * @extends Ext.layout.ContainerLayout
- * <p>This is the layout style of choice for creating structural layouts in a multi-column format where the width of
- * each column can be specified as a percentage or fixed width, but the height is allowed to vary based on the content.
- * This class is intended to be extended or created via the layout:'column' {@link Ext.Container#layout} config,
- * and should generally not need to be created directly via the new keyword.</p>
- * <p>ColumnLayout does not have any direct config options (other than inherited ones), but it does support a
- * specific config property of <b><tt>columnWidth</tt></b> that can be included in the config of any panel added to it.  The
- * layout will use the columnWidth (if present) or width of each panel during layout to determine how to size each panel.
- * If width or columnWidth is not specified for a given panel, its width will default to the panel's width (or auto).</p>
- * <p>The width property is always evaluated as pixels, and must be a number greater than or equal to 1.
- * The columnWidth property is always evaluated as a percentage, and must be a decimal value greater than 0 and
- * less than 1 (e.g., .25).</p>
- * <p>The basic rules for specifying column widths are pretty simple.  The logic makes two passes through the
- * set of contained panels.  During the first layout pass, all panels that either have a fixed width or none
- * specified (auto) are skipped, but their widths are subtracted from the overall container width.  During the second
- * pass, all panels with columnWidths are assigned pixel widths in proportion to their percentages based on
- * the total <b>remaining</b> container width.  In other words, percentage width panels are designed to fill the space
- * left over by all the fixed-width and/or auto-width panels.  Because of this, while you can specify any number of columns
- * with different percentages, the columnWidths must always add up to 1 (or 100%) when added together, otherwise your
- * layout may not render as expected.  Example usage:</p>
- * <pre><code>
-// All columns are percentages -- they must add up to 1
-var p = new Ext.Panel({
-    title: 'Column Layout - Percentage Only',
-    layout:'column',
-    items: [{
-        title: 'Column 1',
-        columnWidth: .25
-    },{
-        title: 'Column 2',
-        columnWidth: .6
-    },{
-        title: 'Column 3',
-        columnWidth: .15
-    }]
-});
+Ext.define('Ext.grid.ColumnLayout', {
+    extend: 'Ext.layout.container.HBox',
+    alias: 'layout.gridcolumn',
+    type : 'column',
 
-// Mix of width and columnWidth -- all columnWidth values must add up
-// to 1. The first column will take up exactly 120px, and the last two
-// columns will fill the remaining container width.
-var p = new Ext.Panel({
-    title: 'Column Layout - Mixed',
-    layout:'column',
-    items: [{
-        title: 'Column 1',
-        width: 120
-    },{
-        title: 'Column 2',
-        columnWidth: .8
-    },{
-        title: 'Column 3',
-        columnWidth: .2
-    }]
-});
-</code></pre>
- */
-Ext.layout.ColumnLayout = Ext.extend(Ext.layout.ContainerLayout, {
-    // private
-    monitorResize:true,
+    reserveOffset: false,
 
-    type: 'column',
+    // Height-stretched innerCt must be able to revert back to unstretched height
+    clearInnerCtOnLayout: false,
 
-    extraCls: 'x-column',
+    beforeLayout: function() {
+        var me = this,
+            i = 0,
+            items = me.getLayoutItems(),
+            len = items.length,
+            item, returnValue,
+            s;
 
-    scrollOffset : 0,
-
-    // private
-
-    targetCls: 'x-column-layout-ct',
-
-    isValidParent : function(c, target){
-        return this.innerCt && c.getPositionEl().dom.parentNode == this.innerCt.dom;
-    },
-
-    getLayoutTargetSize : function() {
-        var target = this.container.getLayoutTarget(), ret;
-        if (target) {
-            ret = target.getViewSize();
-
-            // IE in strict mode will return a width of 0 on the 1st pass of getViewSize.
-            // Use getStyleSize to verify the 0 width, the adjustment pass will then work properly
-            // with getViewSize
-            if (Ext.isIE && Ext.isStrict && ret.width == 0){
-                ret =  target.getStyleSize();
-            }
-
-            ret.width -= target.getPadding('lr');
-            ret.height -= target.getPadding('tb');
-        }
-        return ret;
-    },
-
-    renderAll : function(ct, target) {
-        if(!this.innerCt){
-            // the innerCt prevents wrapping and shuffling while
-            // the container is resizing
-            this.innerCt = target.createChild({cls:'x-column-inner'});
-            this.innerCt.createChild({cls:'x-clear'});
-        }
-        Ext.layout.ColumnLayout.superclass.renderAll.call(this, ct, this.innerCt);
-    },
-
-    // private
-    onLayout : function(ct, target){
-        var cs = ct.items.items,
-            len = cs.length,
-            c,
-            i,
-            m,
-            margins = [];
-
-        this.renderAll(ct, target);
-
-        var size = this.getLayoutTargetSize();
-
-        if(size.width < 1 && size.height < 1){ // display none?
-            return;
+        // Scrollbar offset defined by width of any vertical scroller in the owning grid
+        if (!Ext.isDefined(me.availableSpaceOffset)) {
+            s = me.owner.up('tablepanel').verticalScroller;
+            me.availableSpaceOffset = s ? s.width-1 : 0;
         }
 
-        var w = size.width - this.scrollOffset,
-            h = size.height,
-            pw = w;
+        returnValue = me.callParent(arguments);
 
-        this.innerCt.setWidth(w);
+        // Size to a sane minimum height before possibly being stretched to accommodate grouped headers
+        me.innerCt.setHeight(23);
 
-        // some columns can be percentages while others are fixed
-        // so we need to make 2 passes
-
-        for(i = 0; i < len; i++){
-            c = cs[i];
-            m = c.getPositionEl().getMargins('lr');
-            margins[i] = m;
-            if(!c.columnWidth){
-                pw -= (c.getWidth() + m);
-            }
-        }
-
-        pw = pw < 0 ? 0 : pw;
-
-        for(i = 0; i < len; i++){
-            c = cs[i];
-            m = margins[i];
-            if(c.columnWidth){
-                c.setSize(Math.floor(c.columnWidth * pw) - m);
-            }
-        }
-
-        // Browsers differ as to when they account for scrollbars.  We need to re-measure to see if the scrollbar
-        // spaces were accounted for properly.  If not, re-layout.
-        if (Ext.isIE) {
-            if (i = target.getStyle('overflow') && i != 'hidden' && !this.adjustmentPass) {
-                var ts = this.getLayoutTargetSize();
-                if (ts.width != size.width){
-                    this.adjustmentPass = true;
-                    this.onLayout(ct, target);
+        // Unstretch child items before the layout which stretches them.
+        if (me.align == 'stretchmax') {
+            for (; i &lt; len; i++) {
+                item = items[i];
+                item.el.setStyle({
+                    height: 'auto'
+                });
+                item.titleContainer.setStyle({
+                    height: 'auto',
+                    paddingTop: '0'
+                });
+                if (item.componentLayout &amp;&amp; item.componentLayout.lastComponentSize) {
+                    item.componentLayout.lastComponentSize.height = item.el.dom.offsetHeight;
                 }
             }
         }
-        delete this.adjustmentPass;
+        return returnValue;
+    },
+
+    // Override to enforce the forceFit config.
+    calculateChildBoxes: function(visibleItems, targetSize) {
+        var me = this,
+            calculations = me.callParent(arguments),
+            boxes = calculations.boxes,
+            metaData = calculations.meta,
+            len = boxes.length, i = 0, box, item;
+
+        if (targetSize.width &amp;&amp; !me.isColumn) {
+            // If configured forceFit then all columns will be flexed
+            if (me.owner.forceFit) {
+
+                for (; i &lt; len; i++) {
+                    box = boxes[i];
+                    item = box.component;
+
+                    // Set a sane minWidth for the Box layout to be able to squeeze flexed Headers down to.
+                    item.minWidth = Ext.grid.plugin.HeaderResizer.prototype.minColWidth;
+
+                    // For forceFit, just use allocated width as the flex value, and the proportions
+                    // will end up the same whatever HeaderContainer width they are being forced into.
+                    item.flex = box.width;
+                }
+
+                // Recalculate based upon all columns now being flexed instead of sized.
+                calculations = me.callParent(arguments);
+            }
+            else if (metaData.tooNarrow) {
+                targetSize.width = metaData.desiredSize;
+            }
+        }
+
+        return calculations;
+    },
+
+    afterLayout: function() {
+        var me = this,
+            i = 0,
+            items = me.getLayoutItems(),
+            len = items.length;
+
+        me.callParent(arguments);
+
+        // Set up padding in items
+        if (!me.owner.hideHeaders &amp;&amp; me.align == 'stretchmax') {
+            for (; i &lt; len; i++) {
+                items[i].setPadding();
+            }
+        }
+    },
+
+    // FIX: when flexing we actually don't have enough space as we would
+    // typically because of the scrollOffset on the GridView, must reserve this
+    updateInnerCtSize: function(tSize, calcs) {
+        var me = this,
+            extra;
+
+        // Columns must not account for scroll offset
+        if (!me.isColumn) {
+            me.tooNarrow = calcs.meta.tooNarrow;
+            extra = (me.reserveOffset ? me.availableSpaceOffset : 0);
+
+            if (calcs.meta.tooNarrow) {
+                tSize.width = calcs.meta.desiredSize + extra;
+            } else {
+                tSize.width += extra;
+            }
+        }
+
+        return me.callParent(arguments);
+    },
+
+    doOwnerCtLayouts: function() {
+        var ownerCt = this.owner.ownerCt;
+        if (!ownerCt.componentLayout.layoutBusy) {
+            ownerCt.doComponentLayout();
+        }
     }
-
-    <div id="prop-Ext.layout.ColumnLayout-activeItem"></div>/**
-     * @property activeItem
-     * @hide
-     */
-});
-
-Ext.Container.LAYOUTS['column'] = Ext.layout.ColumnLayout;
-</pre>    
+});</pre>
 </body>
 </html>

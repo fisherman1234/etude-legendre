@@ -14,7 +14,7 @@ Ext.application({
     launch: function() {
         Ext.create('Ext.container.Viewport', {
 		        layout: 'border',
-				renderTo: document.body,
+						renderTo: document.body,
 				
 		        items: [{
 				        region: 'north',

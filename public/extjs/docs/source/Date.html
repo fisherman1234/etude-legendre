@@ -1,1345 +1,1010 @@
+<!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />    
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>The source code</title>
-    <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
-    <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
 </head>
-<body  onload="prettyPrint();">
-    <pre class="prettyprint lang-js">/*!
- * Ext JS Library 3.3.1
- * Copyright(c) 2006-2010 Sencha Inc.
- * licensing@sencha.com
- * http://www.sencha.com/license
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Ext-picker-Date'>/**
+</span> * @class Ext.picker.Date
+ * @extends Ext.Component
+ * &lt;p&gt;A date picker. This class is used by the {@link Ext.form.field.Date} field to allow browsing and
+ * selection of valid dates in a popup next to the field, but may also be used with other components.&lt;/p&gt;
+ * &lt;p&gt;Typically you will need to implement a handler function to be notified when the user chooses a color from the
+ * picker; you can register the handler using the {@link #select} event, or by implementing the {@link #handler}
+ * method.&lt;/p&gt;
+ * &lt;p&gt;By default the user will be allowed to pick any date; this can be changed by using the {@link #minDate},
+ * {@link #maxDate}, {@link #disabledDays}, {@link #disabledDatesRE}, and/or {@link #disabledDates} configs.&lt;/p&gt;
+ * &lt;p&gt;All the string values documented below may be overridden by including an Ext locale file in your page.&lt;/p&gt;
+ * &lt;p&gt;Example usage:&lt;/p&gt;
+ * &lt;pre&gt;&lt;code&gt;new Ext.panel.Panel({
+    title: 'Choose a future date:',
+    width: 200,
+    bodyPadding: 10,
+    renderTo: Ext.getBody(),
+    items: [{
+        xtype: 'datepicker',
+        minDate: new Date(),
+        handler: function(picker, date) {
+            // do something with the selected date
+        }
+    }]
+});&lt;/code&gt;&lt;/pre&gt;
+ * {@img Ext.picker.Date/Ext.picker.Date.png Ext.picker.Date component}
+ *
  */
-<div id="cls-Date"></div>/**
- * @class Date
- *
- * The date parsing and formatting syntax contains a subset of
- * <a href="http://www.php.net/date">PHP's date() function</a>, and the formats that are
- * supported will provide results equivalent to their PHP versions.
- *
- * The following is a list of all currently supported formats:
- * <pre>
-Format  Description                                                               Example returned values
-------  -----------------------------------------------------------------------   -----------------------
-  d     Day of the month, 2 digits with leading zeros                             01 to 31
-  D     A short textual representation of the day of the week                     Mon to Sun
-  j     Day of the month without leading zeros                                    1 to 31
-  l     A full textual representation of the day of the week                      Sunday to Saturday
-  N     ISO-8601 numeric representation of the day of the week                    1 (for Monday) through 7 (for Sunday)
-  S     English ordinal suffix for the day of the month, 2 characters             st, nd, rd or th. Works well with j
-  w     Numeric representation of the day of the week                             0 (for Sunday) to 6 (for Saturday)
-  z     The day of the year (starting from 0)                                     0 to 364 (365 in leap years)
-  W     ISO-8601 week number of year, weeks starting on Monday                    01 to 53
-  F     A full textual representation of a month, such as January or March        January to December
-  m     Numeric representation of a month, with leading zeros                     01 to 12
-  M     A short textual representation of a month                                 Jan to Dec
-  n     Numeric representation of a month, without leading zeros                  1 to 12
-  t     Number of days in the given month                                         28 to 31
-  L     Whether it's a leap year                                                  1 if it is a leap year, 0 otherwise.
-  o     ISO-8601 year number (identical to (Y), but if the ISO week number (W)    Examples: 1998 or 2004
-        belongs to the previous or next year, that year is used instead)
-  Y     A full numeric representation of a year, 4 digits                         Examples: 1999 or 2003
-  y     A two digit representation of a year                                      Examples: 99 or 03
-  a     Lowercase Ante meridiem and Post meridiem                                 am or pm
-  A     Uppercase Ante meridiem and Post meridiem                                 AM or PM
-  g     12-hour format of an hour without leading zeros                           1 to 12
-  G     24-hour format of an hour without leading zeros                           0 to 23
-  h     12-hour format of an hour with leading zeros                              01 to 12
-  H     24-hour format of an hour with leading zeros                              00 to 23
-  i     Minutes, with leading zeros                                               00 to 59
-  s     Seconds, with leading zeros                                               00 to 59
-  u     Decimal fraction of a second                                              Examples:
-        (minimum 1 digit, arbitrary number of digits allowed)                     001 (i.e. 0.001s) or
-                                                                                  100 (i.e. 0.100s) or
-                                                                                  999 (i.e. 0.999s) or
-                                                                                  999876543210 (i.e. 0.999876543210s)
-  O     Difference to Greenwich time (GMT) in hours and minutes                   Example: +1030
-  P     Difference to Greenwich time (GMT) with colon between hours and minutes   Example: -08:00
-  T     Timezone abbreviation of the machine running the code                     Examples: EST, MDT, PDT ...
-  Z     Timezone offset in seconds (negative if west of UTC, positive if east)    -43200 to 50400
-  c     ISO 8601 date
-        Notes:                                                                    Examples:
-        1) If unspecified, the month / day defaults to the current month / day,   1991 or
-           the time defaults to midnight, while the timezone defaults to the      1992-10 or
-           browser's timezone. If a time is specified, it must include both hours 1993-09-20 or
-           and minutes. The "T" delimiter, seconds, milliseconds and timezone     1994-08-19T16:20+01:00 or
-           are optional.                                                          1995-07-18T17:21:28-02:00 or
-        2) The decimal fraction of a second, if specified, must contain at        1996-06-17T18:22:29.98765+03:00 or
-           least 1 digit (there is no limit to the maximum number                 1997-05-16T19:23:30,12345-0400 or
-           of digits allowed), and may be delimited by either a '.' or a ','      1998-04-15T20:24:31.2468Z or
-        Refer to the examples on the right for the various levels of              1999-03-14T20:24:32Z or
-        date-time granularity which are supported, or see                         2000-02-13T21:25:33
-        http://www.w3.org/TR/NOTE-datetime for more info.                         2001-01-12 22:26:34
-  U     Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)                1193432466 or -2138434463
-  M$    Microsoft AJAX serialized dates                                           \/Date(1238606590509)\/ (i.e. UTC milliseconds since epoch) or
-                                                                                  \/Date(1238606590509+0800)\/
+Ext.define('Ext.picker.Date', {
+    extend: 'Ext.Component',
+    requires: [
+        'Ext.XTemplate',
+        'Ext.button.Button',
+        'Ext.button.Split',
+        'Ext.util.ClickRepeater',
+        'Ext.util.KeyNav',
+        'Ext.EventObject',
+        'Ext.fx.Manager',
+        'Ext.picker.Month'
+    ],
+    alias: 'widget.datepicker',
+    alternateClassName: 'Ext.DatePicker',
+
+    renderTpl: [
+        '&lt;div class=&quot;{cls}&quot; id=&quot;{id}&quot; role=&quot;grid&quot; title=&quot;{ariaTitle} {value:this.longDay}&quot;&gt;',
+            '&lt;div role=&quot;presentation&quot; class=&quot;{baseCls}-header&quot;&gt;',
+                '&lt;div class=&quot;{baseCls}-prev&quot;&gt;&lt;a href=&quot;#&quot; role=&quot;button&quot; title=&quot;{prevText}&quot;&gt;&lt;/a&gt;&lt;/div&gt;',
+                '&lt;div class=&quot;{baseCls}-month&quot;&gt;&lt;/div&gt;',
+                '&lt;div class=&quot;{baseCls}-next&quot;&gt;&lt;a href=&quot;#&quot; role=&quot;button&quot; title=&quot;{nextText}&quot;&gt;&lt;/a&gt;&lt;/div&gt;',
+            '&lt;/div&gt;',
+            '&lt;table class=&quot;{baseCls}-inner&quot; cellspacing=&quot;0&quot; role=&quot;presentation&quot;&gt;',
+                '&lt;thead role=&quot;presentation&quot;&gt;&lt;tr role=&quot;presentation&quot;&gt;',
+                    '&lt;tpl for=&quot;dayNames&quot;&gt;',
+                        '&lt;th role=&quot;columnheader&quot; title=&quot;{.}&quot;&gt;&lt;span&gt;{.:this.firstInitial}&lt;/span&gt;&lt;/th&gt;',
+                    '&lt;/tpl&gt;',
+                '&lt;/tr&gt;&lt;/thead&gt;',
+                '&lt;tbody role=&quot;presentation&quot;&gt;&lt;tr role=&quot;presentation&quot;&gt;',
+                    '&lt;tpl for=&quot;days&quot;&gt;',
+                        '{#:this.isEndOfWeek}',
+                        '&lt;td role=&quot;gridcell&quot; id=&quot;{[Ext.id()]}&quot;&gt;',
+                            '&lt;a role=&quot;presentation&quot; href=&quot;#&quot; hidefocus=&quot;on&quot; class=&quot;{parent.baseCls}-date&quot; tabIndex=&quot;1&quot;&gt;',
+                                '&lt;em role=&quot;presentation&quot;&gt;&lt;span role=&quot;presentation&quot;&gt;&lt;/span&gt;&lt;/em&gt;',
+                            '&lt;/a&gt;',
+                        '&lt;/td&gt;',
+                    '&lt;/tpl&gt;',
+                '&lt;/tr&gt;&lt;/tbody&gt;',
+            '&lt;/table&gt;',
+            '&lt;tpl if=&quot;showToday&quot;&gt;',
+                '&lt;div role=&quot;presentation&quot; class=&quot;{baseCls}-footer&quot;&gt;&lt;/div&gt;',
+            '&lt;/tpl&gt;',
+        '&lt;/div&gt;',
+        {
+            firstInitial: function(value) {
+                return value.substr(0,1);
+            },
+            isEndOfWeek: function(value) {
+                // convert from 1 based index to 0 based
+                // by decrementing value once.
+                value--;
+                var end = value % 7 === 0 &amp;&amp; value !== 0;
+                return end ? '&lt;/tr&gt;&lt;tr role=&quot;row&quot;&gt;' : '';
+            },
+            longDay: function(value){
+                return Ext.Date.format(value, this.longDayFormat);
+            }
+        }
+    ],
+
+    ariaTitle: 'Date Picker',
+<span id='Ext-picker-Date-cfg-todayText'>    /**
+</span>     * @cfg {String} todayText
+     * The text to display on the button that selects the current date (defaults to &lt;code&gt;'Today'&lt;/code&gt;)
+     */
+    todayText : 'Today',
+<span id='Ext-picker-Date-cfg-handler'>    /**
+</span>     * @cfg {Function} handler
+     * Optional. A function that will handle the select event of this picker.
+     * The handler is passed the following parameters:&lt;div class=&quot;mdetail-params&quot;&gt;&lt;ul&gt;
+     * &lt;li&gt;&lt;code&gt;picker&lt;/code&gt; : Ext.picker.Date &lt;div class=&quot;sub-desc&quot;&gt;This Date picker.&lt;/div&gt;&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;date&lt;/code&gt; : Date &lt;div class=&quot;sub-desc&quot;&gt;The selected date.&lt;/div&gt;&lt;/li&gt;
+     * &lt;/ul&gt;&lt;/div&gt;
+     */
+<span id='Ext-picker-Date-cfg-scope'>    /**
+</span>     * @cfg {Object} scope
+     * The scope (&lt;code&gt;&lt;b&gt;this&lt;/b&gt;&lt;/code&gt; reference) in which the &lt;code&gt;{@link #handler}&lt;/code&gt;
+     * function will be called.  Defaults to this DatePicker instance.
+     */
+<span id='Ext-picker-Date-cfg-todayTip'>    /**
+</span>     * @cfg {String} todayTip
+     * A string used to format the message for displaying in a tooltip over the button that
+     * selects the current date. Defaults to &lt;code&gt;'{0} (Spacebar)'&lt;/code&gt; where
+     * the &lt;code&gt;{0}&lt;/code&gt; token is replaced by today's date.
+     */
+    todayTip : '{0} (Spacebar)',
+<span id='Ext-picker-Date-cfg-minText'>    /**
+</span>     * @cfg {String} minText
+     * The error text to display if the minDate validation fails (defaults to &lt;code&gt;'This date is before the minimum date'&lt;/code&gt;)
+     */
+    minText : 'This date is before the minimum date',
+<span id='Ext-picker-Date-cfg-maxText'>    /**
+</span>     * @cfg {String} maxText
+     * The error text to display if the maxDate validation fails (defaults to &lt;code&gt;'This date is after the maximum date'&lt;/code&gt;)
+     */
+    maxText : 'This date is after the maximum date',
+<span id='Ext-picker-Date-cfg-format'>    /**
+</span>     * @cfg {String} format
+     * The default date format string which can be overriden for localization support.  The format must be
+     * valid according to {@link Ext.Date#parse} (defaults to {@link Ext.Date#defaultFormat}).
+     */
+<span id='Ext-picker-Date-cfg-disabledDaysText'>    /**
+</span>     * @cfg {String} disabledDaysText
+     * The tooltip to display when the date falls on a disabled day (defaults to &lt;code&gt;'Disabled'&lt;/code&gt;)
+     */
+    disabledDaysText : 'Disabled',
+<span id='Ext-picker-Date-cfg-disabledDatesText'>    /**
+</span>     * @cfg {String} disabledDatesText
+     * The tooltip text to display when the date falls on a disabled date (defaults to &lt;code&gt;'Disabled'&lt;/code&gt;)
+     */
+    disabledDatesText : 'Disabled',
+<span id='Ext-picker-Date-cfg-monthNames'>    /**
+</span>     * @cfg {Array} monthNames
+     * An array of textual month names which can be overriden for localization support (defaults to Ext.Date.monthNames)
+     */
+<span id='Ext-picker-Date-cfg-dayNames'>    /**
+</span>     * @cfg {Array} dayNames
+     * An array of textual day names which can be overriden for localization support (defaults to Ext.Date.dayNames)
+     */
+<span id='Ext-picker-Date-cfg-nextText'>    /**
+</span>     * @cfg {String} nextText
+     * The next month navigation button tooltip (defaults to &lt;code&gt;'Next Month (Control+Right)'&lt;/code&gt;)
+     */
+    nextText : 'Next Month (Control+Right)',
+<span id='Ext-picker-Date-cfg-prevText'>    /**
+</span>     * @cfg {String} prevText
+     * The previous month navigation button tooltip (defaults to &lt;code&gt;'Previous Month (Control+Left)'&lt;/code&gt;)
+     */
+    prevText : 'Previous Month (Control+Left)',
+<span id='Ext-picker-Date-cfg-monthYearText'>    /**
+</span>     * @cfg {String} monthYearText
+     * The header month selector tooltip (defaults to &lt;code&gt;'Choose a month (Control+Up/Down to move years)'&lt;/code&gt;)
+     */
+    monthYearText : 'Choose a month (Control+Up/Down to move years)',
+<span id='Ext-picker-Date-cfg-startDay'>    /**
+</span>     * @cfg {Number} startDay
+     * Day index at which the week should begin, 0-based (defaults to 0, which is Sunday)
+     */
+    startDay : 0,
+<span id='Ext-picker-Date-cfg-showToday'>    /**
+</span>     * @cfg {Boolean} showToday
+     * False to hide the footer area containing the Today button and disable the keyboard handler for spacebar
+     * that selects the current date (defaults to &lt;code&gt;true&lt;/code&gt;).
+     */
+    showToday : true,
+<span id='Ext-picker-Date-cfg-minDate'>    /**
+</span>     * @cfg {Date} minDate
+     * Minimum allowable date (JavaScript date object, defaults to null)
+     */
+<span id='Ext-picker-Date-cfg-maxDate'>    /**
+</span>     * @cfg {Date} maxDate
+     * Maximum allowable date (JavaScript date object, defaults to null)
+     */
+<span id='Ext-picker-Date-cfg-disabledDays'>    /**
+</span>     * @cfg {Array} disabledDays
+     * An array of days to disable, 0-based. For example, [0, 6] disables Sunday and Saturday (defaults to null).
+     */
+<span id='Ext-picker-Date-cfg-disabledDatesRE'>    /**
+</span>     * @cfg {RegExp} disabledDatesRE
+     * JavaScript regular expression used to disable a pattern of dates (defaults to null).  The {@link #disabledDates}
+     * config will generate this regex internally, but if you specify disabledDatesRE it will take precedence over the
+     * disabledDates value.
+     */
+<span id='Ext-picker-Date-cfg-disabledDates'>    /**
+</span>     * @cfg {Array} disabledDates
+     * An array of 'dates' to disable, as strings. These strings will be used to build a dynamic regular
+     * expression so they are very powerful. Some examples:
+     * &lt;ul&gt;
+     * &lt;li&gt;['03/08/2003', '09/16/2003'] would disable those exact dates&lt;/li&gt;
+     * &lt;li&gt;['03/08', '09/16'] would disable those days for every year&lt;/li&gt;
+     * &lt;li&gt;['^03/08'] would only match the beginning (useful if you are using short years)&lt;/li&gt;
+     * &lt;li&gt;['03/../2006'] would disable every day in March 2006&lt;/li&gt;
+     * &lt;li&gt;['^03'] would disable every day in every March&lt;/li&gt;
+     * &lt;/ul&gt;
+     * Note that the format of the dates included in the array should exactly match the {@link #format} config.
+     * In order to support regular expressions, if you are using a date format that has '.' in it, you will have to
+     * escape the dot when restricting dates. For example: ['03\\.08\\.03'].
+     */
+
+<span id='Ext-picker-Date-cfg-disableAnim'>    /**
+</span>     * @cfg {Boolean} disableAnim True to disable animations when showing the month picker. Defaults to &lt;tt&gt;false&lt;/tt&gt;.
+     */
+    disableAnim: true,
+
+<span id='Ext-picker-Date-cfg-baseCls'>    /**
+</span>     * @cfg {String} baseCls
+     * The base CSS class to apply to this components element (defaults to &lt;tt&gt;'x-datepicker'&lt;/tt&gt;).
+     */
+    baseCls: Ext.baseCSSPrefix + 'datepicker',
+
+<span id='Ext-picker-Date-cfg-selectedCls'>    /**
+</span>     * @cfg {String} selectedCls
+     * The class to apply to the selected cell. Defaults to &lt;tt&gt;'x-datepicker-selected'&lt;/tt&gt;
+     */
+
+<span id='Ext-picker-Date-cfg-disabledCellCls'>    /**
+</span>     * @cfg {String} disabledCellCls
+     * The class to apply to disabled cells. Defaults to &lt;tt&gt;'x-datepicker-disabled'&lt;/tt&gt;
+     */
+
+<span id='Ext-picker-Date-cfg-longDayFormat'>    /**
+</span>     * @cfg {String} longDayFormat
+     * The format for displaying a date in a longer format. Defaults to &lt;tt&gt;'F d, Y'&lt;/tt&gt;
+     */
+    longDayFormat: 'F d, Y',
+
+<span id='Ext-picker-Date-cfg-keyNavConfig'>    /**
+</span>     * @cfg {Object} keyNavConfig Specifies optional custom key event handlers for the {@link Ext.util.KeyNav}
+     * attached to this date picker. Must conform to the config format recognized by the {@link Ext.util.KeyNav}
+     * constructor. Handlers specified in this object will replace default handlers of the same name.
+     */
+
+<span id='Ext-picker-Date-cfg-focusOnShow'>    /**
+</span>     * @cfg {Boolean} focusOnShow
+     * True to automatically focus the picker on show. Defaults to &lt;tt&gt;false&lt;/tt&gt;.
+     */
+    focusOnShow: false,
+
+    // private
+    // Set by other components to stop the picker focus being updated when the value changes.
+    focusOnSelect: true,
+
+    width: 178,
+
+    // default value used to initialise each date in the DatePicker
+    // (note: 12 noon was chosen because it steers well clear of all DST timezone changes)
+    initHour: 12, // 24-hour format
+
+    numDays: 42,
+
+    // private, inherit docs
+    initComponent : function() {
+        var me = this,
+            clearTime = Ext.Date.clearTime;
+
+        me.selectedCls = me.baseCls + '-selected';
+        me.disabledCellCls = me.baseCls + '-disabled';
+        me.prevCls = me.baseCls + '-prevday';
+        me.activeCls = me.baseCls + '-active';
+        me.nextCls = me.baseCls + '-prevday';
+        me.todayCls = me.baseCls + '-today';
+        me.dayNames = me.dayNames.slice(me.startDay).concat(me.dayNames.slice(0, me.startDay));
+        this.callParent();
+
+        me.value = me.value ?
+                 clearTime(me.value, true) : clearTime(new Date());
+
+        me.addEvents(
+<span id='Ext-picker-Date-event-select'>            /**
+</span>             * @event select
+             * Fires when a date is selected
+             * @param {DatePicker} this DatePicker
+             * @param {Date} date The selected date
+             */
+            'select'
+        );
+
+        me.initDisabledDays();
+    },
+
+    // private, inherit docs
+    onRender : function(container, position){
+        /*
+         * days array for looping through 6 full weeks (6 weeks * 7 days)
+         * Note that we explicitly force the size here so the template creates
+         * all the appropriate cells.
+         */
+
+        var me = this,
+            days = new Array(me.numDays),
+            today = Ext.Date.format(new Date(), me.format);
+
+        Ext.applyIf(me, {
+            renderData: {},
+            renderSelectors: {}
+        });
+
+        Ext.apply(me.renderData, {
+            dayNames: me.dayNames,
+            ariaTitle: me.ariaTitle,
+            value: me.value,
+            showToday: me.showToday,
+            prevText: me.prevText,
+            nextText: me.nextText,
+            days: days
+        });
+        me.getTpl('renderTpl').longDayFormat = me.longDayFormat;
+
+        Ext.apply(me.renderSelectors, {
+            eventEl: 'table.' + me.baseCls + '-inner',
+            prevEl: '.' + me.baseCls + '-prev a',
+            nextEl: '.' + me.baseCls + '-next a',
+            middleBtnEl: '.' + me.baseCls + '-month',
+            footerEl: '.' + me.baseCls + '-footer'
+        });
+
+        this.callParent(arguments);
+        me.el.unselectable();
+
+        me.cells = me.eventEl.select('tbody td');
+        me.textNodes = me.eventEl.query('tbody td span');
+
+        me.monthBtn = Ext.create('Ext.button.Split', {
+            text: '',
+            tooltip: me.monthYearText,
+            renderTo: me.middleBtnEl
+        });
+        //~ me.middleBtnEl.down('button').addCls(Ext.baseCSSPrefix + 'btn-arrow');
+
+
+        me.todayBtn = Ext.create('Ext.button.Button', {
+            renderTo: me.footerEl,
+            text: Ext.String.format(me.todayText, today),
+            tooltip: Ext.String.format(me.todayTip, today),
+            handler: me.selectToday,
+            scope: me
+        });
+    },
+
+    // private, inherit docs
+    initEvents: function(){
+        var me = this,
+            eDate = Ext.Date,
+            day = eDate.DAY;
+
+        this.callParent();
+
+        me.prevRepeater = Ext.create('Ext.util.ClickRepeater', me.prevEl, {
+            handler: me.showPrevMonth,
+            scope: me,
+            preventDefault: true,
+            stopDefault: true
+        });
+
+        me.nextRepeater = Ext.create('Ext.util.ClickRepeater', me.nextEl, {
+            handler: me.showNextMonth,
+            scope: me,
+            preventDefault:true,
+            stopDefault:true
+        });
+
+        me.keyNav = Ext.create('Ext.util.KeyNav', me.eventEl, Ext.apply({
+            scope: me,
+            'left' : function(e){
+                if(e.ctrlKey){
+                    me.showPrevMonth();
+                }else{
+                    me.update(eDate.add(me.activeDate, day, -1));
+                }
+            },
+
+            'right' : function(e){
+                if(e.ctrlKey){
+                    me.showNextMonth();
+                }else{
+                    me.update(eDate.add(me.activeDate, day, 1));
+                }
+            },
+
+            'up' : function(e){
+                if(e.ctrlKey){
+                    me.showNextYear();
+                }else{
+                    me.update(eDate.add(me.activeDate, day, -7));
+                }
+            },
+
+            'down' : function(e){
+                if(e.ctrlKey){
+                    me.showPrevYear();
+                }else{
+                    me.update(eDate.add(me.activeDate, day, 7));
+                }
+            },
+            'pageUp' : me.showNextMonth,
+            'pageDown' : me.showPrevMonth,
+            'enter' : function(e){
+                e.stopPropagation();
+                return true;
+            }
+        }, me.keyNavConfig));
+
+        if(me.showToday){
+            me.todayKeyListener = me.eventEl.addKeyListener(Ext.EventObject.SPACE, me.selectToday,  me);
+        }
+        me.mon(me.eventEl, 'mousewheel', me.handleMouseWheel, me);
+        me.mon(me.eventEl, 'click', me.handleDateClick,  me, {delegate: 'a.' + me.baseCls + '-date'});
+        me.mon(me.monthBtn, 'click', me.showMonthPicker, me);
+        me.mon(me.monthBtn, 'arrowclick', me.showMonthPicker, me);
+        me.update(me.value);
+    },
+
+<span id='Ext-picker-Date-method-initDisabledDays'>    /**
+</span>     * Setup the disabled dates regex based on config options
+     * @private
+     */
+    initDisabledDays : function(){
+        var me = this,
+            dd = me.disabledDates,
+            re = '(?:',
+            len;
+
+        if(!me.disabledDatesRE &amp;&amp; dd){
+                len = dd.length - 1;
+
+            Ext.each(dd, function(d, i){
+                re += Ext.isDate(d) ? '^' + Ext.String.escapeRegex(Ext.Date.dateFormat(d, me.format)) + '$' : dd[i];
+                if(i != len){
+                    re += '|';
+                }
+            }, me);
+            me.disabledDatesRE = new RegExp(re + ')');
+        }
+    },
+
+<span id='Ext-picker-Date-method-setDisabledDates'>    /**
+</span>     * Replaces any existing disabled dates with new values and refreshes the DatePicker.
+     * @param {Array/RegExp} disabledDates An array of date strings (see the {@link #disabledDates} config
+     * for details on supported values), or a JavaScript regular expression used to disable a pattern of dates.
+     * @return {Ext.picker.Date} this
+     */
+    setDisabledDates : function(dd){
+        var me = this;
+
+        if(Ext.isArray(dd)){
+            me.disabledDates = dd;
+            me.disabledDatesRE = null;
+        }else{
+            me.disabledDatesRE = dd;
+        }
+        me.initDisabledDays();
+        me.update(me.value, true);
+        return me;
+    },
+
+<span id='Ext-picker-Date-method-setDisabledDays'>    /**
+</span>     * Replaces any existing disabled days (by index, 0-6) with new values and refreshes the DatePicker.
+     * @param {Array} disabledDays An array of disabled day indexes. See the {@link #disabledDays} config
+     * for details on supported values.
+     * @return {Ext.picker.Date} this
+     */
+    setDisabledDays : function(dd){
+        this.disabledDays = dd;
+        return this.update(this.value, true);
+    },
+
+<span id='Ext-picker-Date-method-setMinDate'>    /**
+</span>     * Replaces any existing {@link #minDate} with the new value and refreshes the DatePicker.
+     * @param {Date} value The minimum date that can be selected
+     * @return {Ext.picker.Date} this
+     */
+    setMinDate : function(dt){
+        this.minDate = dt;
+        return this.update(this.value, true);
+    },
+
+<span id='Ext-picker-Date-method-setMaxDate'>    /**
+</span>     * Replaces any existing {@link #maxDate} with the new value and refreshes the DatePicker.
+     * @param {Date} value The maximum date that can be selected
+     * @return {Ext.picker.Date} this
+     */
+    setMaxDate : function(dt){
+        this.maxDate = dt;
+        return this.update(this.value, true);
+    },
+
+<span id='Ext-picker-Date-method-setValue'>    /**
+</span>     * Sets the value of the date field
+     * @param {Date} value The date to set
+     * @return {Ext.picker.Date} this
+     */
+    setValue : function(value){
+        this.value = Ext.Date.clearTime(value, true);
+        return this.update(this.value);
+    },
+
+<span id='Ext-picker-Date-method-getValue'>    /**
+</span>     * Gets the current selected value of the date field
+     * @return {Date} The selected date
+     */
+    getValue : function(){
+        return this.value;
+    },
+
+    // private
+    focus : function(){
+        this.update(this.activeDate);
+    },
+
+    // private, inherit docs
+    onEnable: function(){
+        this.callParent();
+        this.setDisabledStatus(false);
+        this.update(this.activeDate);
+
+    },
+
+    // private, inherit docs
+    onDisable : function(){
+        this.callParent();
+        this.setDisabledStatus(true);
+    },
+
+<span id='Ext-picker-Date-method-setDisabledStatus'>    /**
+</span>     * Set the disabled state of various internal components
+     * @private
+     * @param {Boolean} disabled
+     */
+    setDisabledStatus : function(disabled){
+        var me = this;
+
+        me.keyNav.setDisabled(disabled);
+        me.prevRepeater.setDisabled(disabled);
+        me.nextRepeater.setDisabled(disabled);
+        if (me.showToday) {
+            me.todayKeyListener.setDisabled(disabled);
+            me.todayBtn.setDisabled(disabled);
+        }
+    },
+
+<span id='Ext-picker-Date-method-getActive'>    /**
+</span>     * Get the current active date.
+     * @private
+     * @return {Date} The active date
+     */
+    getActive: function(){
+        return this.activeDate || me.value;
+    },
+
+<span id='Ext-picker-Date-method-runAnimation'>    /**
+</span>     * Run any animation required to hide/show the month picker.
+     * @private
+     * @param {Boolean} isHide True if it's a hide operation
+     */
+    runAnimation: function(isHide){
+        var options = {
+                target: this.monthPicker,
+                duration: 200
+            };
+
+        Ext.fx.Manager.run();
+        if (isHide) {
+            //TODO: slideout
+        } else {
+            //TODO: slidein
+        }
+        Ext.create('Ext.fx.Anim', options);
+    },
+
+<span id='Ext-picker-Date-method-hideMonthPicker'>    /**
+</span>     * Hides the month picker, if it's visible.
+     * @return {Ext.picker.Date} this
+     */
+    hideMonthPicker : function(){
+        var me = this,
+            picker = me.monthPicker;
+
+        if (picker) {
+            if (me.disableAnim) {
+                picker.hide();
+            } else {
+                this.runAnimation(true);
+            }
+        }
+        return me;
+    },
+
+<span id='Ext-picker-Date-method-showMonthPicker'>    /**
+</span>     * Show the month picker
+     * @return {Ext.picker.Date} this
+     */
+    showMonthPicker : function(){
+
+        var me = this,
+            picker,
+            size,
+            top,
+            left;
+
+
+        if (me.rendered &amp;&amp; !me.disabled) {
+            size = me.getSize();
+            picker = me.createMonthPicker();
+            picker.show();
+            picker.setSize(size);
+            picker.setValue(me.getActive());
+
+            if (me.disableAnim) {
+                picker.setPosition(-1, -1);
+            } else {
+                me.runAnimation(false);
+            }
+        }
+        return me;
+    },
+
+<span id='Ext-picker-Date-method-createMonthPicker'>    /**
+</span>     * Create the month picker instance
+     * @private
+     * @return {Ext.picker.Month} picker
+     */
+    createMonthPicker: function(){
+        var me = this,
+            picker = me.monthPicker;
+
+        if (!picker) {
+            me.monthPicker = picker = Ext.create('Ext.picker.Month', {
+                renderTo: me.el,
+                floating: true,
+                shadow: false,
+                small: me.showToday === false,
+                listeners: {
+                    scope: me,
+                    cancelclick: me.onCancelClick,
+                    okclick: me.onOkClick,
+                    yeardblclick: me.onOkClick,
+                    monthdblclick: me.onOkClick
+                }
+            });
+
+            me.on('beforehide', me.hideMonthPicker, me);
+        }
+        return picker;
+    },
+
+<span id='Ext-picker-Date-method-onOkClick'>    /**
+</span>     * Respond to an ok click on the month picker
+     * @private
+     */
+    onOkClick: function(picker, value){
+        var me = this,
+            month = value[0],
+            year = value[1],
+            date = new Date(year, month, me.getActive().getDate());
+
+        if (date.getMonth() !== month) {
+            // 'fix' the JS rolling date conversion if needed
+            date = new Date(year, month, 1).getLastDateOfMonth();
+        }
+        me.update(date);
+        me.hideMonthPicker();
+    },
+
+<span id='Ext-picker-Date-method-onCancelClick'>    /**
+</span>     * Respond to a cancel click on the month picker
+     * @private
+     */
+    onCancelClick: function(){
+        this.hideMonthPicker();
+    },
+
+<span id='Ext-picker-Date-method-showPrevMonth'>    /**
+</span>     * Show the previous month.
+     * @return {Ext.picker.Date} this
+     */
+    showPrevMonth : function(e){
+        return this.update(Ext.Date.add(this.activeDate, Ext.Date.MONTH, -1));
+    },
+
+<span id='Ext-picker-Date-method-showNextMonth'>    /**
+</span>     * Show the next month.
+     * @return {Ext.picker.Date} this
+     */
+    showNextMonth : function(e){
+        return this.update(Ext.Date.add(this.activeDate, Ext.Date.MONTH, 1));
+    },
+
+<span id='Ext-picker-Date-method-showPrevYear'>    /**
+</span>     * Show the previous year.
+     * @return {Ext.picker.Date} this
+     */
+    showPrevYear : function(){
+        this.update(Ext.Date.add(this.activeDate, Ext.Date.YEAR, -1));
+    },
+
+<span id='Ext-picker-Date-method-showNextYear'>    /**
+</span>     * Show the next year.
+     * @return {Ext.picker.Date} this
+     */
+    showNextYear : function(){
+        this.update(Ext.Date.add(this.activeDate, Ext.Date.YEAR, 1));
+    },
+
+<span id='Ext-picker-Date-method-handleMouseWheel'>    /**
+</span>     * Respond to the mouse wheel event
+     * @private
+     * @param {Ext.EventObject} e
+     */
+    handleMouseWheel : function(e){
+        e.stopEvent();
+        if(!this.disabled){
+            var delta = e.getWheelDelta();
+            if(delta &gt; 0){
+                this.showPrevMonth();
+            } else if(delta &lt; 0){
+                this.showNextMonth();
+            }
+        }
+    },
+
+<span id='Ext-picker-Date-method-handleDateClick'>    /**
+</span>     * Respond to a date being clicked in the picker
+     * @private
+     * @param {Ext.EventObject} e
+     * @param {HTMLElement} t
+     */
+    handleDateClick : function(e, t){
+        var me = this,
+            handler = me.handler;
+
+        e.stopEvent();
+        if(!me.disabled &amp;&amp; t.dateValue &amp;&amp; !Ext.fly(t.parentNode).hasCls(me.disabledCellCls)){
+            me.cancelFocus = me.focusOnSelect === false;
+            me.setValue(new Date(t.dateValue));
+            delete me.cancelFocus;
+            me.fireEvent('select', me, me.value);
+            if (handler) {
+                handler.call(me.scope || me, me, me.value);
+            }
+            // event handling is turned off on hide
+            // when we are using the picker in a field
+            // therefore onSelect comes AFTER the select
+            // event.
+            me.onSelect();
+        }
+    },
+
+<span id='Ext-picker-Date-method-onSelect'>    /**
+</span>     * Perform any post-select actions
+     * @private
+     */
+    onSelect: function() {
+        if (this.hideOnSelect) {
+             this.hide();
+         }
+    },
+
+<span id='Ext-picker-Date-method-selectToday'>    /**
+</span>     * Sets the current value to today.
+     * @return {Ext.picker.Date} this
+     */
+    selectToday : function(){
+        var me = this,
+            btn = me.todayBtn,
+            handler = me.handler;
+
+        if(btn &amp;&amp; !btn.disabled){
+            me.setValue(Ext.Date.clearTime(new Date()));
+            me.fireEvent('select', me, me.value);
+            if (handler) {
+                handler.call(me.scope || me, me, me.value);
+            }
+            me.onSelect();
+        }
+        return me;
+    },
+
+<span id='Ext-picker-Date-method-selectedUpdate'>    /**
+</span>     * Update the selected cell
+     * @private
+     * @param {Date} date The new date
+     * @param {Date} active The active date
+     */
+    selectedUpdate: function(date, active){
+        var me = this,
+            t = date.getTime(),
+            cells = me.cells,
+            cls = me.selectedCls;
+
+        cells.removeCls(cls);
+        cells.each(function(c){
+            if (c.dom.firstChild.dateValue == t) {
+                me.el.dom.setAttribute('aria-activedescendent', c.dom.id);
+                c.addCls(cls);
+                if(me.isVisible() &amp;&amp; !me.cancelFocus){
+                    Ext.fly(c.dom.firstChild).focus(50);
+                }
+                return false;
+            }
+        }, this);
+    },
+
+<span id='Ext-picker-Date-method-fullUpdate'>    /**
+</span>     * Update the contents of the picker for a new month
+     * @private
+     * @param {Date} date The new date
+     * @param {Date} active The active date
+     */
+    fullUpdate: function(date, active){
+        var me = this,
+            cells = me.cells.elements,
+            textNodes = me.textNodes,
+            disabledCls = me.disabledCellCls,
+            eDate = Ext.Date,
+            i = 0,
+            extraDays = 0,
+            visible = me.isVisible(),
+            sel = +eDate.clearTime(date, true),
+            today = +eDate.clearTime(new Date()),
+            min = me.minDate ? eDate.clearTime(me.minDate, true) : Number.NEGATIVE_INFINITY,
+            max = me.maxDate ? eDate.clearTime(me.maxDate, true) : Number.POSITIVE_INFINITY,
+            ddMatch = me.disabledDatesRE,
+            ddText = me.disabledDatesText,
+            ddays = me.disabledDays ? me.disabledDays.join('') : false,
+            ddaysText = me.disabledDaysText,
+            format = me.format,
+            days = eDate.getDaysInMonth(date),
+            firstOfMonth = eDate.getFirstDateOfMonth(date),
+            startingPos = firstOfMonth.getDay() - me.startDay,
+            previousMonth = eDate.add(date, eDate.MONTH, -1),
+            longDayFormat = me.longDayFormat,
+            prevStart,
+            current,
+            disableToday,
+            tempDate,
+            setCellClass,
+            html,
+            cls,
+            formatValue,
+            value;
+
+        if (startingPos &lt; 0) {
+            startingPos += 7;
+        }
+
+        days += startingPos;
+        prevStart = eDate.getDaysInMonth(previousMonth) - startingPos;
+        current = new Date(previousMonth.getFullYear(), previousMonth.getMonth(), prevStart, me.initHour);
+
+        if (me.showToday) {
+            tempDate = eDate.clearTime(new Date());
+            disableToday = (tempDate &lt; min || tempDate &gt; max ||
+                (ddMatch &amp;&amp; format &amp;&amp; ddMatch.test(eDate.dateFormat(tempDate, format))) ||
+                (ddays &amp;&amp; ddays.indexOf(tempDate.getDay()) != -1));
+
+            if (!me.disabled) {
+                me.todayBtn.setDisabled(disableToday);
+                me.todayKeyListener.setDisabled(disableToday);
+            }
+        }
+
+        setCellClass = function(cell){
+            value = +eDate.clearTime(current, true);
+            cell.title = eDate.format(current, longDayFormat);
+            // store dateValue number as an expando
+            cell.firstChild.dateValue = value;
+            if(value == today){
+                cell.className += ' ' + me.todayCls;
+                cell.title = me.todayText;
+            }
+            if(value == sel){
+                cell.className += ' ' + me.selectedCls;
+                me.el.dom.setAttribute('aria-activedescendant', cell.id);
+                if (visible &amp;&amp; me.floating) {
+                    Ext.fly(cell.firstChild).focus(50);
+                }
+            }
+            // disabling
+            if(value &lt; min) {
+                cell.className = disabledCls;
+                cell.title = me.minText;
+                return;
+            }
+            if(value &gt; max) {
+                cell.className = disabledCls;
+                cell.title = me.maxText;
+                return;
+            }
+            if(ddays){
+                if(ddays.indexOf(current.getDay()) != -1){
+                    cell.title = ddaysText;
+                    cell.className = disabledCls;
+                }
+            }
+            if(ddMatch &amp;&amp; format){
+                formatValue = eDate.dateFormat(current, format);
+                if(ddMatch.test(formatValue)){
+                    cell.title = ddText.replace('%0', formatValue);
+                    cell.className = disabledCls;
+                }
+            }
+        };
+
+        for(; i &lt; me.numDays; ++i) {
+            if (i &lt; startingPos) {
+                html = (++prevStart);
+                cls = me.prevCls;
+            } else if (i &gt;= days) {
+                html = (++extraDays);
+                cls = me.nextCls;
+            } else {
+                html = i - startingPos + 1;
+                cls = me.activeCls;
+            }
+            textNodes[i].innerHTML = html;
+            cells[i].className = cls;
+            current.setDate(current.getDate() + 1);
+            setCellClass(cells[i]);
+        }
+
+        me.monthBtn.setText(me.monthNames[date.getMonth()] + ' ' + date.getFullYear());
+    },
+
+<span id='Ext-picker-Date-method-update'>    /**
+</span>     * Update the contents of the picker
+     * @private
+     * @param {Date} date The new date
+     * @param {Boolean} forceRefresh True to force a full refresh
+     */
+    update : function(date, forceRefresh){
+        var me = this,
+            active = me.activeDate;
+
+        if (me.rendered) {
+            me.activeDate = date;
+            if(!forceRefresh &amp;&amp; active &amp;&amp; me.el &amp;&amp; active.getMonth() == date.getMonth() &amp;&amp; active.getFullYear() == date.getFullYear()){
+                me.selectedUpdate(date, active);
+            } else {
+                me.fullUpdate(date, active);
+            }
+        }
+        return me;
+    },
+
+    // private, inherit docs
+    beforeDestroy : function() {
+        var me = this;
+
+        if (me.rendered) {
+            Ext.destroy(
+                me.todayKeyListener,
+                me.keyNav,
+                me.monthPicker,
+                me.monthBtn,
+                me.nextRepeater,
+                me.prevRepeater,
+                me.todayBtn
+            );
+            delete me.textNodes;
+            delete me.cells.elements;
+        }
+    },
+
+    // private, inherit docs
+    onShow: function() {
+        this.callParent(arguments);
+        if (this.focusOnShow) {
+            this.focus();
+        }
+    }
+},
+
+// After dependencies have loaded:
+function() {
+    var proto = this.prototype;
+
+    proto.monthNames = Ext.Date.monthNames;
+
+    proto.dayNames = Ext.Date.dayNames;
+
+    proto.format = Ext.Date.defaultFormat;
+});
 </pre>
- *
- * Example usage (note that you must escape format specifiers with '\\' to render them as character literals):
- * <pre><code>
-// Sample date:
-// 'Wed Jan 10 2007 15:05:01 GMT-0600 (Central Standard Time)'
-
-var dt = new Date('1/10/2007 03:05:01 PM GMT-0600');
-document.write(dt.format('Y-m-d'));                           // 2007-01-10
-document.write(dt.format('F j, Y, g:i a'));                   // January 10, 2007, 3:05 pm
-document.write(dt.format('l, \\t\\he jS \\of F Y h:i:s A'));  // Wednesday, the 10th of January 2007 03:05:01 PM
-</code></pre>
- *
- * Here are some standard date/time patterns that you might find helpful.  They
- * are not part of the source of Date.js, but to use them you can simply copy this
- * block of code into any script that is included after Date.js and they will also become
- * globally available on the Date object.  Feel free to add or remove patterns as needed in your code.
- * <pre><code>
-Date.patterns = {
-    ISO8601Long:"Y-m-d H:i:s",
-    ISO8601Short:"Y-m-d",
-    ShortDate: "n/j/Y",
-    LongDate: "l, F d, Y",
-    FullDateTime: "l, F d, Y g:i:s A",
-    MonthDay: "F d",
-    ShortTime: "g:i A",
-    LongTime: "g:i:s A",
-    SortableDateTime: "Y-m-d\\TH:i:s",
-    UniversalSortableDateTime: "Y-m-d H:i:sO",
-    YearMonth: "F, Y"
-};
-</code></pre>
- *
- * Example usage:
- * <pre><code>
-var dt = new Date();
-document.write(dt.format(Date.patterns.ShortDate));
-</code></pre>
- * <p>Developer-written, custom formats may be used by supplying both a formatting and a parsing function
- * which perform to specialized requirements. The functions are stored in {@link #parseFunctions} and {@link #formatFunctions}.</p>
- */
-
-/*
- * Most of the date-formatting functions below are the excellent work of Baron Schwartz.
- * (see http://www.xaprb.com/blog/2005/12/12/javascript-closures-for-runtime-efficiency/)
- * They generate precompiled functions from format patterns instead of parsing and
- * processing each pattern every time a date is formatted. These functions are available
- * on every Date object.
- */
-
-(function() {
-
-<div id="prop-Date-useStrict"></div>/**
- * Global flag which determines if strict date parsing should be used.
- * Strict date parsing will not roll-over invalid dates, which is the
- * default behaviour of javascript Date objects.
- * (see {@link #parseDate} for more information)
- * Defaults to <tt>false</tt>.
- * @static
- * @type Boolean
-*/
-Date.useStrict = false;
-
-
-// create private copy of Ext's String.format() method
-// - to remove unnecessary dependency
-// - to resolve namespace conflict with M$-Ajax's implementation
-function xf(format) {
-    var args = Array.prototype.slice.call(arguments, 1);
-    return format.replace(/\{(\d+)\}/g, function(m, i) {
-        return args[i];
-    });
-}
-
-
-// private
-Date.formatCodeToRegex = function(character, currentGroup) {
-    // Note: currentGroup - position in regex result array (see notes for Date.parseCodes below)
-    var p = Date.parseCodes[character];
-
-    if (p) {
-      p = typeof p == 'function'? p() : p;
-      Date.parseCodes[character] = p; // reassign function result to prevent repeated execution
-    }
-
-    return p ? Ext.applyIf({
-      c: p.c ? xf(p.c, currentGroup || "{0}") : p.c
-    }, p) : {
-        g:0,
-        c:null,
-        s:Ext.escapeRe(character) // treat unrecognised characters as literals
-    };
-};
-
-// private shorthand for Date.formatCodeToRegex since we'll be using it fairly often
-var $f = Date.formatCodeToRegex;
-
-Ext.apply(Date, {
-    <div id="prop-Date-parseFunctions"></div>/**
-     * <p>An object hash in which each property is a date parsing function. The property name is the
-     * format string which that function parses.</p>
-     * <p>This object is automatically populated with date parsing functions as
-     * date formats are requested for Ext standard formatting strings.</p>
-     * <p>Custom parsing functions may be inserted into this object, keyed by a name which from then on
-     * may be used as a format string to {@link #parseDate}.<p>
-     * <p>Example:</p><pre><code>
-Date.parseFunctions['x-date-format'] = myDateParser;
-</code></pre>
-     * <p>A parsing function should return a Date object, and is passed the following parameters:<div class="mdetail-params"><ul>
-     * <li><code>date</code> : String<div class="sub-desc">The date string to parse.</div></li>
-     * <li><code>strict</code> : Boolean<div class="sub-desc">True to validate date strings while parsing
-     * (i.e. prevent javascript Date "rollover") (The default must be false).
-     * Invalid date strings should return null when parsed.</div></li>
-     * </ul></div></p>
-     * <p>To enable Dates to also be <i>formatted</i> according to that format, a corresponding
-     * formatting function must be placed into the {@link #formatFunctions} property.
-     * @property parseFunctions
-     * @static
-     * @type Object
-     */
-    parseFunctions: {
-        "M$": function(input, strict) {
-            // note: the timezone offset is ignored since the M$ Ajax server sends
-            // a UTC milliseconds-since-Unix-epoch value (negative values are allowed)
-            var re = new RegExp('\\/Date\\(([-+])?(\\d+)(?:[+-]\\d{4})?\\)\\/');
-            var r = (input || '').match(re);
-            return r? new Date(((r[1] || '') + r[2]) * 1) : null;
-        }
-    },
-    parseRegexes: [],
-
-    <div id="prop-Date-formatFunctions"></div>/**
-     * <p>An object hash in which each property is a date formatting function. The property name is the
-     * format string which corresponds to the produced formatted date string.</p>
-     * <p>This object is automatically populated with date formatting functions as
-     * date formats are requested for Ext standard formatting strings.</p>
-     * <p>Custom formatting functions may be inserted into this object, keyed by a name which from then on
-     * may be used as a format string to {@link #format}. Example:</p><pre><code>
-Date.formatFunctions['x-date-format'] = myDateFormatter;
-</code></pre>
-     * <p>A formatting function should return a string representation of the passed Date object, and is passed the following parameters:<div class="mdetail-params"><ul>
-     * <li><code>date</code> : Date<div class="sub-desc">The Date to format.</div></li>
-     * </ul></div></p>
-     * <p>To enable date strings to also be <i>parsed</i> according to that format, a corresponding
-     * parsing function must be placed into the {@link #parseFunctions} property.
-     * @property formatFunctions
-     * @static
-     * @type Object
-     */
-    formatFunctions: {
-        "M$": function() {
-            // UTC milliseconds since Unix epoch (M$-AJAX serialized date format (MRSF))
-            return '\\/Date(' + this.getTime() + ')\\/';
-        }
-    },
-
-    y2kYear : 50,
-
-    <div id="prop-Date-MILLI"></div>/**
-     * Date interval constant
-     * @static
-     * @type String
-     */
-    MILLI : "ms",
-
-    <div id="prop-Date-SECOND"></div>/**
-     * Date interval constant
-     * @static
-     * @type String
-     */
-    SECOND : "s",
-
-    <div id="prop-Date-MINUTE"></div>/**
-     * Date interval constant
-     * @static
-     * @type String
-     */
-    MINUTE : "mi",
-
-    <div id="prop-Date-HOUR"></div>/** Date interval constant
-     * @static
-     * @type String
-     */
-    HOUR : "h",
-
-    <div id="prop-Date-DAY"></div>/**
-     * Date interval constant
-     * @static
-     * @type String
-     */
-    DAY : "d",
-
-    <div id="prop-Date-MONTH"></div>/**
-     * Date interval constant
-     * @static
-     * @type String
-     */
-    MONTH : "mo",
-
-    <div id="prop-Date-YEAR"></div>/**
-     * Date interval constant
-     * @static
-     * @type String
-     */
-    YEAR : "y",
-
-    <div id="prop-Date-defaults"></div>/**
-     * <p>An object hash containing default date values used during date parsing.</p>
-     * <p>The following properties are available:<div class="mdetail-params"><ul>
-     * <li><code>y</code> : Number<div class="sub-desc">The default year value. (defaults to undefined)</div></li>
-     * <li><code>m</code> : Number<div class="sub-desc">The default 1-based month value. (defaults to undefined)</div></li>
-     * <li><code>d</code> : Number<div class="sub-desc">The default day value. (defaults to undefined)</div></li>
-     * <li><code>h</code> : Number<div class="sub-desc">The default hour value. (defaults to undefined)</div></li>
-     * <li><code>i</code> : Number<div class="sub-desc">The default minute value. (defaults to undefined)</div></li>
-     * <li><code>s</code> : Number<div class="sub-desc">The default second value. (defaults to undefined)</div></li>
-     * <li><code>ms</code> : Number<div class="sub-desc">The default millisecond value. (defaults to undefined)</div></li>
-     * </ul></div></p>
-     * <p>Override these properties to customize the default date values used by the {@link #parseDate} method.</p>
-     * <p><b>Note: In countries which experience Daylight Saving Time (i.e. DST), the <tt>h</tt>, <tt>i</tt>, <tt>s</tt>
-     * and <tt>ms</tt> properties may coincide with the exact time in which DST takes effect.
-     * It is the responsiblity of the developer to account for this.</b></p>
-     * Example Usage:
-     * <pre><code>
-// set default day value to the first day of the month
-Date.defaults.d = 1;
-
-// parse a February date string containing only year and month values.
-// setting the default day value to 1 prevents weird date rollover issues
-// when attempting to parse the following date string on, for example, March 31st 2009.
-Date.parseDate('2009-02', 'Y-m'); // returns a Date object representing February 1st 2009
-</code></pre>
-     * @property defaults
-     * @static
-     * @type Object
-     */
-    defaults: {},
-
-    <div id="prop-Date-dayNames"></div>/**
-     * An array of textual day names.
-     * Override these values for international dates.
-     * Example:
-     * <pre><code>
-Date.dayNames = [
-    'SundayInYourLang',
-    'MondayInYourLang',
-    ...
-];
-</code></pre>
-     * @type Array
-     * @static
-     */
-    dayNames : [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"
-    ],
-
-    <div id="prop-Date-monthNames"></div>/**
-     * An array of textual month names.
-     * Override these values for international dates.
-     * Example:
-     * <pre><code>
-Date.monthNames = [
-    'JanInYourLang',
-    'FebInYourLang',
-    ...
-];
-</code></pre>
-     * @type Array
-     * @static
-     */
-    monthNames : [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-    ],
-
-    <div id="prop-Date-monthNumbers"></div>/**
-     * An object hash of zero-based javascript month numbers (with short month names as keys. note: keys are case-sensitive).
-     * Override these values for international dates.
-     * Example:
-     * <pre><code>
-Date.monthNumbers = {
-    'ShortJanNameInYourLang':0,
-    'ShortFebNameInYourLang':1,
-    ...
-};
-</code></pre>
-     * @type Object
-     * @static
-     */
-    monthNumbers : {
-        Jan:0,
-        Feb:1,
-        Mar:2,
-        Apr:3,
-        May:4,
-        Jun:5,
-        Jul:6,
-        Aug:7,
-        Sep:8,
-        Oct:9,
-        Nov:10,
-        Dec:11
-    },
-
-    <div id="method-Date-getShortMonthName"></div>/**
-     * Get the short month name for the given month number.
-     * Override this function for international dates.
-     * @param {Number} month A zero-based javascript month number.
-     * @return {String} The short month name.
-     * @static
-     */
-    getShortMonthName : function(month) {
-        return Date.monthNames[month].substring(0, 3);
-    },
-
-    <div id="method-Date-getShortDayName"></div>/**
-     * Get the short day name for the given day number.
-     * Override this function for international dates.
-     * @param {Number} day A zero-based javascript day number.
-     * @return {String} The short day name.
-     * @static
-     */
-    getShortDayName : function(day) {
-        return Date.dayNames[day].substring(0, 3);
-    },
-
-    <div id="method-Date-getMonthNumber"></div>/**
-     * Get the zero-based javascript month number for the given short/full month name.
-     * Override this function for international dates.
-     * @param {String} name The short/full month name.
-     * @return {Number} The zero-based javascript month number.
-     * @static
-     */
-    getMonthNumber : function(name) {
-        // handle camel casing for english month names (since the keys for the Date.monthNumbers hash are case sensitive)
-        return Date.monthNumbers[name.substring(0, 1).toUpperCase() + name.substring(1, 3).toLowerCase()];
-    },
-
-    <div id="prop-Date-formatCodes"></div>/**
-     * The base format-code to formatting-function hashmap used by the {@link #format} method.
-     * Formatting functions are strings (or functions which return strings) which
-     * will return the appropriate value when evaluated in the context of the Date object
-     * from which the {@link #format} method is called.
-     * Add to / override these mappings for custom date formatting.
-     * Note: Date.format() treats characters as literals if an appropriate mapping cannot be found.
-     * Example:
-     * <pre><code>
-Date.formatCodes.x = "String.leftPad(this.getDate(), 2, '0')";
-(new Date()).format("X"); // returns the current day of the month
-</code></pre>
-     * @type Object
-     * @static
-     */
-    formatCodes : {
-        d: "String.leftPad(this.getDate(), 2, '0')",
-        D: "Date.getShortDayName(this.getDay())", // get localised short day name
-        j: "this.getDate()",
-        l: "Date.dayNames[this.getDay()]",
-        N: "(this.getDay() ? this.getDay() : 7)",
-        S: "this.getSuffix()",
-        w: "this.getDay()",
-        z: "this.getDayOfYear()",
-        W: "String.leftPad(this.getWeekOfYear(), 2, '0')",
-        F: "Date.monthNames[this.getMonth()]",
-        m: "String.leftPad(this.getMonth() + 1, 2, '0')",
-        M: "Date.getShortMonthName(this.getMonth())", // get localised short month name
-        n: "(this.getMonth() + 1)",
-        t: "this.getDaysInMonth()",
-        L: "(this.isLeapYear() ? 1 : 0)",
-        o: "(this.getFullYear() + (this.getWeekOfYear() == 1 && this.getMonth() > 0 ? +1 : (this.getWeekOfYear() >= 52 && this.getMonth() < 11 ? -1 : 0)))",
-        Y: "String.leftPad(this.getFullYear(), 4, '0')",
-        y: "('' + this.getFullYear()).substring(2, 4)",
-        a: "(this.getHours() < 12 ? 'am' : 'pm')",
-        A: "(this.getHours() < 12 ? 'AM' : 'PM')",
-        g: "((this.getHours() % 12) ? this.getHours() % 12 : 12)",
-        G: "this.getHours()",
-        h: "String.leftPad((this.getHours() % 12) ? this.getHours() % 12 : 12, 2, '0')",
-        H: "String.leftPad(this.getHours(), 2, '0')",
-        i: "String.leftPad(this.getMinutes(), 2, '0')",
-        s: "String.leftPad(this.getSeconds(), 2, '0')",
-        u: "String.leftPad(this.getMilliseconds(), 3, '0')",
-        O: "this.getGMTOffset()",
-        P: "this.getGMTOffset(true)",
-        T: "this.getTimezone()",
-        Z: "(this.getTimezoneOffset() * -60)",
-
-        c: function() { // ISO-8601 -- GMT format
-            for (var c = "Y-m-dTH:i:sP", code = [], i = 0, l = c.length; i < l; ++i) {
-                var e = c.charAt(i);
-                code.push(e == "T" ? "'T'" : Date.getFormatCode(e)); // treat T as a character literal
-            }
-            return code.join(" + ");
-        },
-        /*
-        c: function() { // ISO-8601 -- UTC format
-            return [
-              "this.getUTCFullYear()", "'-'",
-              "String.leftPad(this.getUTCMonth() + 1, 2, '0')", "'-'",
-              "String.leftPad(this.getUTCDate(), 2, '0')",
-              "'T'",
-              "String.leftPad(this.getUTCHours(), 2, '0')", "':'",
-              "String.leftPad(this.getUTCMinutes(), 2, '0')", "':'",
-              "String.leftPad(this.getUTCSeconds(), 2, '0')",
-              "'Z'"
-            ].join(" + ");
-        },
-        */
-
-        U: "Math.round(this.getTime() / 1000)"
-    },
-
-    <div id="method-Date-isValid"></div>/**
-     * Checks if the passed Date parameters will cause a javascript Date "rollover".
-     * @param {Number} year 4-digit year
-     * @param {Number} month 1-based month-of-year
-     * @param {Number} day Day of month
-     * @param {Number} hour (optional) Hour
-     * @param {Number} minute (optional) Minute
-     * @param {Number} second (optional) Second
-     * @param {Number} millisecond (optional) Millisecond
-     * @return {Boolean} true if the passed parameters do not cause a Date "rollover", false otherwise.
-     * @static
-     */
-    isValid : function(y, m, d, h, i, s, ms) {
-        // setup defaults
-        h = h || 0;
-        i = i || 0;
-        s = s || 0;
-        ms = ms || 0;
-
-        // Special handling for year < 100
-        var dt = new Date(y < 100 ? 100 : y, m - 1, d, h, i, s, ms).add(Date.YEAR, y < 100 ? y - 100 : 0);
-
-        return y == dt.getFullYear() &&
-            m == dt.getMonth() + 1 &&
-            d == dt.getDate() &&
-            h == dt.getHours() &&
-            i == dt.getMinutes() &&
-            s == dt.getSeconds() &&
-            ms == dt.getMilliseconds();
-    },
-
-    <div id="method-Date-parseDate"></div>/**
-     * Parses the passed string using the specified date format.
-     * Note that this function expects normal calendar dates, meaning that months are 1-based (i.e. 1 = January).
-     * The {@link #defaults} hash will be used for any date value (i.e. year, month, day, hour, minute, second or millisecond)
-     * which cannot be found in the passed string. If a corresponding default date value has not been specified in the {@link #defaults} hash,
-     * the current date's year, month, day or DST-adjusted zero-hour time value will be used instead.
-     * Keep in mind that the input date string must precisely match the specified format string
-     * in order for the parse operation to be successful (failed parse operations return a null value).
-     * <p>Example:</p><pre><code>
-//dt = Fri May 25 2007 (current date)
-var dt = new Date();
-
-//dt = Thu May 25 2006 (today&#39;s month/day in 2006)
-dt = Date.parseDate("2006", "Y");
-
-//dt = Sun Jan 15 2006 (all date parts specified)
-dt = Date.parseDate("2006-01-15", "Y-m-d");
-
-//dt = Sun Jan 15 2006 15:20:01
-dt = Date.parseDate("2006-01-15 3:20:01 PM", "Y-m-d g:i:s A");
-
-// attempt to parse Sun Feb 29 2006 03:20:01 in strict mode
-dt = Date.parseDate("2006-02-29 03:20:01", "Y-m-d H:i:s", true); // returns null
-</code></pre>
-     * @param {String} input The raw date string.
-     * @param {String} format The expected date string format.
-     * @param {Boolean} strict (optional) True to validate date strings while parsing (i.e. prevents javascript Date "rollover")
-                        (defaults to false). Invalid date strings will return null when parsed.
-     * @return {Date} The parsed Date.
-     * @static
-     */
-    parseDate : function(input, format, strict) {
-        var p = Date.parseFunctions;
-        if (p[format] == null) {
-            Date.createParser(format);
-        }
-        return p[format](input, Ext.isDefined(strict) ? strict : Date.useStrict);
-    },
-
-    // private
-    getFormatCode : function(character) {
-        var f = Date.formatCodes[character];
-
-        if (f) {
-          f = typeof f == 'function'? f() : f;
-          Date.formatCodes[character] = f; // reassign function result to prevent repeated execution
-        }
-
-        // note: unknown characters are treated as literals
-        return f || ("'" + String.escape(character) + "'");
-    },
-
-    // private
-    createFormat : function(format) {
-        var code = [],
-            special = false,
-            ch = '';
-
-        for (var i = 0; i < format.length; ++i) {
-            ch = format.charAt(i);
-            if (!special && ch == "\\") {
-                special = true;
-            } else if (special) {
-                special = false;
-                code.push("'" + String.escape(ch) + "'");
-            } else {
-                code.push(Date.getFormatCode(ch));
-            }
-        }
-        Date.formatFunctions[format] = new Function("return " + code.join('+'));
-    },
-
-    // private
-    createParser : function() {
-        var code = [
-            "var dt, y, m, d, h, i, s, ms, o, z, zz, u, v,",
-                "def = Date.defaults,",
-                "results = String(input).match(Date.parseRegexes[{0}]);", // either null, or an array of matched strings
-
-            "if(results){",
-                "{1}",
-
-                "if(u != null){", // i.e. unix time is defined
-                    "v = new Date(u * 1000);", // give top priority to UNIX time
-                "}else{",
-                    // create Date object representing midnight of the current day;
-                    // this will provide us with our date defaults
-                    // (note: clearTime() handles Daylight Saving Time automatically)
-                    "dt = (new Date()).clearTime();",
-
-                    // date calculations (note: these calculations create a dependency on Ext.num())
-                    "y = Ext.num(y, Ext.num(def.y, dt.getFullYear()));",
-                    "m = Ext.num(m, Ext.num(def.m - 1, dt.getMonth()));",
-                    "d = Ext.num(d, Ext.num(def.d, dt.getDate()));",
-
-                    // time calculations (note: these calculations create a dependency on Ext.num())
-                    "h  = Ext.num(h, Ext.num(def.h, dt.getHours()));",
-                    "i  = Ext.num(i, Ext.num(def.i, dt.getMinutes()));",
-                    "s  = Ext.num(s, Ext.num(def.s, dt.getSeconds()));",
-                    "ms = Ext.num(ms, Ext.num(def.ms, dt.getMilliseconds()));",
-
-                    "if(z >= 0 && y >= 0){",
-                        // both the year and zero-based day of year are defined and >= 0.
-                        // these 2 values alone provide sufficient info to create a full date object
-
-                        // create Date object representing January 1st for the given year
-                        // handle years < 100 appropriately
-                        "v = new Date(y < 100 ? 100 : y, 0, 1, h, i, s, ms).add(Date.YEAR, y < 100 ? y - 100 : 0);",
-
-                        // then add day of year, checking for Date "rollover" if necessary
-                        "v = !strict? v : (strict === true && (z <= 364 || (v.isLeapYear() && z <= 365))? v.add(Date.DAY, z) : null);",
-                    "}else if(strict === true && !Date.isValid(y, m + 1, d, h, i, s, ms)){", // check for Date "rollover"
-                        "v = null;", // invalid date, so return null
-                    "}else{",
-                        // plain old Date object
-                        // handle years < 100 properly
-                        "v = new Date(y < 100 ? 100 : y, m, d, h, i, s, ms).add(Date.YEAR, y < 100 ? y - 100 : 0);",
-                    "}",
-                "}",
-            "}",
-
-            "if(v){",
-                // favour UTC offset over GMT offset
-                "if(zz != null){",
-                    // reset to UTC, then add offset
-                    "v = v.add(Date.SECOND, -v.getTimezoneOffset() * 60 - zz);",
-                "}else if(o){",
-                    // reset to GMT, then add offset
-                    "v = v.add(Date.MINUTE, -v.getTimezoneOffset() + (sn == '+'? -1 : 1) * (hr * 60 + mn));",
-                "}",
-            "}",
-
-            "return v;"
-        ].join('\n');
-
-        return function(format) {
-            var regexNum = Date.parseRegexes.length,
-                currentGroup = 1,
-                calc = [],
-                regex = [],
-                special = false,
-                ch = "",
-                i = 0,
-                obj,
-                last;
-
-            for (; i < format.length; ++i) {
-                ch = format.charAt(i);
-                if (!special && ch == "\\") {
-                    special = true;
-                } else if (special) {
-                    special = false;
-                    regex.push(String.escape(ch));
-                } else {
-                    obj = $f(ch, currentGroup);
-                    currentGroup += obj.g;
-                    regex.push(obj.s);
-                    if (obj.g && obj.c) {
-                        if (obj.calcLast) {
-                            last = obj.c;
-                        } else {
-                            calc.push(obj.c);
-                        }
-                    }
-                }
-            }
-            
-            if (last) {
-                calc.push(last);
-            }
-
-            Date.parseRegexes[regexNum] = new RegExp("^" + regex.join('') + "$", 'i');
-            Date.parseFunctions[format] = new Function("input", "strict", xf(code, regexNum, calc.join('')));
-        };
-    }(),
-
-    // private
-    parseCodes : {
-        /*
-         * Notes:
-         * g = {Number} calculation group (0 or 1. only group 1 contributes to date calculations.)
-         * c = {String} calculation method (required for group 1. null for group 0. {0} = currentGroup - position in regex result array)
-         * s = {String} regex pattern. all matches are stored in results[], and are accessible by the calculation mapped to 'c'
-         */
-        d: {
-            g:1,
-            c:"d = parseInt(results[{0}], 10);\n",
-            s:"(\\d{2})" // day of month with leading zeroes (01 - 31)
-        },
-        j: {
-            g:1,
-            c:"d = parseInt(results[{0}], 10);\n",
-            s:"(\\d{1,2})" // day of month without leading zeroes (1 - 31)
-        },
-        D: function() {
-            for (var a = [], i = 0; i < 7; a.push(Date.getShortDayName(i)), ++i); // get localised short day names
-            return {
-                g:0,
-                c:null,
-                s:"(?:" + a.join("|") +")"
-            };
-        },
-        l: function() {
-            return {
-                g:0,
-                c:null,
-                s:"(?:" + Date.dayNames.join("|") + ")"
-            };
-        },
-        N: {
-            g:0,
-            c:null,
-            s:"[1-7]" // ISO-8601 day number (1 (monday) - 7 (sunday))
-        },
-        S: {
-            g:0,
-            c:null,
-            s:"(?:st|nd|rd|th)"
-        },
-        w: {
-            g:0,
-            c:null,
-            s:"[0-6]" // javascript day number (0 (sunday) - 6 (saturday))
-        },
-        z: {
-            g:1,
-            c:"z = parseInt(results[{0}], 10);\n",
-            s:"(\\d{1,3})" // day of the year (0 - 364 (365 in leap years))
-        },
-        W: {
-            g:0,
-            c:null,
-            s:"(?:\\d{2})" // ISO-8601 week number (with leading zero)
-        },
-        F: function() {
-            return {
-                g:1,
-                c:"m = parseInt(Date.getMonthNumber(results[{0}]), 10);\n", // get localised month number
-                s:"(" + Date.monthNames.join("|") + ")"
-            };
-        },
-        M: function() {
-            for (var a = [], i = 0; i < 12; a.push(Date.getShortMonthName(i)), ++i); // get localised short month names
-            return Ext.applyIf({
-                s:"(" + a.join("|") + ")"
-            }, $f("F"));
-        },
-        m: {
-            g:1,
-            c:"m = parseInt(results[{0}], 10) - 1;\n",
-            s:"(\\d{2})" // month number with leading zeros (01 - 12)
-        },
-        n: {
-            g:1,
-            c:"m = parseInt(results[{0}], 10) - 1;\n",
-            s:"(\\d{1,2})" // month number without leading zeros (1 - 12)
-        },
-        t: {
-            g:0,
-            c:null,
-            s:"(?:\\d{2})" // no. of days in the month (28 - 31)
-        },
-        L: {
-            g:0,
-            c:null,
-            s:"(?:1|0)"
-        },
-        o: function() {
-            return $f("Y");
-        },
-        Y: {
-            g:1,
-            c:"y = parseInt(results[{0}], 10);\n",
-            s:"(\\d{4})" // 4-digit year
-        },
-        y: {
-            g:1,
-            c:"var ty = parseInt(results[{0}], 10);\n"
-                + "y = ty > Date.y2kYear ? 1900 + ty : 2000 + ty;\n", // 2-digit year
-            s:"(\\d{1,2})"
-        },
-        <div id="method-Date-a"></div>/**
-         * In the am/pm parsing routines, we allow both upper and lower case 
-         * even though it doesn't exactly match the spec. It gives much more flexibility
-         * in being able to specify case insensitive regexes.
-         */
-        a: function(){
-            return $f("A");
-        },
-        A: {
-            // We need to calculate the hour before we apply AM/PM when parsing
-            calcLast: true,
-            g:1,
-            c:"if (/(am)/i.test(results[{0}])) {\n"
-                + "if (!h || h == 12) { h = 0; }\n"
-                + "} else { if (!h || h < 12) { h = (h || 0) + 12; }}",
-            s:"(AM|PM|am|pm)"
-        },
-        g: function() {
-            return $f("G");
-        },
-        G: {
-            g:1,
-            c:"h = parseInt(results[{0}], 10);\n",
-            s:"(\\d{1,2})" // 24-hr format of an hour without leading zeroes (0 - 23)
-        },
-        h: function() {
-            return $f("H");
-        },
-        H: {
-            g:1,
-            c:"h = parseInt(results[{0}], 10);\n",
-            s:"(\\d{2})" //  24-hr format of an hour with leading zeroes (00 - 23)
-        },
-        i: {
-            g:1,
-            c:"i = parseInt(results[{0}], 10);\n",
-            s:"(\\d{2})" // minutes with leading zeros (00 - 59)
-        },
-        s: {
-            g:1,
-            c:"s = parseInt(results[{0}], 10);\n",
-            s:"(\\d{2})" // seconds with leading zeros (00 - 59)
-        },
-        u: {
-            g:1,
-            c:"ms = results[{0}]; ms = parseInt(ms, 10)/Math.pow(10, ms.length - 3);\n",
-            s:"(\\d+)" // decimal fraction of a second (minimum = 1 digit, maximum = unlimited)
-        },
-        O: {
-            g:1,
-            c:[
-                "o = results[{0}];",
-                "var sn = o.substring(0,1),", // get + / - sign
-                    "hr = o.substring(1,3)*1 + Math.floor(o.substring(3,5) / 60),", // get hours (performs minutes-to-hour conversion also, just in case)
-                    "mn = o.substring(3,5) % 60;", // get minutes
-                "o = ((-12 <= (hr*60 + mn)/60) && ((hr*60 + mn)/60 <= 14))? (sn + String.leftPad(hr, 2, '0') + String.leftPad(mn, 2, '0')) : null;\n" // -12hrs <= GMT offset <= 14hrs
-            ].join("\n"),
-            s: "([+\-]\\d{4})" // GMT offset in hrs and mins
-        },
-        P: {
-            g:1,
-            c:[
-                "o = results[{0}];",
-                "var sn = o.substring(0,1),", // get + / - sign
-                    "hr = o.substring(1,3)*1 + Math.floor(o.substring(4,6) / 60),", // get hours (performs minutes-to-hour conversion also, just in case)
-                    "mn = o.substring(4,6) % 60;", // get minutes
-                "o = ((-12 <= (hr*60 + mn)/60) && ((hr*60 + mn)/60 <= 14))? (sn + String.leftPad(hr, 2, '0') + String.leftPad(mn, 2, '0')) : null;\n" // -12hrs <= GMT offset <= 14hrs
-            ].join("\n"),
-            s: "([+\-]\\d{2}:\\d{2})" // GMT offset in hrs and mins (with colon separator)
-        },
-        T: {
-            g:0,
-            c:null,
-            s:"[A-Z]{1,4}" // timezone abbrev. may be between 1 - 4 chars
-        },
-        Z: {
-            g:1,
-            c:"zz = results[{0}] * 1;\n" // -43200 <= UTC offset <= 50400
-                  + "zz = (-43200 <= zz && zz <= 50400)? zz : null;\n",
-            s:"([+\-]?\\d{1,5})" // leading '+' sign is optional for UTC offset
-        },
-        c: function() {
-            var calc = [],
-                arr = [
-                    $f("Y", 1), // year
-                    $f("m", 2), // month
-                    $f("d", 3), // day
-                    $f("h", 4), // hour
-                    $f("i", 5), // minute
-                    $f("s", 6), // second
-                    {c:"ms = results[7] || '0'; ms = parseInt(ms, 10)/Math.pow(10, ms.length - 3);\n"}, // decimal fraction of a second (minimum = 1 digit, maximum = unlimited)
-                    {c:[ // allow either "Z" (i.e. UTC) or "-0530" or "+08:00" (i.e. UTC offset) timezone delimiters. assumes local timezone if no timezone is specified
-                        "if(results[8]) {", // timezone specified
-                            "if(results[8] == 'Z'){",
-                                "zz = 0;", // UTC
-                            "}else if (results[8].indexOf(':') > -1){",
-                                $f("P", 8).c, // timezone offset with colon separator
-                            "}else{",
-                                $f("O", 8).c, // timezone offset without colon separator
-                            "}",
-                        "}"
-                    ].join('\n')}
-                ];
-
-            for (var i = 0, l = arr.length; i < l; ++i) {
-                calc.push(arr[i].c);
-            }
-
-            return {
-                g:1,
-                c:calc.join(""),
-                s:[
-                    arr[0].s, // year (required)
-                    "(?:", "-", arr[1].s, // month (optional)
-                        "(?:", "-", arr[2].s, // day (optional)
-                            "(?:",
-                                "(?:T| )?", // time delimiter -- either a "T" or a single blank space
-                                arr[3].s, ":", arr[4].s,  // hour AND minute, delimited by a single colon (optional). MUST be preceded by either a "T" or a single blank space
-                                "(?::", arr[5].s, ")?", // seconds (optional)
-                                "(?:(?:\\.|,)(\\d+))?", // decimal fraction of a second (e.g. ",12345" or ".98765") (optional)
-                                "(Z|(?:[-+]\\d{2}(?::)?\\d{2}))?", // "Z" (UTC) or "-0530" (UTC offset without colon delimiter) or "+08:00" (UTC offset with colon delimiter) (optional)
-                            ")?",
-                        ")?",
-                    ")?"
-                ].join("")
-            };
-        },
-        U: {
-            g:1,
-            c:"u = parseInt(results[{0}], 10);\n",
-            s:"(-?\\d+)" // leading minus sign indicates seconds before UNIX epoch
-        }
-    }
-});
-
-}());
-
-Ext.apply(Date.prototype, {
-    // private
-    dateFormat : function(format) {
-        if (Date.formatFunctions[format] == null) {
-            Date.createFormat(format);
-        }
-        return Date.formatFunctions[format].call(this);
-    },
-
-    <div id="method-Date-getTimezone"></div>/**
-     * Get the timezone abbreviation of the current date (equivalent to the format specifier 'T').
-     *
-     * Note: The date string returned by the javascript Date object's toString() method varies
-     * between browsers (e.g. FF vs IE) and system region settings (e.g. IE in Asia vs IE in America).
-     * For a given date string e.g. "Thu Oct 25 2007 22:55:35 GMT+0800 (Malay Peninsula Standard Time)",
-     * getTimezone() first tries to get the timezone abbreviation from between a pair of parentheses
-     * (which may or may not be present), failing which it proceeds to get the timezone abbreviation
-     * from the GMT offset portion of the date string.
-     * @return {String} The abbreviated timezone name (e.g. 'CST', 'PDT', 'EDT', 'MPST' ...).
-     */
-    getTimezone : function() {
-        // the following list shows the differences between date strings from different browsers on a WinXP SP2 machine from an Asian locale:
-        //
-        // Opera  : "Thu, 25 Oct 2007 22:53:45 GMT+0800" -- shortest (weirdest) date string of the lot
-        // Safari : "Thu Oct 25 2007 22:55:35 GMT+0800 (Malay Peninsula Standard Time)" -- value in parentheses always gives the correct timezone (same as FF)
-        // FF     : "Thu Oct 25 2007 22:55:35 GMT+0800 (Malay Peninsula Standard Time)" -- value in parentheses always gives the correct timezone
-        // IE     : "Thu Oct 25 22:54:35 UTC+0800 2007" -- (Asian system setting) look for 3-4 letter timezone abbrev
-        // IE     : "Thu Oct 25 17:06:37 PDT 2007" -- (American system setting) look for 3-4 letter timezone abbrev
-        //
-        // this crazy regex attempts to guess the correct timezone abbreviation despite these differences.
-        // step 1: (?:\((.*)\) -- find timezone in parentheses
-        // step 2: ([A-Z]{1,4})(?:[\-+][0-9]{4})?(?: -?\d+)?) -- if nothing was found in step 1, find timezone from timezone offset portion of date string
-        // step 3: remove all non uppercase characters found in step 1 and 2
-        return this.toString().replace(/^.* (?:\((.*)\)|([A-Z]{1,4})(?:[\-+][0-9]{4})?(?: -?\d+)?)$/, "$1$2").replace(/[^A-Z]/g, "");
-    },
-
-    <div id="method-Date-getGMTOffset"></div>/**
-     * Get the offset from GMT of the current date (equivalent to the format specifier 'O').
-     * @param {Boolean} colon (optional) true to separate the hours and minutes with a colon (defaults to false).
-     * @return {String} The 4-character offset string prefixed with + or - (e.g. '-0600').
-     */
-    getGMTOffset : function(colon) {
-        return (this.getTimezoneOffset() > 0 ? "-" : "+")
-            + String.leftPad(Math.floor(Math.abs(this.getTimezoneOffset()) / 60), 2, "0")
-            + (colon ? ":" : "")
-            + String.leftPad(Math.abs(this.getTimezoneOffset() % 60), 2, "0");
-    },
-
-    <div id="method-Date-getDayOfYear"></div>/**
-     * Get the numeric day number of the year, adjusted for leap year.
-     * @return {Number} 0 to 364 (365 in leap years).
-     */
-    getDayOfYear: function() {
-        var num = 0,
-            d = this.clone(),
-            m = this.getMonth(),
-            i;
-
-        for (i = 0, d.setDate(1), d.setMonth(0); i < m; d.setMonth(++i)) {
-            num += d.getDaysInMonth();
-        }
-        return num + this.getDate() - 1;
-    },
-
-    <div id="method-Date-getWeekOfYear"></div>/**
-     * Get the numeric ISO-8601 week number of the year.
-     * (equivalent to the format specifier 'W', but without a leading zero).
-     * @return {Number} 1 to 53
-     */
-    getWeekOfYear : function() {
-        // adapted from http://www.merlyn.demon.co.uk/weekcalc.htm
-        var ms1d = 864e5, // milliseconds in a day
-            ms7d = 7 * ms1d; // milliseconds in a week
-
-        return function() { // return a closure so constants get calculated only once
-            var DC3 = Date.UTC(this.getFullYear(), this.getMonth(), this.getDate() + 3) / ms1d, // an Absolute Day Number
-                AWN = Math.floor(DC3 / 7), // an Absolute Week Number
-                Wyr = new Date(AWN * ms7d).getUTCFullYear();
-
-            return AWN - Math.floor(Date.UTC(Wyr, 0, 7) / ms7d) + 1;
-        };
-    }(),
-
-    <div id="method-Date-isLeapYear"></div>/**
-     * Checks if the current date falls within a leap year.
-     * @return {Boolean} True if the current date falls within a leap year, false otherwise.
-     */
-    isLeapYear : function() {
-        var year = this.getFullYear();
-        return !!((year & 3) == 0 && (year % 100 || (year % 400 == 0 && year)));
-    },
-
-    <div id="method-Date-getFirstDayOfMonth"></div>/**
-     * Get the first day of the current month, adjusted for leap year.  The returned value
-     * is the numeric day index within the week (0-6) which can be used in conjunction with
-     * the {@link #monthNames} array to retrieve the textual day name.
-     * Example:
-     * <pre><code>
-var dt = new Date('1/10/2007');
-document.write(Date.dayNames[dt.getFirstDayOfMonth()]); //output: 'Monday'
-</code></pre>
-     * @return {Number} The day number (0-6).
-     */
-    getFirstDayOfMonth : function() {
-        var day = (this.getDay() - (this.getDate() - 1)) % 7;
-        return (day < 0) ? (day + 7) : day;
-    },
-
-    <div id="method-Date-getLastDayOfMonth"></div>/**
-     * Get the last day of the current month, adjusted for leap year.  The returned value
-     * is the numeric day index within the week (0-6) which can be used in conjunction with
-     * the {@link #monthNames} array to retrieve the textual day name.
-     * Example:
-     * <pre><code>
-var dt = new Date('1/10/2007');
-document.write(Date.dayNames[dt.getLastDayOfMonth()]); //output: 'Wednesday'
-</code></pre>
-     * @return {Number} The day number (0-6).
-     */
-    getLastDayOfMonth : function() {
-        return this.getLastDateOfMonth().getDay();
-    },
-
-
-    <div id="method-Date-getFirstDateOfMonth"></div>/**
-     * Get the date of the first day of the month in which this date resides.
-     * @return {Date}
-     */
-    getFirstDateOfMonth : function() {
-        return new Date(this.getFullYear(), this.getMonth(), 1);
-    },
-
-    <div id="method-Date-getLastDateOfMonth"></div>/**
-     * Get the date of the last day of the month in which this date resides.
-     * @return {Date}
-     */
-    getLastDateOfMonth : function() {
-        return new Date(this.getFullYear(), this.getMonth(), this.getDaysInMonth());
-    },
-
-    <div id="method-Date-getDaysInMonth"></div>/**
-     * Get the number of days in the current month, adjusted for leap year.
-     * @return {Number} The number of days in the month.
-     */
-    getDaysInMonth: function() {
-        var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-        return function() { // return a closure for efficiency
-            var m = this.getMonth();
-
-            return m == 1 && this.isLeapYear() ? 29 : daysInMonth[m];
-        };
-    }(),
-
-    <div id="method-Date-getSuffix"></div>/**
-     * Get the English ordinal suffix of the current day (equivalent to the format specifier 'S').
-     * @return {String} 'st, 'nd', 'rd' or 'th'.
-     */
-    getSuffix : function() {
-        switch (this.getDate()) {
-            case 1:
-            case 21:
-            case 31:
-                return "st";
-            case 2:
-            case 22:
-                return "nd";
-            case 3:
-            case 23:
-                return "rd";
-            default:
-                return "th";
-        }
-    },
-
-    <div id="method-Date-clone"></div>/**
-     * Creates and returns a new Date instance with the exact same date value as the called instance.
-     * Dates are copied and passed by reference, so if a copied date variable is modified later, the original
-     * variable will also be changed.  When the intention is to create a new variable that will not
-     * modify the original instance, you should create a clone.
-     *
-     * Example of correctly cloning a date:
-     * <pre><code>
-//wrong way:
-var orig = new Date('10/1/2006');
-var copy = orig;
-copy.setDate(5);
-document.write(orig);  //returns 'Thu Oct 05 2006'!
-
-//correct way:
-var orig = new Date('10/1/2006');
-var copy = orig.clone();
-copy.setDate(5);
-document.write(orig);  //returns 'Thu Oct 01 2006'
-</code></pre>
-     * @return {Date} The new Date instance.
-     */
-    clone : function() {
-        return new Date(this.getTime());
-    },
-
-    <div id="method-Date-isDST"></div>/**
-     * Checks if the current date is affected by Daylight Saving Time (DST).
-     * @return {Boolean} True if the current date is affected by DST.
-     */
-    isDST : function() {
-        // adapted from http://extjs.com/forum/showthread.php?p=247172#post247172
-        // courtesy of @geoffrey.mcgill
-        return new Date(this.getFullYear(), 0, 1).getTimezoneOffset() != this.getTimezoneOffset();
-    },
-
-    <div id="method-Date-clearTime"></div>/**
-     * Attempts to clear all time information from this Date by setting the time to midnight of the same day,
-     * automatically adjusting for Daylight Saving Time (DST) where applicable.
-     * (note: DST timezone information for the browser's host operating system is assumed to be up-to-date)
-     * @param {Boolean} clone true to create a clone of this date, clear the time and return it (defaults to false).
-     * @return {Date} this or the clone.
-     */
-    clearTime : function(clone) {
-        if (clone) {
-            return this.clone().clearTime();
-        }
-
-        // get current date before clearing time
-        var d = this.getDate();
-
-        // clear time
-        this.setHours(0);
-        this.setMinutes(0);
-        this.setSeconds(0);
-        this.setMilliseconds(0);
-
-        if (this.getDate() != d) { // account for DST (i.e. day of month changed when setting hour = 0)
-            // note: DST adjustments are assumed to occur in multiples of 1 hour (this is almost always the case)
-            // refer to http://www.timeanddate.com/time/aboutdst.html for the (rare) exceptions to this rule
-
-            // increment hour until cloned date == current date
-            for (var hr = 1, c = this.add(Date.HOUR, hr); c.getDate() != d; hr++, c = this.add(Date.HOUR, hr));
-
-            this.setDate(d);
-            this.setHours(c.getHours());
-        }
-
-        return this;
-    },
-
-    <div id="method-Date-add"></div>/**
-     * Provides a convenient method for performing basic date arithmetic. This method
-     * does not modify the Date instance being called - it creates and returns
-     * a new Date instance containing the resulting date value.
-     *
-     * Examples:
-     * <pre><code>
-// Basic usage:
-var dt = new Date('10/29/2006').add(Date.DAY, 5);
-document.write(dt); //returns 'Fri Nov 03 2006 00:00:00'
-
-// Negative values will be subtracted:
-var dt2 = new Date('10/1/2006').add(Date.DAY, -5);
-document.write(dt2); //returns 'Tue Sep 26 2006 00:00:00'
-
-// You can even chain several calls together in one line:
-var dt3 = new Date('10/1/2006').add(Date.DAY, 5).add(Date.HOUR, 8).add(Date.MINUTE, -30);
-document.write(dt3); //returns 'Fri Oct 06 2006 07:30:00'
-</code></pre>
-     *
-     * @param {String} interval A valid date interval enum value.
-     * @param {Number} value The amount to add to the current date.
-     * @return {Date} The new Date instance.
-     */
-    add : function(interval, value) {
-        var d = this.clone();
-        if (!interval || value === 0) return d;
-
-        switch(interval.toLowerCase()) {
-            case Date.MILLI:
-                d.setMilliseconds(this.getMilliseconds() + value);
-                break;
-            case Date.SECOND:
-                d.setSeconds(this.getSeconds() + value);
-                break;
-            case Date.MINUTE:
-                d.setMinutes(this.getMinutes() + value);
-                break;
-            case Date.HOUR:
-                d.setHours(this.getHours() + value);
-                break;
-            case Date.DAY:
-                d.setDate(this.getDate() + value);
-                break;
-            case Date.MONTH:
-                var day = this.getDate();
-                if (day > 28) {
-                    day = Math.min(day, this.getFirstDateOfMonth().add('mo', value).getLastDateOfMonth().getDate());
-                }
-                d.setDate(day);
-                d.setMonth(this.getMonth() + value);
-                break;
-            case Date.YEAR:
-                d.setFullYear(this.getFullYear() + value);
-                break;
-        }
-        return d;
-    },
-
-    <div id="method-Date-between"></div>/**
-     * Checks if this date falls on or between the given start and end dates.
-     * @param {Date} start Start date
-     * @param {Date} end End date
-     * @return {Boolean} true if this date falls on or between the given start and end dates.
-     */
-    between : function(start, end) {
-        var t = this.getTime();
-        return start.getTime() <= t && t <= end.getTime();
-    }
-});
-
-
-<div id="method-Date-format"></div>/**
- * Formats a date given the supplied format string.
- * @param {String} format The format string.
- * @return {String} The formatted date.
- * @method format
- */
-Date.prototype.format = Date.prototype.dateFormat;
-
-
-// private
-if (Ext.isSafari && (navigator.userAgent.match(/WebKit\/(\d+)/)[1] || NaN) < 420) {
-    Ext.apply(Date.prototype, {
-        _xMonth : Date.prototype.setMonth,
-        _xDate  : Date.prototype.setDate,
-
-        // Bug in Safari 1.3, 2.0 (WebKit build < 420)
-        // Date.setMonth does not work consistently if iMonth is not 0-11
-        setMonth : function(num) {
-            if (num <= -1) {
-                var n = Math.ceil(-num),
-                    back_year = Math.ceil(n / 12),
-                    month = (n % 12) ? 12 - n % 12 : 0;
-
-                this.setFullYear(this.getFullYear() - back_year);
-
-                return this._xMonth(month);
-            } else {
-                return this._xMonth(num);
-            }
-        },
-
-        // Bug in setDate() method (resolved in WebKit build 419.3, so to be safe we target Webkit builds < 420)
-        // The parameter for Date.setDate() is converted to a signed byte integer in Safari
-        // http://brianary.blogspot.com/2006/03/safari-date-bug.html
-        setDate : function(d) {
-            // use setTime() to workaround setDate() bug
-            // subtract current day of month in milliseconds, then add desired day of month in milliseconds
-            return this.setTime(this.getTime() - (this.getDate() - d) * 864e5);
-        }
-    });
-}
-
-
-
-/* Some basic Date tests... (requires Firebug)
-
-Date.parseDate('', 'c'); // call Date.parseDate() once to force computation of regex string so we can console.log() it
-console.log('Insane Regex for "c" format: %o', Date.parseCodes.c.s); // view the insane regex for the "c" format specifier
-
-// standard tests
-console.group('Standard Date.parseDate() Tests');
-    console.log('Date.parseDate("2009-01-05T11:38:56", "c")               = %o', Date.parseDate("2009-01-05T11:38:56", "c")); // assumes browser's timezone setting
-    console.log('Date.parseDate("2009-02-04T12:37:55.001000", "c")        = %o', Date.parseDate("2009-02-04T12:37:55.001000", "c")); // assumes browser's timezone setting
-    console.log('Date.parseDate("2009-03-03T13:36:54,101000Z", "c")       = %o', Date.parseDate("2009-03-03T13:36:54,101000Z", "c")); // UTC
-    console.log('Date.parseDate("2009-04-02T14:35:53.901000-0530", "c")   = %o', Date.parseDate("2009-04-02T14:35:53.901000-0530", "c")); // GMT-0530
-    console.log('Date.parseDate("2009-05-01T15:34:52,9876000+08:00", "c") = %o', Date.parseDate("2009-05-01T15:34:52,987600+08:00", "c")); // GMT+08:00
-console.groupEnd();
-
-// ISO-8601 format as specified in http://www.w3.org/TR/NOTE-datetime
-// -- accepts ALL 6 levels of date-time granularity
-console.group('ISO-8601 Granularity Test (see http://www.w3.org/TR/NOTE-datetime)');
-    console.log('Date.parseDate("1997", "c")                              = %o', Date.parseDate("1997", "c")); // YYYY (e.g. 1997)
-    console.log('Date.parseDate("1997-07", "c")                           = %o', Date.parseDate("1997-07", "c")); // YYYY-MM (e.g. 1997-07)
-    console.log('Date.parseDate("1997-07-16", "c")                        = %o', Date.parseDate("1997-07-16", "c")); // YYYY-MM-DD (e.g. 1997-07-16)
-    console.log('Date.parseDate("1997-07-16T19:20+01:00", "c")            = %o', Date.parseDate("1997-07-16T19:20+01:00", "c")); // YYYY-MM-DDThh:mmTZD (e.g. 1997-07-16T19:20+01:00)
-    console.log('Date.parseDate("1997-07-16T19:20:30+01:00", "c")         = %o', Date.parseDate("1997-07-16T19:20:30+01:00", "c")); // YYYY-MM-DDThh:mm:ssTZD (e.g. 1997-07-16T19:20:30+01:00)
-    console.log('Date.parseDate("1997-07-16T19:20:30.45+01:00", "c")      = %o', Date.parseDate("1997-07-16T19:20:30.45+01:00", "c")); // YYYY-MM-DDThh:mm:ss.sTZD (e.g. 1997-07-16T19:20:30.45+01:00)
-    console.log('Date.parseDate("1997-07-16 19:20:30.45+01:00", "c")      = %o', Date.parseDate("1997-07-16 19:20:30.45+01:00", "c")); // YYYY-MM-DD hh:mm:ss.sTZD (e.g. 1997-07-16T19:20:30.45+01:00)
-    console.log('Date.parseDate("1997-13-16T19:20:30.45+01:00", "c", true)= %o', Date.parseDate("1997-13-16T19:20:30.45+01:00", "c", true)); // strict date parsing with invalid month value
-console.groupEnd();
-
-*/
-</pre>    
 </body>
 </html>
