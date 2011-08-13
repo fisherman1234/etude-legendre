@@ -13,7 +13,7 @@ Ext.define('TP.controller.Documents', {
                 click: this.updateDocument
             },
             'documentEdit button[action=delete]': {
-                click: this.cancelUpdate
+                click: this.deleteDocument
             },
             'documentList': {
                 itemclick: this.editDocument
@@ -27,14 +27,14 @@ Ext.define('TP.controller.Documents', {
     updateDocument: function(button) {
         var win = button.up('window');
         form = win.down('form');
-				record = form.getRecord();
-        if (typeof(record)!=='undefined'){
-					url = '/documents/'+record.data.id;
-					method = 'PUT';
-				}else{
-					url = '/documents';
-					method = 'POST';
-				}
+        record = form.getRecord();
+        if (typeof(record) !== 'undefined') {
+            url = '/documents/' + record.data.id;
+            method = 'PUT';
+        } else {
+            url = '/documents';
+            method = 'POST';
+        }
 
         //console.log(form);
         form.submit({
@@ -45,15 +45,33 @@ Ext.define('TP.controller.Documents', {
             },
 
             success: function(form) {
-								win.close();
+                win.close();
                 Ext.getStore('TP.store.Documents').load();
             }
         });
-
 
     },
     editDocument: function(grid, record) {
         var formEdit = Ext.widget('documentEdit');
         formEdit.down('form').loadRecord(record);
+				Ext.getCmp('deleteButton').show();
+				
+    },
+    deleteDocument: function(button) {
+        var win = button.up('window');
+        form = win.down('form');
+        record = form.getRecord();
+        Ext.Msg.show({
+            title: 'Supprimer cet enregistrement',
+            msg: 'Voulez-vous supprimer cet enregistrement ?',
+            buttons: Ext.Msg.YESNO,
+            fn: function(id) {
+                if (id == "yes") {
+                    Ext.getStore('TP.store.Documents').remove(record);
+                }
+								win.close();
+            },
+            icon: Ext.Msg.QUESTION
+        });
     }
 });

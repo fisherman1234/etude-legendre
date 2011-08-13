@@ -17,7 +17,9 @@ Ext.define('TP.view.document.Edit', {
                 xtype: 'textfield',
                 fieldLabel: 'Description',
                 name: 'description',
-                margin: 10
+                margin: 10,
+                allowBlank: false
+
 
             },
             {
@@ -26,9 +28,11 @@ Ext.define('TP.view.document.Edit', {
 
                 fieldLabel: 'Fichier',
                 msgTarget: 'side',
-                allowBlank: false,
                 buttonText: 'Choisir le fichier...',
-                margin: 10
+                margin: 10,
+                allowBlank: false
+
+
             }]
         }];
 
@@ -43,7 +47,7 @@ Ext.define('TP.view.document.Edit', {
         },
         {
             text: 'Supprimer',
-            action: 'save',
+            action: 'delete',
             hidden: true,
             id: 'deleteButton'
         }];
