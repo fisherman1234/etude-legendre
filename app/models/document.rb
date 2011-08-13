@@ -13,6 +13,9 @@ class Document < ActiveRecord::Base
       :access_key_id => 'AKIAJN75XNBEIO2RQGMQ',
       :secret_access_key => '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'
     }
+    
+  attr_accessor :short_link
+  attr_accessor :long_link
   
     def set_relationship
       if self.document_to_communications

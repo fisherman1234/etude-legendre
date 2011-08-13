@@ -4,11 +4,13 @@ class UnitesController < ApplicationController
   # GET /unites
   # GET /unites.xml
   def index
-    @unites = Unite.all
+    @unites = current_user.parametres_cabinet.unites.all
 
     respond_to do |format|
       format.html {render :layout => "light"} # index.html.erb
       format.xml  { render :xml => @unites }
+      format.json {render :json => {"success"=>true,"data"=>@unites}}
+      
     end
   end
 

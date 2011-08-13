@@ -4,11 +4,13 @@ class TypeDecisionsController < ApplicationController
   # GET /type_decisions
   # GET /type_decisions.xml
   def index
-    @type_decisions = TypeDecision.all
+    @type_decisions = current_user.parametres_cabinet.type_decisions.all
 
     respond_to do |format|
       format.html {render :layout => "light"} # index.html.erb
       format.xml  { render :xml => @type_decisions }
+      format.json {render :json => {"success"=>true,"data"=>@type_decisions}}
+      
     end
   end
 

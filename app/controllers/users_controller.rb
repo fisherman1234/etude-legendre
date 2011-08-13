@@ -1,6 +1,14 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, :only => [:show, :current_user, :destroy_current_user_session]
+  before_filter :authenticate_user!, :only => [:index, :show, :current_user, :destroy_current_user_session]
   
+  def index
+    @users = current_user.parametres_cabinet.users
+   
+    respond_to do |format|
+     
+      format.json {render :json => {"success"=>true,"data"=>@users.map {|p| p.attributes.merge(:nom_complet => p.full_name)}}}
+    end
+  end
 
 
   # GET /users/1

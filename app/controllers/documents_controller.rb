@@ -1,14 +1,23 @@
 class DocumentsController < ApplicationController
   before_filter :authenticate_user!
-  
+  skip_before_filter :verify_authenticity_token
+   
   # GET /documents
   # GET /documents.xml
   def index
     @documents = Document.all
+    if (params[:dossier])
+      @dossier = Dossier.find(params[:dossier])
+      @documents = @dossier.documents
+    else
+      @documents = []
+    end
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @documents }
+      format.json {render :json => {"success"=>true,"data"=>@documents.map {|p| p.attributes.merge(:short_link => p.generate_link,:long_link => p.generate_long_link )}, :totalSize =>@documents.count}}
+
     end
   end
 
@@ -42,33 +51,28 @@ class DocumentsController < ApplicationController
   # POST /documents
   # POST /documents.xml
   def create
-    @document = Document.new(params[:document])
-
-    respond_to do |format|
-      if @document.save
-        format.html { redirect_to(@document, :notice => 'Document was successfully created.') }
-        format.xml  { render :xml => @document, :status => :created, :location => @document }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @document.errors, :status => :unprocessable_entity }
-      end
-    end
+    @document = Document.new()
+    @document.description = params[:description]
+    @document.file = params[:file]
+    @document.dossier_id = params[:dossier_id]
+    @document.save
+    
+    resp = {"success"=>true,"data"=>@document.attributes.merge(:short_link => @document.generate_link,:long_link => @document.generate_long_link )}.to_json
+    render :text => resp
+    
   end
 
   # PUT /documents/1
   # PUT /documents/1.xml
   def update
     @document = Document.find(params[:id])
-
-    respond_to do |format|
-      if @document.update_attributes(params[:document])
-        format.html { redirect_to(@document, :notice => 'Document was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @document.errors, :status => :unprocessable_entity }
-      end
-    end
+    @document.description = params[:description]
+    @document.file = params[:file]
+    @document.dossier_id = params[:dossier_id]
+    @document.save
+    
+    resp = {"success"=>true,"data"=>@document.attributes.merge(:short_link => @document.generate_link,:long_link => @document.generate_long_link )}.to_json
+    render :text => resp
   end
 
   # DELETE /documents/1

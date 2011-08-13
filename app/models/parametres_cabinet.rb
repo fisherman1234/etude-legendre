@@ -1,6 +1,15 @@
 class ParametresCabinet < ActiveRecord::Base
   has_many :users
   has_many :dossiers
+  has_many :type_expertises
+  has_many :type_decisions
+  has_many :contacts
+  has_many :type_etat_dossiers
+  has_many :taux_tvas
+  has_many :unites
+  has_many :items
+  has_many :categories
+
   has_attached_file :logo,
     :storage => :s3,
     :bucket => 'etude-legendre',

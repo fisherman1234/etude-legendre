@@ -10,9 +10,25 @@ class Dossier < ActiveRecord::Base
   belongs_to :parametres_cabinet
   belongs_to :user
   has_many :consignations
+  belongs_to :type_etat_dossier
+  
   
   validates_presence_of :institution_id, :parametres_cabinet_id, :ref_cabinet, :nom_dossier
   
+  attr_accessor :juge_controlleur_id
+  attr_accessor :juge_mission_id
+  attr_accessor :institution_nom  
+  attr_accessor :type_etat_dossier_description
+  
+  
+  def juge_mission_id=(juge_mission_id)
+    self.acteur_tribunal.contact_acteurs.find_or_initialize_by_qualite_procedurale_id(2).update_attribute(:contact_id, juge_mission_id)
+    
+  end
+  
+  def juge_controlleur_id=(juge_controlleur_id)
+self.acteur_tribunal.contact_acteurs.find_or_initialize_by_qualite_procedurale_id(1).update_attribute(:contact_id, juge_controlleur_id)  
+  end
   
   has_attached_file :recap_frais,
     :storage => :s3,

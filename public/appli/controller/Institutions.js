@@ -1,13 +1,8 @@
 Ext.define('TP.controller.Institutions', {
     extend: 'Ext.app.Controller',
-	stores: [
-	        'Institutions'
-	    ],
-	models: ['Institution'],
-    views: [
-        'institution.List',
-		'institution.Edit'
-    ],
+    stores: ['Institutions'],
+    models: ['Institution'],
+    views: ['institution.List', 'institution.Edit'],
 
     init: function() {
         this.control({
@@ -21,18 +16,17 @@ Ext.define('TP.controller.Institutions', {
     },
 
     editInstitution: function(grid, record) {
-       	var view = Ext.widget('institutionedit');
-        view.down('form').loadRecord(record);    
-	},
-	
-	updateInstitution: function(button) {
-        var win    = button.up('window'),
-	        form   = win.down('form'),
-	        record = form.getRecord(),
-	        values = form.getValues();
+        var view = Ext.widget('institutionedit');
+        view.down('form').loadRecord(record);
+    },
 
-	    record.set(values);
-	    win.close();
+    updateInstitution: function(button) {
+        var win = button.up('window'),
+        form = win.down('form'),
+        record = form.getRecord(),
+        values = form.getValues();
+
+        record.set(values);
+        win.close();
     }
 });
-

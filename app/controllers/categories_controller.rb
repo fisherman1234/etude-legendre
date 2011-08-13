@@ -4,11 +4,13 @@ class CategoriesController < ApplicationController
   # GET /categories
   # GET /categories.xml
   def index
-    @categories = Categorie.all
+    @categories = Categorie.find(:all, :conditions => {:parametres_cabinet_id => current_user.parametres_cabinet_id})
 
     respond_to do |format|
       format.html  {render :layout => "light"} # index.html.erb
       format.xml  { render :xml => @categories }
+      format.json {render :json => {"success"=>true,"data"=>@categories}}
+      
     end
   end
 

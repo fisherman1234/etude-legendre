@@ -4,11 +4,13 @@ class TypeEtatDossiersController < ApplicationController
   # GET /type_etat_dossiers
   # GET /type_etat_dossiers.xml
   def index
-    @type_etat_dossiers = TypeEtatDossier.all
+    @type_etat_dossiers = current_user.parametres_cabinet.type_etat_dossiers.all
 
     respond_to do |format|
       format.html {render :layout => "light"} # index.html.erb
       format.xml  { render :xml => @type_etat_dossiers }
+      format.json {render :json => {"success"=>true,"data"=>@type_etat_dossiers}}
+      
     end
   end
 

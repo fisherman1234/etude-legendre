@@ -5,12 +5,14 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.xml
   def index
-    @items = Item.all
+    @items = current_user.parametres_cabinet.items.all
 
     respond_to do |format|
       format.html {render :layout => "light"}  # index.html.erb
       format.xml  { render :xml => @items }
       format.js  { render :json => @items }
+      format.json {render :json => {"success"=>true,"data"=>@items}}
+      
     end
   end
 

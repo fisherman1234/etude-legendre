@@ -5,11 +5,18 @@ class ActivitesController < ApplicationController
   # GET /activites.xml
   
   def index
-    @activites = Activite.all
+    if (params[:dossier])
+      @dossier = Dossier.find(params[:dossier])
+      @activites = @dossier.activites
+    else
+      @activites = []
+    end
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @activites }
+      format.json {render :json => {"success"=>true,"data"=>@activites.paginate(:page => params[:page], :per_page => params[:limit]), :totalSize =>@activites.count}}
+      
     end
   end
 

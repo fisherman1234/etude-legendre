@@ -88,6 +88,7 @@ EtudeLegendre::Application.routes.draw do
   match "users/connexion", :to => "users#connexion", :method => :get 
   match "contacts/:id/destroy", :to => "contacts#destroy", :method => :post 
   match "activites/:id/destroy", :to => "activites#destroy", :method => :post 
+  match "documents/:id", :to => "documents#update", :method => :post 
 
   match "dossiers/:id/destroy", :to => "dossiers#destroy", :method => :post 
   match "institutions/:id/destroy", :to => "institutions#destroy", :method => :post 

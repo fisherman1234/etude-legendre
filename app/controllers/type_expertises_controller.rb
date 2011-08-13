@@ -5,15 +5,16 @@ class TypeExpertisesController < ApplicationController
   # GET /type_expertises.xml
   def index
     if params[:term] != nil
-      @type_expertises = TypeExpertise.find(:all, :conditions => ["LOWER(description) LIKE LOWER(?)", "%#{params[:term]}%"])
+      @type_expertises = current_user.parametres_cabinet.type_expertises.find(:all, :conditions => ["LOWER(description) LIKE LOWER(?)", "%#{params[:term]}%"])
     else
-      @type_expertises = TypeExpertise.all
+      @type_expertises = current_user.parametres_cabinet.type_expertises.all
     end
 
     respond_to do |format|
       format.html {render :layout => "light"} # index.html.erb
       format.xml  { render :xml => @type_expertises }
       format.js {render :json => @type_expertises.map {|p| { :value => p.id, :label => p.description }} }
+      format.json {render :json => {"success"=>true,"data"=>@type_expertises}}
       
     end
   end

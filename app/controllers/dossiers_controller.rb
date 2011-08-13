@@ -16,7 +16,7 @@ class DossiersController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @dossiers }
       format.js {render :json => @dossiers.map {|p| {  :label => p.try(:ref_cabinet)+' '+p.try(:nom_dossier)  , :value => p.id}} }
-      format.json {render :json => {"success"=>true,"data"=>@dossiers} }
+      format.json {render :json => {"success"=>true,"data"=>@dossiers.map {|p| p.attributes.merge(:institution_nom => p.institution.nom, :type_etat_dossier_description => p.type_etat_dossier.try(:description), :juge_mission_id => p.juge_mission.contact_id, :juge_controlleur_id => p.juge_controlleur.contact_id)}}} 
 
     end
   end
@@ -83,7 +83,7 @@ class DossiersController < ApplicationController
       if @dossier.update_attributes(params[:dossier])
         format.html { redirect_to(@dossier, :notice => 'Dossier was successfully updated.') }
         format.xml  { head :ok }
-        format.json  { render :json => { :success => true, :message => "Updated Dossier #{@dossier.id}", :data => @dossier }}
+        format.json  { render :json => { :success => true, :message => "Updated Dossier #{@dossier.id}", :data => @dossier.attributes.merge(:institution_nom => @dossier.institution.nom, :type_etat_dossier_description => @dossier.type_etat_dossier.try(:description), :juge_mission_id => @dossier.juge_mission.try(:contact_id), :juge_controlleur_id => @dossier.juge_controlleur.try(:contact_id))}}
         
       else
         format.html { render :action => "edit" }

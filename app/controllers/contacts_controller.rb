@@ -7,21 +7,23 @@ class ContactsController < ApplicationController
     if params[:term] != nil
       if params[:type] != nil
         if params[:institution] != nil
-          @contacts = Contact.find(:all, :conditions => ["(LOWER(nom) LIKE LOWER(?) or LOWER(prenom) LIKE LOWER(?)) and institution_id=? and type_intervenant_id=?", "%#{params[:term]}%", "%#{params[:term]}%", "#{params[:institution]}", "#{params[:type]}"])
+          @contacts = current_user.parametres_cabinet.contacts.find(:all, :conditions => ["(LOWER(nom) LIKE LOWER(?) or LOWER(prenom) LIKE LOWER(?)) and institution_id=? and type_intervenant_id=?", "%#{params[:term]}%", "%#{params[:term]}%", "#{params[:institution]}", "#{params[:type]}"])
         else
-          @contacts = Contact.find(:all, :conditions => ["(LOWER(nom) LIKE LOWER(?) or LOWER(prenom) LIKE LOWER(?)) and type_intervenant_id=?", "%#{params[:term]}%", "%#{params[:term]}%", "#{params[:type]}"])
+          @contacts = current_user.parametres_cabinet.contacts.find(:all, :conditions => ["(LOWER(nom) LIKE LOWER(?) or LOWER(prenom) LIKE LOWER(?)) and type_intervenant_id=?", "%#{params[:term]}%", "%#{params[:term]}%", "#{params[:type]}"])
         end
       else
-        @contacts = Contact.find(:all, :conditions => ["LOWER(nom) LIKE LOWER(?) or LOWER(prenom) LIKE LOWER(?)", "%#{params[:term]}%", "%#{params[:term]}%"])
+        @contacts = current_user.parametres_cabinet.contacts.find(:all, :conditions => ["LOWER(nom) LIKE LOWER(?) or LOWER(prenom) LIKE LOWER(?)", "%#{params[:term]}%", "%#{params[:term]}%"])
       end
     else
-      @contacts = Contact.all
+      @contacts = current_user.parametres_cabinet.contacts.all
     end
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @contacts }
       format.js {render :json => @contacts.map {|p| {  :label => p.full_name  , :value => p.id}} }
+      format.json {render :json => {"success"=>true,"data"=>@contacts.map {|p| p.attributes.merge(:nom_complet => p.full_name)}}}
+      
     end
   end
 

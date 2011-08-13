@@ -4,11 +4,20 @@ class ExpensesController < ApplicationController
   # GET /expenses
   # GET /expenses.xml
   def index
-    @expenses = Expense.all
+
+        if (params[:dossier])
+          @dossier = Dossier.find(params[:dossier])
+          @expenses = @dossier.expenses
+        else
+          @expenses = []
+        end
+    
 
     respond_to do |format|
       format.html  # index.html.erb
       format.xml  { render :xml => @expenses }
+      format.json {render :json => {"success"=>true,"data"=>@expenses.map {|p| p.attributes.merge(:total_ht => p.total, :total_ttc => p.total_ttc, :activite_name => p.activite.try(:description))}, :totalSize =>@expenses.count}}
+      
     end
   end
 
@@ -50,21 +59,33 @@ class ExpensesController < ApplicationController
   # POST /expenses.xml
   def create
     @expense = Expense.new(params[:expense])
-    @expense.categorie_id = Item.find(params[:expense][:item_id]).categorie_id
+    if params[:expense][:item_id].present?
+      @expense.categorie_id = Item.find(params[:expense][:item_id]).categorie_id
+    end
+    @expense.dossier_id = params[:dossier]
     @expense.save
-    render :json => {'activite'=>@expense.activite.try(:description).to_s, 'type_depense' => @expense.item.try(:description).to_s, 'date_item' => @expense.date_item.to_s, 'description_item'=> @expense.description.to_s, 'prix_unitaire'=> @expense.prix_unitaire.to_s, 'quantite'=> @expense.quantite.to_s,'unite'=>@expense.unite.description.to_s, 'tva'=> @expense.taux_tva.description.to_s, 'total'=>@expense.total.to_s}
+    respond_to do |format|
+      format.json  { render :json => { :success => true, :message => "Created Expense #{@expense.id}", :data => @expense.attributes.merge(:total_ht => @expense.total, :total_ttc => @expense.total_ttc, :activite_name => @expense.activite.try(:description))}}
+    end
     
   end
 
   # PUT /expenses/1
   # PUT /expenses/1.xml
   def update
+    
     @expense = Expense.find(params[:id])
-    @expense.categorie_id = Item.find(params[:expense][:item_id]).categorie_id
+    
+    if params[:expense][:item_id].present?
+      @expense.categorie_id = Item.find(params[:expense][:item_id]).categorie_id
+    end
+
+    
     respond_to do |format|
       if @expense.update_attributes(params[:expense])
         format.html { redirect_to(@expense, :notice => 'Expense was successfully updated.') }
         format.xml  { head :ok }
+        format.json  { render :json => { :success => true, :message => "Updated Expense #{@expense.id}", :data => @expense.attributes.merge(:total_ht => @expense.total, :total_ttc => @expense.total_ttc, :activite_name => @expense.activite.try(:description))}}        
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @expense.errors, :status => :unprocessable_entity }
@@ -76,11 +97,14 @@ class ExpensesController < ApplicationController
   # DELETE /expenses/1.xml
   def destroy
     @expense = Expense.find(params[:id])
-    @expense.destroy
+    if @expense.dossier.parametres_cabinet.id = current_user.parametres_cabinet.id
+      @expense.destroy
+    end
 
     respond_to do |format|
       format.html { redirect_to(expenses_url) }
       format.xml  { head :ok }
+      format.json { render :json => { :success => true, :message => "Destroyed Expense #{@expense.id}", :data => []}}
     end
   end
 end

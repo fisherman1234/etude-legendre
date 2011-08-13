@@ -4,11 +4,13 @@ class TauxTvasController < ApplicationController
   # GET /taux_tvas
   # GET /taux_tvas.xml
   def index
-    @taux_tvas = TauxTva.all
+    @taux_tvas = current_user.parametres_cabinet.taux_tvas.all
 
     respond_to do |format|
       format.html {render :layout => "light"} # index.html.erb
       format.xml  { render :xml => @taux_tvas }
+      format.json {render :json => {"success"=>true,"data"=>@taux_tvas}}
+      
     end
   end
 
