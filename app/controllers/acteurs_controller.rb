@@ -82,4 +82,14 @@ class ActeursController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def getActorTree
+    @dossier = Dossier.find(params[:dossier_id])
+    
+    tree = @dossier.acteurs.map{|p| p.attributes.merge(:children => p.contact_acteurs.map{ |l| l.attributes.merge(l.contact.attributes).merge(:leaf => true)})}
+    respond_to do |format|
+      format.json  { render :json => tree }
+    end
+  end
+  
 end
