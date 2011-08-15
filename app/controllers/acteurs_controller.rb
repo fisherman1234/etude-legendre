@@ -4,11 +4,18 @@ class ActeursController < ApplicationController
   # GET /acteurs
   # GET /acteurs.xml
   def index
-    @acteurs = Acteur.all
-
+    if (params[:dossier])
+      @dossier = Dossier.find(params[:dossier])
+      @acteurs = @dossier.acteurs
+    else
+      @acteurs = []
+    end
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @acteurs }
+      format.json {render :json => {"success"=>true,"data"=>@acteurs, :totalSize =>@acteurs.count}}
+      
     end
   end
 
@@ -84,9 +91,22 @@ class ActeursController < ApplicationController
   end
   
   def getActorTree
-    @dossier = Dossier.find(params[:dossier_id])
+    tree = []
     
-    tree = @dossier.acteurs.map{|p| p.attributes.merge(:children => p.contact_acteurs.map{ |l| l.attributes.merge(l.contact.attributes).merge(:leaf => true)})}
+    if params[:dossier]
+       @dossier = Dossier.find(params[:dossier])
+       @dossier.acteurs.each do |acteur|
+         content = {:expanded => true, :cls => "folder", :id => acteur.id, :text => acteur.description, :qualite_procedurale => '', :institution=>'', :email => '', :telephone => ''}
+         contact_acteurs = []
+         acteur.contact_acteurs.each do |con_act|
+           contact_content = {:id => con_act.id, :text => con_act.contact.full_name, :qualite_procedurale => con_act.qualite_procedurale.try(:description), :institution=>con_act.contact.institution.try(:nom), :email => con_act.contact.try(:email), :telephone => con_act.contact.try(:telephone), :leaf => true}
+           contact_acteurs.push(contact_content)
+         end
+        content[:children] = contact_acteurs
+        tree.push(content)
+       end
+    end
+    
     respond_to do |format|
       format.json  { render :json => tree }
     end

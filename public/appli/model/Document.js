@@ -10,7 +10,7 @@ Ext.define('TP.model.Document', {
         },
         writer: {
             type: 'json',
-            root: 'documents',
+            root: 'document',
             writeAllFields: false
         }
     },

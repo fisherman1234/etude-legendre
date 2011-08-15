@@ -1,8 +1,10 @@
 Ext.define('TP.controller.Dossiers', {
     extend: 'Ext.app.Controller',
-    stores: ['Dossiers', 'TP.store.Institutions', 'TP.store.Users', 'TP.store.TypeExpertises', 'TP.store.TypeDecisions', 'TP.store.Contacts', 'TP.store.Unites', 'TP.store.TypeEtatDossiers', 'TP.store.Activites', 'TP.store.Expenses', 'TP.store.Items', 'TP.store.Categories', 'TP.store.Documents', 'TP.store.TreeActeurs'],
-    models: ['Dossier', 'TP.model.Institution', 'TP.model.User', 'TP.model.TypeExpertise', 'TP.model.TypeDecision', 'TP.model.Contact', 'TP.model.TypeEtatDossier', 'TP.model.Expense', 'TP.model.Unite', 'TP.model.Activite', 'TP.model.Expense', 'TP.model.Item', 'TP.model.Categorie', 'TP.model.Document'],
-    views: ['dossier.List', 'dossier.Edit', 'dossier.ShortList', 'dossier.Overview', 'TP.view.expense.List', 'TP.view.activite.List', 'TP.view.document.List', 'TP.view.dossier.Edit', 'TP.view.acteur.Tree'],
+    stores: ['Dossiers', 'TP.store.Institutions', 'TP.store.Users', 'TP.store.TypeExpertises', 'TP.store.TypeDecisions', 'TP.store.Contacts', 'TP.store.Unites', 'TP.store.TypeEtatDossiers', 'TP.store.Activites', 'TP.store.Expenses', 'TP.store.Items', 'TP.store.Categories', 'TP.store.Documents', 'TP.store.TreeActeurs', 'TP.store.ContactActeurs', 'TP.store.Acteurs'],
+    
+		models: ['Dossier', 'TP.model.Institution', 'TP.model.User', 'TP.model.TypeExpertise', 'TP.model.TypeDecision', 'TP.model.Contact', 'TP.model.TypeEtatDossier', 'TP.model.Expense', 'TP.model.Unite', 'TP.model.Activite', 'TP.model.Expense', 'TP.model.Item', 'TP.model.Categorie', 'TP.model.Document', 'TP.model.ContactActeur', 'TP.model.Acteur'],
+    
+		views: ['dossier.List', 'dossier.Edit', 'dossier.ShortList', 'dossier.Overview', 'TP.view.expense.List', 'TP.view.activite.List', 'TP.view.document.List', 'TP.view.dossier.Edit', 'TP.view.acteur.Tree', 'dossier.Contact','TP.view.contactacteur.Edit', 'TP.view.contact.EditLight'],
 
     init: function() {
         this.control({
@@ -35,7 +37,6 @@ Ext.define('TP.controller.Dossiers', {
             var activiteList = Ext.widget('activiteList');
 
             var documentList = Ext.widget('documentList');
-
             var view = Ext.widget('dossierOverview');
             main_window.add(view);
             Ext.getStore('TP.store.Activites').proxy.extraParams = {
@@ -53,15 +54,30 @@ Ext.define('TP.controller.Dossiers', {
                     };
                     Ext.getStore('TP.store.Documents').load();
 
-                    Ext.getStore('TP.store.Acteurs').proxy.extraParams = {
-                        dossier_id: record.data.id
+                    Ext.getStore('TP.store.TreeActeurs').proxy.extraParams = {
+                        dossier: record.data.id
                     };
-                    Ext.getStore('TP.store.Acteurs').load();
+                    //Ext.getStore('TP.store.TreeActeurs').load(); NOT NEEDED HERE OTHERWISE DOUBLE CALL
+
+				            Ext.getStore('TP.store.ContactActeurs').proxy.extraParams = {
+                        dossier: record.data.id
+                    };
+										Ext.getStore('TP.store.ContactActeurs').load();
+										
+										Ext.getStore('TP.store.Acteurs').proxy.extraParams = {
+                        dossier: record.data.id
+                    };
+										Ext.getStore('TP.store.Acteurs').load();
+				
+										var acteurTree = Ext.widget('acteurTree');
+										var dossierContact = Ext.widget('dossierContact');
+
+										
                     view.add(formDossier);
                     view.add(expenseList);
                     view.add(activiteList);
                     view.add(documentList);
-                    view.add(acteurTree);
+                    view.add(dossierContact);
 
                 }
             });
@@ -86,10 +102,20 @@ Ext.define('TP.controller.Dossiers', {
                     };
                     Ext.getStore('TP.store.Documents').load();
 
-                    Ext.getStore('TP.store.Acteurs').proxy.extraParams = {
-                        dossier_id: record.data.id
+                    Ext.getStore('TP.store.TreeActeurs').proxy.extraParams = {
+                        dossier: record.data.id
                     };
-                    Ext.getStore('TP.store.Acteurs').load();
+                    Ext.getStore('TP.store.TreeActeurs').load();
+
+				            Ext.getStore('TP.store.ContactActeurs').proxy.extraParams = {
+                        dossier: record.data.id
+                    };
+										Ext.getStore('TP.store.ContactActeurs').load();
+										
+										Ext.getStore('TP.store.Acteurs').proxy.extraParams = {
+                        dossier: record.data.id
+                    };
+										Ext.getStore('TP.store.Acteurs').load();
                 }
             });
 

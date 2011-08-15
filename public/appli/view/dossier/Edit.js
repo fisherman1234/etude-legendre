@@ -5,17 +5,17 @@ Ext.define('TP.view.dossier.Edit', {
     title: "Edition d'un dossier",
     layout: 'fit',
     border: false,
-		padding: 10,
-		id:"editForm",
+    padding: 10,
+    id: "editForm",
     initComponent: function() {
         this.items = [{
             xtype: 'form',
-				    border: false,
+            border: false,
 
             items: [{
                 xtype: 'fieldset',
                 title: 'Références du dossier',
-								padding: 5,
+                padding: 5,
 
                 items: [{
                     xtype: 'container',
@@ -72,7 +72,7 @@ Ext.define('TP.view.dossier.Edit', {
             },
             {
                 xtype: 'fieldset',
-								padding: 5,
+                padding: 5,
                 title: 'Juridiction',
                 items: [{
                     xtype: 'combo',
@@ -166,7 +166,7 @@ Ext.define('TP.view.dossier.Edit', {
             },
             {
                 xtype: 'fieldset',
-								padding: 5,
+                padding: 5,
                 title: 'Statut du dossier',
                 items: [{
                     xtype: 'container',

@@ -1,8 +1,8 @@
-Ext.define('TP.model.Categorie', {
+Ext.define('TP.model.Acteur', {
     extend: 'Ext.data.Model',
     proxy: {
         type: 'rest',
-        url: '/categories',
+        url: '/acteurs',
         format: 'json',
         reader: {
             type: 'json',
@@ -12,9 +12,9 @@ Ext.define('TP.model.Categorie', {
         },
         writer: {
             type: 'json',
-            root: 'categorie',
+            root: 'acteur',
             writeAllFields: false
         }
     },
-    fields: ['id', 'description', 'taux_tva_id']
+    fields: ['id', 'type_acteur_id', 'dossier_id', 'description']
 });

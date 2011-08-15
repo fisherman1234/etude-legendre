@@ -63,6 +63,8 @@ class ContactsController < ApplicationController
       if @contact.save
         format.html { redirect_to(@contact, :notice => 'Contact was successfully created.') }
         format.xml  { render :xml => @contact, :status => :created, :location => @contact }
+        format.json  { render :json => { :success => true, :message => "Created Contact  #{@contact.id}", :data => @contact}}
+        
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @contact.errors, :status => :unprocessable_entity }
@@ -79,6 +81,7 @@ class ContactsController < ApplicationController
       if @contact.update_attributes(params[:contact])
         format.html { redirect_to(@contact, :notice => 'Contact was successfully updated.') }
         format.xml  { head :ok }
+        format.json  { render :json => { :success => true, :message => "Updated Contact  #{@contact.id}", :data => @contact}}
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @contact.errors, :status => :unprocessable_entity }
@@ -95,6 +98,7 @@ class ContactsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(contacts_url) }
       format.xml  { head :ok }
+      format.json  { render :json => { :success => true, :message => "Deleted Contact  #{@contact.id}", :data => []}}
     end
   end
 end
