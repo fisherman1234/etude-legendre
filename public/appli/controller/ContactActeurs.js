@@ -1,7 +1,7 @@
 Ext.define('TP.controller.ContactActeurs', {
     extend: 'Ext.app.Controller',
     stores: ['ContactActeurs'],
-		views: ['contactacteur.Edit', 'contactacteur.PickContact'],
+		views: ['contactacteur.Edit', 'contactacteur.PickContact', 'contactacteur.Add', 'contactacteur.EditForm'],
 		
     init: function() {
       this.control({

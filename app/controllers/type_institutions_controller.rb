@@ -4,11 +4,13 @@ class TypeInstitutionsController < ApplicationController
   # GET /type_institutions
   # GET /type_institutions.xml
   def index
-    @type_institutions = TypeInstitution.all
+    @type_institutions = current_user.parametres_cabinet.type_institutions.all
 
     respond_to do |format|
       format.html {render :layout => "light"}  # index.html.erb
       format.xml  { render :xml => @type_institutions }
+      format.json {render :json => {"success"=>true,"data"=>@type_institutions}}
+      
     end
   end
 
@@ -43,11 +45,13 @@ class TypeInstitutionsController < ApplicationController
   # POST /type_institutions.xml
   def create
     @type_institution = TypeInstitution.new(params[:type_institution])
-
+    @type_institution.parametres_cabinet_id = current_user.parametres_cabinet_id
     respond_to do |format|
       if @type_institution.save
         format.html { redirect_to(@type_institution, :notice => 'Type institution was successfully created.') }
         format.xml  { render :xml => @type_institution, :status => :created, :location => @type_institution }
+        format.json {render :json => {"success"=>true,"data"=>@type_institution}}
+        
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @type_institution.errors, :status => :unprocessable_entity }
@@ -64,6 +68,8 @@ class TypeInstitutionsController < ApplicationController
       if @type_institution.update_attributes(params[:type_institution])
         format.html { redirect_to(@type_institution, :notice => 'Type institution was successfully updated.') }
         format.xml  { head :ok }
+        format.json {render :json => {"success"=>true,"data"=>@type_institution}}
+        
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @type_institution.errors, :status => :unprocessable_entity }
@@ -80,6 +86,8 @@ class TypeInstitutionsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(type_institutions_url) }
       format.xml  { head :ok }
+      format.json {render :json => {"success"=>true,"data"=>[]}}
+      
     end
   end
 end

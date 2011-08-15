@@ -1,7 +1,7 @@
 Ext.define('TP.controller.Acteurs', {
     extend: 'Ext.app.Controller',
     stores: ['TP.store.TreeActeurs'],
-		views: ['acteur.Tree'],
+		views: ['acteur.Tree', 'acteur.PickActeur'],
     init: function() {
       this.control({
           'acteurTree' : {

@@ -60,11 +60,13 @@ class InstitutionsController < ApplicationController
   # POST /institutions.xml
   def create
     @institution = Institution.new(params[:institution])
-
+    @institution.parametres_cabinet_id = current_user.parametres_cabinet.id
     respond_to do |format|
       if @institution.save
         format.html { redirect_to(@institution, :notice => 'Institution was successfully created.') }
         format.xml  { render :xml => @institution, :status => :created, :location => @institution }
+        format.json {render :json => {"success"=>true,"data"=>@institutions} }
+        
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @institution.errors, :status => :unprocessable_entity }
@@ -81,6 +83,7 @@ class InstitutionsController < ApplicationController
       if @institution.update_attributes(params[:institution])
         format.html { redirect_to(@institution, :notice => 'Institution was successfully updated.') }
         format.xml  { head :ok }
+        format.json {render :json => {"success"=>true,"data"=>@institutions} }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @institution.errors, :status => :unprocessable_entity }
@@ -97,6 +100,8 @@ class InstitutionsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(institutions_url) }
       format.xml  { head :ok }
+      format.json {render :json => {"success"=>true,"data"=>[]} }
+      
     end
   end
 end

@@ -2,7 +2,7 @@ Ext.define('TP.controller.Institutions', {
     extend: 'Ext.app.Controller',
     stores: ['Institutions'],
     models: ['Institution'],
-    views: ['institution.List', 'institution.Edit'],
+    views: ['institution.List', 'institution.EditForm'],
 
     init: function() {
         this.control({

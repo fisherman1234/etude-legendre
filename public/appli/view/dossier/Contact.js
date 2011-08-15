@@ -40,18 +40,7 @@ Ext.define('TP.view.dossier.Contact', {
             xtype: 'button',
             text: 'Ajouter',
             icon: '/images/add.png',
-            handler: function() {
-                // empty record
-                var r = Ext.ModelManager.create({
-                    activite_id: null,
-                    unite_id: null,
-                    taux_tva_id: null,
-                    activite_name: null
-                },
-                'TP.model.Expense');
-                Ext.getStore('TP.store.Expenses').insert(0, r);
-                this.up('gridpanel').getPlugin('rowEditPlugin').startEdit(0, 0);
-            }
+            action: 'add-contact'
         }]
     }]
 });

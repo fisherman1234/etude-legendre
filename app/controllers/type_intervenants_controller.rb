@@ -4,11 +4,13 @@ class TypeIntervenantsController < ApplicationController
   # GET /type_intervenants
   # GET /type_intervenants.xml
   def index
-    @type_intervenants = TypeIntervenant.all
-
+    @type_intervenants = current_user.parametres_cabinet.type_intervenants.all
+    
     respond_to do |format|
       format.html  {render :layout => "light"} # index.html.erb
       format.xml  { render :xml => @type_intervenants }
+      format.json {render :json => {"success"=>true,"data"=>@type_intervenants}}
+      
     end
   end
 
@@ -43,11 +45,14 @@ class TypeIntervenantsController < ApplicationController
   # POST /type_intervenants.xml
   def create
     @type_intervenant = TypeIntervenant.new(params[:type_intervenant])
-
+    @type_intervenant.parametres_cabinet_id = current_user.parametres_cabinet.id
+    
     respond_to do |format|
       if @type_intervenant.save
         format.html { redirect_to(@type_intervenant, :notice => 'Type intervenant was successfully created.') }
         format.xml  { render :xml => @type_intervenant, :status => :created, :location => @type_intervenant }
+        format.json {render :json => {"success"=>true,"data"=>@type_intervenant}}
+        
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @type_intervenant.errors, :status => :unprocessable_entity }
@@ -64,6 +69,8 @@ class TypeIntervenantsController < ApplicationController
       if @type_intervenant.update_attributes(params[:type_intervenant])
         format.html { redirect_to(@type_intervenant, :notice => 'Type intervenant was successfully updated.') }
         format.xml  { head :ok }
+        format.json {render :json => {"success"=>true,"data"=>@type_intervenant}}
+        
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @type_intervenant.errors, :status => :unprocessable_entity }
@@ -80,6 +87,8 @@ class TypeIntervenantsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(type_intervenants_url) }
       format.xml  { head :ok }
+      format.json {render :json => {"success"=>true,"data"=>[]}}
+      
     end
   end
 end
