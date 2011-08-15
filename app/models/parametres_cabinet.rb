@@ -9,7 +9,8 @@ class ParametresCabinet < ActiveRecord::Base
   has_many :unites
   has_many :items
   has_many :categories
-
+  has_many :institutions
+  
   has_attached_file :logo,
     :storage => :s3,
     :bucket => 'etude-legendre',

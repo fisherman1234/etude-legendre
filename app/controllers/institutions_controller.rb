@@ -13,8 +13,9 @@ class InstitutionsController < ApplicationController
         @institutions = Institution.find(:all, :conditions => ["LOWER(nom) LIKE LOWER(?)", "%#{params[:term]}%"])
       end
     else
-      @institutions = Institution.all
+      @institutions = current_user.parametres_cabinet.institutions.all
     end
+    
       
 
     respond_to do |format|
