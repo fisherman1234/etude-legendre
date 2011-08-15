@@ -2,14 +2,14 @@ Ext.define('TP.controller.Institutions', {
     extend: 'Ext.app.Controller',
     stores: ['Institutions'],
     models: ['Institution'],
-    views: ['institution.List', 'institution.EditForm'],
+    views: ['institution.List', 'institution.EditForm', 'institution.Edit'],
 
     init: function() {
         this.control({
             'viewport > institutionlist': {
                 itemdblclick: this.editInstitution
             },
-            'institutionedit button[action=save]': {
+            'institutionEdit button[action=save]': {
                 click: this.updateInstitution
             }
         });
@@ -21,7 +21,7 @@ Ext.define('TP.controller.Institutions', {
     },
 
     updateInstitution: function(button) {
-        var win = button.up('window'),
+        var win = button.up('panel'),
         form = win.down('form'),
         record = form.getRecord(),
         values = form.getValues();

@@ -17,9 +17,19 @@ Ext.define('TP.controller.Contacts', {
           },
 					'contactEdit button[action=delete]' : {
               click: this.deleteContact
+          },
+					'contactEditLight button[action=add_institution]':{
+						click: this.addInstitution
+					},
+					'contactEdit button[action=add_institution]' : {
+              click: this.addInstitution
           }
       });
     },
+		addInstitution: function(button){
+			//todo : lier directement le champs parent lors de l'ajout
+			institution = Ext.widget('institutionEdit');
+		},
     saveActeur: function(button) {
 			contactEditLight = Ext.getCmp("contactEditLight");
 			contactEditLightForm = contactEditLight.down('form');
