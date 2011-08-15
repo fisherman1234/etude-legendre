@@ -62,8 +62,8 @@ class ContactActeursController < ApplicationController
     old_notes = @contact_acteur.notes
     
     if params[:contact_acteur][:notes]
-      old_notes = params[:contact][:notes]
-      params[:contact_acteur][:notes] = params[:contact_acteur][:notes].encode('UTF-8', 'ISO-8859-1')
+      old_notes = params[:contact_acteur][:notes]
+      @contact_acteur.notes = params[:contact_acteur][:notes].encode('UTF-8', 'ISO-8859-1')
     end
     
     respond_to do |format|
@@ -85,7 +85,7 @@ class ContactActeursController < ApplicationController
     @contact_acteur = ContactActeur.find(params[:id])
     old_notes = @contact_acteur.notes
       if params[:contact_acteur][:notes]
-        old_notes = params[:contact][:notes]
+        old_notes = params[:contact_acteur][:notes]
         params[:contact_acteur][:notes] = params[:contact_acteur][:notes].encode('UTF-8', 'ISO-8859-1')
       end
     respond_to do |format|

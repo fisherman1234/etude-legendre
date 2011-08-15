@@ -49,12 +49,12 @@ class ActeursController < ApplicationController
   # POST /acteurs.xml
   def create
     @acteur = Acteur.new(params[:acteur])
-
+    
     respond_to do |format|
       if @acteur.save
         format.html { redirect_to(@acteur, :notice => 'Acteur was successfully created.') }
         format.xml  { render :xml => @acteur, :status => :created, :location => @acteur }
-        format.js { render :json => @acteur, :status => :created, :location => @acteur }
+        format.json {render :json => {"success"=>true,"data"=>@acteur}}
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @acteur.errors, :status => :unprocessable_entity }

@@ -89,11 +89,10 @@ Ext.define('TP.controller.ContactActeurs', {
                 if (typeof(panel.acteur) == 'undefined') {
                     new_acteur = Ext.ModelManager.create({
                         type_acteur_id: 2,
-                        description: formValues.new_partie,
                         dossier_id: Ext.getStore('TP.store.ContactActeurs').proxy.extraParams.dossier
-
                     },
                     'TP.model.Acteur');
+										new_acteur.set('description', 'Partie : '+formValues.new_partie);
                     Ext.getStore('TP.store.Acteurs').insert(0, new_acteur);
                     Ext.getStore('TP.store.Acteurs').sync();
                     var timer_acteur = setInterval(function() {

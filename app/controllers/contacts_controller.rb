@@ -65,7 +65,7 @@ class ContactsController < ApplicationController
     
     if params[:contact][:notes].present?
       old_notes = params[:contact][:notes]
-      params[:contact][:notes] = params[:contact][:notes].encode('UTF-8', 'ISO-8859-1')
+      @contact.notes = params[:contact][:notes].encode('UTF-8', 'ISO-8859-1')
     end    
 
     @contact.parametres_cabinet_id = current_user.parametres_cabinet_id
