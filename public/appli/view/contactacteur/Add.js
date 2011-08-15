@@ -3,7 +3,7 @@ Ext.define('TP.view.contactacteur.Add', {
     alias: 'widget.contactActeurAdd',
     id: 'contactActeurAdd',
     title: "Role dans le dossier",
-    width: 800,
+    width: 900,
     height: 400,
     layout: 'card',
     activeItem: 0,
@@ -15,26 +15,16 @@ Ext.define('TP.view.contactacteur.Add', {
     },
     // make sure the active item is set on the container config!    id: "contactacteurEdit",
     bbar: [{
-        id: 'move-prev',
-        text: 'Back',
-        handler: function(btn) {
-            var layout = btn.up("panel").getLayout();
-            layout["prev"]();
-            Ext.getCmp('move-prev').setDisabled(!layout.getPrev());
-            Ext.getCmp('move-next').setDisabled(!layout.getNext());
-        },
+        id: 'contactActeurAdd-move-prev',
+        text: 'Précédent',
+        action: 'add-contact-prev',
         disabled: true
     },
     '->', // greedy spacer so that the buttons are aligned to each side
     {
         id: 'contactActeurAdd-move-next',
         text: 'Suivant',
-				handler: function(btn) {
-            var layout = btn.up("panel").getLayout();
-            layout["next"]();
-            Ext.getCmp('move-prev').setDisabled(!layout.getPrev());
-            Ext.getCmp('move-next').setDisabled(!layout.getNext());
-        }
+        action: 'add-contact-next'
 
     }],
     items: [{

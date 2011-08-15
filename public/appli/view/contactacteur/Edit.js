@@ -14,11 +14,19 @@ Ext.define('TP.view.contactacteur.Edit', {
 								layout: 'anchor',
 
                 items: [{
-                    xtype: 'textfield',
-                    fieldLabel: 'Qualité procédurale',
-                    name: 'qualite_procedurale_id',
-                    anchor: '100%'
-                },
+						        xtype: 'combo',
+						        fieldLabel: 'Qualité procédurale',
+						        anchor: '100%',
+						        name: 'qualite_procedurale_id',
+						        store: 'TP.store.QualiteProcedurales',
+						        displayField: 'description',
+						        valueField: 'id',
+						        hiddenName: 'qualite_procedurale_id',
+						        queryMode: 'local',
+						        forceSelection: true,
+						        allowBlank: false
+
+						    },
                 {
                     xtype: 'textfield',
                     fieldLabel: 'Références correspondance',
@@ -32,7 +40,7 @@ Ext.define('TP.view.contactacteur.Edit', {
                     anchor: '100%'
                 },
                 {
-                    xtype: 'textfield',
+                    xtype: 'htmleditor',
                     fieldLabel: 'Notes',
                     name: 'notes',
                     anchor: '100%'
@@ -41,7 +49,9 @@ Ext.define('TP.view.contactacteur.Edit', {
         }];
         this.buttons = [{
             text: 'Enregistrer',
-            action: 'save'
+            action: 'save',
+						icon: "/images/disk.png"
+
         }];
 
         this.callParent(arguments);

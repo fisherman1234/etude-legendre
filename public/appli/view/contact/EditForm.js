@@ -18,11 +18,11 @@ Ext.define('TP.view.contact.EditForm', {
             xtype: 'combo',
             fieldLabel: "Civilité",
             anchor: '96%',
-            name: 'civilite_id',
+            name: 'civilite',
             store: 'TP.store.Civilites',
             displayField: 'description',
             valueField: 'id',
-            hiddenName: 'civilite_id',
+            hiddenName: 'civilite',
             queryMode: 'local',
             forceSelection: true,
 						allowBlank: false

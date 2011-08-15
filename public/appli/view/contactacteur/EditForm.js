@@ -32,7 +32,7 @@ Ext.define('TP.view.contactacteur.EditForm', {
         anchor: '100%'
     },
     {
-        xtype: 'textarea',
+        xtype: 'htmleditor',
         fieldLabel: 'Notes',
         name: 'notes',
         anchor: '100%'

@@ -7,7 +7,7 @@ Ext.define('TP.model.ContactActeur', {
         reader: {
             type: 'json',
             root: 'data',
-		        totalProperty: 'totalSize'
+            totalProperty: 'totalSize'
 
         },
         writer: {
@@ -15,6 +15,8 @@ Ext.define('TP.model.ContactActeur', {
             root: 'contact_acteur',
             writeAllFields: false
         }
+        
     },
+
     fields: ['id', 'qualite_procedurale_id', 'contact_id', 'acteur_id', 'institution_id', 'references', 'notes', 'montant_devis']
 });

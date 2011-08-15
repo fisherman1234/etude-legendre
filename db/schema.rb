@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110815000815) do
+ActiveRecord::Schema.define(:version => 20110815214945) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -155,7 +155,7 @@ ActiveRecord::Schema.define(:version => 20110815000815) do
   create_table "contacts", :force => true do |t|
     t.string   "nom"
     t.string   "prenom"
-    t.string   "civilite"
+    t.integer  "civilite"
     t.string   "adresse1"
     t.string   "adresse2"
     t.string   "adresse3"
@@ -167,7 +167,7 @@ ActiveRecord::Schema.define(:version => 20110815000815) do
     t.string   "portable"
     t.string   "email"
     t.string   "site_web"
-    t.string   "institution_id"
+    t.integer  "institution_id"
     t.string   "genre_adresse"
     t.string   "genre_lettre"
     t.datetime "created_at"

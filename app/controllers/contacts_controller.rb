@@ -1,3 +1,4 @@
+# encoding: utf-8
 class ContactsController < ApplicationController
   before_filter :authenticate_user!
   
@@ -57,13 +58,23 @@ class ContactsController < ApplicationController
   # POST /contacts
   # POST /contacts.xml
   def create
+    params[:contact].delete(:id)
+    
     @contact = Contact.new(params[:contact])
+    old_notes = @contact.notes
+    
+    if params[:contact][:notes].present?
+      old_notes = params[:contact][:notes]
+      params[:contact][:notes] = params[:contact][:notes].encode('UTF-8', 'ISO-8859-1')
+    end    
 
+    @contact.parametres_cabinet_id = current_user.parametres_cabinet_id
+    
     respond_to do |format|
       if @contact.save
         format.html { redirect_to(@contact, :notice => 'Contact was successfully created.') }
         format.xml  { render :xml => @contact, :status => :created, :location => @contact }
-        format.json  { render :json => { :success => true, :message => "Created Contact  #{@contact.id}", :data => @contact}}
+        format.json  { render :json => { :success => true, :message => "Created Contact  #{@contact.id}", :data => @contact.attributes.merge(:nom_complet => @contact.full_name, "notes" => old_notes)}}
         
       else
         format.html { render :action => "new" }
@@ -76,12 +87,18 @@ class ContactsController < ApplicationController
   # PUT /contacts/1.xml
   def update
     @contact = Contact.find(params[:id])
+    params[:contact].delete(:id)
+    old_notes = @contact.notes
 
+    if params[:contact][:notes].present?
+      old_notes = params[:contact][:notes]
+      params[:contact][:notes] = params[:contact][:notes].encode('UTF-8', 'ISO-8859-1')
+    end
     respond_to do |format|
       if @contact.update_attributes(params[:contact])
         format.html { redirect_to(@contact, :notice => 'Contact was successfully updated.') }
         format.xml  { head :ok }
-        format.json  { render :json => { :success => true, :message => "Updated Contact  #{@contact.id}", :data => @contact}}
+        format.json  { render :json => { :success => true, :message => "Updated Contact  #{@contact.id}", :data => @contact.attributes.merge(:nom_complet => @contact.full_name, "notes" => old_notes)}}
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @contact.errors, :status => :unprocessable_entity }
