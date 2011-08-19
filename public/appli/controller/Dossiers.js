@@ -4,7 +4,7 @@ Ext.define('TP.controller.Dossiers', {
 
     models: ['Dossier', 'TP.model.Institution', 'TP.model.User', 'TP.model.TypeExpertise', 'TP.model.TypeDecision', 'TP.model.Contact', 'TP.model.TypeEtatDossier', 'TP.model.Expense', 'TP.model.Unite', 'TP.model.Activite', 'TP.model.Expense', 'TP.model.Item', 'TP.model.Categorie', 'TP.model.Document', 'TP.model.ContactActeur', 'TP.model.Acteur', 'TP.model.TypeIntervenant', 'TP.model.TypeInstitution', 'TP.model.TypeActivite', 'TP.model.Communication'],
 
-    views: ['dossier.List', 'dossier.Edit', 'dossier.ShortList', 'dossier.Overview', 'TP.view.expense.List', 'TP.view.activite.List', 'TP.view.document.List', 'TP.view.dossier.Edit', 'TP.view.acteur.Tree', 'dossier.Contact', 'TP.view.contactacteur.Edit', 'TP.view.contact.EditLight', 'TP.view.contact.EditLight', 'TP.view.institution.EditForm'],
+    views: ['dossier.List', 'dossier.Edit', 'dossier.ShortList', 'dossier.Overview', 'TP.view.expense.List', 'TP.view.activite.List', 'TP.view.activite.Overview', 'TP.view.document.List', 'TP.view.dossier.Edit', 'TP.view.acteur.Tree', 'dossier.Contact', 'TP.view.contactacteur.Edit', 'TP.view.contact.EditLight', 'TP.view.contact.EditLight', 'TP.view.institution.EditForm'],
 
     init: function() {
         this.control({
@@ -39,7 +39,7 @@ Ext.define('TP.controller.Dossiers', {
             var formDossier = Ext.widget('dossieredit');
             formDossier.down('form').loadRecord(record);
             var expenseList = Ext.widget('expenseList');
-            var activiteList = Ext.widget('activiteList');
+            var activiteList = Ext.widget('activiteOverview');
 
             var documentList = Ext.widget('documentList');
             var viewport = Ext.widget('dossierOverview');

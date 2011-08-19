@@ -2,7 +2,7 @@ Ext.define('TP.controller.Activites', {
     extend: 'Ext.app.Controller',
     stores: ['Activites'],
     models: ['Activite'],
-    views: ['activite.List', 'activite.EditCall', 'activite.CallForm'],
+    views: ['activite.List', 'activite.EditCall', 'activite.CallForm', 'activite.Overview'],
     init: function() {
         this.control({
             'activiteList button[action=add_call]': {

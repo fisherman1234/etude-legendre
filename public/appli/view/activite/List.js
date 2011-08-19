@@ -2,7 +2,6 @@ Ext.define('TP.view.activite.List', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.activiteList',
 		id: 'activiteList',
-    title: 'Activites',
     store: 'TP.store.Activites',
 		dockedItems: [{
         xtype: 'toolbar',
