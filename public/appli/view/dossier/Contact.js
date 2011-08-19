@@ -14,6 +14,7 @@ Ext.define('TP.view.dossier.Contact', {
 				height: 300,
 				collapsible: true,
 				title: "Details",
+				resizable: true,
         layout: {
             type: 'hbox',
             align: 'stretch'

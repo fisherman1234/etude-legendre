@@ -25,8 +25,13 @@ Ext.define('TP.controller.Institutions', {
         form = win.down('form'),
         record = form.getRecord(),
         values = form.getValues();
-
-        record.set(values);
+        if (typeof(record) != 'undefined') { // this records exits, let's save it
+            record.set(values);
+        } else { //let's go for create & save !
+            institution = Ext.ModelManager.create(values, 'TP.model.Institution');
+            Ext.getStore('TP.store.Institutions').insert(0, institution);
+        }
+				Ext.getStore('TP.store.Institutions').sync();
         win.close();
     }
 });

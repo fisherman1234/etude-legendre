@@ -13,7 +13,7 @@ Ext.define('TP.view.dossier.Overview', {
     },
     {
         region: 'east',
-				title: 'Rappels',
+        title: 'Rappels',
         id: 'dossierReminders',
         collapsible: true,
         width: 200

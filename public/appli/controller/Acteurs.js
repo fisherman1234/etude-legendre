@@ -10,7 +10,8 @@ Ext.define('TP.controller.Acteurs', {
       });
     },
     loadRecord: function(grid, record) {
-			if (typeof(record.data.leaf) != 'undefined'){
+			
+			if (record.data.leaf === true){
 				contactacteur = Ext.getStore('TP.store.ContactActeurs').findRecord('id', record.data.id);
 				contactacteurEdit = Ext.getCmp("contactacteurEdit");
 				contactacteurEdit.down('form').loadRecord(contactacteur);

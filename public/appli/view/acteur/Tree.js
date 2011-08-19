@@ -46,7 +46,15 @@ Ext.define('TP.view.acteur.Tree', {
                     buttons: Ext.Msg.YESNO,
                     fn: function(id) {
                         if (id == "yes") {
-                            Ext.getStore('TP.store.Expenses').remove(rec);
+														if (rec.data.leaf === true){ // this is a contactacteur
+															record = Ext.getStore('TP.store.ContactActeurs').findRecord('id', rec.data.id);
+															Ext.getStore('TP.store.ContactActeurs').remove(record);
+															Ext.getStore('TP.store.ContactActeurs').sync();
+														}else{
+															record = Ext.getStore('TP.store.Acteurs').findRecord('id', rec.data.id);
+															Ext.getStore('TP.store.Acteurs').remove(record);
+															Ext.getStore('TP.store.Acteurs').sync();
+														}
                         }
                     },
                     icon: Ext.Msg.QUESTION

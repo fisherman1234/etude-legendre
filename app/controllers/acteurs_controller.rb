@@ -87,6 +87,8 @@ class ActeursController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(acteurs_url) }
       format.xml  { head :ok }
+      format.json {render :json => {"success"=>true,"data"=>[]}}
+      
     end
   end
   

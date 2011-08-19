@@ -35,8 +35,6 @@ Ext.define('TP.controller.ContactActeurs', {
               if (id == "yes") {
                   Ext.getStore('TP.store.ContactActeurs').remove(record);
 									Ext.getStore('TP.store.ContactActeurs').sync();
-	                button.up("window").close();
-
               }
           },
           icon: Ext.Msg.QUESTION
