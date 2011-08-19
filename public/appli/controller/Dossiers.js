@@ -1,8 +1,8 @@
 Ext.define('TP.controller.Dossiers', {
     extend: 'Ext.app.Controller',
-    stores: ['Dossiers', 'TP.store.Institutions', 'TP.store.Users', 'TP.store.TypeExpertises', 'TP.store.TypeDecisions', 'TP.store.Contacts', 'TP.store.Unites', 'TP.store.TypeEtatDossiers', 'TP.store.Activites', 'TP.store.Expenses', 'TP.store.Items', 'TP.store.Categories', 'TP.store.Documents', 'TP.store.TreeActeurs', 'TP.store.ContactActeurs', 'TP.store.Acteurs', 'TP.store.TypeIntervenants', 'TP.store.TypeInstitutions'],
+    stores: ['Dossiers', 'TP.store.Institutions', 'TP.store.Users', 'TP.store.TypeExpertises', 'TP.store.TypeDecisions', 'TP.store.Contacts', 'TP.store.Unites', 'TP.store.TypeEtatDossiers', 'TP.store.Activites', 'TP.store.Expenses', 'TP.store.Items', 'TP.store.Categories', 'TP.store.Documents', 'TP.store.TreeActeurs', 'TP.store.ContactActeurs', 'TP.store.Acteurs', 'TP.store.TypeIntervenants', 'TP.store.TypeInstitutions', 'TP.store.TypeActivites', 'TP.store.Communications'],
 
-    models: ['Dossier', 'TP.model.Institution', 'TP.model.User', 'TP.model.TypeExpertise', 'TP.model.TypeDecision', 'TP.model.Contact', 'TP.model.TypeEtatDossier', 'TP.model.Expense', 'TP.model.Unite', 'TP.model.Activite', 'TP.model.Expense', 'TP.model.Item', 'TP.model.Categorie', 'TP.model.Document', 'TP.model.ContactActeur', 'TP.model.Acteur', 'TP.model.TypeIntervenant', 'TP.model.TypeInstitution'],
+    models: ['Dossier', 'TP.model.Institution', 'TP.model.User', 'TP.model.TypeExpertise', 'TP.model.TypeDecision', 'TP.model.Contact', 'TP.model.TypeEtatDossier', 'TP.model.Expense', 'TP.model.Unite', 'TP.model.Activite', 'TP.model.Expense', 'TP.model.Item', 'TP.model.Categorie', 'TP.model.Document', 'TP.model.ContactActeur', 'TP.model.Acteur', 'TP.model.TypeIntervenant', 'TP.model.TypeInstitution', 'TP.model.TypeActivite', 'TP.model.Communication'],
 
     views: ['dossier.List', 'dossier.Edit', 'dossier.ShortList', 'dossier.Overview', 'TP.view.expense.List', 'TP.view.activite.List', 'TP.view.document.List', 'TP.view.dossier.Edit', 'TP.view.acteur.Tree', 'dossier.Contact', 'TP.view.contactacteur.Edit', 'TP.view.contact.EditLight', 'TP.view.contact.EditLight', 'TP.view.institution.EditForm'],
 
@@ -74,6 +74,11 @@ Ext.define('TP.controller.Dossiers', {
                     };
                     Ext.getStore('TP.store.Acteurs').load();
 
+                    Ext.getStore('TP.store.Communications').proxy.extraParams = {
+                        dossier: record.data.id
+                    };
+                    Ext.getStore('TP.store.Communications').load();
+
                     var acteurTree = Ext.widget('acteurTree');
                     var dossierContact = Ext.widget('dossierContact');
 
@@ -120,6 +125,16 @@ Ext.define('TP.controller.Dossiers', {
                         dossier: record.data.id
                     };
                     Ext.getStore('TP.store.Acteurs').load();
+
+                    Ext.getStore('TP.store.Acteurs').proxy.extraParams = {
+                        dossier: record.data.id
+                    };
+                    Ext.getStore('TP.store.Acteurs').load();
+
+                    Ext.getStore('TP.store.Communications').proxy.extraParams = {
+                        dossier: record.data.id
+                    };
+                    Ext.getStore('TP.store.Communications').load();
                 }
             });
 

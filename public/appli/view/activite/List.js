@@ -4,12 +4,18 @@ Ext.define('TP.view.activite.List', {
 		id: 'activiteList',
     title: 'Activites',
     store: 'TP.store.Activites',
-    dockedItems: [{
-        xtype: 'pagingtoolbar',
-        store: 'TP.store.Activites',
-        // same store GridPanel is using
-        dock: 'bottom',
-        displayInfo: true
+		dockedItems: [{
+        xtype: 'toolbar',
+        dock: 'top',
+        store: 'TP.store.Expenses',
+        displayInfo: true,
+        items: [{
+            xtype: 'button',
+            text: 'Nouvel appel',
+            icon: '/images/telephone_add.png',
+						action: 'add_call'
+        }],
+        layout: 'hbox' // The items are arranged horizontally
     }],
     selType: 'rowmodel',
     plugins: [

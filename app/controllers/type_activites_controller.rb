@@ -4,11 +4,13 @@ class TypeActivitesController < ApplicationController
   # GET /type_activites
   # GET /type_activites.xml
   def index
-    @type_activites = TypeActivite.all
+    @type_activites = current_user.parametres_cabinet.type_activites.all
 
     respond_to do |format|
       format.html {render :layout => "light"}  # index.html.erb
       format.xml  { render :xml => @type_activites }
+      format.json {render :json => {"success"=>true,"data"=>@type_activites}}
+      
     end
   end
 
@@ -27,10 +29,12 @@ class TypeActivitesController < ApplicationController
   # GET /type_activites/new.xml
   def new
     @type_activite = TypeActivite.new
-
+    @type_activite.parametres_cabinet_id = current_user.parametres_cabinet_id
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @type_activite }
+      format.json {render :json => {"success"=>true,"data"=>@type_activite}}
+      
     end
   end
 
@@ -48,6 +52,8 @@ class TypeActivitesController < ApplicationController
       if @type_activite.save
         format.html { redirect_to(@type_activite, :notice => 'Type activite was successfully created.') }
         format.xml  { render :xml => @type_activite, :status => :created, :location => @type_activite }
+        format.json {render :json => {"success"=>true,"data"=>@type_activite}}
+        
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @type_activite.errors, :status => :unprocessable_entity }
@@ -76,10 +82,13 @@ class TypeActivitesController < ApplicationController
   def destroy
     @type_activite = TypeActivite.find(params[:id])
     @type_activite.destroy
+    
 
     respond_to do |format|
       format.html { redirect_to(type_activites_url) }
       format.xml  { head :ok }
+      format.json {render :json => {"success"=>true,"data"=>[]}}
+      
     end
   end
 end

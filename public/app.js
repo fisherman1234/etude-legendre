@@ -6,7 +6,7 @@ Ext.application({
     name: 'TP',
     appFolder: 'appli',
     title: 'Cabinet Legendre',
-    controllers: ['Dossiers', 'Expenses', 'Activites', 'Documents', 'Acteurs', 'ContactActeurs', 'Contacts', 'Institutions', 'QualiteProcedurales'],
+    controllers: ['Dossiers', 'Expenses', 'Activites', 'Documents', 'Acteurs', 'ContactActeurs', 'Contacts', 'Institutions', 'QualiteProcedurales', 'Communications'],
 
     launch: function() {
         Ext.create('Ext.container.Viewport', {

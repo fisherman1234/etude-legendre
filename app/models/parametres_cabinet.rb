@@ -13,6 +13,7 @@ class ParametresCabinet < ActiveRecord::Base
   has_many :type_intervenants
   has_many :type_institutions
   has_many :qualite_procedurales
+  has_many :type_activites
   
   has_attached_file :logo,
     :storage => :s3,
