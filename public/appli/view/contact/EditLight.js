@@ -1,14 +1,13 @@
 Ext.define('TP.view.contact.EditLight', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.contactEditLight',
-
-    title: "Détails du contact",
     layout: 'fit',
     id: "contactEditLight",
     initComponent: function() {
         this.items = [{
             xtype: 'form',
             layout: 'anchor',
+						title: 'Informations contact',
             items: [{
                 xtype: 'container',
                 padding: 10,

@@ -31,6 +31,28 @@ Ext.define('TP.view.acteur.Tree', {
         text: 'Email',
         dataIndex: 'email',
         flex: 1
+    },
+		{
+        xtype: 'actioncolumn',
+        width: 30,
+        items: [{
+            icon: '/images/delete.png',
+            tooltip: 'Supprimer',
+            handler: function(grid, rowIndex, colIndex) {
+                rec = grid.getStore().getAt(rowIndex);
+                Ext.Msg.show({
+                    title: 'Supprimer cet enregistrement',
+                    msg: 'Voulez-vous supprimer cet enregistrement ?',
+                    buttons: Ext.Msg.YESNO,
+                    fn: function(id) {
+                        if (id == "yes") {
+                            Ext.getStore('TP.store.Expenses').remove(rec);
+                        }
+                    },
+                    icon: Ext.Msg.QUESTION
+                });
+            }
+        }]
     }]
 
 });

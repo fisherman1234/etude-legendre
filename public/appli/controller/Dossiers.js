@@ -25,9 +25,9 @@ Ext.define('TP.controller.Dossiers', {
             }
         });
     },
-		addContact: function(){
-			var addContact = Ext.widget('contactActeurAdd');
-		},
+    addContact: function() {
+        var addContact = Ext.widget('contactActeurAdd');
+    },
     editDossier: function(grid, record) {
         var main_window = Ext.getCmp('centerArea');
         //main_window.removeAll();
@@ -42,8 +42,9 @@ Ext.define('TP.controller.Dossiers', {
             var activiteList = Ext.widget('activiteList');
 
             var documentList = Ext.widget('documentList');
-            var view = Ext.widget('dossierOverview');
-            main_window.add(view);
+            var viewport = Ext.widget('dossierOverview');
+            main_window.add(viewport);
+            var view = Ext.getCmp('dossierCenter');
             Ext.getStore('TP.store.Activites').proxy.extraParams = {
                 dossier: record.data.id
             };

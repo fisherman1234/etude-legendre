@@ -2,17 +2,17 @@ Ext.define('TP.view.contactacteur.Edit', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.contactacteurEdit',
 
-    title: "Role dans le dossier",
     layout: 'fit',
     id: "contactacteurEdit",
     initComponent: function() {
         this.items = [{
             xtype: 'form',
+						title: 'Role dans le dossier',
+
             items: [{
                 xtype: 'container',
                 padding: 10,
 								layout: 'anchor',
-
                 items: [{
 						        xtype: 'combo',
 						        fieldLabel: 'Qualité procédurale',
@@ -51,6 +51,12 @@ Ext.define('TP.view.contactacteur.Edit', {
             text: 'Enregistrer',
             action: 'save',
 						icon: "/images/disk.png"
+
+        },
+				{
+            text: 'Supprimer',
+            action: 'delete',
+						icon: "/images/delete.png"
 
         }];
 

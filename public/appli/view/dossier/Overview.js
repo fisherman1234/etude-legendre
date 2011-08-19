@@ -1,8 +1,22 @@
-Ext.define('TP.view.dossier.Overview' ,{
-    extend: 'Ext.tab.Panel',
-    alias : 'widget.dossierOverview',
+Ext.define('TP.view.dossier.Overview', {
+    extend: 'Ext.panel.Panel',
+    layout: 'border',
+    alias: 'widget.dossierOverview',
     border: false,
-		deferredRender: false,
-    items: [],
-		id: "overviewPan"
+    deferredRender: false,
+    items: [{
+        region: 'center',
+        id: 'dossierCenter',
+        xtype: 'tabpanel',
+        items: []
+
+    },
+    {
+        region: 'east',
+				title: 'Rappels',
+        id: 'dossierReminders',
+        collapsible: true,
+        width: 200
+    }],
+    id: "overviewPan"
 });

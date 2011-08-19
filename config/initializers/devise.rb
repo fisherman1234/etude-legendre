@@ -29,7 +29,7 @@ Devise.setup do |config|
   # config.http_authenticatable = true
 
   # Set this to true to use Basic Auth for AJAX requests.  True by default.
-  # config.http_authenticatable_on_xhr = true
+  config.http_authenticatable_on_xhr = true
 
   # The realm used in Http Basic Authentication
   # config.http_authentication_realm = "Application"
@@ -139,4 +139,23 @@ Devise.setup do |config|
   #   end
   #   manager.default_strategies(:scope => :user).unshift :twitter_oauth
   # end
+end
+
+module Devise
+  class FailureApp
+    def respond          
+          if http_auth? && request.env["HTTP_USEXBASIC"]!="true"
+            http_auth
+          elsif http_auth? && request.env["HTTP_USEXBASIC"]=="true"
+            self.status = 401
+            self.headers["WWW-Authenticate"] = "XBasic"
+            self.content_type = request.format.to_s
+            self.response_body = http_auth_body
+          elsif warden_options[:recall]
+            recall
+          else
+            redirect
+          end
+        end
+  end
 end

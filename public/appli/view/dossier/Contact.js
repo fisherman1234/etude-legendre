@@ -3,18 +3,17 @@ Ext.define('TP.view.dossier.Contact', {
     alias: 'widget.dossierContact',
     id: "dossierContact",
     title: "Contacts",
-    layout: {
-        type: 'vbox',
-        align: 'stretch'
-    },
+		layout: 'border',
     items: [{
-        xtype: 'acteurTree',
-        flex: 2
+				region: 'center',
+        xtype: 'acteurTree'
     },
     {
         xtype: 'panel',
-        width: '100%',
-        flex: 2,
+				region: 'south',
+				height: 300,
+				collapsible: true,
+				title: "Details",
         layout: {
             type: 'hbox',
             align: 'stretch'

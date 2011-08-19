@@ -16,9 +16,32 @@ Ext.define('TP.controller.ContactActeurs', {
             },
             'contactacteurEdit button[action=save]': {
                 click: this.saveForm
+            },
+						'contactacteurEdit button[action=delete]': {
+                click: this.deleteContactActeur
             }
+
         });
     },
+		deleteContactActeur: function(button){
+			var win = button.up('panel');
+      form = win.down('form');
+      record = form.getRecord();
+			Ext.Msg.show({
+          title: 'Supprimer cet enregistrement',
+          msg: "Voulez-vous supprimer définitivement l'association entre ce contact et ce dossier ?",
+          buttons: Ext.Msg.YESNO,
+          fn: function(id) {
+              if (id == "yes") {
+                  Ext.getStore('TP.store.ContactActeurs').remove(record);
+									Ext.getStore('TP.store.ContactActeurs').sync();
+	                button.up("window").close();
+
+              }
+          },
+          icon: Ext.Msg.QUESTION
+      });
+		},
 		saveForm: function(button){
 			var win = button.up('panel');
       form = win.down('form');

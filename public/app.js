@@ -62,3 +62,14 @@ Ext.application({
 
     }
 });
+
+Ext.Ajax.defaultHeaders = {
+    'UseXBasic': true
+};
+
+Ext.Ajax.on('requestexception', function(conn, response, options, e) {
+    // show login window
+    if (response.status == 401) {
+				window.location = '/login';
+    }
+});
