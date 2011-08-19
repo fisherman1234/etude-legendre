@@ -1,18 +1,7 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
+ * @class Ext.draw.Surface
+ * @extends Object
+ *
  * A Surface is an interface to render methods inside a draw {@link Ext.draw.Component}.
  * A Surface contains methods to render sprites, get bounding boxes of sprites, add
  * sprites to the canvas, initialize other graphic components, etc. One of the most used
@@ -34,7 +23,7 @@ If you are unsure which license is appropriate for your use, please contact the 
  * The configuration object passed in the `add` method is the same as described in the {@link Ext.draw.Sprite}
  * class documentation.
  *
- * # Listeners
+ * ### Listeners
  *
  * You can also add event listeners to the surface using the `Observable` listener syntax. Supported events are:
  *
@@ -55,82 +44,73 @@ If you are unsure which license is appropriate for your use, please contact the 
  *         }
  *     });
  *
- * # Example
+ * ## Example
  *
- *     var drawComponent = Ext.create('Ext.draw.Component', {
- *         width: 800,
- *         height: 600,
- *         renderTo: document.body
- *     }), surface = drawComponent.surface;
- *   
- *     surface.add([{
- *         type: 'circle',
- *         radius: 10,
- *         fill: '#f00',
- *         x: 10,
- *         y: 10,
- *         group: 'circles'
- *     }, {
- *         type: 'circle',
- *         radius: 10,
- *         fill: '#0f0',
- *         x: 50,
- *         y: 50,
- *         group: 'circles'
- *     }, {
- *         type: 'circle',
- *         radius: 10,
- *         fill: '#00f',
- *         x: 100,
- *         y: 100,
- *         group: 'circles'
- *     }, {
- *         type: 'rect',
- *         width: 20,
- *         height: 20,
- *         fill: '#f00',
- *         x: 10,
- *         y: 10,
- *         group: 'rectangles'
- *     }, {
- *         type: 'rect',
- *         width: 20,
- *         height: 20,
- *         fill: '#0f0',
- *         x: 50,
- *         y: 50,
- *         group: 'rectangles'
- *     }, {
- *         type: 'rect',
- *         width: 20,
- *         height: 20,
- *         fill: '#00f',
- *         x: 100,
- *         y: 100,
- *         group: 'rectangles'
- *     }]);
- *   
+ *     drawComponent.surface.add([
+ *         {
+ *             type: 'circle',
+ *             radius: 10,
+ *             fill: '#f00',
+ *             x: 10,
+ *             y: 10,
+ *             group: 'circles'
+ *         },
+ *         {
+ *             type: 'circle',
+ *             radius: 10,
+ *             fill: '#0f0',
+ *             x: 50,
+ *             y: 50,
+ *             group: 'circles'
+ *         },
+ *         {
+ *             type: 'circle',
+ *             radius: 10,
+ *             fill: '#00f',
+ *             x: 100,
+ *             y: 100,
+ *             group: 'circles'
+ *         },
+ *         {
+ *             type: 'rect',
+ *             radius: 10,
+ *             x: 10,
+ *             y: 10,
+ *             group: 'rectangles'
+ *         },
+ *         {
+ *             type: 'rect',
+ *             radius: 10,
+ *             x: 50,
+ *             y: 50,
+ *             group: 'rectangles'
+ *         },
+ *         {
+ *             type: 'rect',
+ *             radius: 10,
+ *             x: 100,
+ *             y: 100,
+ *             group: 'rectangles'
+ *         }
+ *     ]);
+ *     
  *     // Get references to my groups
- *     circles = surface.getGroup('circles');
- *     rectangles = surface.getGroup('rectangles');
- *
+ *     my circles = surface.getGroup('circles');
+ *     my rectangles = surface.getGroup('rectangles');
+ *     
  *     // Animate the circles down
  *     circles.animate({
  *         duration: 1000,
- *         to: {
- *             translate: {
- *                 y: 200
- *             }
+ *         translate: {
+ *             y: 200
  *         }
  *     });
- *   
+ *     
  *     // Animate the rectangles across
  *     rectangles.animate({
  *         duration: 1000,
- *         to: {
- *             translate: {
- *                 x: 200
- *             }
+ *         translate: {
+ *             x: 200
  *         }
  *     });
  */
@@ -149,12 +129,11 @@ Ext.define('Ext.draw.Surface', {
 
     statics: {
         /**
-         * Creates and returns a new concrete Surface instance appropriate for the current environment.
+         * Create and return a new concrete Surface instance appropriate for the current environment.
          * @param {Object} config Initial configuration for the Surface instance
-         * @param {[String]} enginePriority Optional order of implementations to use; the first one that is
-         * available in the current environment will be used. Defaults to `['Svg', 'Vml']`.
-         * @return {Object} The created Surface or false.
-         * @static
+         * @param {Array} enginePriority Optional order of implementations to use; the first one that is
+         *                available in the current environment will be used. Defaults to
+         *                <code>['Svg', 'Vml']</code>.
          */
         create: function(config, enginePriority) {
             enginePriority = enginePriority || ['Svg', 'Vml'];
@@ -217,27 +196,22 @@ Ext.define('Ext.draw.Surface', {
         zIndex: 0
     },
 
-    /**
-     * @cfg {Number} height
-     * The height of this component in pixels (defaults to auto).
-     * **Note** to express this dimension as a percentage or offset see {@link Ext.Component#anchor}.
-     */
-    /**
-     * @cfg {Number} width
-     * The width of this component in pixels (defaults to auto).
-     * **Note** to express this dimension as a percentage or offset see {@link Ext.Component#anchor}.
-     */
-
+ /**
+  * @cfg {Number} height
+  * The height of this component in pixels (defaults to auto).
+  * <b>Note</b> to express this dimension as a percentage or offset see {@link Ext.Component#anchor}.
+  */
+ /**
+  * @cfg {Number} width
+  * The width of this component in pixels (defaults to auto).
+  * <b>Note</b> to express this dimension as a percentage or offset see {@link Ext.Component#anchor}.
+  */
     container: undefined,
     height: 352,
     width: 512,
     x: 0,
     y: 0,
 
-    /**
-     * Creates new Surface.
-     * @param {Object} config (optional) Config object.
-     */
     constructor: function(config) {
         var me = this;
         config = config || {};
@@ -289,10 +263,10 @@ Ext.define('Ext.draw.Surface', {
      *
      * For example:
      *
-     *     drawComponent.surface.addCls(sprite, 'x-visible');
-     *
+     *          drawComponent.surface.addCls(sprite, 'x-visible');
+     *      
      * @param {Object} sprite The sprite to add the class to.
-     * @param {String/[String]} className The CSS class to add, or an array of classes
+     * @param {String/Array} className The CSS class to add, or an array of classes
      * @method
      */
     addCls: Ext.emptyFn,
@@ -302,10 +276,10 @@ Ext.define('Ext.draw.Surface', {
      *
      * For example:
      *
-     *     drawComponent.surface.removeCls(sprite, 'x-visible');
-     *
+     *      drawComponent.surface.removeCls(sprite, 'x-visible');
+     *      
      * @param {Object} sprite The sprite to remove the class from.
-     * @param {String/[String]} className The CSS class to remove, or an array of classes
+     * @param {String/Array} className The CSS class to remove, or an array of classes
      * @method
      */
     removeCls: Ext.emptyFn,
@@ -315,10 +289,10 @@ Ext.define('Ext.draw.Surface', {
      *
      * For example:
      *
-     *     drawComponent.surface.setStyle(sprite, {
-     *         'cursor': 'pointer'
-     *     });
-     *
+     *      drawComponent.surface.setStyle(sprite, {
+     *          'cursor': 'pointer'
+     *      });
+     *      
      * @param {Object} sprite The sprite to add, or an array of classes to
      * @param {Object} styles An Object with CSS styles.
      * @method
@@ -389,7 +363,7 @@ Ext.define('Ext.draw.Surface', {
      *
      * For example:
      *
-     *     drawComponent.surface.setSize(500, 500);
+     *      drawComponent.surface.setSize(500, 500);
      *
      * This method is generally called when also setting the size of the draw Component.
      * 
@@ -464,7 +438,7 @@ Ext.define('Ext.draw.Surface', {
     onMouseLeave: Ext.emptyFn,
 
     /**
-     * Adds a gradient definition to the Surface. Note that in some surface engines, adding
+     * Add a gradient definition to the Surface. Note that in some surface engines, adding
      * a gradient via this method will not take effect if the surface has already been rendered.
      * Therefore, it is preferred to pass the gradients as an item to the surface config, rather
      * than calling this method, especially if the surface is rendered immediately (e.g. due to
@@ -473,32 +447,32 @@ Ext.define('Ext.draw.Surface', {
      *
      * The gradient object to be passed into this method is composed by:
      * 
-     * - **id** - string - The unique name of the gradient.
-     * - **angle** - number, optional - The angle of the gradient in degrees.
-     * - **stops** - object - An object with numbers as keys (from 0 to 100) and style objects as values.
+     * 
+     *  - **id** - string - The unique name of the gradient.
+     *  - **angle** - number, optional - The angle of the gradient in degrees.
+     *  - **stops** - object - An object with numbers as keys (from 0 to 100) and style objects as values.
+     * 
      *
-     * For example:
-     *
-     *    drawComponent.surface.addGradient({
-     *        id: 'gradientId',
-     *        angle: 45,
-     *        stops: {
-     *            0: {
-     *                color: '#555'
-     *            },
-     *            100: {
-     *                color: '#ddd'
-     *            }
-     *        }
-     *    });
+     For example:
+                drawComponent.surface.addGradient({
+                    id: 'gradientId',
+                    angle: 45,
+                    stops: {
+                        0: {
+                            color: '#555'
+                        },
+                        100: {
+                            color: '#ddd'
+                        }
+                    }
+                });
      *
      * @method
      */
     addGradient: Ext.emptyFn,
 
     /**
-     * Adds a Sprite to the surface. See {@link Ext.draw.Sprite} for the configuration object to be
-     * passed into this method.
+     * Add a Sprite to the surface. See {@link Ext.draw.Sprite} for the configuration object to be passed into this method.
      *
      * For example:
      *
@@ -510,7 +484,7 @@ Ext.define('Ext.draw.Surface', {
      *         y: 100
      *     });
      *
-     */
+    */
     add: function() {
         var args = Array.prototype.slice.call(arguments),
             sprite,
@@ -538,7 +512,7 @@ Ext.define('Ext.draw.Surface', {
 
     /**
      * @private
-     * Inserts or moves a given sprite into the correct position in the items
+     * Insert or move a given sprite into the correct position in the items
      * MixedCollection, according to its zIndex. Will be inserted at the end of
      * an existing series of sprites with the same or lower zIndex. If the sprite
      * is already positioned within an appropriate zIndex group, it will not be moved.
@@ -585,15 +559,15 @@ Ext.define('Ext.draw.Surface', {
     },
 
     /**
-     * Removes a given sprite from the surface, optionally destroying the sprite in the process.
+     * Remove a given sprite from the surface, optionally destroying the sprite in the process.
      * You can also call the sprite own `remove` method.
      *
      * For example:
      *
-     *     drawComponent.surface.remove(sprite);
-     *     //or...
-     *     sprite.remove();
-     *
+     *      drawComponent.surface.remove(sprite);
+     *      //or...
+     *      sprite.remove();
+     *      
      * @param {Ext.draw.Sprite} sprite
      * @param {Boolean} destroySprite
      * @return {Number} the sprite's new index in the list
@@ -612,12 +586,12 @@ Ext.define('Ext.draw.Surface', {
     },
 
     /**
-     * Removes all sprites from the surface, optionally destroying the sprites in the process.
+     * Remove all sprites from the surface, optionally destroying the sprites in the process.
      *
      * For example:
      *
-     *     drawComponent.surface.removeAll();
-     *
+     *      drawComponent.surface.removeAll();
+     *      
      * @param {Boolean} destroySprites Whether to destroy all sprites when removing them.
      * @return {Number} The sprite's new index in the list.
      */
@@ -785,8 +759,8 @@ Ext.define('Ext.draw.Surface', {
      *
      * For example:
      *
-     *     var spriteGroup = drawComponent.surface.getGroup('someGroupId');
-     *
+     *      var spriteGroup = drawComponent.surface.getGroup('someGroupId');
+     *      
      * @param {String} id The unique identifier of the group.
      * @return {Object} The {@link Ext.draw.CompositeSprite}.
      */
@@ -826,8 +800,8 @@ Ext.define('Ext.draw.Surface', {
      *
      * For example:
      *
-     *     var spriteGroup = drawComponent.surface.setText(sprite, 'my new text');
-     *
+     *      var spriteGroup = drawComponent.surface.setText(sprite, 'my new text');
+     *      
      * @param {Object} sprite The Sprite to change the text.
      * @param {String} text The new text to be set.
      * @method

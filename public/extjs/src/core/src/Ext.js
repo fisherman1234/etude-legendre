@@ -1,17 +1,3 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext
  * @singleton
@@ -19,7 +5,7 @@ If you are unsure which license is appropriate for your use, please contact the 
 (function() {
     var global = this,
         objectPrototype = Object.prototype,
-        toString = objectPrototype.toString,
+        toString = Object.prototype.toString,
         enumerables = true,
         enumerablesTest = { toString: 1 },
         i;
@@ -94,6 +80,7 @@ If you are unsure which license is appropriate for your use, please contact the 
 
         /**
          * Copies all the properties of config to object if they don't already exist.
+         * @function
          * @param {Object} object The receiver of the properties
          * @param {Object} config The source of the properties
          * @return {Object} returns obj
@@ -387,8 +374,7 @@ If you are unsure which license is appropriate for your use, please contact the 
          */
         isObject: (toString.call(null) === '[object Object]') ?
         function(value) {
-            // check ownerDocument here as well to exclude DOM nodes
-            return value !== null && value !== undefined && toString.call(value) === '[object Object]' && value.ownerDocument === undefined;
+            return value !== null && value !== undefined && toString.call(value) === '[object Object]' && value.nodeType === undefined;
         } :
         function(value) {
             return toString.call(value) === '[object Object]';
@@ -562,7 +548,7 @@ If you are unsure which license is appropriate for your use, please contact the 
                 var i = 0;
 
                 do {
-                    uniqueGlobalNamespace = 'ExtBox' + (++i);
+                    uniqueGlobalNamespace = 'ExtSandbox' + (++i);
                 } while (Ext.global[uniqueGlobalNamespace] !== undefined);
 
                 Ext.global[uniqueGlobalNamespace] = Ext;
@@ -591,9 +577,7 @@ If you are unsure which license is appropriate for your use, please contact the 
      * Old alias to {@link Ext#typeOf}
      * @deprecated 4.0.0 Use {@link Ext#typeOf} instead
      * @method
-     * @alias Ext#typeOf
      */
     Ext.type = Ext.typeOf;
 
 })();
-

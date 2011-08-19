@@ -1,17 +1,3 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext.selection.CheckboxModel
  * @extends Ext.selection.RowModel
@@ -165,12 +151,10 @@ Ext.define('Ext.selection.CheckboxModel', {
      * Synchronize header checker value as selection changes.
      * @private
      */
-    onSelectChange: function() {
-        this.callParent(arguments);
-
+    onSelectChange: function(record, isSelected) {
+        this.callParent([record, isSelected]);
         // check to see if all records are selected
         var hdSelectStatus = this.selected.getCount() === this.store.getCount();
         this.toggleUiHeader(hdSelectStatus);
     }
 });
-

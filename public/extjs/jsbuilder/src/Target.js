@@ -82,8 +82,7 @@ Target = Ext.extend(Object, {
                                 "this.Ext = {};",
                             "}",
                             "",
-                            "Ext.buildSettings = " + JSON.stringify(settings) + ";",
-                            "Ext.isSandboxed = true;"
+                            "Ext.buildSettings = " + JSON.stringify(settings) + ";"
                            ].join("\n");
             }
 

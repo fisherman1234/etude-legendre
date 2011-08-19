@@ -1,17 +1,3 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @author Jacky Nguyen <jacky@sencha.com>
  * @docauthor Jacky Nguyen <jacky@sencha.com>
@@ -219,8 +205,7 @@ If you are unsure which license is appropriate for your use, please contact the 
     }
 
     /**
-     * @method constructor
-     * Creates new class.
+     * @constructor
      * @param {Object} classData An object represent the properties of this class
      * @param {Function} createdFn Optional, the callback function to be executed when this class is fully created.
      * Note that the creation process can be asynchronous depending on the pre-processors used.
@@ -424,26 +409,13 @@ If you are unsure which license is appropriate for your use, please contact the 
             index = Ext.Array.indexOf(defaultPreprocessors, relativeName);
 
             if (index !== -1) {
-                Ext.Array.splice(defaultPreprocessors, Math.max(0, index + offset), 0, name);
+                defaultPreprocessors.splice(Math.max(0, index + offset), 0, name);
             }
 
             return this;
         }
     });
 
-    /**
-     * @cfg {String} extend
-     * The parent class that this class extends. For example:
-     *
-     *     Ext.define('Person', {
-     *         say: function(text) { alert(text); }
-     *     });
-     *
-     *     Ext.define('Developer', {
-     *         extend: 'Person',
-     *         say: function(text) { this.callParent(["print "+text]); }
-     *     });
-     */
     Class.registerPreprocessor('extend', function(cls, data) {
         var extend = data.extend,
             base = Ext.Base,
@@ -510,23 +482,6 @@ If you are unsure which license is appropriate for your use, please contact the 
 
     }, true);
 
-    /**
-     * @cfg {Object} statics
-     * List of static methods for this class. For example:
-     *
-     *     Ext.define('Computer', {
-     *          statics: {
-     *              factory: function(brand) {
-     *                  // 'this' in static methods refer to the class itself
-     *                  return new this(brand);
-     *              }
-     *          },
-     *
-     *          constructor: function() { ... }
-     *     });
-     *
-     *     var dellComputer = Computer.factory('Dell');
-     */
     Class.registerPreprocessor('statics', function(cls, data) {
         var statics = data.statics,
             name;
@@ -540,11 +495,6 @@ If you are unsure which license is appropriate for your use, please contact the 
         delete data.statics;
     });
 
-    /**
-     * @cfg {Object} inheritableStatics
-     * List of inheritable static methods for this class.
-     * Otherwise just like {@link #statics} but subclasses inherit these methods.
-     */
     Class.registerPreprocessor('inheritableStatics', function(cls, data) {
         var statics = data.inheritableStatics,
             inheritableStatics,
@@ -567,56 +517,12 @@ If you are unsure which license is appropriate for your use, please contact the 
         delete data.inheritableStatics;
     });
 
-    /**
-     * @cfg {Object} mixins
-     * List of classes to mix into this class. For example:
-     *
-     *     Ext.define('CanSing', {
-     *          sing: function() {
-     *              alert("I'm on the highway to hell...")
-     *          }
-     *     });
-     *
-     *     Ext.define('Musician', {
-     *          extend: 'Person',
-     *
-     *          mixins: {
-     *              canSing: 'CanSing'
-     *          }
-     *     })
-     */
     Class.registerPreprocessor('mixins', function(cls, data) {
         cls.mixin(data.mixins);
 
         delete data.mixins;
     });
 
-    /**
-     * @cfg {Object} config
-     * List of configuration options with their default values, for which automatically
-     * accessor methods are generated.  For example:
-     *
-     *     Ext.define('SmartPhone', {
-     *          config: {
-     *              hasTouchScreen: false,
-     *              operatingSystem: 'Other',
-     *              price: 500
-     *          },
-     *          constructor: function(cfg) {
-     *              this.initConfig(cfg);
-     *          }
-     *     });
-     *
-     *     var iPhone = new SmartPhone({
-     *          hasTouchScreen: true,
-     *          operatingSystem: 'iOS'
-     *     });
-     *
-     *     iPhone.getPrice(); // 500;
-     *     iPhone.getOperatingSystem(); // 'iOS'
-     *     iPhone.getHasTouchScreen(); // true;
-     *     iPhone.hasTouchScreen(); // true
-     */
     Class.registerPreprocessor('config', function(cls, data) {
         var prototype = cls.prototype;
 
@@ -694,4 +600,3 @@ If you are unsure which license is appropriate for your use, please contact the 
     };
 
 })();
-

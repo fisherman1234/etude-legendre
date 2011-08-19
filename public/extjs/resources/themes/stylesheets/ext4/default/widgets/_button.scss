@@ -67,25 +67,13 @@
     
     .#{$prefix}btn-disabled span {
         @include opacity(.5);
-
-        .#{$prefix}ie6 &,
-        .#{$prefix}ie7 & {
-            filter:none;
-        }
     }
     
-    //remove the opacity rule of IE8
-    .#{$prefix}ie7 .#{$prefix}btn-disabled,
-    .#{$prefix}ie8 .#{$prefix}btn-disabled {
-        filter:none;
-    }
-
+    //remove the opacity rule of IE6.
     .#{$prefix}ie6 .#{$prefix}btn-disabled,
-    .#{$prefix}ie7 .#{$prefix}btn-disabled,
-    .#{$prefix}ie8 .#{$prefix}btn-disabled {
-        .#{$prefix}btn-icon {
-            @include opacity(.6);
-        }
+    .#{$prefix}ie6 .#{$prefix}btn-disabled span,
+    .#{$prefix}ie7 .#{$prefix}btn-disabled span {
+        filter:none;
     }
     
     @if $include-ie {
@@ -121,31 +109,16 @@
         }    
     }
 
-    .#{$prefix}btn-icon-text-left .#{$prefix}btn-icon {
-        background-position: left center;
-    }
-
-    .#{$prefix}btn-icon-text-right .#{$prefix}btn-icon {
+    .#{$prefix}btn-icon-text-right .#{$prefix}btn-inner {
         background-position: right center;
     }
 
-    .#{$prefix}btn-icon-text-top .#{$prefix}btn-icon {
+    .#{$prefix}btn-icon-text-top .#{$prefix}btn-inner {
         background-position: center top;
     }
 
-    .#{$prefix}btn-icon-text-bottom .#{$prefix}btn-icon {
+    .#{$prefix}btn-icon-text-bottom .#{$prefix}btn-inner {
         background-position: center bottom;
-    }
-
-    .#{$prefix}btn {
-        button, a {
-            position: relative;
-
-            .#{$prefix}btn-icon {
-                position: absolute;
-                background-repeat: no-repeat;
-            }
-        }
     }
   
     .#{$prefix}btn-arrow-right {
@@ -167,7 +140,7 @@
     }
 
     .#{$prefix}btn-arrow {
-        @include theme-background-image($theme-name, 'button/arrow.gif');    
+        background-image: theme-image($theme-name, 'button/arrow.gif');    
         display: block;
     }
 
@@ -175,25 +148,23 @@
     //split buttons
     .#{$prefix}btn-split-right,
     .#{$prefix}btn-over .#{$prefix}btn-split-right {
-        background: transparent no-repeat right center;
-        @include theme-background-image($theme-name, 'button/s-arrow.gif');
+        background: transparent theme-image($theme-name, 'button/s-arrow.gif') no-repeat right center;
         padding-right: $button-split-size !important;
     }
   
     .#{$prefix}btn-split-bottom,
     .#{$prefix}btn-over .#{$prefix}btn-split-bottom {
-        background: transparent no-repeat center bottom;
-        @include theme-background-image($theme-name, 'button/s-arrow-b.gif');
+        background: transparent theme-image($theme-name, 'button/s-arrow-b.gif') no-repeat center bottom;
         padding-bottom: $button-split-size;
     }
     
     .#{$prefix}toolbar .#{$prefix}btn-split-right {
-        @include theme-background-image($theme-name, 'button/s-arrow-noline.gif');
+        background-image: theme-image($theme-name, 'button/s-arrow-noline.gif');
         padding-right: $button-toolbar-split-size !important;
     }
     
     .#{$prefix}toolbar .#{$prefix}btn-split-bottom {
-        @include theme-background-image($theme-name, 'button/s-arrow-b-noline.gif');
+        background-image: theme-image($theme-name, 'button/s-arrow-b-noline.gif');
     }
   
     .#{$prefix}btn-split {
@@ -209,8 +180,8 @@
         text-align: inherit;
     }
 
-    .#{$prefix}btn-over .#{$prefix}btn-split-right { @include theme-background-image($theme-name, 'button/s-arrow-o.gif'); }
-    .#{$prefix}btn-over .#{$prefix}btn-split-bottom { @include theme-background-image($theme-name, 'button/s-arrow-bo.gif'); }
+    .#{$prefix}btn-over .#{$prefix}btn-split-right { background-image: theme-image($theme-name, 'button/s-arrow-o.gif'); }
+    .#{$prefix}btn-over .#{$prefix}btn-split-bottom { background-image: theme-image($theme-name, 'button/s-arrow-bo.gif'); }
     
     @include extjs-button-ui(
         /* UI + Scale */
@@ -627,19 +598,9 @@
 
     //icons
     .#{$prefix}btn-#{$ui}-icon {
-        button {
+        .#{$prefix}btn-inner {
             padding: 0;
             width: $icon-size !important;
-            height: $icon-size;
-        }
-
-        .#{$prefix}btn-icon {
-            width: $icon-size;
-            height: $icon-size;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
         }
     }
     
@@ -652,20 +613,6 @@
             line-height: $icon-size;
             padding-left: $icon-size + 4px;
         }
-
-        .#{$prefix}btn-icon {
-            width: $icon-size;
-            height: auto;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: auto;
-
-            .#{$prefix}ie6 &,
-            .#{$prefix}quirks & {
-                height: $icon-size;
-            }
-        }
     }
 
     .#{$prefix}btn-#{$ui}-icon-text-right {
@@ -677,59 +624,17 @@
             line-height: $icon-size;
             padding-right: $icon-size + 4px !important;
         }
-
-        .#{$prefix}btn-icon {
-            width: $icon-size;
-            height: auto;
-            top: 0;
-            left: auto;
-            bottom: 0;
-            right: 0;
-
-            .#{$prefix}ie6 &,
-            .#{$prefix}quirks & {
-                height: $icon-size;
-            }
-        }
     }
     
     .#{$prefix}btn-#{$ui}-icon-text-top {
         .#{$prefix}btn-inner {
             padding-top: $icon-size + 4px;
         }
-
-        .#{$prefix}btn-icon {
-            width: auto;
-            height: $icon-size;
-            top: 0;
-            left: 0;
-            bottom: auto;
-            right: 0;
-
-            .#{$prefix}ie6 &,
-            .#{$prefix}quirks & {
-                width: $icon-size;
-            }
-        }
     }
     
     .#{$prefix}btn-#{$ui}-icon-text-bottom {
         .#{$prefix}btn-inner {
             padding-bottom: $icon-size + 4px;
-        }
-
-        .#{$prefix}btn-icon {
-            width: auto;
-            height: $icon-size;
-            top: auto;
-            left: 0;
-            bottom: 0;
-            right: 0;
-
-            .#{$prefix}ie6 &,
-            .#{$prefix}quirks & {
-                width: $icon-size;
-            }
         }
     }
     
@@ -738,7 +643,12 @@
             border-color: $border-color-over;
         }
         @if $background-color-over != null {
-            @include background-gradient($background-color-over, $background-gradient-over);
+            @if $background-gradient-over != $background-gradient {
+                @include background-gradient($background-color-over, $background-gradient-over);
+            }
+            @else if $background-color-over != $background-color {
+                background-color: $background-color-over;
+            }
         }
 
         .#{$prefix}btn-inner {
@@ -762,7 +672,12 @@
             border-color: $border-color-focus;
         }
         @if $background-color-focus != null {
-            @include background-gradient($background-color-focus, $background-gradient-focus);
+            @if $background-gradient-focus != $background-gradient {
+                @include background-gradient($background-color-focus, $background-gradient-focus);
+            }
+            @else if $background-color-focus != $background-color {
+                background-color: $background-color-focus;
+            }
         }
 
         .#{$prefix}btn-inner {
@@ -787,7 +702,12 @@
             border-color: $border-color-pressed;
         }
         @if $background-color-pressed != null {
-            @include background-gradient($background-color-pressed, $background-gradient-pressed);
+            @if $background-gradient-pressed != $background-gradient {
+                @include background-gradient($background-color-pressed, $background-gradient-pressed);
+            }
+            @else if $background-color-pressed != $background-color {
+                background-color: $background-color-pressed;
+            }
         }
 
         .#{$prefix}btn-inner {
@@ -811,7 +731,12 @@
             border-color: $border-color-disabled;
         }
         @if $background-color-disabled != null {
-            @include background-gradient($background-color-disabled, $background-gradient-disabled);
+            @if $background-gradient-disabled != $background-gradient {
+                @include background-gradient($background-color-disabled, $background-gradient-disabled);
+            }
+            @else if $background-color-disabled != $background-color {
+                background-color: $background-color-disabled;
+            }
         }
 
         .#{$prefix}btn-inner {
@@ -855,16 +780,16 @@
                 .#{$prefix}frame-br,
                 .#{$prefix}frame-tc,
                 .#{$prefix}frame-bc {
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-over-corners.gif');
+                    background-image: theme-image($theme-name, 'btn/btn-#{$ui}-over-corners.gif');
                 }
                 .#{$prefix}frame-ml,
                 .#{$prefix}frame-mr {
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-over-sides.gif');
+                    background-image: theme-image($theme-name, 'btn/btn-#{$ui}-over-sides.gif');
                 }
                 .#{$prefix}frame-mc {
                     background-color: $background-color-over;
-                    @if $background-gradient-over != null {
-                        @include theme-background-image($theme-name, 'btn/btn-#{$ui}-over-bg.gif');
+                    @if $background-gradient-over {
+                        background-image: theme-image($theme-name, 'btn/btn-#{$ui}-over-bg.gif');
                     }
                 }
             }
@@ -876,16 +801,16 @@
                 .#{$prefix}frame-br,
                 .#{$prefix}frame-tc,
                 .#{$prefix}frame-bc {
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-focus-corners.gif');
+                    background-image: theme-image($theme-name, 'btn/btn-#{$ui}-focus-corners.gif');
                 }
                 .#{$prefix}frame-ml,
                 .#{$prefix}frame-mr {
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-focus-sides.gif');
+                    background-image: theme-image($theme-name, 'btn/btn-#{$ui}-focus-sides.gif');
                 }
                 .#{$prefix}frame-mc {
                     background-color: $background-color-focus;
-                    @if $background-gradient-focus != null {
-                        @include theme-background-image($theme-name, 'btn/btn-#{$ui}-focus-bg.gif');
+                    @if $background-gradient-focus {
+                        background-image: theme-image($theme-name, 'btn/btn-#{$ui}-focus-bg.gif');
                     }
                 }
             }
@@ -898,16 +823,16 @@
                 .#{$prefix}frame-br,
                 .#{$prefix}frame-tc,
                 .#{$prefix}frame-bc {
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-pressed-corners.gif');
+                    background-image: theme-image($theme-name, 'btn/btn-#{$ui}-pressed-corners.gif');
                 }
                 .#{$prefix}frame-ml,
                 .#{$prefix}frame-mr {
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-pressed-sides.gif');
+                    background-image: theme-image($theme-name, 'btn/btn-#{$ui}-pressed-sides.gif');
                 }
                 .#{$prefix}frame-mc {
                     background-color: $background-color-pressed;
-                    @if $background-gradient-pressed != null {
-                        @include theme-background-image($theme-name, 'btn/btn-#{$ui}-pressed-bg.gif');
+                    @if $background-gradient-pressed {
+                        background-image: theme-image($theme-name, 'btn/btn-#{$ui}-pressed-bg.gif');
                     }
                 }
             }
@@ -919,16 +844,16 @@
                 .#{$prefix}frame-br,
                 .#{$prefix}frame-tc,
                 .#{$prefix}frame-bc {
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-disabled-corners.gif');
+                    background-image: theme-image($theme-name, 'btn/btn-#{$ui}-disabled-corners.gif');
                 }
                 .#{$prefix}frame-ml,
                 .#{$prefix}frame-mr {
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-disabled-sides.gif');
+                    background-image: theme-image($theme-name, 'btn/btn-#{$ui}-disabled-sides.gif');
                 }
                 .#{$prefix}frame-mc {
                     background-color: $background-color-disabled;
-                    @if $background-gradient-disabled != null {
-                        @include theme-background-image($theme-name, 'btn/btn-#{$ui}-disabled-bg.gif');
+                    @if $background-gradient-disabled {
+                        background-image: theme-image($theme-name, 'btn/btn-#{$ui}-disabled-bg.gif');
                     }
                 }  
             }
@@ -940,7 +865,7 @@
             .#{$prefix}nlg { 
                 .#{$prefix}btn-#{$ui} {
                     background-repeat: repeat-x;
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-bg.gif');
+                    background-image: theme-image($theme-name, 'btn/btn-#{$ui}-bg.gif');
                 }
             }
         }
@@ -949,7 +874,7 @@
             .#{$prefix}nlg { 
                 .#{$prefix}btn-#{$ui}-over {
                     background-repeat: repeat-x;
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-over-bg.gif');
+                    background-image: theme-image($theme-name, 'btn/btn-#{$ui}-over-bg.gif');
                 }
             }
         }
@@ -958,7 +883,7 @@
             .#{$prefix}nlg { 
                 .#{$prefix}btn-#{$ui}-focus {
                     background-repeat: repeat-x;
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-focus-bg.gif');
+                    background-image: theme-image($theme-name, 'btn/btn-#{$ui}-focus-bg.gif');
                 }
             }
         }
@@ -968,7 +893,7 @@
                 .#{$prefix}btn-#{$ui}-menu-active,
                 .#{$prefix}btn-#{$ui}-pressed {
                     background-repeat: repeat-x;
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-pressed-bg.gif');
+                    background-image: theme-image($theme-name, 'btn/btn-#{$ui}-pressed-bg.gif');
                 }
             }
         }
@@ -977,7 +902,7 @@
             .#{$prefix}nlg {
                 .#{$prefix}btn-#{$ui}-disabled {
                     background-repeat: repeat-x;
-                    @include theme-background-image($theme-name, 'btn/btn-#{$ui}-disabled-bg.gif');
+                    background-image: theme-image($theme-name, 'btn/btn-#{$ui}-disabled-bg.gif');
                 }
             }
         }

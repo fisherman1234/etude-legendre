@@ -1,22 +1,10 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext.panel.Table
  * @extends Ext.panel.Panel
+ * @xtype tablepanel
+ * @private
  * @author Nicolas Ferrero
- * TablePanel is the basis of both TreePanel and GridPanel.
+ * TablePanel is a private class and the basis of both TreePanel and GridPanel.
  *
  * TablePanel aggregates:
  *
@@ -85,14 +73,8 @@ Ext.define('Ext.panel.Table', {
      */
 
     /**
-     * @cfg {Boolean} deferRowRender <P>Defaults to <code>true</code> to enable deferred row rendering.</p>
-     * <p>This allows the GridView to execute a refresh quickly, with the expensive update of the row
-     * structure deferred so that layouts with GridPanels appear, and lay out more quickly.</p>
-     */
-
-    /**
      * @cfg {Boolean} sortableColumns
-     * Defaults to <code>true</code>. Set to <code>false</code> to disable column sorting via clicking the
+     * Defaults to true. Set to false to disable column sorting via clicking the
      * header and via the Sorting menu items.
      */
     sortableColumns: true,
@@ -108,24 +90,10 @@ Ext.define('Ext.panel.Table', {
     scrollerOwner: true,
 
     invalidateScrollerOnRefresh: true,
-
-    /**
-     * @cfg {Boolean} enableColumnMove
-     * Defaults to <code>true</code>. Set to <code>false</code> to disable column dragging within this grid.
-     */
+    
     enableColumnMove: true,
-
-    /**
-     * @cfg {Boolean} enableColumnResize
-     * Defaults to <code>true</code>. Set to <code>false</code> to disable column resizing within this grid.
-     */
     enableColumnResize: true,
 
-    /**
-     * @cfg {Boolean} enableColumnHide
-     * Defaults to <code>true</code>. Set to <code>false</code> to disable column hiding within this grid.
-     */
-    enableColumnHide: true,
 
     initComponent: function() {
         //<debug>
@@ -149,6 +117,11 @@ Ext.define('Ext.panel.Table', {
             view,
             border = me.border;
 
+        // Set our determinScrollbars method to reference a buffered call to determinScrollbars which fires on a 30ms buffer.
+        me.determineScrollbars = Ext.Function.createBuffered(me.determineScrollbars, 30);
+        me.invalidateScroller = Ext.Function.createBuffered(me.invalidateScroller, 30);
+        me.injectView = Ext.Function.createBuffered(me.injectView, 30);
+
         if (me.hideHeaders) {
             border = false;
         }
@@ -171,7 +144,6 @@ Ext.define('Ext.panel.Table', {
                 sortable: me.sortableColumns,
                 enableColumnMove: me.enableColumnMove,
                 enableColumnResize: me.enableColumnResize,
-                enableColumnHide: me.enableColumnHide,
                 border:  border
             });
             me.columns = headerCtCfg.items;
@@ -186,12 +158,6 @@ Ext.define('Ext.panel.Table', {
 
         me.store = Ext.data.StoreManager.lookup(me.store);
         me.addEvents(
-            /**
-             * @event reconfigure
-             * Fires after a reconfigure
-             * @param {Ext.panel.Table} this
-             */
-            'reconfigure',
             /**
              * @event scrollerhide
              * Fires when a scroller is hidden
@@ -254,7 +220,13 @@ Ext.define('Ext.panel.Table', {
             }
 
             if (vertical) {
-                me.verticalScroller = Ext.ComponentManager.create(me.initVerticalScroller());
+                me.verticalScroller = me.verticalScroller || {};
+                Ext.applyIf(me.verticalScroller, {
+                    dock: me.verticalScrollDock,
+                    xtype: me.verticalScrollerType,
+                    store: me.store
+                });
+                me.verticalScroller = Ext.ComponentManager.create(me.verticalScroller);
                 me.mon(me.verticalScroller, {
                     bodyscroll: me.onVerticalScroll,
                     scope: me
@@ -262,7 +234,12 @@ Ext.define('Ext.panel.Table', {
             }
 
             if (horizontal) {
-                me.horizontalScroller = Ext.ComponentManager.create(me.initHorizontalScroller());
+                me.horizontalScroller = Ext.ComponentManager.create({
+                    xtype: 'gridscroller',
+                    section: me,
+                    dock: 'bottom',
+                    store: me.store
+                });
                 me.mon(me.horizontalScroller, {
                     bodyscroll: me.onHorizontalScroll,
                     scope: me
@@ -281,280 +258,271 @@ Ext.define('Ext.panel.Table', {
             // getView converts viewConfig into a View instance
             view = me.getView();
 
-            view.on({
-                afterrender: function () {
-                    // hijack the view el's scroll method
-                    view.el.scroll = Ext.Function.bind(me.elScroll, me);
-                    // We use to listen to document.body wheel events, but that's a
-                    // little much. We scope just to the view now.
-                    me.mon(view.el, {
-                        mousewheel: me.onMouseWheel,
-                        scope: me
-                    });
-                },
-                single: true
-            });
-            this.items = [view];
+            if (view) {
+                me.mon(view.store, {
+                    load: me.onStoreLoad,
+                    scope: me
+                });
+                me.mon(view, {
+                    refresh: {
+                        fn: this.onViewRefresh,
+                        scope: me,
+                        buffer: 50
+                    },
+                    itemupdate: me.onViewItemUpdate,
+                    scope: me
+                });
+                this.relayEvents(view, [
+                    /**
+                     * @event beforeitemmousedown
+                     * Fires before the mousedown event on an item is processed. Returns false to cancel the default action.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.data.Model} record The record that belongs to the item
+                     * @param {HTMLElement} item The item's element
+                     * @param {Number} index The item's index
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'beforeitemmousedown',
+                    /**
+                     * @event beforeitemmouseup
+                     * Fires before the mouseup event on an item is processed. Returns false to cancel the default action.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.data.Model} record The record that belongs to the item
+                     * @param {HTMLElement} item The item's element
+                     * @param {Number} index The item's index
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'beforeitemmouseup',
+                    /**
+                     * @event beforeitemmouseenter
+                     * Fires before the mouseenter event on an item is processed. Returns false to cancel the default action.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.data.Model} record The record that belongs to the item
+                     * @param {HTMLElement} item The item's element
+                     * @param {Number} index The item's index
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'beforeitemmouseenter',
+                    /**
+                     * @event beforeitemmouseleave
+                     * Fires before the mouseleave event on an item is processed. Returns false to cancel the default action.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.data.Model} record The record that belongs to the item
+                     * @param {HTMLElement} item The item's element
+                     * @param {Number} index The item's index
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'beforeitemmouseleave',
+                    /**
+                     * @event beforeitemclick
+                     * Fires before the click event on an item is processed. Returns false to cancel the default action.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.data.Model} record The record that belongs to the item
+                     * @param {HTMLElement} item The item's element
+                     * @param {Number} index The item's index
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'beforeitemclick',
+                    /**
+                     * @event beforeitemdblclick
+                     * Fires before the dblclick event on an item is processed. Returns false to cancel the default action.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.data.Model} record The record that belongs to the item
+                     * @param {HTMLElement} item The item's element
+                     * @param {Number} index The item's index
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'beforeitemdblclick',
+                    /**
+                     * @event beforeitemcontextmenu
+                     * Fires before the contextmenu event on an item is processed. Returns false to cancel the default action.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.data.Model} record The record that belongs to the item
+                     * @param {HTMLElement} item The item's element
+                     * @param {Number} index The item's index
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'beforeitemcontextmenu',
+                    /**
+                     * @event itemmousedown
+                     * Fires when there is a mouse down on an item
+                     * @param {Ext.view.View} this
+                     * @param {Ext.data.Model} record The record that belongs to the item
+                     * @param {HTMLElement} item The item's element
+                     * @param {Number} index The item's index
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'itemmousedown',
+                    /**
+                     * @event itemmouseup
+                     * Fires when there is a mouse up on an item
+                     * @param {Ext.view.View} this
+                     * @param {Ext.data.Model} record The record that belongs to the item
+                     * @param {HTMLElement} item The item's element
+                     * @param {Number} index The item's index
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'itemmouseup',
+                    /**
+                     * @event itemmouseenter
+                     * Fires when the mouse enters an item.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.data.Model} record The record that belongs to the item
+                     * @param {HTMLElement} item The item's element
+                     * @param {Number} index The item's index
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'itemmouseenter',
+                    /**
+                     * @event itemmouseleave
+                     * Fires when the mouse leaves an item.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.data.Model} record The record that belongs to the item
+                     * @param {HTMLElement} item The item's element
+                     * @param {Number} index The item's index
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'itemmouseleave',
+                    /**
+                     * @event itemclick
+                     * Fires when an item is clicked.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.data.Model} record The record that belongs to the item
+                     * @param {HTMLElement} item The item's element
+                     * @param {Number} index The item's index
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'itemclick',
+                    /**
+                     * @event itemdblclick
+                     * Fires when an item is double clicked.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.data.Model} record The record that belongs to the item
+                     * @param {HTMLElement} item The item's element
+                     * @param {Number} index The item's index
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'itemdblclick',
+                    /**
+                     * @event itemcontextmenu
+                     * Fires when an item is right clicked.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.data.Model} record The record that belongs to the item
+                     * @param {HTMLElement} item The item's element
+                     * @param {Number} index The item's index
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'itemcontextmenu',
+                    /**
+                     * @event beforecontainermousedown
+                     * Fires before the mousedown event on the container is processed. Returns false to cancel the default action.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'beforecontainermousedown',
+                    /**
+                     * @event beforecontainermouseup
+                     * Fires before the mouseup event on the container is processed. Returns false to cancel the default action.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'beforecontainermouseup',
+                    /**
+                     * @event beforecontainermouseover
+                     * Fires before the mouseover event on the container is processed. Returns false to cancel the default action.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'beforecontainermouseover',
+                    /**
+                     * @event beforecontainermouseout
+                     * Fires before the mouseout event on the container is processed. Returns false to cancel the default action.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'beforecontainermouseout',
+                    /**
+                     * @event beforecontainerclick
+                     * Fires before the click event on the container is processed. Returns false to cancel the default action.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'beforecontainerclick',
+                    /**
+                     * @event beforecontainerdblclick
+                     * Fires before the dblclick event on the container is processed. Returns false to cancel the default action.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'beforecontainerdblclick',
+                    /**
+                     * @event beforecontainercontextmenu
+                     * Fires before the contextmenu event on the container is processed. Returns false to cancel the default action.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'beforecontainercontextmenu',
+                    /**
+                     * @event containermouseup
+                     * Fires when there is a mouse up on the container
+                     * @param {Ext.view.View} this
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'containermouseup',
+                    /**
+                     * @event containermouseover
+                     * Fires when you move the mouse over the container.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'containermouseover',
+                    /**
+                     * @event containermouseout
+                     * Fires when you move the mouse out of the container.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'containermouseout',
+                    /**
+                     * @event containerclick
+                     * Fires when the container is clicked.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'containerclick',
+                    /**
+                     * @event containerdblclick
+                     * Fires when the container is double clicked.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'containerdblclick',
+                    /**
+                     * @event containercontextmenu
+                     * Fires when the container is right clicked.
+                     * @param {Ext.view.View} this
+                     * @param {Ext.EventObject} e The raw event object
+                     */
+                    'containercontextmenu',
 
-            me.mon(view.store, {
-                load: me.onStoreLoad,
-                scope: me
-            });
-            me.mon(view, {
-                refresh: me.onViewRefresh,
-                scope: me
-            });
-            this.relayEvents(view, [
-                /**
-                 * @event beforeitemmousedown
-                 * Fires before the mousedown event on an item is processed. Returns false to cancel the default action.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.data.Model} record The record that belongs to the item
-                 * @param {HTMLElement} item The item's element
-                 * @param {Number} index The item's index
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'beforeitemmousedown',
-                /**
-                 * @event beforeitemmouseup
-                 * Fires before the mouseup event on an item is processed. Returns false to cancel the default action.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.data.Model} record The record that belongs to the item
-                 * @param {HTMLElement} item The item's element
-                 * @param {Number} index The item's index
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'beforeitemmouseup',
-                /**
-                 * @event beforeitemmouseenter
-                 * Fires before the mouseenter event on an item is processed. Returns false to cancel the default action.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.data.Model} record The record that belongs to the item
-                 * @param {HTMLElement} item The item's element
-                 * @param {Number} index The item's index
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'beforeitemmouseenter',
-                /**
-                 * @event beforeitemmouseleave
-                 * Fires before the mouseleave event on an item is processed. Returns false to cancel the default action.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.data.Model} record The record that belongs to the item
-                 * @param {HTMLElement} item The item's element
-                 * @param {Number} index The item's index
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'beforeitemmouseleave',
-                /**
-                 * @event beforeitemclick
-                 * Fires before the click event on an item is processed. Returns false to cancel the default action.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.data.Model} record The record that belongs to the item
-                 * @param {HTMLElement} item The item's element
-                 * @param {Number} index The item's index
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'beforeitemclick',
-                /**
-                 * @event beforeitemdblclick
-                 * Fires before the dblclick event on an item is processed. Returns false to cancel the default action.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.data.Model} record The record that belongs to the item
-                 * @param {HTMLElement} item The item's element
-                 * @param {Number} index The item's index
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'beforeitemdblclick',
-                /**
-                 * @event beforeitemcontextmenu
-                 * Fires before the contextmenu event on an item is processed. Returns false to cancel the default action.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.data.Model} record The record that belongs to the item
-                 * @param {HTMLElement} item The item's element
-                 * @param {Number} index The item's index
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'beforeitemcontextmenu',
-                /**
-                 * @event itemmousedown
-                 * Fires when there is a mouse down on an item
-                 * @param {Ext.view.View} this
-                 * @param {Ext.data.Model} record The record that belongs to the item
-                 * @param {HTMLElement} item The item's element
-                 * @param {Number} index The item's index
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'itemmousedown',
-                /**
-                 * @event itemmouseup
-                 * Fires when there is a mouse up on an item
-                 * @param {Ext.view.View} this
-                 * @param {Ext.data.Model} record The record that belongs to the item
-                 * @param {HTMLElement} item The item's element
-                 * @param {Number} index The item's index
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'itemmouseup',
-                /**
-                 * @event itemmouseenter
-                 * Fires when the mouse enters an item.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.data.Model} record The record that belongs to the item
-                 * @param {HTMLElement} item The item's element
-                 * @param {Number} index The item's index
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'itemmouseenter',
-                /**
-                 * @event itemmouseleave
-                 * Fires when the mouse leaves an item.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.data.Model} record The record that belongs to the item
-                 * @param {HTMLElement} item The item's element
-                 * @param {Number} index The item's index
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'itemmouseleave',
-                /**
-                 * @event itemclick
-                 * Fires when an item is clicked.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.data.Model} record The record that belongs to the item
-                 * @param {HTMLElement} item The item's element
-                 * @param {Number} index The item's index
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'itemclick',
-                /**
-                 * @event itemdblclick
-                 * Fires when an item is double clicked.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.data.Model} record The record that belongs to the item
-                 * @param {HTMLElement} item The item's element
-                 * @param {Number} index The item's index
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'itemdblclick',
-                /**
-                 * @event itemcontextmenu
-                 * Fires when an item is right clicked.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.data.Model} record The record that belongs to the item
-                 * @param {HTMLElement} item The item's element
-                 * @param {Number} index The item's index
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'itemcontextmenu',
-                /**
-                 * @event beforecontainermousedown
-                 * Fires before the mousedown event on the container is processed. Returns false to cancel the default action.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'beforecontainermousedown',
-                /**
-                 * @event beforecontainermouseup
-                 * Fires before the mouseup event on the container is processed. Returns false to cancel the default action.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'beforecontainermouseup',
-                /**
-                 * @event beforecontainermouseover
-                 * Fires before the mouseover event on the container is processed. Returns false to cancel the default action.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'beforecontainermouseover',
-                /**
-                 * @event beforecontainermouseout
-                 * Fires before the mouseout event on the container is processed. Returns false to cancel the default action.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'beforecontainermouseout',
-                /**
-                 * @event beforecontainerclick
-                 * Fires before the click event on the container is processed. Returns false to cancel the default action.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'beforecontainerclick',
-                /**
-                 * @event beforecontainerdblclick
-                 * Fires before the dblclick event on the container is processed. Returns false to cancel the default action.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'beforecontainerdblclick',
-                /**
-                 * @event beforecontainercontextmenu
-                 * Fires before the contextmenu event on the container is processed. Returns false to cancel the default action.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'beforecontainercontextmenu',
-                /**
-                 * @event containermouseup
-                 * Fires when there is a mouse up on the container
-                 * @param {Ext.view.View} this
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'containermouseup',
-                /**
-                 * @event containermouseover
-                 * Fires when you move the mouse over the container.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'containermouseover',
-                /**
-                 * @event containermouseout
-                 * Fires when you move the mouse out of the container.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'containermouseout',
-                /**
-                 * @event containerclick
-                 * Fires when the container is clicked.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'containerclick',
-                /**
-                 * @event containerdblclick
-                 * Fires when the container is double clicked.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'containerdblclick',
-                /**
-                 * @event containercontextmenu
-                 * Fires when the container is right clicked.
-                 * @param {Ext.view.View} this
-                 * @param {Ext.EventObject} e The raw event object
-                 */
-                'containercontextmenu',
-
-                /**
-                 * @event selectionchange
-                 * Fires when the selected nodes change. Relayed event from the underlying selection model.
-                 * @param {Ext.view.View} this
-                 * @param {Array} selections Array of the selected nodes
-                 */
-                'selectionchange',
-                /**
-                 * @event beforeselect
-                 * Fires before a selection is made. If any handlers return false, the selection is cancelled.
-                 * @param {Ext.view.View} this
-                 * @param {HTMLElement} node The node to be selected
-                 * @param {Array} selections Array of currently selected nodes
-                 */
-                'beforeselect'
-            ]);
+                    /**
+                     * @event selectionchange
+                     * Fires when the selected nodes change. Relayed event from the underlying selection model.
+                     * @param {Ext.view.View} this
+                     * @param {Array} selections Array of the selected nodes
+                     */
+                    'selectionchange',
+                    /**
+                     * @event beforeselect
+                     * Fires before a selection is made. If any handlers return false, the selection is cancelled.
+                     * @param {Ext.view.View} this
+                     * @param {HTMLElement} node The node to be selected
+                     * @param {Array} selections Array of currently selected nodes
+                     */
+                    'beforeselect'
+                ]);
+            }
         }
-
         me.callParent(arguments);
     },
 
@@ -570,71 +538,20 @@ Ext.define('Ext.panel.Table', {
         this.callParent();
     },
 
-    /**
-     * Returns the horizontal scroller config.
-     */
-    initHorizontalScroller: function () {
-        var me = this,
-            ret = {
-                xtype: 'gridscroller',
-                dock: 'bottom',
-                section: me,
-                store: me.store
-            };
-
-        return ret;
-    },
-
-    /**
-     * Returns the vertical scroller config.
-     */
-    initVerticalScroller: function () {
-        var me = this,
-            ret = me.verticalScroller || {};
-
-        Ext.applyIf(ret, {
-            xtype: me.verticalScrollerType,
-            dock: me.verticalScrollDock,
-            store: me.store
-        });
-
-        return ret;
-    },
-
     getState: function(){
-        var state = this.callParent(),
-            sorter = this.store.sorters.first(),
-            headers = this.headerCt.items.items,
-            header,
-            len = headers.length,
-            i = 0;
+        var state = {
+            columns: []
+        },
+        sorter = this.store.sorters.first();
 
-        state.columns = [];
-        for (; i < len; i++) {
-            header = headers[i];
-            state.columns[i] = {
-                id: header.headerId
-            };
-
-            // We only store state which has changed from the initial state.
-            // So that current software settings do not override future software settings.
-            // Only user-changed state should be saved.
-            if (header.hidden !== (header.initialConfig.hidden||header.self.prototype.hidden)) {
-                state.columns[i].hidden = header.hidden;
-            }
-            if (header.sortable !== header.initialConfig.sortable) {
-                state.columns[i].sortable = header.sortable;
-            }
-            if (header.flex) {
-                if (header.flex !== header.initialConfig.flex) {
-                    state.columns[i].flex = header.flex;
-                }
-            } else {
-                if (header.width !== header.initialConfig.width) {
-                    state.columns[i].width = header.width;
-                }
-            }
-        }
+        this.headerCt.items.each(function(header){
+            state.columns.push({
+                id: header.headerId,
+                width: header.flex ? undefined : header.width,
+                hidden: header.hidden,
+                sortable: header.sortable
+            });
+        });
 
         if (sorter) {
             state.sort = {
@@ -657,12 +574,6 @@ Ext.define('Ext.panel.Table', {
             headerState,
             header;
 
-        headerCt.suspendLayout = true;
-
-        // Ensure superclass has applied *its* state.
-        // AbstractComponent saves dimensions (and anchor/flex) plus collapsed state.
-        this.callParent(arguments);
-
         for (; i < length; ++i) {
             headerState = headers[i];
             header = headerCt.down('gridcolumn[headerId=' + headerState.id + ']');
@@ -670,32 +581,17 @@ Ext.define('Ext.panel.Table', {
             if (i !== index) {
                 headerCt.moveHeader(index, i);
             }
-
-            // Only state properties which were saved should be restored.
-            // (Only user-changed properties were saved by getState)
-            if (Ext.isDefined(headerState.hidden)) {
-                header.hidden = headerState.hidden;
-            }
-            if (Ext.isDefined(headerState.sortable)) {
-                header.sortable = headerState.sortable;
-            }
-            if (Ext.isDefined(headerState.flex)) {
-                delete header.width;
-                header.flex = headerState.flex;
-            } else if (Ext.isDefined(headerState.width)) {
+            header.sortable = headerState.sortable;
+            if (Ext.isDefined(headerState.width)) {
                 delete header.flex;
-                header.minWidth = headerState.width;
                 if (header.rendered) {
                     header.setWidth(headerState.width);
                 } else {
-                    header.width = headerState.width;
+                    header.minWidth = header.width = headerState.width;
                 }
             }
+            header.hidden = headerState.hidden;
         }
-        headerCt.suspendLayout = false;
-
-        // After setting width and flexes while layout is suspended, column Container's Container layout needs running.
-        headerCt.doLayout();
 
         if (sorter) {
             if (store.remoteSort) {
@@ -729,7 +625,6 @@ Ext.define('Ext.panel.Table', {
         if (!me.view) {
             sm = me.getSelectionModel();
             me.view = me.createComponent(Ext.apply({}, me.viewConfig, {
-                deferRowRender: me.deferRowRender,
                 xtype: me.viewType,
                 store: me.store,
                 headerCt: me.headerCt,
@@ -774,6 +669,43 @@ Ext.define('Ext.panel.Table', {
             scroller.scrollByDeltaX(distance);
         }
     },
+    
+    afterLayout: function() {
+        this.callParent(arguments);
+        this.injectView();
+    },
+    
+
+    /**
+     * @private
+     * Called after this Component has achieved its correct initial size, after all layouts have done their thing.
+     * This is so we can add the View only after the initial size is known. This method is buffered 30ms.
+     */
+    injectView: function() {
+        if (!this.hasView && !this.collapsed) {
+            var me   = this,
+                view = me.getView();
+
+            me.hasView = true;
+            me.add(view);
+
+            // hijack the view el's scroll method
+            view.el.scroll = Ext.Function.bind(me.elScroll, me);
+            // We use to listen to document.body wheel events, but that's a
+            // little much. We scope just to the view now.
+            me.mon(view.el, {
+                mousewheel: me.onMouseWheel,
+                scope: me
+            });
+        }
+    },
+
+    afterExpand: function() {
+        this.callParent(arguments);
+        if (!this.hasView) {
+            this.injectView();
+        }
+    },
 
     /**
      * @private
@@ -800,128 +732,54 @@ Ext.define('Ext.panel.Table', {
      */
     determineScrollbars: function() {
         var me = this,
-            box,
-            tableEl,
-            scrollWidth,
-            clientWidth,
+            viewElDom,
+            centerScrollWidth,
+            centerClientWidth,
             scrollHeight,
-            clientHeight,
-            verticalScroller = me.verticalScroller,
-            horizontalScroller = me.horizontalScroller,
-            curScrollbars = (verticalScroller   && verticalScroller.ownerCt === me ? 1 : 0) |
-                            (horizontalScroller && horizontalScroller.ownerCt === me ? 2 : 0),
-            reqScrollbars = 0; // 1 = vertical, 2 = horizontal, 3 = both
+            clientHeight;
 
-        // If we are not collapsed, and the view has been rendered AND filled, then we can determine scrollbars
-        if (!me.collapsed && me.view && me.view.el && me.view.el.dom.firstChild) {
-
-            // Calculate maximum, *scrollbarless* space which the view has available.
-            // It will be the Fit Layout's calculated size, plus the widths of any currently shown scrollbars
-            box = me.layout.getLayoutTargetSize();
-            clientWidth  = box.width  + ((curScrollbars & 1) ? verticalScroller.width : 0);
-            clientHeight = box.height + ((curScrollbars & 2) ? horizontalScroller.height : 0);
-
-            // Calculate the width of the scrolling block
-            // There will never be a horizontal scrollbar if all columns are flexed.
-
-            scrollWidth = (me.headerCt.query('[flex]').length && !me.headerCt.layout.tooNarrow) ? 0 : me.headerCt.getFullWidth();
-
-            // Calculate the height of the scrolling block
-            if (verticalScroller && verticalScroller.el) {
-                scrollHeight = verticalScroller.getSizeCalculation().height;
+        if (!me.collapsed && me.view && me.view.el) {
+            viewElDom = me.view.el.dom;
+            //centerScrollWidth = viewElDom.scrollWidth;
+            centerScrollWidth = me.headerCt.getFullWidth();
+            /**
+             * clientWidth often returns 0 in IE resulting in an
+             * infinity result, here we use offsetWidth bc there are
+             * no possible scrollbars and we don't care about margins
+             */
+            centerClientWidth = viewElDom.offsetWidth;
+            if (me.verticalScroller && me.verticalScroller.el) {
+                scrollHeight = me.verticalScroller.getSizeCalculation().height;
             } else {
-                tableEl = me.view.el.child('table', true);
-                scrollHeight = tableEl ? tableEl.offsetHeight : 0;
+                scrollHeight = viewElDom.scrollHeight;
             }
 
-            // View is too high.
-            // Definitely need a vertical scrollbar
-            if (scrollHeight > clientHeight) {
-                reqScrollbars = 1;
+            clientHeight = viewElDom.clientHeight;
 
-                // But if scrollable block width goes into the zone required by the vertical scrollbar, we'll also need a horizontal
-                if (horizontalScroller && ((clientWidth - scrollWidth) < verticalScroller.width)) {
-                    reqScrollbars = 3;
-                }
+            me.suspendLayout = true;
+            me.scrollbarChanged = false;
+            if (!me.collapsed && scrollHeight > clientHeight) {
+                me.showVerticalScroller();
+            } else {
+                me.hideVerticalScroller();
             }
 
-            // View height fits. But we stil may need a horizontal scrollbar, and this might necessitate a vertical one.
-            else {
-                // View is too wide.
-                // Definitely need a horizontal scrollbar
-                if (scrollWidth > clientWidth) {
-                    reqScrollbars = 2;
-
-                    // But if scrollable block height goes into the zone required by the horizontal scrollbar, we'll also need a vertical
-                    if (verticalScroller && ((clientHeight - scrollHeight) < horizontalScroller.height)) {
-                        reqScrollbars = 3;
-                    }
-                }
+            if (!me.collapsed && centerScrollWidth > (centerClientWidth + Ext.getScrollBarWidth() - 2)) {
+                me.showHorizontalScroller();
+            } else {
+                me.hideHorizontalScroller();
             }
-
-            // If scrollbar requirements have changed, change 'em...
-            if (reqScrollbars !== curScrollbars) {
-
-                // Suspend component layout while we add/remove the docked scrollers
-                me.suspendLayout = true;
-                if (reqScrollbars & 1) {
-                    me.showVerticalScroller();
-                } else {
-                    me.hideVerticalScroller();
-                }
-                if (reqScrollbars & 2) {
-                    me.showHorizontalScroller();
-                } else {
-                    me.hideHorizontalScroller();
-                }
-                me.suspendLayout = false;
-
-                // After docked scrollers are correctly configured, lay out the Component.
-                // Set a flag so that afterComponentLayout does not recurse back into here.
-                me.changingScrollBars = true;
-                me.doComponentLayout(me.getWidth(), me.getHeight(), false, me.ownerCt);
-                me.changingScrollBars = false;
+            me.suspendLayout = false;
+            if (me.scrollbarChanged) {
+                me.doComponentLayout();
             }
         }
-    },
-
-    afterComponentLayout: function() {
-        var me = this;
-        me.callParent(arguments);
-
-        // Avoid recursion
-        if (!me.changingScrollBars) {
-            me.determineScrollbars();
-        }
-        me.invalidateScroller();
     },
 
     onHeaderResize: function() {
         if (this.view && this.view.rendered) {
             this.determineScrollbars();
             this.invalidateScroller();
-        }
-    },
-
-    afterCollapse: function() {
-        var me = this;
-        if (me.verticalScroller) {
-            me.verticalScroller.saveScrollPos();
-        }
-        if (me.horizontalScroller) {
-            me.horizontalScroller.saveScrollPos();
-        }
-        me.callParent(arguments);
-    },
-
-    afterExpand: function() {
-        var me = this;
-        me.callParent(arguments);
-        if (me.verticalScroller) {
-            me.verticalScroller.restoreScrollPos();
-        }
-        if (me.horizontalScroller) {
-            me.horizontalScroller.restoreScrollPos();
         }
     },
 
@@ -932,7 +790,8 @@ Ext.define('Ext.panel.Table', {
         var me = this;
 
         if (me.horizontalScroller && me.horizontalScroller.ownerCt === me) {
-            me.verticalScroller.setReservedSpace(0);
+            me.scrollbarChanged = true;
+            me.verticalScroller.offsets.bottom = 0;
             me.removeDocked(me.horizontalScroller, false);
             me.removeCls(me.horizontalScrollerPresentCls);
             me.fireEvent('scrollerhide', me.horizontalScroller, 'horizontal');
@@ -947,9 +806,10 @@ Ext.define('Ext.panel.Table', {
         var me = this;
 
         if (me.verticalScroller) {
-            me.verticalScroller.setReservedSpace(Ext.getScrollbarSize().height - 1);
+            me.verticalScroller.offsets.bottom = Ext.getScrollBarWidth() - 2;
         }
         if (me.horizontalScroller && me.horizontalScroller.ownerCt !== me) {
+            me.scrollbarChanged = true;
             me.addDocked(me.horizontalScroller);
             me.addCls(me.horizontalScrollerPresentCls);
             me.fireEvent('scrollershow', me.horizontalScroller, 'horizontal');
@@ -960,10 +820,16 @@ Ext.define('Ext.panel.Table', {
      * Hide the verticalScroller and remove the verticalScrollerPresentCls.
      */
     hideVerticalScroller: function() {
-        var me = this;
+        var me = this,
+            headerCt = me.headerCt;
 
-        me.setHeaderReserveOffset(false);
+        // only trigger a layout when reserveOffset is changing
+        if (headerCt && headerCt.layout.reserveOffset) {
+            headerCt.layout.reserveOffset = false;
+            headerCt.doLayout();
+        }
         if (me.verticalScroller && me.verticalScroller.ownerCt === me) {
+            me.scrollbarChanged = true;
             me.removeDocked(me.verticalScroller, false);
             me.removeCls(me.verticalScrollerPresentCls);
             me.fireEvent('scrollerhide', me.verticalScroller, 'vertical');
@@ -974,24 +840,19 @@ Ext.define('Ext.panel.Table', {
      * Show the verticalScroller and add the verticalScrollerPresentCls.
      */
     showVerticalScroller: function() {
-        var me = this;
+        var me = this,
+            headerCt = me.headerCt;
 
-        me.setHeaderReserveOffset(true);
+        // only trigger a layout when reserveOffset is changing
+        if (headerCt && !headerCt.layout.reserveOffset) {
+            headerCt.layout.reserveOffset = true;
+            headerCt.doLayout();
+        }
         if (me.verticalScroller && me.verticalScroller.ownerCt !== me) {
+            me.scrollbarChanged = true;
             me.addDocked(me.verticalScroller);
             me.addCls(me.verticalScrollerPresentCls);
             me.fireEvent('scrollershow', me.verticalScroller, 'vertical');
-        }
-    },
-
-    setHeaderReserveOffset: function (reserveOffset) {
-        var headerCt = this.headerCt,
-            layout = headerCt.layout;
-
-        // only trigger a layout when reserveOffset is changing
-        if (layout && layout.reserveOffset !== reserveOffset) {
-            layout.reserveOffset = reserveOffset;
-            headerCt.doLayout();
         }
     },
 
@@ -1036,12 +897,11 @@ Ext.define('Ext.panel.Table', {
 
     onMouseWheel: function(e) {
         var me = this,
+            browserEvent = e.browserEvent,
             vertScroller = me.getVerticalScroller(),
             horizScroller = me.getHorizontalScroller(),
-            scrollDelta = -me.scrollDelta,
-            deltas = e.getWheelDeltas(),
-            deltaX = scrollDelta * deltas.x,
-            deltaY = scrollDelta * deltas.y,
+            scrollDelta = me.scrollDelta,
+            deltaY, deltaX,
             vertScrollerEl, horizScrollerEl,
             vertScrollerElDom, horizScrollerElDom,
             horizontalCanScrollLeft, horizontalCanScrollRight,
@@ -1049,7 +909,7 @@ Ext.define('Ext.panel.Table', {
 
         // calculate whether or not both scrollbars can scroll right/left and up/down
         if (horizScroller) {
-            horizScrollerEl = horizScroller.scrollEl;
+            horizScrollerEl = horizScroller.el;
             if (horizScrollerEl) {
                 horizScrollerElDom = horizScrollerEl.dom;
                 horizontalCanScrollRight = horizScrollerElDom.scrollLeft !== horizScrollerElDom.scrollWidth - horizScrollerElDom.clientWidth;
@@ -1057,7 +917,7 @@ Ext.define('Ext.panel.Table', {
             }
         }
         if (vertScroller) {
-            vertScrollerEl = vertScroller.scrollEl;
+            vertScrollerEl = vertScroller.el;
             if (vertScrollerEl) {
                 vertScrollerElDom = vertScrollerEl.dom;
                 verticalCanScrollDown = vertScrollerElDom.scrollTop !== vertScrollerElDom.scrollHeight - vertScrollerElDom.clientHeight;
@@ -1065,6 +925,19 @@ Ext.define('Ext.panel.Table', {
             }
         }
 
+        // Webkit Horizontal Axis
+        if (browserEvent.wheelDeltaX || browserEvent.wheelDeltaY) {        
+            deltaX = -browserEvent.wheelDeltaX / 120 * scrollDelta / 3;
+            deltaY = -browserEvent.wheelDeltaY / 120 * scrollDelta / 3;
+        } else {
+            // Gecko Horizontal Axis
+            if (browserEvent.axis && browserEvent.axis === 1) {
+                deltaX = -(scrollDelta * e.getWheelDelta()) / 3;
+            } else {
+                deltaY = -(scrollDelta * e.getWheelDelta() / 3);
+            }
+        }
+        
         if (horizScroller) {
             if ((deltaX < 0 && horizontalCanScrollLeft) || (deltaX > 0 && horizontalCanScrollRight)) {
                 e.stopEvent();
@@ -1074,7 +947,7 @@ Ext.define('Ext.panel.Table', {
         if (vertScroller) {
             if ((deltaY < 0 && verticalCanScrollUp) || (deltaY > 0 && verticalCanScrollDown)) {
                 e.stopEvent();
-                vertScroller.scrollByDeltaY(deltaY);
+                vertScroller.scrollByDeltaY(deltaY);    
             }
         }
     },
@@ -1084,9 +957,66 @@ Ext.define('Ext.panel.Table', {
      * Determine and invalidate scrollers on view refresh
      */
     onViewRefresh: function() {
+        if (Ext.isIE) {
+            this.syncCellHeight();
+        }
         this.determineScrollbars();
         if (this.invalidateScrollerOnRefresh) {
             this.invalidateScroller();
+        }
+    },
+
+    onViewItemUpdate: function(record, index, tr) {
+        if (Ext.isIE) {
+            this.syncCellHeight([tr]);
+        }
+    },
+
+    // BrowserBug: IE will not stretch the td to fit the height of the entire
+    // tr, so manually sync cellheights on refresh and when an item has been
+    // updated.
+    syncCellHeight: function(trs) {
+        var me    = this,
+            i     = 0,
+            tds,
+            j, tdsLn,
+            tr, td,
+            trsLn,
+            rowHeights = [],
+            cellHeights,
+            cellClsSelector = ('.' + Ext.baseCSSPrefix + 'grid-cell');
+
+        trs   = trs || me.view.getNodes();
+        
+        trsLn = trs.length;
+        // Reading loop
+        for (; i < trsLn; i++) {
+            tr = trs[i];
+            tds = Ext.fly(tr).query(cellClsSelector);
+            tdsLn = tds.length;
+            cellHeights = [];
+            for (j = 0; j < tdsLn; j++) {
+                td = tds[j];
+                cellHeights.push(td.clientHeight);
+            }
+            rowHeights.push(Ext.Array.max(cellHeights));
+        }
+
+        // Setting loop
+        for (i = 0; i < trsLn; i++) {
+            tr = trs[i];
+            tdsLn = tr.childNodes.length;
+            for (j = 0; j < tdsLn; j++) {
+                td = Ext.fly(tr.childNodes[j]);
+                if (rowHeights[i]) {
+                    if (td.is(cellClsSelector)) {
+                        td.setHeight(rowHeights[i]);
+                    } else {
+                        td.down(cellClsSelector).setHeight(rowHeights[i]);
+                    }
+                }
+                
+            }
         }
     },
 
@@ -1103,6 +1033,7 @@ Ext.define('Ext.panel.Table', {
         if (verticalScroller) {
             verticalScroller.setScrollTop(top);
         }
+
     },
 
     getScrollerOwner: function() {
@@ -1118,23 +1049,21 @@ Ext.define('Ext.panel.Table', {
      * @param {Number} deltaY
      */
     scrollByDeltaY: function(deltaY) {
-        var verticalScroller = this.getVerticalScroller();
-
-        if (verticalScroller) {
-            verticalScroller.scrollByDeltaY(deltaY);
+        var rootCmp = this.getScrollerOwner(),
+            scrollerRight;
+        scrollerRight = rootCmp.down('gridscroller[dock=' + this.verticalScrollDock + ']');
+        if (scrollerRight) {
+            scrollerRight.scrollByDeltaY(deltaY);
         }
     },
+
 
     /**
      * Scrolls the TablePanel by deltaX
      * @param {Number} deltaY
      */
     scrollByDeltaX: function(deltaX) {
-        var horizontalScroller = this.getVerticalScroller();
-
-        if (horizontalScroller) {
-            horizontalScroller.scrollByDeltaX(deltaX);
-        }
+        this.horizontalScroller.scrollByDeltaX(deltaX);
     },
 
     /**
@@ -1196,9 +1125,7 @@ Ext.define('Ext.panel.Table', {
         }
 
         if (!this.selModel.hasRelaySetup) {
-            this.relayEvents(this.selModel, [
-                'selectionchange', 'beforeselect', 'beforedeselect', 'select', 'deselect'
-            ]);
+            this.relayEvents(this.selModel, ['selectionchange', 'select', 'deselect']);
             this.selModel.hasRelaySetup = true;
         }
 
@@ -1224,9 +1151,21 @@ Ext.define('Ext.panel.Table', {
     onHorizontalScroll: function(event, target) {
         var owner = this.getScrollerOwner(),
             items = owner.query('tableview'),
-            center = items[1] || items[0];
+            i = 0,
+            len = items.length,
+            center,
+            centerEl,
+            centerScrollWidth,
+            centerClientWidth,
+            width;
 
-        center.el.dom.scrollLeft = target.scrollLeft;
+        center = items[1] || items[0];
+        centerEl = center.el.dom;
+        centerScrollWidth = centerEl.scrollWidth;
+        centerClientWidth = centerEl.offsetWidth;
+        width = this.horizontalScroller.getWidth();
+
+        centerEl.scrollLeft = target.scrollLeft;
         this.headerCt.el.dom.scrollLeft = target.scrollLeft;
     },
 
@@ -1243,36 +1182,30 @@ Ext.define('Ext.panel.Table', {
         me.getView().bindStore(store);
     },
 
-    /**
-     * Reconfigure the table with a new store/column.
-     * Either the store or the column can be ommitted if you don't wish to change them.
-     * @param {Ext.data.Store} store The new store.
-     * @param {Array} columns An array of column configs
-     */
     reconfigure: function(store, columns) {
-        var me = this,
-            headerCt = me.headerCt;
+        var me = this;
 
         if (me.lockable) {
             me.reconfigureLockable(store, columns);
-        } else {
-            headerCt.suspendLayout = true;
-            headerCt.removeAll();
-            if (columns) {
-                headerCt.add(columns);
-            } else {
-                headerCt.doLayout();
-            }
-            if (store) {
-                store = Ext.StoreManager.lookup(store);
-                me.bindStore(store);
-            } else {
-                me.getView().refresh();
-            }
-            if (columns) {
-                me.forceComponentLayout();
-            }
+            return;
         }
-        me.fireEvent('reconfigure', me);
+
+        if (columns) {
+            me.headerCt.removeAll();
+            me.headerCt.add(columns);
+        }
+        if (store) {
+            store = Ext.StoreManager.lookup(store);
+            me.bindStore(store);
+        } else {
+            me.getView().refresh();
+        }
+    },
+    
+    afterComponentLayout: function() {
+        var me = this;
+        me.callParent(arguments);
+        me.determineScrollbars();
+        me.invalidateScroller();
     }
 });

@@ -1,29 +1,16 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext.grid.property.HeaderContainer
  * @extends Ext.grid.header.Container
  * A custom HeaderContainer for the {@link Ext.grid.property.Grid}.  Generally it should not need to be used directly.
+ * @constructor
+ * @param {Ext.grid.property.Grid} grid The grid this store will be bound to
+ * @param {Object} source The source data config object
  */
 Ext.define('Ext.grid.property.HeaderContainer', {
 
     extend: 'Ext.grid.header.Container',
 
     alternateClassName: 'Ext.grid.PropertyColumnModel',
-    
-    nameWidth: 115,
 
     // private - strings used for locale support
     nameText : 'Name',
@@ -34,31 +21,27 @@ Ext.define('Ext.grid.property.HeaderContainer', {
 
     // private
     nameColumnCls: Ext.baseCSSPrefix + 'grid-property-name',
-
-    /**
-     * Creates new HeaderContainer.
-     * @param {Ext.grid.property.Grid} grid The grid this store will be bound to
-     * @param {Object} source The source data config object
-     */
+    
     constructor : function(grid, store) {
-        var me = this;
-        
-        me.grid = grid;
-        me.store = store;
-        me.callParent([{
+
+        this.grid = grid;
+        this.store = store;
+        this.callParent([{
             items: [{
-                header: me.nameText,
-                width: grid.nameColumnWidth || me.nameWidth,
+                header: this.nameText,
+                width: 115,
                 sortable: true,
                 dataIndex: grid.nameField,
-                renderer: Ext.Function.bind(me.renderProp, me),
+                renderer: Ext.Function.bind(this.renderProp, this),
                 itemId: grid.nameField,
                 menuDisabled :true,
-                tdCls: me.nameColumnCls
+                tdCls: this.nameColumnCls
             }, {
-                header: me.valueText,
-                renderer: Ext.Function.bind(me.renderCell, me),
-                getEditor: Ext.Function.bind(me.getCellEditor, me),
+                header: this.valueText,
+                renderer: Ext.Function.bind(this.renderCell, this),
+                getEditor: function(record) {
+                    return grid.getCellEditor(record, this);
+                },
                 flex: 1,
                 fixed: true,
                 dataIndex: grid.valueField,
@@ -66,10 +49,6 @@ Ext.define('Ext.grid.property.HeaderContainer', {
                 menuDisabled: true
             }]
         }]);
-    },
-    
-    getCellEditor: function(record){
-        return this.grid.getCellEditor(record, this);
     },
 
     // private
@@ -82,16 +61,16 @@ Ext.define('Ext.grid.property.HeaderContainer', {
     // Render a property value cell
     renderCell : function(val, meta, rec) {
         var me = this,
-            renderer = me.grid.customRenderers[rec.get(me.grid.nameField)],
+            renderer = this.grid.customRenderers[rec.get(me.grid.nameField)],
             result = val;
 
         if (renderer) {
-            return renderer.apply(me, arguments);
+            return renderer.apply(this, arguments);
         }
         if (Ext.isDate(val)) {
-            result = me.renderDate(val);
+            result = this.renderDate(val);
         } else if (Ext.isBoolean(val)) {
-            result = me.renderBool(val);
+            result = this.renderBool(val);
         }
         return Ext.util.Format.htmlEncode(result);
     },

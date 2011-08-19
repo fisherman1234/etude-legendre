@@ -12,11 +12,10 @@ Ext.application({
         Ext.create('Ext.container.Viewport', {
             layout: 'border',
             renderTo: document.body,
-						id: "main_window",
+            id: "main_window",
             items: [{
                 region: 'north',
                 border: false,
-                html: '<h1 class="x-panel-header">Page Title</h1>',
                 tbar: [{
                     text: 'Accueil'
                 },
@@ -47,16 +46,16 @@ Ext.application({
                 region: 'west',
                 collapsible: true,
                 title: 'Dossiers',
-                width: 200, 
-								xtype: 'dossiershortlist'
+                width: 200,
+                xtype: 'dossiershortlist'
                 // the west region might typically utilize a {@link Ext.tree.TreePanel TreePanel} or a Panel with {@link Ext.layout.container.Accordion Accordion layout}
             },
             {
                 region: 'center',
                 items: [],
-						    id: 'centerArea',
-								layout: 'fit'
-								//xtype: 'PickContact'
+                id: 'centerArea',
+                layout: 'fit'
+                //xtype: 'PickContact'
             }]
         });
 
@@ -70,6 +69,6 @@ Ext.Ajax.defaultHeaders = {
 Ext.Ajax.on('requestexception', function(conn, response, options, e) {
     // show login window
     if (response.status == 401) {
-				window.location = '/login';
+        window.location = '/login';
     }
 });

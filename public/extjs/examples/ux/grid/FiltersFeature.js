@@ -1,17 +1,3 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext.ux.grid.FiltersFeature
  * @extends Ext.grid.Feature
@@ -198,9 +184,12 @@ Ext.define('Ext.ux.grid.FiltersFeature', {
         me.deferredUpdate = Ext.create('Ext.util.DelayedTask', me.reload, me);
 
         // Init filters
-        me.filters = me.createFiltersCollection();
+        me.filters = Ext.create('Ext.util.MixedCollection', false, function (o) {
+            return o ? o.dataIndex : null;
+        });
         me.filterConfigs = config.filters;
     },
+
 
     attachEvents: function() {
         var me = this,
@@ -226,64 +215,20 @@ Ext.define('Ext.ux.grid.FiltersFeature', {
         grid.addEvents('filterupdate');
     },
 
-    createFiltersCollection: function () {
-        return Ext.create('Ext.util.MixedCollection', false, function (o) {
-            return o ? o.dataIndex : null;
-        });
-    },
-
     /**
      * @private Create the Filter objects for the current configuration, destroying any existing ones first.
      */
     createFilters: function() {
         var me = this,
+            filterConfigs = me.filterConfigs,
             hadFilters = me.filters.getCount(),
-            grid = me.getGridPanel(),
-            filters = me.createFiltersCollection(),
-            model = grid.store.model,
-            fields = model.prototype.fields,
-            field,
-            filter,
             state;
-
         if (hadFilters) {
             state = {};
             me.saveState(null, state);
         }
-
-        function add (dataIndex, config, filterable) {
-            if (dataIndex && (filterable || config)) {
-                field = fields.get(dataIndex);
-                filter = {
-                    dataIndex: dataIndex,
-                    type: (field && field.type && field.type.type) || 'auto'
-                };
-
-                if (Ext.isObject(config)) {
-                    Ext.apply(filter, config);
-                }
-
-                filters.replace(filter);
-            }
-        }
-
-        // We start with filters from our config and then merge on filters from the columns
-        // in the grid. The Grid columns take precedence.
-        Ext.Array.each(me.filterConfigs, function (fc) {
-            add(fc.dataIndex, fc);
-        });
-
-        Ext.Array.each(grid.columns, function (column) {
-            if (column.filterable === false) {
-                filters.removeAtKey(column.dataIndex);
-            } else {
-                add(column.dataIndex, column.filter, column.filterable);
-            }
-        });
-
         me.removeAll();
-        me.addFilters(filters.items);
-
+        me.addFilters(Ext.isEmpty(filterConfigs) ? me.view.headerCt.items.items : filterConfigs);
         if (hadFilters) {
             me.applyState(null, state);
         }
@@ -748,4 +693,3 @@ filters[0][data][value]="someValue3"&
         return Ext.ClassManager.getByAlias('gridfilter.' + type);
     }
 });
-

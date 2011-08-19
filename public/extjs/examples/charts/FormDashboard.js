@@ -1,17 +1,3 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 Ext.require([
     'Ext.form.*',
     'Ext.data.*',
@@ -53,8 +39,8 @@ Ext.onReady(function(){
         //updates a record modified via the form
         updateRecord = function(rec) {
             var name, series, i, l, items, json = [{
-                'Name': 'Price',
-                'Data': rec.get('price')
+                'Name': 'Price %',
+                'Data': rec.get('price %')
             }, {
                 'Name': 'Revenue %',
                 'Data': rec.get('revenue %')
@@ -128,7 +114,7 @@ Ext.onReady(function(){
     var ds = Ext.create('Ext.data.ArrayStore', {
         fields: [
             {name: 'company'},
-            {name: 'price',   type: 'float'},
+            {name: 'price %',   type: 'float'},
             {name: 'revenue %', type: 'float'},
             {name: 'growth %',  type: 'float'},
             {name: 'product %', type: 'float'},
@@ -142,7 +128,7 @@ Ext.onReady(function(){
         fields: ['Name', 'Data'],
         data: [
         {
-            'Name': 'Price',
+            'Name': 'Price %',
             'Data': 100
         }, {
             'Name': 'Revenue %',
@@ -168,10 +154,12 @@ Ext.onReady(function(){
         animate: true,
         store: chs,
         axes: [{
-            steps: 5,
             type: 'Radial',
             position: 'radial',
-            maximum: 100
+            maximum: 100,
+            label: {
+                display: 'none'    
+            }
         }],
         series: [{
             type: 'radar',
@@ -180,13 +168,17 @@ Ext.onReady(function(){
             showInLegend: false,
             showMarkers: true,
             markerConfig: {
-                radius: 4,
-                size: 4
+                radius: 2,
+                size: 2
             },
             style: {
-                fill: 'rgb(194,214,240)',
+                fill: '#273f68',
                 opacity: 0.5,
                 'stroke-width': 0.5
+            },
+            label: {
+                display: true,
+                field: 'Name'
             }
         }]
     });
@@ -210,15 +202,13 @@ Ext.onReady(function(){
                 text   : 'Price',
                 width    : 75,
                 sortable : true,
-                dataIndex: 'price',
-                align: 'right',
-                renderer : 'usMoney'
+                dataIndex: 'price %',
+                renderer: perc
             },
             {
                 text   : 'Revenue',
                 width    : 75,
                 sortable : true,
-                align: 'right',
                 dataIndex: 'revenue %',
                 renderer: perc
             },
@@ -226,7 +216,6 @@ Ext.onReady(function(){
                 text   : 'Growth',
                 width    : 75,
                 sortable : true,
-                align: 'right',
                 dataIndex: 'growth %',
                 renderer: perc
             },
@@ -234,7 +223,6 @@ Ext.onReady(function(){
                 text   : 'Product',
                 width    : 75,
                 sortable : true,
-                align: 'right',
                 dataIndex: 'product %',
                 renderer: perc
             },
@@ -242,7 +230,6 @@ Ext.onReady(function(){
                 text   : 'Market',
                 width    : 75,
                 sortable : true,
-                align: 'right',
                 dataIndex: 'market %',
                 renderer: perc
             }
@@ -278,21 +265,18 @@ Ext.onReady(function(){
         axes: [{
             type: 'Numeric',
             position: 'left',
-            fields: ['price'],
+            fields: ['price %'],
             minimum: 0,
+            label: {
+                font: '9px Arial'
+            },
             hidden: true
         }, {
             type: 'Category',
             position: 'bottom',
             fields: ['company'],
             label: {
-                renderer: function(v) {
-                    return Ext.String.ellipsis(v, 15, false);
-                },
-                font: '9px Arial',
-                rotate: {
-                    degrees: 270
-                }
+                font: '9px Arial'
             }
         }],
         series: [{
@@ -306,9 +290,8 @@ Ext.onReady(function(){
                 fill: '#a2b5ca'
             },
             label: {
-                contrast: true,
                 display: 'insideEnd',
-                field: 'price',
+                field: 'price %',
                 color: '#000',
                 orientation: 'vertical',
                 'text-anchor': 'middle'
@@ -324,7 +307,7 @@ Ext.onReady(function(){
                 }
             },
             xField: 'name',
-            yField: ['price']
+            yField: ['price %']
         }]        
     });
     
@@ -401,9 +384,9 @@ Ext.onReady(function(){
                         name: 'company',
                         disabled: true
                     },{
-                        fieldLabel: 'Price',
-                        name: 'price',
-                        listeners: createListeners('price')
+                        fieldLabel: 'Price %',
+                        name: 'price %',
+                        listeners: createListeners('price %')
                     },{
                         fieldLabel: 'Revenue %',
                         name: 'revenue %',

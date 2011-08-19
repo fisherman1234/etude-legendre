@@ -1,17 +1,3 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @author Ed Spencer
  * @class Ext.data.Model
@@ -233,7 +219,7 @@ store.load();
  *
  * @constructor
  * @param {Object} data An object containing keys corresponding to this model's fields, and their associated values
- * @param {Number} id (optional) Unique ID to assign to this model instance
+ * @param {Number} id Optional unique ID to assign to this model instance
  */
 Ext.define('Ext.data.Model', {
     alternateClassName: 'Ext.data.Record',
@@ -515,10 +501,10 @@ Ext.define('Ext.data.Model', {
     dirty : false,
 
     /**
-     * @cfg {String} persistenceProperty The property on this Persistable object that its data is saved to.
+     * @cfg {String} persistanceProperty The property on this Persistable object that its data is saved to.
      * Defaults to 'data' (e.g. all persistable data resides in this.data.)
      */
-    persistenceProperty: 'data',
+    persistanceProperty: 'data',
 
     evented: false,
     isModel: true,
@@ -589,16 +575,7 @@ Ext.define('Ext.data.Model', {
          */
         me.modified = {};
 
-        // Deal with spelling error in previous releases
-        if (me.persistanceProperty) {
-            //<debug>
-            if (Ext.isDefined(Ext.global.console)) {
-                Ext.global.console.warn('Ext.data.Model: persistanceProperty has been deprecated. Use persistenceProperty instead.');
-            }
-            //</debug>
-            me.persistenceProperty = me.persistanceProperty;
-        }
-        me[me.persistenceProperty] = {};
+        me[me.persistanceProperty] = {};
 
         me.mixins.observable.constructor.call(me);
 
@@ -634,6 +611,8 @@ Ext.define('Ext.data.Model', {
         }
 
         me.id = me.modelName + '-' + me.internalId;
+
+        Ext.ModelManager.register(me);
     },
     
     /**
@@ -642,7 +621,7 @@ Ext.define('Ext.data.Model', {
      * @return {Mixed} The value
      */
     get: function(field) {
-        return this[this.persistenceProperty][field];
+        return this[this.persistanceProperty][field];
     },
     
     /**
@@ -691,28 +670,11 @@ Ext.define('Ext.data.Model', {
                 }
             }
             currentValue = me.get(fieldName);
-            me[me.persistenceProperty][fieldName] = value;
+            me[me.persistanceProperty][fieldName] = value;
             
             if (field && field.persist && !me.isEqual(currentValue, value)) {
-                if (me.isModified(fieldName)) {
-                    if (me.isEqual(modified[fieldName], value)) {
-                        // the original value in me.modified equals the new value, so the
-                        // field is no longer modified
-                        delete modified[fieldName];
-                        // we might have removed the last modified field, so check to see if
-                        // there are any modified fields remaining and correct me.dirty:
-                        me.dirty = false;
-                        for (key in modified) {
-                            if (modified.hasOwnProperty(key)){
-                                me.dirty = true;
-                                break;
-                            }
-                        }
-                    }
-                } else {
-                    me.dirty = true;
-                    modified[fieldName] = currentValue;
-                }
+                me.dirty = true;
+                me.modified[fieldName] = currentValue;
             }
 
             if (!me.editing) {
@@ -746,7 +708,7 @@ Ext.define('Ext.data.Model', {
         if (!me.editing) {
             me.editing = true;
             me.dirtySave = me.dirty;
-            me.dataSave = Ext.apply({}, me[me.persistenceProperty]);
+            me.dataSave = Ext.apply({}, me[me.persistanceProperty]);
             me.modifiedSave = Ext.apply({}, me.modified);
         }
     },
@@ -760,7 +722,7 @@ Ext.define('Ext.data.Model', {
             me.editing = false;
             // reset the modified state, nothing changed since the edit began
             me.modified = me.modifiedSave;
-            me[me.persistenceProperty] = me.dataSave;
+            me[me.persistanceProperty] = me.dataSave;
             me.dirty = me.dirtySave;
             delete me.modifiedSave;
             delete me.dataSave;
@@ -863,7 +825,7 @@ Ext.define('Ext.data.Model', {
         for (field in modified) {
             if (modified.hasOwnProperty(field)) {
                 if (typeof modified[field] != "function") {
-                    me[me.persistenceProperty][field] = modified[field];
+                    me[me.persistanceProperty][field] = modified[field];
                 }
             }
         }
@@ -911,7 +873,7 @@ Ext.data.Model.id(rec); // automatically generate a unique sequential id
     copy : function(newId) {
         var me = this;
         
-        return new me.self(Ext.apply({}, me[me.persistenceProperty]), newId || me.internalId);
+        return new me.self(Ext.apply({}, me[me.persistanceProperty]), newId || me.internalId);
     },
 
     /**
@@ -1227,4 +1189,3 @@ Ext.data.Model.id(rec); // automatically generate a unique sequential id
         return associationData;
     }
 });
-

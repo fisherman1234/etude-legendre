@@ -1,18 +1,7 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
+ * @class Ext.draw.Color
+ * @extends Object
+ *
  * Represents an RGB color and provides helper functions get
  * color components in HSL color space.
  */
@@ -34,7 +23,7 @@ Ext.define('Ext.draw.Color', {
     lightnessFactor: 0.2,
 
     /**
-     * Creates new Color.
+     * @constructor
      * @param {Number} red Red component (0..255)
      * @param {Number} green Green component (0..255)
      * @param {Number} blue Blue component (0..255)
@@ -73,7 +62,7 @@ Ext.define('Ext.draw.Color', {
 
     /**
      * Get the RGB values.
-     * @return {[Number]}
+     * @return {Array}
      */
     getRGB: function() {
         var me = this;
@@ -82,7 +71,7 @@ Ext.define('Ext.draw.Color', {
 
     /**
      * Get the equivalent HSL components of the color.
-     * @return {[Number]}
+     * @return {Array}
      */
     getHSL: function() {
         var me = this,
@@ -157,12 +146,9 @@ Ext.define('Ext.draw.Color', {
     /**
      * Convert a color to hexadecimal format.
      *
-     * **Note:** This method is both static and instance.
-     *
-     * @param {String/[String]} color The color value (i.e 'rgb(255, 255, 255)', 'color: #ffffff').
+     * @param {String|Array} color The color value (i.e 'rgb(255, 255, 255)', 'color: #ffffff').
      * Can also be an Array, in this case the function handles the first member.
      * @returns {String} The color in hexadecimal format.
-     * @static
      */
     toHex: function(color) {
         if (Ext.isArray(color)) {
@@ -195,11 +181,8 @@ Ext.define('Ext.draw.Color', {
      *
      * If the string is not recognized, an undefined will be returned instead.
      *
-     * **Note:** This method is both static and instance.
-     *
      * @param {String} str Color in string.
      * @returns Ext.draw.Color
-     * @static
      */
     fromString: function(str) {
         var values, r, g, b,
@@ -245,13 +228,10 @@ Ext.define('Ext.draw.Color', {
     /**
      * Create a new color based on the specified HSL values.
      *
-     * **Note:** This method is both static and instance.
-     *
      * @param {Number} h Hue component (0..359)
      * @param {Number} s Saturation component (0..1)
      * @param {Number} l Lightness component (0..1)
      * @returns Ext.draw.Color
-     * @static
      */
     fromHSL: function(h, s, l) {
         var C, X, m, i, rgb = [],
@@ -311,4 +291,3 @@ Ext.define('Ext.draw.Color', {
         }
     });
 });
-

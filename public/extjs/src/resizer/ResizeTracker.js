@@ -1,22 +1,6 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext.resizer.ResizeTracker
  * @extends Ext.dd.DragTracker
- * Private utility class for Ext.resizer.Resizer.
- * @private
  */
 Ext.define('Ext.resizer.ResizeTracker', {
     extend: 'Ext.dd.DragTracker',
@@ -120,8 +104,6 @@ Ext.define('Ext.resizer.ResizeTracker', {
             ratio,
             widthAdjust = 0,
             heightAdjust = 0,
-            snappedWidth,
-            snappedHeight,
             adjustX = 0,
             adjustY = 0,
             dragRatio,
@@ -186,49 +168,16 @@ Ext.define('Ext.resizer.ResizeTracker', {
             y: box.y + adjustY
         };
 
-        // Snap value between stops according to configured increments
-        snappedWidth = Ext.Number.snap(newBox.width, me.widthIncrement);
-        snappedHeight = Ext.Number.snap(newBox.height, me.heightIncrement);
-        if (snappedWidth != newBox.width || snappedHeight != newBox.height){
-            switch (region) {
-                case 'northeast':
-                    newBox.y -= snappedHeight - newBox.height;
-                    break;
-                case 'north':
-                    newBox.y -= snappedHeight - newBox.height;
-                    break;
-                case 'southwest':
-                    newBox.x -= snappedWidth - newBox.width;
-                    break;
-                case 'west':
-                    newBox.x -= snappedWidth - newBox.width;
-                    break;
-                case 'northwest':
-                    newBox.x -= snappedWidth - newBox.width;
-                    newBox.y -= snappedHeight - newBox.height;
-            }
-            newBox.width = snappedWidth;
-            newBox.height = snappedHeight;
-        }
-
         // out of bounds
         if (newBox.width < me.minWidth || newBox.width > me.maxWidth) {
             newBox.width = Ext.Number.constrain(newBox.width, me.minWidth, me.maxWidth);
-
-            // Re-adjust the X position if we were dragging the west side
-            if (adjustX) {
-                newBox.x = box.x + (box.width - newBox.width);
-            }
+            newBox.x = me.lastX || newBox.x;
         } else {
             me.lastX = newBox.x;
         }
         if (newBox.height < me.minHeight || newBox.height > me.maxHeight) {
             newBox.height = Ext.Number.constrain(newBox.height, me.minHeight, me.maxHeight);
-
-            // Re-adjust the Y position if we were dragging the north side
-            if (adjustY) {
-                newBox.y = box.y + (box.height - newBox.height);
-            }
+            newBox.y = me.lastY || newBox.y;
         } else {
             me.lastY = newBox.y;
         }
@@ -318,4 +267,3 @@ Ext.define('Ext.resizer.ResizeTracker', {
         }
     }
 });
-

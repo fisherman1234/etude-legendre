@@ -52,10 +52,6 @@
                     "name": "KeyMap.js"
                 },
                 {
-                    "path": "../../../../platform/src/util/",
-                    "name": "Memento.js"
-                },
-                {
                     "path": "../../../../platform/src/data/",
                     "name": "ResultSet.js"
                 },

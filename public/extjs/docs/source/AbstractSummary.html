@@ -16,10 +16,11 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js"><span id='Ext-grid-feature-AbstractSummary'>/**
-</span> * @class Ext.grid.feature.AbstractSummary
- * @extends Ext.grid.feature.Feature
- * A small abstract class that contains the shared behaviour for any summary
+</span> * A small abstract class that contains the shared behaviour for any summary
  * calculations to be used in the grid.
+ * @class Ext.grid.feature.AbstractSummary
+ * @extends Ext.grid.feature.Feature
+ * @ignore
  */
 Ext.define('Ext.grid.feature.AbstractSummary', {
     
@@ -93,7 +94,7 @@ Ext.define('Ext.grid.feature.AbstractSummary', {
      */
     getColumnValue: function(column, summaryData){
         var comp     = Ext.getCmp(column.id),
-            value    = summaryData[column.id],
+            value    = summaryData[column.dataIndex],
             renderer = comp.summaryRenderer;
 
         if (renderer) {

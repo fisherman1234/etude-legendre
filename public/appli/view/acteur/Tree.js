@@ -5,6 +5,7 @@ Ext.define('TP.view.acteur.Tree', {
     id: "acteurTree",
     rootVisible: false,
 		sortableColumns: true,
+
 		
     columns: [{
         xtype: 'treecolumn',

@@ -1,32 +1,19 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
+ * @class Ext.data.TreeStore
+ * @extends Ext.data.AbstractStore
+ * 
  * The TreeStore is a store implementation that is backed by by an {@link Ext.data.Tree}.
  * It provides convenience methods for loading nodes, as well as the ability to use
  * the hierarchical tree structure combined with a store. This class is generally used
  * in conjunction with {@link Ext.tree.Panel}. This class also relays many events from
  * the Tree for convenience.
  * 
- * # Using Models
- * 
+ * ## Using Models
  * If no Model is specified, an implicit model will be created that implements {@link Ext.data.NodeInterface}.
  * The standard Tree fields will also be copied onto the Model for maintaining their state.
  * 
- * # Reading Nested Data
- * 
- * For the tree to read nested data, the {@link Ext.data.reader.Reader} must be configured with a root property,
+ * ## Reading Nested Data
+ * For the tree to read nested data, the {@link Ext.data.Reader} must be configured with a root property,
  * so the reader can find nested data for each node. If a root is not specified, it will default to
  * 'children'.
  */
@@ -36,33 +23,14 @@ Ext.define('Ext.data.TreeStore', {
     requires: ['Ext.data.Tree', 'Ext.data.NodeInterface', 'Ext.data.NodeStore'],
 
     /**
-     * @cfg {Ext.data.Model/Ext.data.NodeInterface/Object} root
-     * The root node for this store. For example:
-     * 
-     *     root: {
-     *         expanded: true, 
-     *         text: "My Root",
-     *         children: [
-     *             { text: "Child 1", leaf: true },
-     *             { text: "Child 2", expanded: true, children: [
-     *                 { text: "GrandChild", leaf: true }
-     *             ] }
-     *         ]
-     *     }
-     * 
-     * Setting the `root` config option is the same as calling {@link #setRootNode}.
-     */
-
-    /**
-     * @cfg {Boolean} clearOnLoad
-     * Remove previously existing child nodes before loading. Default to true.
+     * @cfg {Boolean} clearOnLoad (optional) Default to true. Remove previously existing
+     * child nodes before loading.
      */
     clearOnLoad : true,
 
     /**
-     * @cfg {String} nodeParam
-     * The name of the parameter sent to the server which contains the identifier of the node.
-     * Defaults to 'node'.
+     * @cfg {String} nodeParam The name of the parameter sent to the server which contains
+     * the identifier of the node. Defaults to <tt>'node'</tt>.
      */
     nodeParam: 'node',
 
@@ -79,8 +47,7 @@ Ext.define('Ext.data.TreeStore', {
     defaultRootProperty: 'children',
 
     /**
-     * @cfg {Boolean} folderSort
-     * Set to true to automatically prepend a leaf sorter. Defaults to `undefined`.
+     * @cfg {Boolean} folderSort Set to true to automatically prepend a leaf sorter (defaults to <tt>undefined</tt>)
      */
     folderSort: false,
     
@@ -88,6 +55,7 @@ Ext.define('Ext.data.TreeStore', {
         var me = this, 
             root,
             fields;
+            
         
         config = Ext.apply({}, config);
         
@@ -104,6 +72,23 @@ Ext.define('Ext.data.TreeStore', {
         
         // We create our data tree.
         me.tree = Ext.create('Ext.data.Tree');
+        
+        me.tree.on({
+            scope: me,
+            remove: me.onNodeRemove,
+            beforeexpand: me.onBeforeNodeExpand,
+            beforecollapse: me.onBeforeNodeCollapse,
+            append: me.onNodeAdded,
+            insert: me.onNodeAdded
+        });
+
+        me.onBeforeSort();
+                
+        root = me.root;
+        if (root) {
+            delete me.root;
+            me.setRootNode(root);            
+        }
 
         me.relayEvents(me.tree, [
             /**
@@ -227,25 +212,6 @@ Ext.define('Ext.data.TreeStore', {
               */
              "rootchange"
         ]);
-
-        me.tree.on({
-            scope: me,
-            remove: me.onNodeRemove,
-            // this event must follow the relay to beforeitemexpand to allow users to
-            // cancel the expand:
-            beforeexpand: me.onBeforeNodeExpand,
-            beforecollapse: me.onBeforeNodeCollapse,
-            append: me.onNodeAdded,
-            insert: me.onNodeAdded
-        });
-
-        me.onBeforeSort();
-
-        root = me.root;
-        if (root) {
-            delete me.root;
-            me.setRootNode(root);
-        }
         
         me.addEvents(
             /**
@@ -376,8 +342,8 @@ Ext.define('Ext.data.TreeStore', {
     },
         
     /**
-     * Sets the root node for this store.  See also the {@link #root} config option.
-     * @param {Ext.data.Model/Ext.data.NodeInterface/Object} root
+     * Sets the root node for this store
+     * @param {Ext.data.Model/Ext.data.NodeInterface} root
      * @return {Ext.data.NodeInterface} The new root
      */
     setRootNode: function(root) {
@@ -513,7 +479,7 @@ Ext.define('Ext.data.TreeStore', {
     },
     
     /**
-     * Creates any new records when a write is returned from the server.
+     * Create any new records when a write is returned from the server.
      * @private
      * @param {Array} records The array of new records
      * @param {Ext.data.Operation} operation The operation that just completed
@@ -552,7 +518,7 @@ Ext.define('Ext.data.TreeStore', {
     },
 
     /**
-     * Updates any records when a write is returned from the server.
+     * Update any records when a write is returned from the server.
      * @private
      * @param {Array} records The array of updated records
      * @param {Ext.data.Operation} operation The operation that just completed
@@ -583,7 +549,7 @@ Ext.define('Ext.data.TreeStore', {
     },
 
     /**
-     * Removes any records when a write is returned from the server.
+     * Remove any records when a write is returned from the server.
      * @private
      * @param {Array} records The array of removed records
      * @param {Ext.data.Operation} operation The operation that just completed

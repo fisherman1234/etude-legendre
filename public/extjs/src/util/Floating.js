@@ -1,17 +1,3 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext.util.Floating
  * A mixin to add floating capability to a Component
@@ -91,10 +77,8 @@ Ext.define('Ext.util.Floating', {
     },
 
     onFloatParentHide: function() {
-        if (this.hideOnParentHide !== false) {
-            this.showOnParentShow = this.isVisible();
-            this.hide();
-        }
+        this.showOnParentShow = this.isVisible();
+        this.hide();
     },
 
     onFloatParentShow: function() {
@@ -165,8 +149,8 @@ Ext.define('Ext.util.Floating', {
             me.setPosition(xy);
         }
     },
-
-
+    
+    
     /**
      * Gets the x/y offsets to constrain this float
      * @private
@@ -176,7 +160,7 @@ Ext.define('Ext.util.Floating', {
     getConstrainVector: function(constrainTo){
         var me = this,
             el;
-
+            
         if (me.constrain || me.constrainHeader) {
             el = me.constrainHeader ? me.header.el : me.el;
             constrainTo = constrainTo || (me.floatParent && me.floatParent.getTargetEl()) || me.container;

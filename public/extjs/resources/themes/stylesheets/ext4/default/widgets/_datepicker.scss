@@ -53,8 +53,6 @@
             cursor: pointer;
             
             text-decoration: none !important;
-
-            @include opacity(.7);
             
             &:hover {
                 @include opacity(1);
@@ -66,7 +64,7 @@
         right: 5px;
 
         a {
-            @include theme-background-image($theme-name, $datepicker-next-image);
+            background-image: theme-image($theme-name, $datepicker-next-image);
         }
     }
 
@@ -74,7 +72,7 @@
         left: 5px;
 
         a {
-            @include theme-background-image($theme-name, $datepicker-prev-image);
+            background-image: theme-image($theme-name, $datepicker-prev-image);
         }
     }      
             
@@ -106,8 +104,7 @@
         }
         
         .#{$prefix}btn-split-right {
-            background: no-repeat right center !important;
-            @include theme-background-image($theme-name, $datepicker-month-arrow-image);
+            background: theme-image($theme-name, $datepicker-month-arrow-image) no-repeat right center !important;
             
             padding-right: 12px;
         }
@@ -256,15 +253,14 @@
     }
 
     // month picker
-    .#{$prefix}datepicker .#{$prefix}monthpicker {
+    .#{$prefix}monthpicker {
         position: absolute;
         left: 0;
         top: 0;
-    }
-    
-    
-    .#{$prefix}monthpicker {        
+        
         border: $datepicker-border;
+        //
+        
         background-color: $datepicker-background-color;
     }
 
@@ -295,10 +291,6 @@
             
             margin: 0 5px 0 5px;
             
-            text-decoration: none;
-            
-            color: $datepicker-monthpicker-item-color;
-            
             border: $datepicker-monthpicker-item-border;
             
             line-height: 17px;
@@ -327,7 +319,7 @@
         height: 28px;
         
         button {
-            @include theme-background-image($theme-name, $datepicker-tool-sprite-image);
+            background-image: theme-image($theme-name, $datepicker-tool-sprite-image);
             height: 15px;
             width: 15px;
             padding: 0;
@@ -361,20 +353,6 @@
         background-position: -15px -105px;
     }
     
-    .#{$prefix}monthpicker-small {
-        .#{$prefix}monthpicker-item {
-            margin: 2px 0 2px 0;
-        }
-        
-        .#{$prefix}monthpicker-yearnav {
-            height: 23px;
-        }
-        
-        .#{$prefix}monthpicker-months, .#{$prefix}monthpicker-years {
-            height: 136px;
-        }
-    }
-    
     @if $include-ie {
         .#{$prefix}quirks {
             .#{$prefix}ie7,
@@ -385,16 +363,6 @@
                     }
                 }
             }
-            
-            .#{$prefix}monthpicker-small .#{$prefix}monthpicker-yearnav button {
-                margin-top: 3px;
-                margin-bottom: 3px;
-            }
-        }
-        
-        .#{$prefix}ie6 .#{$prefix}monthpicker-small .#{$prefix}monthpicker-yearnav button {
-            margin-top: 3px;
-            margin-bottom: 3px;
         }
     }
 
@@ -403,7 +371,7 @@
         .#{$prefix}nlg {
             @if $datepicker-header-background-gradient != null {
                 .#{$prefix}datepicker-header {
-                    @include theme-background-image($theme-name, 'datepicker/datepicker-header-bg.gif');
+                    background-image: theme-image($theme-name, 'datepicker/datepicker-header-bg.gif');
                     background-repeat: repeat-x;
                     background-position: top left;
                 }
@@ -412,7 +380,7 @@
             @if $datepicker-footer-background-gradient != null {
                 .#{$prefix}datepicker-footer,
                 .#{$prefix}monthpicker-buttons {
-                    @include theme-background-image($theme-name, 'datepicker/datepicker-footer-bg.gif');
+                    background-image: theme-image($theme-name, 'datepicker/datepicker-footer-bg.gif');
                     background-repeat: repeat-x;
                     background-position: top left;
                 }

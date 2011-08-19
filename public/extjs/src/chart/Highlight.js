@@ -1,20 +1,6 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext.chart.Highlight
- * A mixin providing highlight functionality for Ext.chart.series.Series.
+ * @ignore
  */
 Ext.define('Ext.chart.Highlight', {
 
@@ -63,7 +49,10 @@ Ext.define('Ext.chart.Highlight', {
             opts = me.highlightCfg,
             surface = me.chart.surface,
             animate = me.chart.animate,
-            p, from, to, pi;
+            p,
+            from,
+            to,
+            pi;
 
         if (!me.highlight || !sprite || sprite._highlighted) {
             return;
@@ -73,7 +62,8 @@ Ext.define('Ext.chart.Highlight', {
         }
         sprite._highlighted = true;
         if (!sprite._defaults) {
-            sprite._defaults = Ext.apply({}, sprite.attr);
+            sprite._defaults = Ext.apply(sprite._defaults || {},
+            sprite.attr);
             from = {};
             to = {};
             for (p in opts) {
@@ -103,7 +93,6 @@ Ext.define('Ext.chart.Highlight', {
             }
             sprite._from = from;
             sprite._to = to;
-            sprite._endStyle = to;
         }
         if (animate) {
             sprite._anim = Ext.create('Ext.fx.Anim', {
@@ -131,7 +120,9 @@ Ext.define('Ext.chart.Highlight', {
             opts = me.highlightCfg,
             animate = me.chart.animate,
             i = 0,
-            obj, p, sprite;
+            obj,
+            p,
+            sprite;
 
         for (; i < len; i++) {
             if (!items[i]) {
@@ -153,8 +144,6 @@ Ext.define('Ext.chart.Highlight', {
                     }
                 }
                 if (animate) {
-                    //sprite._to = obj;
-                    sprite._endStyle = obj;
                     sprite._anim = Ext.create('Ext.fx.Anim', {
                         target: sprite,
                         to: obj,

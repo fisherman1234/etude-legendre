@@ -57,7 +57,7 @@ Ext.define('Ext.layout.container.Accordion', {
     extend: 'Ext.layout.container.VBox',
     alias: ['layout.accordion'],
     alternateClassName: 'Ext.layout.AccordionLayout',
-
+    
     align: 'stretch',
 
 <span id='Ext-layout-container-Accordion-cfg-fill'>    /**
@@ -135,7 +135,7 @@ Ext.define('Ext.layout.container.Accordion', {
 
         me.callParent(arguments);
         if (me.fill) {
-            if (!me.owner.el.dom.style.height || !me.getLayoutTargetSize().height) {
+            if (!me.owner.el.dom.style.height) {
                 return false;
             }
         } else {
@@ -174,6 +174,7 @@ Ext.define('Ext.layout.container.Accordion', {
                 delete comp.hideHeader;
                 comp.collapsible = true;
                 comp.title = comp.title || '&amp;#160;';
+                comp.setBorder(false);
 
                 // Set initial sizes
                 comp.width = targetSize.width;
@@ -186,19 +187,12 @@ Ext.define('Ext.layout.container.Accordion', {
                         comp.collapsed = true;
                     }
                     // Otherwise expand the first item with collapsed explicitly configured as false
-                    else if (comp.hasOwnProperty('collapsed') &amp;&amp; comp.collapsed === false) {
+                    else if (comp.collapsed === false) {
                         comp.flex = 1;
                         me.expandedItem = i;
                     } else {
                         comp.collapsed = true;
                     }
-                    // If we are fitting, then intercept expand/collapse requests.
-                    me.owner.mon(comp, {
-                        show: me.onComponentShow,
-                        beforeexpand: me.onComponentExpand,
-                        beforecollapse: me.onComponentCollapse,
-                        scope: me
-                    });
                 } else {
                     delete comp.flex;
                     comp.animCollapse = me.initialAnimate;
@@ -217,10 +211,10 @@ Ext.define('Ext.layout.container.Accordion', {
                 comp.flex = 1;
             }
         }
-
+        
         // Render all Panels.
         me.callParent(arguments);
-
+                
         // Postprocess rendered Panels.
         ln = renderedPanels.length;
         for (i = 0; i &lt; ln; i++) {
@@ -231,13 +225,24 @@ Ext.define('Ext.layout.container.Accordion', {
 
             comp.header.addCls(Ext.baseCSSPrefix + 'accordion-hd');
             comp.body.addCls(Ext.baseCSSPrefix + 'accordion-body');
+            
+            // If we are fitting, then intercept expand/collapse requests. 
+            if (me.fill) {
+                me.owner.mon(comp, {
+                    show: me.onComponentShow,
+                    beforeexpand: me.onComponentExpand,
+                    beforecollapse: me.onComponentCollapse,
+                    scope: me
+                });
+            }
         }
     },
 
     onLayout: function() {
         var me = this;
-
-
+        
+        me.updatePanelClasses();
+                
         if (me.fill) {
             me.callParent(arguments);
         } else {
@@ -255,27 +260,24 @@ Ext.define('Ext.layout.container.Accordion', {
                 }
             }
         }
-        me.updatePanelClasses();
-
+        
         return me;
     },
-
+    
     updatePanelClasses: function() {
         var children = this.getLayoutItems(),
             ln = children.length,
             siblingCollapsed = true,
             i, child;
-
+            
         for (i = 0; i &lt; ln; i++) {
             child = children[i];
-
-            if (siblingCollapsed) {
-                child.header.removeCls(Ext.baseCSSPrefix + 'accordion-hd-sibling-expanded');
-            }
-            else {
+            if (!siblingCollapsed) {
                 child.header.addCls(Ext.baseCSSPrefix + 'accordion-hd-sibling-expanded');
             }
-
+            else {
+                child.header.removeCls(Ext.baseCSSPrefix + 'accordion-hd-sibling-expanded');
+            }
             if (i + 1 == ln &amp;&amp; child.collapsed) {
                 child.header.addCls(Ext.baseCSSPrefix + 'accordion-hd-last-collapsed');
             }
@@ -304,7 +306,7 @@ Ext.define('Ext.layout.container.Accordion', {
                 me.setCollapsed(comp);
             }
         }
-
+        
         me.animate = me.initialAnimate;
         me.layout();
         me.animate = false;
@@ -326,7 +328,7 @@ Ext.define('Ext.layout.container.Accordion', {
             if (expanded.length === 1 &amp;&amp; expanded[0] === comp) {
                 me.setExpanded(toExpand);
             }
-
+            
             me.animate = me.initialAnimate;
             me.layout();
             me.animate = false;

@@ -1,22 +1,10 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext.layout.Layout
  * @extends Object
+ * @private
  * Base Layout class - extended by ComponentLayout and ContainerLayout
  */
+
 Ext.define('Ext.layout.Layout', {
 
     /* Begin Definitions */
@@ -32,12 +20,12 @@ Ext.define('Ext.layout.Layout', {
             if (layout instanceof Ext.layout.Layout) {
                 return Ext.createByAlias('layout.' + layout);
             } else {
-                if (!layout || typeof layout === 'string') {
-                    type = layout || defaultType;
-                    layout = {};                    
+                if (Ext.isObject(layout)) {
+                    type = layout.type;
                 }
                 else {
-                    type = layout.type;
+                    type = layout || defaultType;
+                    layout = {};
                 }
                 return Ext.createByAlias('layout.' + type, layout || {});
             }
@@ -73,13 +61,8 @@ Ext.define('Ext.layout.Layout', {
     },
 
     beforeLayout : function() {
-        this.renderChildren();
+        this.renderItems(this.getLayoutItems(), this.getRenderTarget());
         return true;
-    },
-
-    renderChildren: function () {
-        var me = this;
-        me.renderItems(me.getLayoutItems(), me.getRenderTarget());
     },
 
     /**
@@ -123,17 +106,10 @@ Ext.define('Ext.layout.Layout', {
      * @param {Number} position The position within the target to render the item to
      */
     renderItem : function(item, target, position) {
-        var me = this;
         if (!item.rendered) {
-            if (me.itemCls) {
-                item.addCls(me.itemCls);
-            }
-            if (me.owner.itemCls) {
-                item.addCls(me.owner.itemCls);
-            }
             item.render(target, position);
-            me.configureItem(item);
-            me.childrenChanged = true;
+            this.configureItem(item);
+            this.childrenChanged = true;
         }
     },
 
@@ -178,9 +154,19 @@ Ext.define('Ext.layout.Layout', {
     /**
      * @private
      * Applies itemCls
-     * Empty template method
      */
-    configureItem: Ext.emptyFn,
+    configureItem: function(item) {
+        var me = this,
+            el = item.el,
+            owner = me.owner;
+            
+        if (me.itemCls) {
+            el.addCls(me.itemCls);
+        }
+        if (owner.itemCls) {
+            el.addCls(owner.itemCls);
+        }
+    },
     
     // Placeholder empty functions for subclasses to extend
     onLayout : Ext.emptyFn,
@@ -198,7 +184,6 @@ Ext.define('Ext.layout.Layout', {
             el = item.el,
             owner = me.owner;
             
-        // Clear managed dimensions flag when removed from the layout.
         if (item.rendered) {
             if (me.itemCls) {
                 el.removeCls(me.itemCls);
@@ -207,12 +192,6 @@ Ext.define('Ext.layout.Layout', {
                 el.removeCls(owner.itemCls);
             }
         }
-
-        // These flags are set at the time a child item is added to a layout.
-        // The layout must decide if it is managing the item's width, or its height, or both.
-        // See AbstractComponent for docs on these properties.
-        delete item.layoutManagedWidth;
-        delete item.layoutManagedHeight;
     },
 
     /*

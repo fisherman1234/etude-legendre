@@ -188,7 +188,6 @@ Ext.define('Ext.grid.feature.GroupingSummary', {
             reader = store.proxy.reader,
             groups = me.summaryGroups,
             columns = me.view.headerCt.getColumnsForTpl(),
-            remote,
             i,
             length,
             fieldData,
@@ -211,7 +210,8 @@ Ext.define('Ext.grid.feature.GroupingSummary', {
             reader.root = me.remoteRoot;
             reader.buildExtractors(true);
             Ext.Array.each(reader.getRoot(reader.rawData), function(value) {
-                 remoteData[value[groupField]] = value;
+                 data[value[groupField]] = value;
+                 data[value[groupField]]._remote = true;
             });
             // restore initial reader configuration
             reader.root = root;
@@ -224,15 +224,8 @@ Ext.define('Ext.grid.feature.GroupingSummary', {
             
             for (key in fieldData) {
                 if (fieldData.hasOwnProperty(key)) {
-                    data[key][comp.id] = fieldData[key];
-                }
-            }
-            
-            for (key in remoteData) {
-                if (remoteData.hasOwnProperty(key)) {
-                    remote = remoteData[key][comp.dataIndex];
-                    if (remote !== undefined) {
-                        data[key][comp.id] = remote;
+                    if (!data[key]._remote) {
+                        data[key][comp.dataIndex] = fieldData[key];
                     }
                 }
             }

@@ -1,17 +1,3 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext.layout.container.Fit
  * @extends Ext.layout.container.AbstractFit
@@ -66,23 +52,13 @@ Ext.define('Ext.layout.container.Fit', {
     setItemBox : function(item, box) {
         var me = this;
         if (item && box.height > 0) {
-            if (!me.owner.isFixedWidth()) {
+            if (me.isManaged('width') === true) {
                box.width = undefined;
             }
-            if (!me.owner.isFixedHeight()) {
+            if (me.isManaged('height') === true) {
                box.height = undefined;
             }
             me.setItemSize(item, box.width, box.height);
         }
-    },
-
-    configureItem: function(item) {
-
-        // Card layout only controls dimensions which IT has controlled.
-        // That calculation has to be determined at run time by examining the ownerCt's isFixedWidth()/isFixedHeight() methods
-        item.layoutManagedHeight = 0;
-        item.layoutManagedWidth = 0;
-
-        this.callParent(arguments);
     }
 });

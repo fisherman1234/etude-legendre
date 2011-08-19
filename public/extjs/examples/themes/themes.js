@@ -1,22 +1,7 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 Ext.require([
     'Ext.window.Window',
     'Ext.panel.Panel',
     'Ext.toolbar.*',
-    'Ext.tree.Panel',
     'Ext.container.Viewport',
     'Ext.form.*',
     'Ext.tab.*',
@@ -29,8 +14,8 @@ Ext.require([
 ]);
 
 Ext.onReady(function() {
-    Ext.panel.Panel.prototype.defaultDockWeights = { top: 1, bottom: 3, left: 5, right: 7 };
-
+    Ext.QuickTips.init();
+    
     var items = [];
 
     /**
@@ -39,31 +24,16 @@ Ext.onReady(function() {
     items.push({
         xtype: 'panel',
 
-        x: 50, y: 80,
+        x: 50, y: 100,
 
         width : 150,
-        height: 90,
+        height: 150,
 
         title: 'Basic Panel',
         animCollapse: true,
         bodyPadding: 5,
-        html       : 'Some content'
-    });
-
-    items.push({
-        xtype: 'panel',
-
-        x: 50, y: 180,
-
-        width : 150,
-        height: 70,
-
-        title: 'Collapsed Panel',
-        animCollapse: true,
-        bodyPadding: 5,
         html       : 'Some content',
-        collapsible: true,
-        collapsed: true
+        collapsible: true
     });
 
     /**
@@ -72,10 +42,10 @@ Ext.onReady(function() {
     items.push({
         xtype: 'panel',
 
-        x: 210, y: 80,
+        x: 210, y: 100,
 
-        width : 130,
-        height: 170,
+        width : 150,
+        height: 150,
 
         title: 'Masked Panel',
 
@@ -88,7 +58,7 @@ Ext.onReady(function() {
             render: function(p) {
                 p.body.mask('Loading...');
             },
-            delay: 2000
+            delay: 50
         }
     });
 
@@ -98,10 +68,10 @@ Ext.onReady(function() {
     items.push({
         xtype: 'panel',
 
-        x: 350, y: 80,
+        x: 370, y: 100,
 
-        width : 170,
-        height: 100,
+        width : 150,
+        height: 150,
 
         title: 'Framed Panel',
         animCollapse: true,
@@ -127,38 +97,19 @@ Ext.onReady(function() {
         }],
         
         html       : 'Some content',
-        frame      : true
-    });
-
-    items.push({
-        xtype: 'panel',
-
-        x: 350, y: 190,
-
-        width : 170,
-        height: 60,
-
-        title: 'Collapsed Framed Panel',
-        animCollapse: true,
-        bodyPadding: 5,
-        bodyBorder: true,
-        html       : 'Some content',
         frame      : true,
-        collapsible: true,
-        collapsed: true
+        collapsible: true
     });
 
     /**
      * Basic Window
      */
     Ext.createWidget('window', {
-        x: 530, y: 80,
+        x: 530, y: 100,
 
         width   : 150,
-        height  : 170,
+        height  : 150,
         minWidth: 150,
-        minHeight: 150,
-        maxHeight: 170,
 
         title: 'Window',
 
@@ -168,7 +119,7 @@ Ext.onReady(function() {
         collapsible: true,
         closable   : false,
         draggable  : false,
-        resizable: { handles: 's' },
+        resizable: false,
         animCollapse: true,
 
         tbar: [
@@ -212,13 +163,12 @@ Ext.onReady(function() {
     items.push({
         xtype: 'panel',
 
-        x: 690, y: 80,
+        x: 690, y: 100,
 
         width : 450,
-        height: 170,
+        height: 150,
 
         title: 'Basic Panel With Toolbars',
-        collapsible: true,
 
         tbar: [
             'Toolbar &amp; Menus',
@@ -249,12 +199,6 @@ Ext.onReady(function() {
         ],
         bbar: [
             {text: 'Bottom Bar'}
-        ],
-        lbar:[
-            { text: 'Left' }
-        ],
-        rbar: [
-            { text: 'Right' }
         ]
     });
 
@@ -272,7 +216,6 @@ Ext.onReady(function() {
         width : 630,
         height: 700,
         frame: true,
-        collapsible: true,
                 
         tools: [
             {type:'toggle'},
@@ -285,6 +228,7 @@ Ext.onReady(function() {
             {type:'unpin'},
             {type:'right'},
             {type:'left'},
+            {type:'up'},
             {type:'down'},
             {type:'refresh'},
             {type:'minus'},
@@ -417,7 +361,6 @@ Ext.onReady(function() {
 
         title : 'BorderLayout Panel',
         layout: 'border',
-        collapsible: true,
 
         defaults: {
             collapsible: true,
@@ -512,7 +455,6 @@ Ext.onReady(function() {
         x: 690, y: 620,
 
         title: 'GridPanel',
-        collapsible: true,
 
         store: store,
 
@@ -567,7 +509,6 @@ Ext.onReady(function() {
 
     var accConfig = {
         title : 'Accordion and TreePanel',
-        collapsible: true,
         layout: 'accordion',
 
         x: 690, y: 830,
@@ -737,9 +678,9 @@ Ext.onReady(function() {
         width:250,
         height:182,
         x: 430, y: 1130,
+        collapsible: false,
         xtype: 'gridpanel',
         title: 'Framed Grid',
-        collapsible: true,
         store: store,
         multiSelect: true,
         emptyText: 'No images to display',
@@ -752,20 +693,15 @@ Ext.onReady(function() {
         ]
     });
 
-    for (var i = 0; i < items.length; i++) {
-        items[i].style = {
-            position: 'absolute'
-        };
-        var item = Ext.ComponentManager.create(items[i], 'panel');
-        item.render(document.body);
-    }
+    Ext.createWidget('viewport', {
+        layout: 'absolute',
+        autoScroll: true,
+        items: items
+    });
 
-    setTimeout(function() {
-        Ext.QuickTips.init();
-        progressbar.wait({
-            text: 'Progress text...'
-        });
-    }, 7000);
+    progressbar.wait({
+        text: 'Progress text...'
+    });
         
     /**
      * Stylesheet Switcher
@@ -780,4 +716,3 @@ Ext.onReady(function() {
         }
     });
 });
-

@@ -1,33 +1,20 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @author Jacky Nguyen <jacky@sencha.com>
  * @docauthor Jacky Nguyen <jacky@sencha.com>
  * @class Ext.ClassManager
- *
- * Ext.ClassManager manages all classes and handles mapping from string class name to
- * actual class objects throughout the whole framework. It is not generally accessed directly, rather through
- * these convenient shorthands:
- *
- * - {@link Ext#define Ext.define}
- * - {@link Ext#create Ext.create}
- * - {@link Ext#widget Ext.widget}
- * - {@link Ext#getClass Ext.getClass}
- * - {@link Ext#getClassName Ext.getClassName}
- *
+
+Ext.ClassManager manages all classes and handles mapping from string class name to
+actual class objects throughout the whole framework. It is not generally accessed directly, rather through
+these convenient shorthands:
+
+- {@link Ext#define Ext.define}
+- {@link Ext#create Ext.create}
+- {@link Ext#widget Ext.widget}
+- {@link Ext#getClass Ext.getClass}
+- {@link Ext#getClassName Ext.getClassName}
+
  * @singleton
+ * @markdown
  */
 (function(Class, alias) {
 
@@ -36,7 +23,8 @@ If you are unsure which license is appropriate for your use, please contact the 
     var Manager = Ext.ClassManager = {
 
         /**
-         * @property {Object} classes
+         * @property classes
+         * @type Object
          * All classes which were defined through the ClassManager. Keys are the
          * name of the classes and the values are references to the classes.
          * @private
@@ -184,13 +172,14 @@ If you are unsure which license is appropriate for your use, please contact the 
 
         /**
          * Creates a namespace and assign the `value` to the created object
-         *
-         *     Ext.ClassManager.setNamespace('MyCompany.pkg.Example', someObject);
-         *
-         *     alert(MyCompany.pkg.Example === someObject); // alerts true
-         *
+
+    Ext.ClassManager.setNamespace('MyCompany.pkg.Example', someObject);
+
+    alert(MyCompany.pkg.Example === someObject); // alerts true
+
          * @param {String} name
          * @param {Mixed} value
+         * @markdown
          */
         setNamespace: function(name, value) {
             var root = Ext.global,
@@ -377,14 +366,14 @@ If you are unsure which license is appropriate for your use, please contact the 
         },
 
         /**
-         * Get the name of the class by its reference or its instance.
-         *
-         *     Ext.ClassManager.getName(Ext.Action); // returns "Ext.Action"
-         *
-         * {@link Ext#getClassName Ext.getClassName} is alias for {@link Ext.ClassManager#getName Ext.ClassManager.getName}.
-         *
+         * Get the name of the class by its reference or its instance;
+         * usually invoked by the shorthand {@link Ext#getClassName Ext.getClassName}
+
+    Ext.ClassManager.getName(Ext.Action); // returns "Ext.Action"
+
          * @param {Class/Object} object
          * @return {String} className
+         * @markdown
          */
         getName: function(object) {
             return object && object.$className || '';
@@ -392,63 +381,57 @@ If you are unsure which license is appropriate for your use, please contact the 
 
         /**
          * Get the class of the provided object; returns null if it's not an instance
-         * of any class created with Ext.define.
+         * of any class created with Ext.define. This is usually invoked by the shorthand {@link Ext#getClass Ext.getClass}
          *
-         *     var component = new Ext.Component();
-         *
-         *     Ext.ClassManager.getClass(component); // returns Ext.Component
-         *
-         * {@link Ext#getClass Ext.getClass} is alias for {@link Ext.ClassManager#getClass Ext.ClassManager.getClass}.
-         *
+    var component = new Ext.Component();
+
+    Ext.ClassManager.getClass(component); // returns Ext.Component
+             *
          * @param {Object} object
          * @return {Class} class
+         * @markdown
          */
         getClass: function(object) {
             return object && object.self || null;
         },
 
         /**
-         * Defines a class.
-         *
-         *     Ext.ClassManager.create('My.awesome.Class', {
-         *         someProperty: 'something',
-         *         someMethod: function() { ... }
-         *         ...
-         *
-         *     }, function() {
-         *         alert('Created!');
-         *         alert(this === My.awesome.Class); // alerts true
-         *
-         *         var myInstance = new this();
-         *     });
-         *
-         * {@link Ext#define Ext.define} is alias for {@link Ext.ClassManager#create Ext.ClassManager.create}.
-         *
+         * Defines a class. This is usually invoked via the alias {@link Ext#define Ext.define}
+
+    Ext.ClassManager.create('My.awesome.Class', {
+        someProperty: 'something',
+        someMethod: function() { ... }
+        ...
+
+    }, function() {
+        alert('Created!');
+        alert(this === My.awesome.Class); // alerts true
+
+        var myInstance = new this();
+    });
+
          * @param {String} className The class name to create in string dot-namespaced format, for example:
          * 'My.very.awesome.Class', 'FeedViewer.plugin.CoolPager'
          * It is highly recommended to follow this simple convention:
-         *
-         * - The root and the class name are 'CamelCased'
-         * - Everything else is lower-cased
-         *
+
+- The root and the class name are 'CamelCased'
+- Everything else is lower-cased
+
          * @param {Object} data The key - value pairs of properties to apply to this class. Property names can be of any valid
-         * strings, except those in the reserved list below:
-         *
-         * - {@link Ext.Base#self self}
-         * - {@link Ext.Class#alias alias}
-         * - {@link Ext.Class#alternateClassName alternateClassName}
-         * - {@link Ext.Class#config config}
-         * - {@link Ext.Class#extend extend}
-         * - {@link Ext.Class#inheritableStatics inheritableStatics}
-         * - {@link Ext.Class#mixins mixins}
-         * - {@link Ext.Class#requires requires}
-         * - {@link Ext.Class#singleton singleton}
-         * - {@link Ext.Class#statics statics}
-         * - {@link Ext.Class#uses uses}
+         * strings, except those in the reserved listed below:
+
+- `mixins`
+- `statics`
+- `config`
+- `alias`
+- `self`
+- `singleton`
+- `alternateClassName`
          *
          * @param {Function} createdFn Optional callback to execute after the class is created, the execution scope of which
          * (`this`) will be the newly created class itself.
          * @return {Ext.Base}
+         * @markdown
          */
         create: function(className, data, createdFn) {
             var manager = this;
@@ -519,19 +502,17 @@ If you are unsure which license is appropriate for your use, please contact the 
         },
 
         /**
-         * Instantiate a class by its alias.
-         *
+         * Instantiate a class by its alias; usually invoked by the convenient shorthand {@link Ext#createByAlias Ext.createByAlias}
          * If {@link Ext.Loader} is {@link Ext.Loader#setConfig enabled} and the class has not been defined yet, it will
          * attempt to load the class via synchronous loading.
-         *
-         *     var window = Ext.ClassManager.instantiateByAlias('widget.window', { width: 600, height: 800, ... });
-         *
-         * {@link Ext#createByAlias Ext.createByAlias} is alias for {@link Ext.ClassManager#instantiateByAlias Ext.ClassManager.instantiateByAlias}.
-         *
+
+    var window = Ext.ClassManager.instantiateByAlias('widget.window', { width: 600, height: 800, ... });
+
          * @param {String} alias
          * @param {Mixed} args,... Additional arguments after the alias will be passed to the
          * class constructor.
          * @return {Object} instance
+         * @markdown
          */
         instantiateByAlias: function() {
             var alias = arguments[0],
@@ -567,27 +548,27 @@ If you are unsure which license is appropriate for your use, please contact the 
         },
 
         /**
-         * Instantiate a class by either full name, alias or alternate name.
+         * Instantiate a class by either full name, alias or alternate name; usually invoked by the convenient
+         * shorthand {@link Ext#create Ext.create}
          *
          * If {@link Ext.Loader} is {@link Ext.Loader#setConfig enabled} and the class has not been defined yet, it will
          * attempt to load the class via synchronous loading.
          *
          * For example, all these three lines return the same result:
-         *
-         *     // alias
-         *     var window = Ext.ClassManager.instantiate('widget.window', { width: 600, height: 800, ... });
-         *
-         *     // alternate name
-         *     var window = Ext.ClassManager.instantiate('Ext.Window', { width: 600, height: 800, ... });
-         *
-         *     // full class name
-         *     var window = Ext.ClassManager.instantiate('Ext.window.Window', { width: 600, height: 800, ... });
-         *
-         * {@link Ext#create Ext.create} is alias for {@link Ext.ClassManager#instantiate Ext.ClassManager.instantiate}.
-         *
+
+    // alias
+    var window = Ext.ClassManager.instantiate('widget.window', { width: 600, height: 800, ... });
+
+    // alternate name
+    var window = Ext.ClassManager.instantiate('Ext.Window', { width: 600, height: 800, ... });
+
+    // full class name
+    var window = Ext.ClassManager.instantiate('Ext.window.Window', { width: 600, height: 800, ... });
+
          * @param {String} name
          * @param {Mixed} args,... Additional arguments after the name will be passed to the class' constructor.
          * @return {Object} instance
+         * @markdown
          */
         instantiate: function() {
             var name = arguments[0],
@@ -779,7 +760,7 @@ If you are unsure which license is appropriate for your use, please contact the 
             index = Ext.Array.indexOf(defaultPostprocessors, relativeName);
 
             if (index !== -1) {
-                Ext.Array.splice(defaultPostprocessors, Math.max(0, index + offset), 0, name);
+                defaultPostprocessors.splice(Math.max(0, index + offset), 0, name);
             }
 
             return this;
@@ -788,16 +769,16 @@ If you are unsure which license is appropriate for your use, please contact the 
         /**
          * Converts a string expression to an array of matching class names. An expression can either refers to class aliases
          * or class names. Expressions support wildcards:
-         *
-         *     // returns ['Ext.window.Window']
-         *     var window = Ext.ClassManager.getNamesByExpression('widget.window');
-         *
-         *     // returns ['widget.panel', 'widget.window', ...]
-         *     var allWidgets = Ext.ClassManager.getNamesByExpression('widget.*');
-         *
-         *     // returns ['Ext.data.Store', 'Ext.data.ArrayProxy', ...]
-         *     var allData = Ext.ClassManager.getNamesByExpression('Ext.data.*');
-         *
+
+     // returns ['Ext.window.Window']
+    var window = Ext.ClassManager.getNamesByExpression('widget.window');
+
+    // returns ['widget.panel', 'widget.window', ...]
+    var allWidgets = Ext.ClassManager.getNamesByExpression('widget.*');
+
+    // returns ['Ext.data.Store', 'Ext.data.ArrayProxy', ...]
+    var allData = Ext.ClassManager.getNamesByExpression('Ext.data.*');
+
          * @param {String} expression
          * @return {Array} classNames
          * @markdown
@@ -861,27 +842,6 @@ If you are unsure which license is appropriate for your use, please contact the 
         }
     };
 
-    /**
-     * @cfg {[String]} alias
-     * @member Ext.Class
-     * List of short aliases for class names.  Most useful for defining xtypes for widgets:
-     *
-     *     Ext.define('MyApp.CoolPanel', {
-     *         extend: 'Ext.panel.Panel',
-     *         alias: ['widget.coolpanel'],
-     *         title: 'Yeah!'
-     *     });
-     *
-     *     // Using Ext.create
-     *     Ext.widget('widget.coolpanel');
-     *     // Using the shorthand for widgets and in xtypes
-     *     Ext.widget('panel', {
-     *         items: [
-     *             {xtype: 'coolpanel', html: 'Foo'},
-     *             {xtype: 'coolpanel', html: 'Bar'}
-     *         ]
-     *     });
-     */
     Manager.registerPostprocessor('alias', function(name, cls, data) {
         var aliases = data.alias,
             widgetPrefix = 'widget.',
@@ -919,43 +879,11 @@ If you are unsure which license is appropriate for your use, please contact the 
         }
     });
 
-    /**
-     * @cfg {Boolean} singleton
-     * @member Ext.Class
-     * When set to true, the class will be instanciated as singleton.  For example:
-     *
-     *     Ext.define('Logger', {
-     *         singleton: true,
-     *         log: function(msg) {
-     *             console.log(msg);
-     *         }
-     *     });
-     *
-     *     Logger.log('Hello');
-     */
     Manager.registerPostprocessor('singleton', function(name, cls, data, fn) {
         fn.call(this, name, new cls(), data);
         return false;
     });
 
-    /**
-     * @cfg {String/[String]} alternateClassName
-     * @member Ext.Class
-     * Defines alternate names for this class.  For example:
-     *
-     *     Ext.define('Developer', {
-     *         alternateClassName: ['Coder', 'Hacker'],
-     *         code: function(msg) {
-     *             alert('Typing... ' + msg);
-     *         }
-     *     });
-     *
-     *     var joe = Ext.create('Developer');
-     *     joe.code('stackoverflow');
-     *
-     *     var rms = Ext.create('Hacker');
-     *     rms.code('hack hack');
-     */
     Manager.registerPostprocessor('alternateClassName', function(name, cls, data) {
         var alternates = data.alternateClassName,
             i, ln, alternate;
@@ -985,9 +913,9 @@ If you are unsure which license is appropriate for your use, please contact the 
 
     Ext.apply(Ext, {
         /**
-         * @method
+         * Convenient shorthand, see {@link Ext.ClassManager#instantiate}
          * @member Ext
-         * @alias Ext.ClassManager#instantiate
+         * @method create
          */
         create: alias(Manager, 'instantiate'),
 
@@ -1039,14 +967,13 @@ If you are unsure which license is appropriate for your use, please contact the 
 
         /**
          * Convenient shorthand to create a widget by its xtype, also see {@link Ext.ClassManager#instantiateByAlias}
-         *
-         *     var button = Ext.widget('button'); // Equivalent to Ext.create('widget.button')
-         *     var panel = Ext.widget('panel'); // Equivalent to Ext.create('widget.panel')
-         *
-         * @method
+
+    var button = Ext.widget('button'); // Equivalent to Ext.create('widget.button')
+    var panel = Ext.widget('panel'); // Equivalent to Ext.create('widget.panel')
+
          * @member Ext
-         * @param {String} name  xtype of the widget to create.
-         * @return {Object} widget instance
+         * @method widget
+         * @markdown
          */
         widget: function(name) {
             var args = slice.call(arguments);
@@ -1056,23 +983,23 @@ If you are unsure which license is appropriate for your use, please contact the 
         },
 
         /**
-         * @method
+         * Convenient shorthand, see {@link Ext.ClassManager#instantiateByAlias}
          * @member Ext
-         * @alias Ext.ClassManager#instantiateByAlias
+         * @method createByAlias
          */
         createByAlias: alias(Manager, 'instantiateByAlias'),
 
         /**
-         * @method
+         * Convenient shorthand for {@link Ext.ClassManager#create}, see detailed {@link Ext.Class explanation}
          * @member Ext
-         * @alias Ext.ClassManager#create
+         * @method define
          */
         define: alias(Manager, 'create'),
 
         /**
-         * @method
+         * Convenient shorthand, see {@link Ext.ClassManager#getName}
          * @member Ext
-         * @alias Ext.ClassManager#getName
+         * @method getClassName
          */
         getClassName: alias(Manager, 'getName'),
 
@@ -1097,49 +1024,43 @@ If you are unsure which license is appropriate for your use, please contact the 
         },
 
         /**
-         * @method
+         * Convenient shorthand, see {@link Ext.ClassManager#getClass}
          * @member Ext
-         * @alias Ext.ClassManager#getClass
+         * @method getClassName
          */
         getClass: alias(Manager, 'getClass'),
 
         /**
          * Creates namespaces to be used for scoping variables and classes so that they are not global.
          * Specifying the last node of a namespace implicitly creates all other nodes. Usage:
-         *
-         *     Ext.namespace('Company', 'Company.data');
-         *
-         *     // equivalent and preferable to the above syntax
-         *     Ext.namespace('Company.data');
-         *
-         *     Company.Widget = function() { ... };
-         *
-         *     Company.data.CustomStore = function(config) { ... };
-         *
-         * @method
-         * @member Ext
+
+    Ext.namespace('Company', 'Company.data');
+
+     // equivalent and preferable to the above syntax
+    Ext.namespace('Company.data');
+
+    Company.Widget = function() { ... };
+
+    Company.data.CustomStore = function(config) { ... };
+
          * @param {String} namespace1
          * @param {String} namespace2
          * @param {String} etc
          * @return {Object} The namespace object. (If multiple arguments are passed, this will be the last namespace created)
+         * @function
+         * @member Ext
+         * @method namespace
+         * @markdown
          */
         namespace: alias(Manager, 'createNamespaces')
     });
 
-    /**
-     * Old name for {@link Ext#widget}.
-     * @deprecated 4.0.0 Use {@link Ext#widget} instead.
-     * @method
-     * @member Ext
-     * @alias Ext#widget
-     */
     Ext.createWidget = Ext.widget;
 
     /**
      * Convenient alias for {@link Ext#namespace Ext.namespace}
-     * @method
      * @member Ext
-     * @alias Ext#namespace
+     * @method ns
      */
     Ext.ns = Ext.namespace;
 
@@ -1155,4 +1076,3 @@ If you are unsure which license is appropriate for your use, please contact the 
     Class.setDefaultPreprocessorPosition('className', 'first');
 
 })(Ext.Class, Ext.Function.alias);
-

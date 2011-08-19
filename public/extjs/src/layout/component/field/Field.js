@@ -1,17 +1,3 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext.layout.component.field.Field
  * @extends Ext.layout.component.Component
@@ -146,7 +132,7 @@ Ext.define('Ext.layout.component.field.Field', {
 
     /**
      * Return the set of strategy functions from the {@link #labelStrategies labelStrategies collection}
-     * that is appropriate for the field's {@link Ext.form.Labelable#labelAlign labelAlign} config.
+     * that is appropriate for the field's {@link Ext.form.field.Field#labelAlign labelAlign} config.
      */
     getLabelStrategy: function() {
         var me = this,
@@ -157,7 +143,7 @@ Ext.define('Ext.layout.component.field.Field', {
 
     /**
      * Return the set of strategy functions from the {@link #errorStrategies errorStrategies collection}
-     * that is appropriate for the field's {@link Ext.form.Labelable#msgTarget msgTarget} config.
+     * that is appropriate for the field's {@link Ext.form.field.Field#msgTarget msgTarget} config.
      */
     getErrorStrategy: function() {
         var me = this,
@@ -173,7 +159,7 @@ Ext.define('Ext.layout.component.field.Field', {
 
     /**
      * Collection of named strategies for laying out and adjusting labels to accommodate error messages.
-     * An appropriate one will be chosen based on the owner field's {@link Ext.form.Labelable#labelAlign} config.
+     * An appropriate one will be chosen based on the owner field's {@link Ext.form.field.Field#labelAlign} config.
      */
     labelStrategies: (function() {
         var applyIf = Ext.applyIf,
@@ -253,7 +239,7 @@ Ext.define('Ext.layout.component.field.Field', {
 
     /**
      * Collection of named strategies for laying out and adjusting insets to accommodate error messages.
-     * An appropriate one will be chosen based on the owner field's {@link Ext.form.Labelable#msgTarget} config.
+     * An appropriate one will be chosen based on the owner field's {@link Ext.form.field.Field#msgTarget} config.
      */
     errorStrategies: (function() {
         function setDisplayed(el, displayed) {
@@ -404,4 +390,3 @@ Ext.define('Ext.layout.component.field.Field', {
     }
 
 });
-

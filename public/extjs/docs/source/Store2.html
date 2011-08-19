@@ -15,8 +15,8 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js"><span id='Ext-data-Store'>/**
-</span> * @author Ed Spencer
+  <pre class="prettyprint lang-js"><span id='Ext-data-Store-method-constructor'><span id='Ext-data-Store'>/**
+</span></span> * @author Ed Spencer
  * @class Ext.data.Store
  * @extends Ext.data.AbstractStore
  *
@@ -224,6 +224,8 @@ new Ext.view.View({
  * &lt;li&gt;{@link Ext.data.reader.Reader Reader} - used by any subclass of {@link Ext.data.proxy.Server ServerProxy} to read a response&lt;/li&gt;
  * &lt;/ul&gt;
  *
+ * @constructor
+ * @param {Object} config Optional config object
  */
 Ext.define('Ext.data.Store', {
     extend: 'Ext.data.AbstractStore',
@@ -333,10 +335,7 @@ Ext.define('Ext.data.Store', {
 
     isStore: true,
 
-<span id='Ext-data-Store-method-constructor'>    /**
-</span>     * Creates the store.
-     * @param {Object} config (optional) Config object
-     */
+    //documented above
     constructor: function(config) {
         config = config || {};
 
@@ -1279,7 +1278,7 @@ store.load(function(records, operation, success) {
 
         if (!options.addRecords) {
             delete me.snapshot;
-            me.clearData();
+            me.data.clear();
         }
 
         me.data.addAll(records);

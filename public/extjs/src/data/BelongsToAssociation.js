@@ -1,17 +1,3 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @author Ed Spencer
  * @class Ext.data.BelongsToAssociation
@@ -249,37 +235,38 @@ associations: [{
         return function(options, scope) {
             options = options || {};
 
-            var model = this,
-                foreignKeyId = model.get(foreignKey),
-                instance,
-                args;
+            var foreignKeyId = this.get(foreignKey),
+                instance, callbackFn;
 
-            if (model[instanceName] === undefined) {
+            if (this[instanceName] === undefined) {
                 instance = Ext.ModelManager.create({}, associatedName);
                 instance.set(primaryKey, foreignKeyId);
 
                 if (typeof options == 'function') {
                     options = {
                         callback: options,
-                        scope: scope || model
+                        scope: scope || this
                     };
                 }
 
                 associatedModel.load(foreignKeyId, options);
-                model[instanceName] = associatedModel;
-                return associatedModel;
             } else {
-                instance = model[instanceName];
-                args = [instance];
-                scope = scope || model;
-                
+                instance = this[instanceName];
+
                 //TODO: We're duplicating the callback invokation code that the instance.load() call above
                 //makes here - ought to be able to normalize this - perhaps by caching at the Model.load layer
                 //instead of the association layer.
-                Ext.callback(options, scope, args);
-                Ext.callback(options.success, scope, args);
-                Ext.callback(options.failure, scope, args);
-                Ext.callback(options.callback, scope, args);
+                if (typeof options == 'function') {
+                    options.call(scope || this, instance);
+                }
+
+                if (options.success) {
+                    options.success.call(scope || this, instance);
+                }
+
+                if (options.callback) {
+                    options.callback.call(scope || this, instance);
+                }
 
                 return instance;
             }
@@ -297,4 +284,3 @@ associations: [{
         record[this.instanceName] = reader.read([associationData]).records[0];
     }
 });
-

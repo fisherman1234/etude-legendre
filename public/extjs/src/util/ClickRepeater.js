@@ -1,17 +1,3 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext.util.ClickRepeater
  * @extends Ext.util.Observable
@@ -22,15 +8,14 @@ If you are unsure which license is appropriate for your use, please contact the 
  *
  * Optionally, a CSS class may be applied to the element during the time it is pressed.
  *
+ * @constructor
+ * @param {Mixed} el The element to listen on
+ * @param {Object} config
  */
+
 Ext.define('Ext.util.ClickRepeater', {
     extend: 'Ext.util.Observable',
 
-    /**
-     * Creates new ClickRepeater.
-     * @param {Mixed} el The element to listen on
-     * @param {Object} config (optional) Config object.
-     */
     constructor : function(el, config){
         this.el = Ext.get(el);
         this.el.unselectable();
@@ -244,4 +229,3 @@ Ext.define('Ext.util.ClickRepeater', {
         this.fireEvent("mouseup", this, e);
     }
 });
-

@@ -1,21 +1,8 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext.panel.Header
  * @extends Ext.container.Container
  * Simple header class which is used for on {@link Ext.panel.Panel} and {@link Ext.window.Window}
+ * @xtype header
  */
 Ext.define('Ext.panel.Header', {
     extend: 'Ext.container.Container',
@@ -101,7 +88,6 @@ Ext.define('Ext.panel.Header', {
                 ariaRole  : 'heading',
                 focusable: false,
                 viewBox: false,
-                flex : 1,
                 autoSize: true,
                 margins: '5 0 0 0',
                 items: [ me.textConfig ],
@@ -120,7 +106,6 @@ Ext.define('Ext.panel.Header', {
                 xtype     : 'component',
                 ariaRole  : 'heading',
                 focusable: false,
-                flex : 1,
                 renderTpl : ['<span class="{cls}-text {cls}-text-{ui}">{title}</span>'],
                 renderData: {
                     title: me.title,
@@ -133,6 +118,14 @@ Ext.define('Ext.panel.Header', {
             });
         }
         me.items.push(me.titleCmp);
+
+        // Spacer ->
+        me.items.push({
+            xtype: 'component',
+            html : '&nbsp;',
+            flex : 1,
+            focusable: false
+        });
 
         // Add Tools
         me.items = me.items.concat(me.tools);
@@ -182,90 +175,36 @@ Ext.define('Ext.panel.Header', {
 
     // inherit docs
     addUIClsToElement: function(cls, force) {
-        var me = this,
-            result = me.callParent(arguments),
-            classes = [me.baseCls + '-body-' + cls, me.baseCls + '-body-' + me.ui + '-' + cls],
-            array, i;
+        var me = this;
+
+        me.callParent(arguments);
 
         if (!force && me.rendered) {
-            if (me.bodyCls) {
-                me.body.addCls(me.bodyCls);
-            } else {
-                me.body.addCls(classes);
-            }
-        } else {
-            if (me.bodyCls) {
-                array = me.bodyCls.split(' ');
-
-                for (i = 0; i < classes.length; i++) {
-                    if (!Ext.Array.contains(array, classes[i])) {
-                        array.push(classes[i]);
-                    }
-                }
-
-                me.bodyCls = array.join(' ');
-            } else {
-                me.bodyCls = classes.join(' ');
-            }
+            me.body.addCls(me.baseCls + '-body-' + cls);
+            me.body.addCls(me.baseCls + '-body-' + me.ui + '-' + cls);
         }
- 
-        return result;
     },
 
     // inherit docs
     removeUIClsFromElement: function(cls, force) {
-        var me = this,
-            result = me.callParent(arguments),
-            classes = [me.baseCls + '-body-' + cls, me.baseCls + '-body-' + me.ui + '-' + cls],
-            array, i;
+        var me = this;
+
+        me.callParent(arguments);
 
         if (!force && me.rendered) {
-            if (me.bodyCls) {
-                me.body.removeCls(me.bodyCls);
-            } else {
-                me.body.removeCls(classes);
-            }
-        } else {
-            if (me.bodyCls) {
-                array = me.bodyCls.split(' ');
-
-                for (i = 0; i < classes.length; i++) {
-                    Ext.Array.remove(array, classes[i]);
-                }
-
-                me.bodyCls = array.join(' ');
-            }
+            me.body.removeCls(me.baseCls + '-body-' + cls);
+            me.body.removeCls(me.baseCls + '-body-' + me.ui + '-' + cls);
         }
-
-       return result;
     },
 
     // inherit docs
     addUIToElement: function(force) {
-        var me = this,
-            array, cls;
+        var me = this;
 
         me.callParent(arguments);
 
-        cls = me.baseCls + '-body-' + me.ui;
         if (!force && me.rendered) {
-            if (me.bodyCls) {
-                me.body.addCls(me.bodyCls);
-            } else {
-                me.body.addCls(cls);
-            }
-        } else {
-            if (me.bodyCls) {
-                array = me.bodyCls.split(' ');
-
-                if (!Ext.Array.contains(array, cls)) {
-                    array.push(cls);
-                }
-
-                me.bodyCls = array.join(' ');
-            } else {
-                me.bodyCls = cls;
-            }
+            me.body.addCls(me.baseCls + '-body-' + me.ui);
         }
 
         if (!force && me.titleCmp && me.titleCmp.rendered && me.titleCmp.textEl) {
@@ -275,26 +214,12 @@ Ext.define('Ext.panel.Header', {
 
     // inherit docs
     removeUIFromElement: function() {
-        var me = this,
-            array, cls;
+        var me = this;
 
         me.callParent(arguments);
 
-        cls = me.baseCls + '-body-' + me.ui;
         if (me.rendered) {
-            if (me.bodyCls) {
-                me.body.removeCls(me.bodyCls);
-            } else {
-                me.body.removeCls(cls);
-            }
-        } else {
-            if (me.bodyCls) {
-                array = me.bodyCls.split(' ');
-                Ext.Array.remove(array, cls);
-                me.bodyCls = array.join(' ');
-            } else {
-                me.bodyCls = cls;
-            }
+            me.body.removeCls(me.baseCls + '-body-' + me.ui);
         }
 
         if (me.titleCmp && me.titleCmp.rendered && me.titleCmp.textEl) {
@@ -407,4 +332,3 @@ Ext.define('Ext.panel.Header', {
         }
     }
 });
-

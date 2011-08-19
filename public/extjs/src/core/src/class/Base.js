@@ -1,17 +1,3 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @author Jacky Nguyen <jacky@sencha.com>
  * @docauthor Jacky Nguyen <jacky@sencha.com>
@@ -66,10 +52,17 @@ var Base = Ext.Base = function() {};
          *
          * @type Class
          * @protected
+         * @markdown
          */
         self: Base,
 
-        // Default constructor, simply returns `this`
+        /**
+         * Default constructor, simply returns `this`
+         *
+         * @constructor
+         * @protected
+         * @return {Object} this
+         */
         constructor: function() {
             return this;
         },
@@ -100,6 +93,7 @@ var Base = Ext.Base = function() {};
          * @protected
          * @param {Object} config
          * @return {Object} mixins The mixin prototypes as key - value pairs
+         * @markdown
          */
         initConfig: function(config) {
             if (!this.$configInited) {
@@ -173,6 +167,7 @@ var Base = Ext.Base = function() {};
          * @param {Array/Arguments} args The arguments, either an array or the `arguments` object
          * from the current method, for example: `this.callParent(arguments)`
          * @return {Mixed} Returns the result from the superclass' method
+         * @markdown
          */
         callParent: function(args) {
             var method = this.callParent.caller,
@@ -268,6 +263,7 @@ var Base = Ext.Base = function() {};
          *
          * @protected
          * @return {Class}
+         * @markdown
          */
         statics: function() {
             var method = this.statics.caller,
@@ -309,6 +305,7 @@ var Base = Ext.Base = function() {};
          *
          * @param {Array/Arguments} args The arguments, either an array or the `arguments` object
          * @return {Mixed} Returns the result after calling the overridden method
+         * @markdown
          */
         callOverridden: function(args) {
             var method = this.callOverridden.caller;
@@ -351,10 +348,10 @@ var Base = Ext.Base = function() {};
          *         someConfig: true
          *     });
          *
-         * All parameters are passed to the constructor of the class.
-         *
-         * @return {Object} the created instance.
+         * @property create
          * @static
+         * @type Function
+         * @markdown
          */
         create: function() {
             return Ext.create.apply(Ext, [this].concat(Array.prototype.slice.call(arguments, 0)));
@@ -412,9 +409,11 @@ var Base = Ext.Base = function() {};
          *         method2: function() { ... }     // My.cool.Class.method2 = function() { ... };
          *     });
          *
-         * @param {Object} members
-         * @return {Ext.Base} this
+         * @property addStatics
          * @static
+         * @type Function
+         * @param {Object} members
+         * @markdown
          */
         addStatics: function(members) {
             for (var name in members) {
@@ -444,8 +443,11 @@ var Base = Ext.Base = function() {};
          *      var kitty = new My.awesome.Cat;
          *      kitty.meow();
          *
-         * @param {Object} members
+         * @property implement
          * @static
+         * @type Function
+         * @param {Object} members
+         * @markdown
          */
         implement: function(members) {
             var prototype = this.prototype,
@@ -508,11 +510,13 @@ var Base = Ext.Base = function() {};
          *     alert(steve.money); // alerts '$$$'
          *     steve.printMoney(); // alerts '$$$$$$$'
          *
+         * @property borrow
+         * @static
+         * @type Function
          * @param {Ext.Base} fromClass The class to borrow members from
          * @param {Array/String} members The names of the members to borrow
          * @return {Ext.Base} this
-         * @static
-         * @private
+         * @markdown
          */
         borrow: function(fromClass, members) {
             var fromPrototype = fromClass.prototype,
@@ -557,9 +561,12 @@ var Base = Ext.Base = function() {};
          *                               // alerts "I'm a cat!"
          *                               // alerts "Meeeeoooowwww"
          *
+         * @property override
+         * @static
+         * @type Function
          * @param {Object} members
          * @return {Ext.Base} this
-         * @static
+         * @markdown
          */
         override: function(members) {
             var prototype = this.prototype,
@@ -654,6 +661,7 @@ var Base = Ext.Base = function() {};
          *     My.cool.Class.getName(); // 'My.cool.Class'
          *
          * @return {String} className
+         * @markdown
          */
         getName: function() {
             return Ext.getClassName(this);
@@ -680,11 +688,13 @@ var Base = Ext.Base = function() {};
          *
          *     test.method5(); // test.method3() -> test.method1()
          *
+         * @property createAlias
+         * @static
+         * @type Function
          * @param {String/Object} alias The new method name, or an object to set multiple aliases. See
          * {@link Ext.Function#flexSetter flexSetter}
          * @param {String/Object} origin The original method name
-         * @static
-         * @method
+         * @markdown
          */
         createAlias: flexSetter(function(alias, origin) {
             this.prototype[alias] = this.prototype[origin];
@@ -692,4 +702,3 @@ var Base = Ext.Base = function() {};
     });
 
 })(Ext.Function.flexSetter);
-

@@ -1,17 +1,3 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext.fx.PropertyHandler
  * @ignore
@@ -24,25 +10,23 @@ Ext.define('Ext.fx.PropertyHandler', {
 
     statics: {
         defaultHandler: {
-            pixelDefaultsRE: /width|height|top$|bottom$|left$|right$/i,
+            pixelDefaults: ['width', 'height', 'top', 'left'],
             unitRE: /^(-?\d*\.?\d*){1}(em|ex|px|in|cm|mm|pt|pc|%)*$/,
-            scrollRE: /^scroll/i,
 
             computeDelta: function(from, end, damper, initial, attr) {
                 damper = (typeof damper == 'number') ? damper : 1;
-                var unitRE = this.unitRE,
-                    match = unitRE.exec(from),
+                var match = this.unitRE.exec(from),
                     start, units;
                 if (match) {
                     from = match[1];
                     units = match[2];
-                    if (!this.scrollRE.test(attr) && !units && this.pixelDefaultsRE.test(attr)) {
+                    if (!units && Ext.Array.contains(this.pixelDefaults, attr)) {
                         units = 'px';
                     }
                 }
                 from = +from || 0;
 
-                match = unitRE.exec(end);
+                match = this.unitRE.exec(end);
                 if (match) {
                     end = match[1];
                     units = match[2] || units;

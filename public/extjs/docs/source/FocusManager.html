@@ -437,14 +437,10 @@ Ext.define('Ext.FocusManager', {
 
         if (!me.focusedCmp || !(parent = me.focusedCmp.up(':focusable'))) {
             me.focusEl.focus();
-        } else {
-            parent.focus();
+            return;
         }
 
-        // In some browsers (Chrome) FocusManager can handle this before other
-        // handlers. Ext Windows have their own Esc key handling, so we need to
-        // return true here to allow the event to bubble.
-        return true;
+        parent.focus();
     },
 
     navigateSiblings: function(e, source, parent) {

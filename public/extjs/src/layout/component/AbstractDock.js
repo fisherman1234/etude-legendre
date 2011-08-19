@@ -1,17 +1,3 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext.layout.component.AbstractDock
  * @extends Ext.layout.component.Component
@@ -159,8 +145,6 @@ Ext.define('Ext.layout.component.AbstractDock', {
             },
             bodyBox: {}
         };
-        // Clear isAutoDock flag
-        delete layout.isAutoDock;
 
         Ext.applyIf(info, me.getTargetInfo());
 
@@ -206,8 +190,6 @@ Ext.define('Ext.layout.component.AbstractDock', {
             if (layout && layout.isLayout) {
                 // Auto-Sized so have the container layout notify the component layout.
                 layout.bindToOwnerCtComponent = true;
-                // Set flag so we don't do a redundant container layout
-                layout.isAutoDock = layout.autoSize !== true;
                 layout.layout();
 
                 // If this is an autosized container layout, then we must compensate for a
@@ -441,7 +423,6 @@ Ext.define('Ext.layout.component.AbstractDock', {
      */
     adjustAutoBox : function (box, index) {
         var info = this.info,
-            owner = this.owner,
             bodyBox = info.bodyBox,
             size = info.size,
             boxes = info.boxes,
@@ -472,43 +453,33 @@ Ext.define('Ext.layout.component.AbstractDock', {
                 box.y = bodyBox.y;
                 if (!box.overlay) {
                     bodyBox.y += box.height;
-                    if (owner.isFixedHeight()) {
-                        bodyBox.height -= box.height;
-                    } else {
-                        size.height += box.height;
-                    }
                 }
+                size.height += box.height;
                 break;
 
             case 'bottom':
-                if (!box.overlay) {
-                    if (owner.isFixedHeight()) {
-                        bodyBox.height -= box.height;
-                    } else {
-                        size.height += box.height;
-                    }
-                }
                 box.y = (bodyBox.y + bodyBox.height);
+                size.height += box.height;
                 break;
 
             case 'left':
                 box.x = bodyBox.x;
                 if (!box.overlay) {
                     bodyBox.x += box.width;
-                    if (owner.isFixedWidth()) {
-                        bodyBox.width -= box.width;
-                    } else {
+                    if (autoSizedCtLayout) {
                         size.width += box.width;
+                    } else {
+                        bodyBox.width -= box.width;
                     }
                 }
                 break;
 
             case 'right':
                 if (!box.overlay) {
-                    if (owner.isFixedWidth()) {
-                        bodyBox.width -= box.width;
-                    } else {
+                    if (autoSizedCtLayout) {
                         size.width += box.width;
+                    } else {
+                        bodyBox.width -= box.width;
                     }
                 }
                 box.x = (bodyBox.x + bodyBox.width);
@@ -727,13 +698,6 @@ Ext.define('Ext.layout.component.AbstractDock', {
      */
     configureItem : function(item, pos) {
         this.callParent(arguments);
-        if (item.dock == 'top' || item.dock == 'bottom') {
-            item.layoutManagedWidth = 1;
-            item.layoutManagedHeight = 2;
-        } else {
-            item.layoutManagedWidth = 2;
-            item.layoutManagedHeight = 1;
-        }
         
         item.addCls(Ext.baseCSSPrefix + 'docked');
         item.addClsWithUI('docked-' + item.dock);

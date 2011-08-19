@@ -18,7 +18,7 @@ Ext.define('TP.controller.Dossiers', {
                 click: this.updateDossier
             },
             'dossieredit button[action=cancel]': {
-                click: this.cancelUpdate
+                //click: this.cancelUpdate
             },
             'dossierContact button[action=add-contact]': {
                 click: this.addContact

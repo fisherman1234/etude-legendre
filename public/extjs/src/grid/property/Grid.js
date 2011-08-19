@@ -1,17 +1,3 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext.grid.property.Grid
  * @extends Ext.grid.Panel
@@ -32,11 +18,14 @@ var grid = new Ext.grid.property.Grid({
     }
 });
 </code></pre>
+ * @constructor
+ * @param {Object} config The grid config object
+ * @xtype propertygrid
  */
 Ext.define('Ext.grid.property.Grid', {
 
     extend: 'Ext.grid.Panel',
-
+    
     alias: 'widget.propertygrid',
 
     alternateClassName: 'Ext.grid.PropertyGrid',
@@ -130,11 +119,6 @@ var grid = Ext.create('Ext.grid.property.Grid', {
      */
     nameField: 'name',
 
-    /**
-     * @cfg {Number} nameColumnWidth
-     * Optional. Specify the width for the name column. The value column will take any remaining space. Defaults to <tt>115</tt>.
-     */
-
     // private config overrides
     enableColumnMove: false,
     columnLines: true,
@@ -157,7 +141,7 @@ var grid = Ext.create('Ext.grid.property.Grid', {
             // Inject a startEdit which always edits the value column
             startEdit: function(record, column) {
                 // Maintainer: Do not change this 'this' to 'me'! It is the CellEditing object's own scope.
-                return this.self.prototype.startEdit.call(this, record, me.headerCt.child('#' + me.valueField));
+                Ext.grid.plugin.CellEditing.prototype.startEdit.call(this, record, me.headerCt.child('#' + me.valueField));
             }
         }));
 
@@ -166,8 +150,8 @@ var grid = Ext.create('Ext.grid.property.Grid', {
             onCellSelect: function(position) {
                 if (position.column != 1) {
                     position.column = 1;
+                    Ext.selection.CellModel.prototype.onCellSelect.call(this, position);
                 }
-                return this.self.prototype.onCellSelect.call(this, position);
             }
         };
         me.customRenderers = me.customRenderers || {};
@@ -185,7 +169,7 @@ var grid = Ext.create('Ext.grid.property.Grid', {
             /**
              * @event beforepropertychange
              * Fires before a property value changes.  Handlers can return false to cancel the property change
-             * (this will internally call {@link Ext.data.Model#reject} on the property's record).
+             * (this will internally call {@link Ext.data.Record#reject} on the property's record).
              * @param {Object} source The source data object for the grid (corresponds to the same object passed in
              * as the {@link #source} config property).
              * @param {String} recordId The record's id in the data store
@@ -221,7 +205,7 @@ var grid = Ext.create('Ext.grid.property.Grid', {
         };
 
         // Track changes to the data so we can fire our events.
-        me.store.on('update', me.onUpdate, me);
+        this.store.on('update', me.onUpdate, me);
     },
 
     // private
@@ -262,7 +246,7 @@ var grid = Ext.create('Ext.grid.property.Grid', {
     // returns the correct editor type for the property type, or a custom one keyed by the property name
     getCellEditor : function(record, column) {
         var me = this,
-            propName = record.get(me.nameField),
+            propName = record.get(me.nameField), 
             val = record.get(me.valueField),
             editor = me.customEditors[propName];
 

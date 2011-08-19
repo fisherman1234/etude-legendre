@@ -24,17 +24,13 @@
 Ext.define('Ext.grid.CellEditor', {
     extend: 'Ext.Editor',
     constructor: function(config) {
-        config = Ext.apply({}, config);
-        
         if (config.field) {
             config.field.monitorTab = false;
         }
-        if (!Ext.isDefined(config.autoSize)) {
-            config.autoSize = {
-                width: 'boundEl'
-            };
-        }
-        this.callParent([config]);
+        config.autoSize = {
+            width: 'boundEl'
+        };
+        this.callParent(arguments);
     },
     
 <span id='Ext-grid-CellEditor-method-onShow'>    /**

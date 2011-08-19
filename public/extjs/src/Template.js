@@ -1,17 +1,3 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext.Template
  * <p>Represents an HTML fragment template. Templates may be {@link #compile precompiled}
@@ -133,6 +119,7 @@ Ext.define('Ext.Template', {
      * Returns an HTML fragment of this template with the specified values applied.
      * @param {Object/Array} values The template values. Can be an array if your params are numeric (i.e. {0}) or an object (i.e. {foo: 'bar'})
      * @return {String} The HTML fragment
+     * @hide repeat doc
      */
     applyTemplate: function(values) {
         var me = this,
@@ -183,6 +170,7 @@ Ext.define('Ext.Template', {
     /**
      * Compiles the template into an internal function, eliminating the RegEx overhead.
      * @return {Ext.Template} this
+     * @hide repeat doc
      */
     compile: function() {
         var me = this,
@@ -293,4 +281,3 @@ Ext.define('Ext.Template', {
      */
     this.createAlias('apply', 'applyTemplate');
 });
-

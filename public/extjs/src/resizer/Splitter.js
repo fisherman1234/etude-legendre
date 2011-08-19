@@ -1,17 +1,3 @@
-/*
-
-This file is part of Ext JS 4
-
-Copyright (c) 2011 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
-
-*/
 /**
  * @class Ext.resizer.Splitter
  * @extends Ext.Component
@@ -24,6 +10,8 @@ If you are unsure which license is appropriate for your use, please contact the 
  * The Splitter will then call that sibling Panel's {@link Ext.panel.Panel#collapse collapse} or {@link Ext.panel.Panel#expand expand} method
  * to perform the appropriate operation (depending on the sibling collapse state). To create the mini-collapse tool but take care
  * of collapsing yourself, configure the splitter with <code>{@link #performCollapse} false</code>.</p>
+ *
+ * @xtype splitter
  */
 Ext.define('Ext.resizer.Splitter', {
     extend: 'Ext.Component',
@@ -36,7 +24,7 @@ Ext.define('Ext.resizer.Splitter', {
     ],
 
     baseCls: Ext.baseCSSPrefix + 'splitter',
-    collapsedClsInternal: Ext.baseCSSPrefix + 'splitter-collapsed',
+    collapsedCls: Ext.baseCSSPrefix + 'splitter-collapsed',
 
     /**
      * @cfg {Boolean} collapsible
@@ -70,11 +58,6 @@ Ext.define('Ext.resizer.Splitter', {
      * that the splitter is between.
      */
     defaultSplitMax: 1000,
-    
-    /**
-     * @cfg {String} collapsedCls
-     * A class to add to the splitter when it is collapsed. See {@link #collapsible}.
-     */
 
     width: 5,
     height: 5,
@@ -159,17 +142,15 @@ Ext.define('Ext.resizer.Splitter', {
     },
 
     getCollapseTarget: function() {
-        var me = this;
-        
-        return me.collapseTarget.isComponent ? me.collapseTarget : me.collapseTarget == 'prev' ? me.previousSibling() : me.nextSibling();
+        return this.collapseTarget.isComponent ? this.collapseTarget : this.collapseTarget == 'prev' ? this.previousSibling() : this.nextSibling();
     },
 
     onTargetCollapse: function(target) {
-        this.el.addCls([this.collapsedClsInternal, this.collapsedCls]);
+        this.el.addCls(this.collapsedCls);
     },
 
     onTargetExpand: function(target) {
-        this.el.removeCls([this.collapsedClsInternal, this.collapsedCls]);
+        this.el.removeCls(this.collapsedCls);
     },
 
     toggleTargetCmp: function(e, t) {
@@ -197,4 +178,3 @@ Ext.define('Ext.resizer.Splitter', {
         }
     }
 });
-

@@ -44,9 +44,7 @@
         }
 
         index = store.indexOf(record);
-
-        // 'after', or undefined (meaning a drop at index -1 on an empty View)...
-        if (position !== 'before') {
+        if (position == 'after') {
             index++;
         }
         store.insert(index, data.records);
