@@ -1,16 +1,26 @@
 Ext.define('TP.controller.Activites', {
     extend: 'Ext.app.Controller',
-    stores: ['Activites'],
-    models: ['Activite'],
-    views: ['activite.List', 'activite.EditCall', 'activite.CallForm', 'activite.Overview'],
+    stores: ['Activites', 'TP.store.QuoteExpenses', 'TP.store.ActiviteToDocuments'],
+    models: ['Activite', 'TP.model.Expense'],
+    views: ['activite.List', 'activite.EditCall', 'activite.CallForm', 'activite.Overview', 'activite.EditQuote', 'activite.QuoteForm', 'TP.view.expense.QuoteList', 'TP.view.document.ListShort', 'TP.view.communication.DocumentForm', 'TP.view.communication.DocumentForm', 'activite.EditDocument', 'activite.DocumentForm'],
     init: function() {
         this.control({
             'activiteList button[action=add_call]': {
                 click: this.addCall
             },
             'activiteList button[action=add_quote]': {
-                click: this.addCall
+                click: this.addQuote
             },
+            'activiteList button[action=add_document]': {
+                click: this.addDocument
+            },
+            'activiteEditQuote button[action=save]': {
+                click: this.saveQuote
+            },
+            'activiteEditQuote button[action=cancel]': {
+                click: this.cancelAddQuote
+            },
+
             'activiteEditCall button[action=save]': {
                 click: this.saveCall
             },
@@ -26,7 +36,7 @@ Ext.define('TP.controller.Activites', {
     addCall: function(button) {
         activite = Ext.ModelManager.create({},
         'TP.model.Activite');
-        communication = Ext.ModelManager.create({},
+        communication = Ext.ModelManager.create({type_activite_id:20},
         'TP.model.Communication');
         Ext.getStore('TP.store.Activites').insert(0, activite);
         Ext.getStore('TP.store.Activites').sync();
@@ -87,6 +97,91 @@ Ext.define('TP.controller.Activites', {
         Ext.getStore('TP.store.Activites').remove(activiteRecord);
         Ext.getStore('TP.store.Activites').sync();
         comWin.close();
+
+    },
+    addQuote: function(button) {
+        activite = Ext.ModelManager.create({type_activite_id:21},
+        'TP.model.Activite');
+
+        //Clear the datastore
+        Ext.getStore('TP.store.QuoteExpenses').proxy.extraParams.clear = 'true';
+        Ext.getStore('TP.store.QuoteExpenses').load();
+        Ext.getStore('TP.store.QuoteExpenses').proxy.extraParams.clear = 'undefined';
+
+        Ext.getStore('TP.store.Activites').insert(0, activite);
+        Ext.getStore('TP.store.Activites').sync();
+
+        var comWin = Ext.getCmp('activiteEditQuote');
+        if (typeof(comWin) == 'undefined') {
+            comWin = Ext.widget('activiteEditQuote');
+        }
+        comWin.show();
+        comWin.items.items[0].loadRecord(activite);
+        Ext.getCmp("cancelAdd").show();
+
+        var timer = setInterval(function() {
+            activite = Ext.getStore('TP.store.Activites').getAt(0);
+            if (!activite.phantom) {
+                Ext.getStore('TP.store.QuoteExpenses').proxy.extraParams.activite_id = activite.data.id;
+                clearInterval(timer);
+
+            }
+        },
+        200);
+    },
+    saveQuote: function(button) {
+        var comWin = Ext.getCmp('activiteEditQuote');
+        formActivite = comWin.items.items[0];
+
+        if (formActivite.form.isValid()) {
+            activiteRecord = comWin.items.items[0].getRecord();
+            activiteValues = comWin.items.items[0].getValues();
+
+            if (activiteRecord.phantom) { // this is a new com
+                activiteRecord = Ext.getStore('TP.store.Activites').getAt(0);
+            }
+
+            activiteRecord.set(activiteValues);
+            Ext.getStore('TP.store.Activites').sync();
+            Ext.getStore('TP.store.QuoteExpenses').sync();
+            Ext.getStore('TP.store.QuoteExpenses').proxy.extraParams.activite_id = "undefined";
+            Ext.getStore('TP.store.Expenses').load();
+            comWin.hide();
+        }
+    },
+    cancelAddQuote: function(button) {
+        var comWin = Ext.getCmp('activiteEditQuote');
+        activiteRecord = Ext.getStore('TP.store.Activites').getAt(0);
+        Ext.getStore('TP.store.Activites').remove(activiteRecord);
+        Ext.getStore('TP.store.Activites').sync();
+        comWin.hide();
+    },
+    addDocument: function(button) {
+        activite = Ext.ModelManager.create({type_activite_id:22},
+        'TP.model.Activite');
+        //Clear the datastore
+        Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.clear = 'true';
+        Ext.getStore('TP.store.ActiviteToDocuments').load();
+        Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.clear = 'undefined';
+
+        Ext.getStore('TP.store.Activites').insert(0, activite);
+        Ext.getStore('TP.store.Activites').sync();
+        var comWin = Ext.getCmp('activiteEditDocument');
+        if (typeof(comWin) == 'undefined') {
+            comWin = Ext.widget('activiteEditDocument');
+        }
+        comWin.show();
+        Ext.getCmp("activiteEditDocument").down("form").loadRecord(activite);
+        Ext.getCmp("cancelAdd").show();
+        var timer = setInterval(function() {
+            activite = Ext.getStore('TP.store.Activites').getAt(0);
+            if (!activite.phantom) {
+                Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.activite_id = activite.data.id;
+                clearInterval(timer);
+
+            }
+        },
+        200);
 
     }
 

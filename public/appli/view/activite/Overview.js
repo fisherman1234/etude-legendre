@@ -12,6 +12,7 @@ Ext.define('TP.view.activite.Overview', {
         region: 'south',
         collapsible: true,
         items: [],
-        hight: 300
+        height: 300, 
+				title: 'Details'
     }]
 });

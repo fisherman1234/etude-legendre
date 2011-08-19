@@ -27,35 +27,40 @@ Ext.define('TP.controller.Documents', {
     updateDocument: function(button) {
         var win = button.up('window');
         form = win.down('form');
-        record = form.getRecord();
-        if (typeof(record) !== 'undefined') {
-            url = '/documents/' + record.data.id;
-            method = 'PUT';
-        } else {
-            url = '/documents';
-            method = 'POST';
-        }
-
-        //console.log(form);
-        form.submit({
-            url: url,
-            method: method,
-            params: {
-                dossier_id: Ext.getStore('TP.store.Documents').proxy.extraParams.dossier
-            },
-
-            success: function(form) {
-                win.close();
-                Ext.getStore('TP.store.Documents').load();
+        if (form.form.isValid()) {
+            record = form.getRecord();
+            if (typeof(record) !== 'undefined') {
+                url = '/documents/' + record.data.id;
+                method = 'PUT';
+            } else {
+                url = '/documents';
+                method = 'POST';
             }
-        });
+
+            //console.log(form);
+            form.submit({
+                url: url,
+                method: method,
+                params: {
+                    dossier_id: Ext.getStore('TP.store.Documents').proxy.extraParams.dossier,
+                    activite_id: Ext.getStore('TP.store.Documents').proxy.extraParams.activite_id
+                },
+
+                success: function(form) {
+                    win.close();
+                    Ext.getStore('TP.store.Documents').load();
+                    Ext.getStore('TP.store.ActiviteToDocuments').load();
+
+                }
+            });
+        }
 
     },
     editDocument: function(grid, record) {
         var formEdit = Ext.widget('documentEdit');
         formEdit.down('form').loadRecord(record);
-				Ext.getCmp('deleteButton').show();
-				
+        Ext.getCmp('deleteButton').show();
+
     },
     deleteDocument: function(button) {
         var win = button.up('window');
@@ -69,7 +74,7 @@ Ext.define('TP.controller.Documents', {
                 if (id == "yes") {
                     Ext.getStore('TP.store.Documents').remove(record);
                 }
-								win.close();
+                win.close();
             },
             icon: Ext.Msg.QUESTION
         });

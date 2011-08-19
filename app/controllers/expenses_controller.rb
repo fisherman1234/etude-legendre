@@ -6,8 +6,13 @@ class ExpensesController < ApplicationController
   def index
 
         if (params[:dossier])
-          @dossier = Dossier.find(params[:dossier])
-          @expenses = @dossier.expenses
+          if params[:dossier] && params[:clear].present? && params[:clear] == 'true'
+            @expenses = []
+          elsif params[:dossier] && params[:activite_id].present? && params[:activite_id]!='undefined' 
+            @expenses = Expense.where(:dossier_id => params[:dossier], :activite_id => params[:activite_id])
+          else
+            @expenses = Expense.where(:dossier_id => params[:dossier])
+          end
         else
           @expenses = []
         end
@@ -63,6 +68,11 @@ class ExpensesController < ApplicationController
       @expense.categorie_id = Item.find(params[:expense][:item_id]).categorie_id
     end
     @expense.dossier_id = params[:dossier]
+    
+    if params[:activite_id].present?
+      @expense.activite_id = params[:activite_id]
+    end
+    
     @expense.save
     respond_to do |format|
       format.json  { render :json => { :success => true, :message => "Created Expense #{@expense.id}", :data => @expense.attributes.merge(:total_ht => @expense.total, :total_ttc => @expense.total_ttc, :activite_name => @expense.activite.try(:description))}}
@@ -79,7 +89,9 @@ class ExpensesController < ApplicationController
     if params[:expense][:item_id].present?
       @expense.categorie_id = Item.find(params[:expense][:item_id]).categorie_id
     end
-
+    if params[:activite_id].present?
+      @expense.activite_id = params[:activite_id]
+    end
     
     respond_to do |format|
       if @expense.update_attributes(params[:expense])

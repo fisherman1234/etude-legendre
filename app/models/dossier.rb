@@ -12,7 +12,7 @@ class Dossier < ActiveRecord::Base
   has_many :consignations
   belongs_to :type_etat_dossier
   has_many :communications
-  
+  has_many :reminders
   
   validates_presence_of :institution_id, :parametres_cabinet_id, :ref_cabinet, :nom_dossier
   

@@ -6,7 +6,7 @@ Ext.application({
     name: 'TP',
     appFolder: 'appli',
     title: 'Cabinet Legendre',
-    controllers: ['Dossiers', 'Expenses', 'Activites', 'Documents', 'Acteurs', 'ContactActeurs', 'Contacts', 'Institutions', 'QualiteProcedurales', 'Communications'],
+    controllers: ['Dossiers', 'Expenses', 'Activites', 'Documents', 'Acteurs', 'ContactActeurs', 'Contacts', 'Institutions', 'QualiteProcedurales', 'Communications', 'Reminders'],
 
     launch: function() {
         Ext.create('Ext.container.Viewport', {
@@ -55,7 +55,7 @@ Ext.application({
                 items: [],
                 id: 'centerArea',
                 layout: 'fit'
-                //xtype: 'PickContact'
+                //xtype: 'activiteShowCall'
             }]
         });
 

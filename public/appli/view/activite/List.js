@@ -13,15 +13,21 @@ Ext.define('TP.view.activite.List', {
             text: 'Nouvel appel',
             icon: '/images/telephone_add.png',
 						action: 'add_call'
-        }],
+        },		{
+		            xtype: 'button',
+		            text: 'Nouveau devis',
+		            icon: '/images/calculator_add.png',
+								action: 'add_quote'
+		        },
+						{
+				            xtype: 'button',
+				            text: 'Nouveau document à enregistrer',
+				            icon: '/images/lorry_add.png',
+										action: 'add_document'
+				        }],
         layout: 'hbox' // The items are arranged horizontally
     }],
-    selType: 'rowmodel',
-    plugins: [
-    Ext.create('Ext.grid.plugin.RowEditing', {
-        clicksToEdit: 1
-    })],
-
+    
     initComponent: function() {
 
         this.columns = [{

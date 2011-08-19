@@ -5,10 +5,18 @@ class DocumentsController < ApplicationController
   # GET /documents
   # GET /documents.xml
   def index
-    @documents = Document.all
     if (params[:dossier])
-      @dossier = Dossier.find(params[:dossier])
-      @documents = @dossier.documents
+      if params[:clear].present? && params[:clear] == 'true'
+        @documents = []
+      elsif params[:activite_id].present? && params[:activite_id]!='undefined'
+          @documents = []
+          ActiviteToDocument.where(:activite_id => params[:activite_id]).each do |a2d|
+            @documents.push(a2d.document)
+          end
+      else
+        @dossier = Dossier.find(params[:dossier])
+        @documents = @dossier.documents
+      end
     else
       @documents = []
     end
@@ -55,7 +63,14 @@ class DocumentsController < ApplicationController
     @document.description = params[:description]
     @document.file = params[:file]
     @document.dossier_id = params[:dossier_id]
+    
+    if params[:activite_id].present? && params[:activite_id]!='undefined'
+      @document.activite_to_documents.build(:activite_id => params[:activite_id])
+    end
+    
     @document.save
+    
+
     
     resp = {"success"=>true,"data"=>@document.attributes.merge(:short_link => @document.generate_link,:long_link => @document.generate_long_link )}.to_json
     render :text => resp

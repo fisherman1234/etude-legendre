@@ -1,10 +1,10 @@
 Ext.define('TP.controller.Dossiers', {
     extend: 'Ext.app.Controller',
-    stores: ['Dossiers', 'TP.store.Institutions', 'TP.store.Users', 'TP.store.TypeExpertises', 'TP.store.TypeDecisions', 'TP.store.Contacts', 'TP.store.Unites', 'TP.store.TypeEtatDossiers', 'TP.store.Activites', 'TP.store.Expenses', 'TP.store.Items', 'TP.store.Categories', 'TP.store.Documents', 'TP.store.TreeActeurs', 'TP.store.ContactActeurs', 'TP.store.Acteurs', 'TP.store.TypeIntervenants', 'TP.store.TypeInstitutions', 'TP.store.TypeActivites', 'TP.store.Communications'],
+    stores: ['Dossiers', 'TP.store.Institutions', 'TP.store.Users', 'TP.store.TypeExpertises', 'TP.store.TypeDecisions', 'TP.store.Contacts', 'TP.store.Unites', 'TP.store.TypeEtatDossiers', 'TP.store.Activites', 'TP.store.Expenses', 'TP.store.Items', 'TP.store.Categories', 'TP.store.Documents', 'TP.store.TreeActeurs', 'TP.store.ContactActeurs', 'TP.store.Acteurs', 'TP.store.TypeIntervenants', 'TP.store.TypeInstitutions', 'TP.store.TypeActivites', 'TP.store.Communications', 'TP.store.Reminders'],
 
-    models: ['Dossier', 'TP.model.Institution', 'TP.model.User', 'TP.model.TypeExpertise', 'TP.model.TypeDecision', 'TP.model.Contact', 'TP.model.TypeEtatDossier', 'TP.model.Expense', 'TP.model.Unite', 'TP.model.Activite', 'TP.model.Expense', 'TP.model.Item', 'TP.model.Categorie', 'TP.model.Document', 'TP.model.ContactActeur', 'TP.model.Acteur', 'TP.model.TypeIntervenant', 'TP.model.TypeInstitution', 'TP.model.TypeActivite', 'TP.model.Communication'],
+    models: ['Dossier', 'TP.model.Institution', 'TP.model.User', 'TP.model.TypeExpertise', 'TP.model.TypeDecision', 'TP.model.Contact', 'TP.model.TypeEtatDossier', 'TP.model.Expense', 'TP.model.Unite', 'TP.model.Activite', 'TP.model.Expense', 'TP.model.Item', 'TP.model.Categorie', 'TP.model.Document', 'TP.model.ContactActeur', 'TP.model.Acteur', 'TP.model.TypeIntervenant', 'TP.model.TypeInstitution', 'TP.model.TypeActivite', 'TP.model.Communication', 'TP.model.Reminder'],
 
-    views: ['dossier.List', 'dossier.Edit', 'dossier.ShortList', 'dossier.Overview', 'TP.view.expense.List', 'TP.view.activite.List', 'TP.view.activite.Overview', 'TP.view.document.List', 'TP.view.dossier.Edit', 'TP.view.acteur.Tree', 'dossier.Contact', 'TP.view.contactacteur.Edit', 'TP.view.contact.EditLight', 'TP.view.contact.EditLight', 'TP.view.institution.EditForm'],
+    views: ['dossier.List', 'dossier.Edit', 'dossier.ShortList', 'dossier.Overview', 'TP.view.expense.List', 'TP.view.activite.List', 'TP.view.activite.Overview', 'TP.view.document.List', 'TP.view.dossier.Edit', 'TP.view.acteur.Tree', 'dossier.Contact', 'TP.view.contactacteur.Edit', 'TP.view.contact.EditLight', 'TP.view.contact.EditLight', 'TP.view.institution.EditForm', 'TP.view.reminder.ShortList'],
 
     init: function() {
         this.control({
@@ -32,6 +32,10 @@ Ext.define('TP.controller.Dossiers', {
         var main_window = Ext.getCmp('centerArea');
         //main_window.removeAll();
         var overviewPan = Ext.getCmp('overviewPan');
+				
+				Ext.getStore('TP.store.Reminders').clearFilter();
+				Ext.getStore('TP.store.Reminders').filter("dossier_id", record.data.id);
+				
         if (typeof(overviewPan) == 'undefined') {
             /*
 						 * Create forms
@@ -45,6 +49,7 @@ Ext.define('TP.controller.Dossiers', {
             var viewport = Ext.widget('dossierOverview');
             main_window.add(viewport);
             var view = Ext.getCmp('dossierCenter');
+						
             Ext.getStore('TP.store.Activites').proxy.extraParams = {
                 dossier: record.data.id
             };

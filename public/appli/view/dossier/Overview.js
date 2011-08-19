@@ -14,6 +14,7 @@ Ext.define('TP.view.dossier.Overview', {
     {
         region: 'east',
         title: 'Rappels',
+				xtype: 'reminderShortList',
         id: 'dossierReminders',
         collapsible: true,
         width: 200

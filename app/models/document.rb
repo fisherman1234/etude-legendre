@@ -2,7 +2,7 @@ class Document < ActiveRecord::Base
   belongs_to :dossier
   after_commit :set_relationship
   has_many :activites, :through => :activite_to_documents
-  has_many :activite_to_documents
+  has_many :activite_to_documents, :dependent => :destroy
   has_many :communications, :through => :document_to_communications
   has_many :document_to_communications
   has_attached_file :file,

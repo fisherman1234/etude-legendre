@@ -2,11 +2,15 @@ class RemindersController < ApplicationController
   # GET /reminders
   # GET /reminders.xml
   def index
-    @reminders = Reminder.all
+
+    @reminders = current_user.reminders
+    
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @reminders }
+      format.json {render :json => {"success"=>true,"data"=>@reminders}}
+      
     end
   end
 
@@ -46,6 +50,8 @@ class RemindersController < ApplicationController
       if @reminder.save
         format.html { redirect_to(@reminder, :notice => 'Reminder was successfully created.') }
         format.xml  { render :xml => @reminder, :status => :created, :location => @reminder }
+        format.json {render :json => {"success"=>true,"data"=>@reminder}}
+        
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @reminder.errors, :status => :unprocessable_entity }
@@ -61,6 +67,8 @@ class RemindersController < ApplicationController
     respond_to do |format|
       if @reminder.update_attributes(params[:reminder])
         format.html { redirect_to(@reminder, :notice => 'Reminder was successfully updated.') }
+        format.json {render :json => {"success"=>true,"data"=>@reminder}}
+        
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -78,6 +86,8 @@ class RemindersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(reminders_url) }
       format.xml  { head :ok }
+      format.json {render :json => {"success"=>true,"data"=>[]}}
+      
     end
   end
 end

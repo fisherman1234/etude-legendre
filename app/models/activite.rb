@@ -2,11 +2,11 @@
 class Activite < ActiveRecord::Base
   has_many :documents, :through => :activite_to_documents
   has_many :consignations
-  has_many :communications
-  has_many :activite_to_documents
+  has_many :communications, :dependent => :destroy
+  has_many :activite_to_documents , :dependent => :destroy
   belongs_to :dossier
   belongs_to :type_activite
-  has_many :expenses
+  has_many :expenses, :dependent => :destroy
   
   accepts_nested_attributes_for :documents, 
                                   :allow_destroy => true 
