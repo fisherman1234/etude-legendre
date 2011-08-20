@@ -7,12 +7,5 @@ Ext.define('TP.view.activite.Overview', {
     items: [{
         region: 'center',
         xtype: 'activiteList'
-    },
-    {
-        region: 'south',
-        collapsible: true,
-        items: [],
-        height: 300, 
-				title: 'Details'
     }]
 });
