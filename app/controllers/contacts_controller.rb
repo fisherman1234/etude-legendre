@@ -5,20 +5,17 @@ class ContactsController < ApplicationController
   # GET /contacts
   # GET /contacts.xml
   def index
-    if params[:term] != nil
-      if params[:type] != nil
-        if params[:institution] != nil
-          @contacts = current_user.parametres_cabinet.contacts.find(:all, :conditions => ["(LOWER(nom) LIKE LOWER(?) or LOWER(prenom) LIKE LOWER(?)) and institution_id=? and type_intervenant_id=?", "%#{params[:term]}%", "%#{params[:term]}%", "#{params[:institution]}", "#{params[:type]}"])
-        else
-          @contacts = current_user.parametres_cabinet.contacts.find(:all, :conditions => ["(LOWER(nom) LIKE LOWER(?) or LOWER(prenom) LIKE LOWER(?)) and type_intervenant_id=?", "%#{params[:term]}%", "%#{params[:term]}%", "#{params[:type]}"])
-        end
-      else
-        @contacts = current_user.parametres_cabinet.contacts.find(:all, :conditions => ["LOWER(nom) LIKE LOWER(?) or LOWER(prenom) LIKE LOWER(?)", "%#{params[:term]}%", "%#{params[:term]}%"])
-      end
+    if params[:dossier].present?
+      @contacts = []
+      @dossier = Dossier.find(params[:dossier])
+       @dossier.acteurs.each do |acteur|
+         acteur.contact_acteurs.each do |con_act|
+           @contacts.push(con_act.contact)
+         end
+       end
     else
       @contacts = current_user.parametres_cabinet.contacts.all
     end
-
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @contacts }

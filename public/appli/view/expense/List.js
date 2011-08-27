@@ -61,7 +61,7 @@ Ext.define('TP.view.expense.List', {
             },
             editor: {
                 xtype: 'combo',
-                forceSelection: false,
+                forceSelection: true,
                 queryMode: 'local',
                 name: 'item_id',
                 store: 'TP.store.Items',
@@ -98,7 +98,7 @@ Ext.define('TP.view.expense.List', {
             },
             editor: {
                 xtype: 'combo',
-                forceSelection: false,
+                forceSelection: true,
                 queryMode: 'local',
                 name: 'activite_id',
                 store: 'TP.store.Activites',
@@ -121,7 +121,7 @@ Ext.define('TP.view.expense.List', {
             },
             editor: {
                 xtype: 'combo',
-                forceSelection: false,
+                forceSelection: true,
                 queryMode: 'local',
                 name: 'categorie_id',
                 store: 'TP.store.Categories',
@@ -176,7 +176,7 @@ Ext.define('TP.view.expense.List', {
             },
             editor: {
                 xtype: 'combo',
-                forceSelection: false,
+                forceSelection: true,
                 queryMode: 'local',
                 name: 'unite_id',
                 store: 'TP.store.Unites',
@@ -199,7 +199,7 @@ Ext.define('TP.view.expense.List', {
             },
             editor: {
                 xtype: 'combo',
-                forceSelection: false,
+                forceSelection: true,
                 queryMode: 'local',
                 name: 'taux_tva_id',
                 store: 'TP.store.TauxTvas',

@@ -68,6 +68,7 @@ class CommunicationsController < ApplicationController
   def create
     @communication = Communication.new()
     @communication.dossier_id = params[:dossier]
+    @communication.activite_id = params[:activite_id]
     
     respond_to do |format|
       if @communication.save

@@ -1,8 +1,8 @@
 Ext.define('TP.controller.Contacts', {
     extend: 'Ext.app.Controller',
-    stores: ['Contacts', 'TP.store.Civilites'],
-    models: ['Contact'],
-    views: ['contact.EditLight', 'contact.Edit', 'contact.EditForm'],
+    stores: ['Contacts', 'TP.store.Civilites', 'ContactDossiers', 'TP.store.ContactToCommunications','TP.store.TransmissionMediums'],
+    models: ['Contact', 'TP.model.ContactToCommunication','TP.model.TransmissionMedium'],
+    views: ['contact.ListLarge', 'contact.EditLight', 'contact.Edit', 'contact.EditForm'],
 
     init: function() {
         this.control({
@@ -26,7 +26,18 @@ Ext.define('TP.controller.Contacts', {
             },
             'contactEditForm button[action=add_institution]': {
                 click: this.addInstitution
+            },
+            'contactListLarge button[action=filterAllContacts]': {
+                click: this.filterAllContacts
+            },
+            'contactListLarge button[action=filterContactsDossier]': {
+                click: this.filterContactsDossier
+            },
+            'contactListLarge button[action=addAllContactsToCom]': {
+                click: this.addAllContactsToCom
             }
+
+
         });
     },
     addInstitution: function(button) {
@@ -74,6 +85,41 @@ Ext.define('TP.controller.Contacts', {
             },
             icon: Ext.Msg.QUESTION
         });
+    },
+    filterAllContacts: function() {
+        delete Ext.getStore('TP.store.ContactDossiers').proxy.extraParams.dossier;
+        Ext.getStore('TP.store.ContactDossiers').load();
+    },
+    filterContactsDossier: function() {
+        Ext.getStore('TP.store.ContactDossiers').proxy.extraParams.dossier = dossier_id; //  a supprimer ensuite
+        Ext.getStore('TP.store.ContactDossiers').load();
+    },
+    addAllContactsToCom: function() {
+        records = Ext.getStore('TP.store.ContactDossiers').data.items;
+
+        activite = Ext.ModelManager.create({},
+        'TP.model.Activite');
+        Ext.getStore('TP.store.Activites').insert(0, activite);
+
+        Ext.each(records, function(record, index) {
+            concom = Ext.ModelManager.create({
+                contact_id: record.data.id,
+                transmission_medium_id: record.data.contact_medium_id
+            },
+            'TP.model.ContactToCommunication');
+            Ext.getStore('TP.store.ContactToCommunications').insert(0, concom);
+
+        });
+
+    },
+    addContactCom: function(grid, rowIndex, colIndex) { // unused ...
+        record = grid.getStore().getAt(rowIndex);
+				concom = Ext.ModelManager.create({
+            contact_id: record.data.id,
+            transmission_medium_id: record.data.contact_medium_id
+        },
+        'TP.model.ContactToCommunication');
+        Ext.getStore('TP.store.ContactToCommunications').insert(0, concom);
     }
 
 });

@@ -3,7 +3,7 @@ EtudeLegendre::Application.routes.draw do
   resources :reminders
 
   resources :civilites
-
+  resources :contact_to_communications
   resources :institutions do
     get :autocomplete_institutions_nom, :on => :collection
   end

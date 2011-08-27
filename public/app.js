@@ -6,7 +6,7 @@ Ext.application({
     name: 'TP',
     appFolder: 'appli',
     title: 'Cabinet Legendre',
-    controllers: ['Dossiers', 'Expenses', 'Activites', 'Documents', 'Acteurs', 'ContactActeurs', 'Contacts', 'Institutions', 'QualiteProcedurales', 'Communications', 'Reminders'],
+    controllers: ['Dossiers', 'Expenses', 'Activites', 'Documents', 'Acteurs', 'ContactActeurs', 'Contacts', 'Institutions', 'QualiteProcedurales', 'Communications', 'Reminders', 'Menus', 'ContactToCommunications'],
 
     launch: function() {
         Ext.create('Ext.container.Viewport', {
@@ -16,31 +16,7 @@ Ext.application({
             items: [{
                 region: 'north',
                 border: false,
-                tbar: [{
-                    text: 'Accueil'
-                },
-                {
-                    text: 'Dossier',
-                    menu: [{
-                        text: 'Nouveau'
-                    },
-                    {
-                        text: 'Ouvrir'
-                    }]
-                },
-                {
-                    text: 'Contacts',
-                    menu: [{
-                        text: 'Nouveau'
-                    },
-                    {
-                        text: 'Ouvrir'
-                    }]
-                },
-                {
-                    text: 'Options',
-                    menu: []
-                }]
+                xtype: "mainMenu"
             },
             {
                 region: 'west',
@@ -55,7 +31,7 @@ Ext.application({
                 items: [],
                 id: 'centerArea',
                 layout: 'fit'
-                //xtype: 'activiteShowCall'
+                //xtype: 'contacttocommunicationListLarge'
             }]
         });
 

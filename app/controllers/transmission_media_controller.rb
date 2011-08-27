@@ -9,6 +9,8 @@ class TransmissionMediaController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @transmission_medias }
+      format.json {render :json => {"success"=>true,"data"=>@transmission_medias}}
+      
     end
   end
 
@@ -48,6 +50,8 @@ class TransmissionMediaController < ApplicationController
       if @transmission_medium.save
         format.html { redirect_to(@transmission_medium, :notice => 'Transmission medium was successfully created.') }
         format.xml  { render :xml => @transmission_medium, :status => :created, :location => @transmission_medium }
+        format.json {render :json => {"success"=>true,"data"=>@transmission_medium}}
+        
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @transmission_medium.errors, :status => :unprocessable_entity }
@@ -63,6 +67,8 @@ class TransmissionMediaController < ApplicationController
     respond_to do |format|
       if @transmission_medium.update_attributes(params[:transmission_medium])
         format.html { redirect_to(@transmission_medium, :notice => 'Transmission medium was successfully updated.') }
+        format.json {render :json => {"success"=>true,"data"=>@transmission_medium}}
+        
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -80,6 +86,8 @@ class TransmissionMediaController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(transmission_medias_url) }
       format.xml  { head :ok }
+      format.json {render :json => {"success"=>true,"data"=>[]}}
+      
     end
   end
 end

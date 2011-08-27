@@ -30,13 +30,13 @@ Ext.define('TP.view.activite.List', {
             xtype: 'button',
             text: 'Nouvelle Convocation',
             icon: '/images/calendar_add.png',
-            action: 'add_document'
+            action: 'add_convocation'
         },
         {
             xtype: 'button',
             text: 'Nouveau courrier',
             icon: '/images/email_add.png',
-            action: 'add_document'
+            action: 'courrier_add'
         },
         {
             xtype: 'button',

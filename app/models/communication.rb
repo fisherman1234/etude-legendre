@@ -5,8 +5,8 @@ class Communication < ActiveRecord::Base
   belongs_to :contact, :foreign_key => :sender_id
   has_many :documents, :through => :document_to_communications
   has_many :contacts, :through => :contact_to_communications
-  has_many :contact_to_communications
-  has_many :document_to_communications
+  has_many :contact_to_communications, :dependent => :destroy
+  has_many :document_to_communications,  :dependent => :destroy
   
   accepts_nested_attributes_for :contact_to_communications, 
                                 :allow_destroy => true

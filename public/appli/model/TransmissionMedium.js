@@ -1,8 +1,8 @@
-Ext.define('TP.model.TypeActivite', { //
+Ext.define('TP.model.TransmissionMedium', {
     extend: 'Ext.data.Model',
     proxy: {
         type: 'rest',
-        url: '/type_activites', //
+        url: '/transmission_media',
         format: 'json',
         reader: {
             type: 'json',
@@ -10,9 +10,9 @@ Ext.define('TP.model.TypeActivite', { //
         },
         writer: {
             type: 'json',
-            root: 'type_activite', //
+            root: 'user',
             writeAllFields: false
         }
     },
-    fields: ['id', 'description', 'categorie_id']
+    fields: ['id', 'description']
 });
