@@ -8,6 +8,8 @@ Ext.define('TP.view.activite.EditDocument', {
     autoShow: true,
     bodyStyle: 'padding:15px',
     layout: 'border',
+    closable: false,
+
     items: [{
         region: 'center',
         layout: 'vbox',
@@ -33,14 +35,14 @@ Ext.define('TP.view.activite.EditDocument', {
     }],
     buttons: [{
         text: 'Annuler',
-        action: 'cancel',
-        id: 'cancelAdd',
+        action: 'cancelAddDocument',
+        id: 'cancelAddDocument',
         hidden: true
 
     },
     {
         text: 'Enregistrer',
-        action: 'save'
+        action: 'saveDocument'
 
     },
     {

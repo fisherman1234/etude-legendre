@@ -50,6 +50,12 @@ Ext.define('TP.controller.Activites', {
             },
             'activiteEditCourrier button[action=cancelAddCourrier]': {
                 click: this.cancelAddCourrier
+            },
+            'activiteEditDocument button[action=cancelAddDocument]': {
+                click: this.cancelAddDocument
+            },
+            'activiteEditDocument button[action=saveDocument]': {
+                click: this.saveDocument
             }
 
         });
@@ -105,7 +111,7 @@ Ext.define('TP.controller.Activites', {
                 Ext.getStore('TP.store.Communications').insert(0, communicationRecord);
             }
             Ext.getStore('TP.store.Communications').sync();
-            comWin.close();
+            comWin.hide();
         }
     },
     cancelAddCall: function(button) {
@@ -113,14 +119,14 @@ Ext.define('TP.controller.Activites', {
         activiteRecord = Ext.getStore('TP.store.Activites').getAt(0);
         Ext.getStore('TP.store.Activites').remove(activiteRecord);
         Ext.getStore('TP.store.Activites').sync();
-        comWin.close();
+        comWin.hide();
     },
     deleteCall: function(button) {
         var comWin = Ext.getCmp('activiteEditCall');
         activiteRecord = comWin.items.items[0].getRecord();
         Ext.getStore('TP.store.Activites').remove(activiteRecord);
         Ext.getStore('TP.store.Activites').sync();
-        comWin.close();
+        comWin.hide();
 
     },
     addQuote: function(button) {
@@ -200,7 +206,7 @@ Ext.define('TP.controller.Activites', {
         }
         comWin.show();
         Ext.getCmp("activiteEditDocument").down("form").loadRecord(activite);
-        Ext.getCmp("cancelAdd").show();
+        Ext.getCmp("cancelAddDocument").show();
         var timer = setInterval(function() {
             activite = Ext.getStore('TP.store.Activites').getAt(0);
             if (!activite.phantom) {
@@ -211,6 +217,37 @@ Ext.define('TP.controller.Activites', {
         },
         200);
 
+    },
+    saveDocument: function() {
+        var comWin = Ext.getCmp('activiteEditDocument');
+        formCommunication = Ext.getCmp('communicationDocumentForm');
+        formActivite = Ext.getCmp('activiteDocumentForm');
+
+        if (formCommunication.form.isValid() && formActivite.form.isValid()) {
+            communicationRecord = formCommunication.form.getRecord();
+            communicationValues = formCommunication.form.getValues();
+            if (typeof communicationRecord == "undefined" || communicationRecord.phantom) { // this is a new com
+                communicationRecord = Ext.getStore('TP.store.Communications').getAt(0);
+            }
+            communicationRecord.set(communicationValues);
+            Ext.getStore('TP.store.Communications').sync();
+
+            activiteRecord = formActivite.form.getRecord();
+            activiteValues = formActivite.form.getValues();
+            if (typeof activiteRecord == "undefined" || activiteRecord.phantom) { // this is a new com
+                activiteRecord = Ext.getStore('TP.store.Activites').getAt(0);
+            }
+            activiteRecord.set(activiteValues);
+            Ext.getStore('TP.store.Activites').sync();
+            comWin.hide();
+        }
+    },
+    cancelAddDocument: function() {
+        var comWin = Ext.getCmp('activiteEditDocument');
+        activiteRecord = Ext.getStore('TP.store.Activites').getAt(0);
+        Ext.getStore('TP.store.Activites').remove(activiteRecord);
+        Ext.getStore('TP.store.Activites').sync();
+        comWin.hide();
     },
     addConvocation: function() {
         Ext.getStore('TP.store.TypeActivites').filter('categorie_id', 2);
@@ -312,7 +349,7 @@ Ext.define('TP.controller.Activites', {
 
         var comWin = Ext.getCmp('activiteEditCourrier');
         formCommunication = Ext.getCmp('communicationCourrierForm');
-        formActivite = Ext.getCmp('activiteCallForm');
+        formActivite = Ext.getCmp('activiteCourrierForm');
 
         if (formCommunication.form.isValid() && formActivite.form.isValid()) {
             communicationRecord = formCommunication.form.getRecord();

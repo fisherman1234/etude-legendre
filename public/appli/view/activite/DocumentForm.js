@@ -9,6 +9,7 @@ Ext.define('TP.view.activite.DocumentForm', {
         xtype: 'textfield',
         fieldLabel: "Sujet des documents",
         anchor: '96%',
-        name: 'description'
+        name: 'description',
+				allowBlank: false
     }]
 });

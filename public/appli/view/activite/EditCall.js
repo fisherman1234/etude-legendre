@@ -8,6 +8,8 @@ Ext.define('TP.view.activite.EditCall', {
     autoShow: true,
     bodyStyle: 'padding:15px',
     layout: 'vbox',
+    closable: false,
+
     defaults: {
         // applied to each contained panel
         border: false

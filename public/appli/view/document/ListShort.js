@@ -1,28 +1,28 @@
 Ext.define('TP.view.document.ListShort', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.documentListShort',
-    id: 'documentListShort',
+    //id: 'documentListShort',
     title: 'Documents',
     store: 'TP.store.ActiviteToDocuments',
-    dockedItems: [{
-        xtype: 'toolbar',
-        dock: 'top',
-        displayInfo: true,
-        items: [{
-            xtype: 'button',
-            text: 'Ajouter',
-            icon: '/images/add.png',
-            action: 'new',
-            handler: function() {
-                // empty record
-                var documentItem = Ext.widget('documentEdit');
-            }
-        }],
-        layout: 'hbox' // The items are arranged horizontally
-    }],
+
 
     initComponent: function() {
-
+				this.dockedItems = [{
+		        xtype: 'toolbar',
+		        dock: 'top',
+		        displayInfo: true,
+		        items: [{
+		            xtype: 'button',
+		            text: 'Ajouter',
+		            icon: '/images/add.png',
+		            action: 'new',
+		            handler: function() {
+		                // empty record
+		                var documentItem = Ext.widget('documentEdit');
+		            }
+		        }],
+		        layout: 'hbox' // The items are arranged horizontally
+		    }];
         this.columns = [{
             header: 'Description',
             dataIndex: 'description',
