@@ -1,7 +1,7 @@
 Ext.define('TP.view.activite.EditConvocation', {
     extend: 'Ext.window.Window',
     alias: 'widget.activiteEditConvocation',
-		closable: false,
+    closable: false,
     title: "Détails de la convocation",
     width: 900,
     height: 400,
@@ -12,27 +12,38 @@ Ext.define('TP.view.activite.EditConvocation', {
         // applied to each contained panel
         border: false
     },
-		initComponent: function() {
-		      this.items = [{
-			        xtype: 'activiteConvocationForm',
-			        flex: 1, 
-							width: '100%'
-			    }];
-					this.buttons = [{
-			        text: 'Annuler',
-			        action: 'cancelAddConvocation'
+    initComponent: function() {
+        Ext.getStore('TP.store.TypeActivites').clearFilter();
+        Ext.getStore('TP.store.TypeActivites').filter({
+            property: 'categorie_id',
+            value: 2,
+            exactMatch: true
+        });
 
+        this.items = [{
+            xtype: 'activiteConvocationForm',
+            flex: 1,
+            width: '100%'
+        }];
+        this.buttons = [{
+            text: 'Annuler',
+            action: 'cancelAddConvocation'
 
-			    },{
-			        text: 'Enregistrer',
-			        action: 'save'
+        },
+        {
+            text: 'Enregistrer',
+            action: 'save'
 
-			    },
-			    {
-			        text: 'Supprimer',
-			        action: 'delete' 
+        },
+        {
+            text: 'Supprimer',
+            action: 'delete'
 
-			    }];
-		      this.callParent(arguments);
-		  }
+        }];
+				this.on('beforeclose', function() {
+            Ext.getStore('TP.store.TypeActivites').clearFilter();
+        });
+
+        this.callParent(arguments);
+    }
 });

@@ -4,50 +4,44 @@ Ext.define('TP.view.expense.QuoteList', {
 
     title: 'Dépenses',
     store: 'TP.store.QuoteExpenses',
-		frame: true,
-    features: [{
-        groupHeaderTpl: 'Activite: {name}',
-        ftype: 'groupingsummary'
-    }],
+    frame: true,
     selType: 'rowmodel',
     plugins: [
     Ext.create('Ext.grid.plugin.RowEditing', {
         clicksToEdit: 1,
-				pluginId: 'rowEditPlugin'
+        pluginId: 'rowEditPlugin'
     })],
     initComponent: function() {
-				this.dockedItems= [{
-		        xtype: 'toolbar',
-		        dock: 'top',
-		        store: 'TP.store.QuoteExpenses',
-		        displayInfo: true,
-		        items: [{
-		            xtype: 'button',
-		            text: 'Ajouter',
-		            icon: '/images/add.png',
-		            handler: function() {
-		                // empty record
-		                var r = Ext.ModelManager.create({
-		                    activite_id: null,
-		                    unite_id: null,
-		                    taux_tva_id: null, 
-												activite_name: null
-		                },
-		                'TP.model.Expense');
-		                Ext.getStore('TP.store.QuoteExpenses').insert(0, r);
-										this.up('gridpanel').getPlugin('rowEditPlugin').startEdit(0, 0);
-		            }
-		        }],
-		        layout: 'hbox' // The items are arranged horizontally
-		    }];
+        this.dockedItems = [{
+            xtype: 'toolbar',
+            dock: 'top',
+            store: 'TP.store.QuoteExpenses',
+            displayInfo: true,
+            items: [{
+                xtype: 'button',
+                text: 'Ajouter',
+                icon: '/images/add.png',
+                handler: function() {
+                    // empty record
+                    var r = Ext.ModelManager.create({
+                        activite_id: null,
+                        unite_id: null,
+                        taux_tva_id: null,
+                        activite_name: null
+                    },
+                    'TP.model.Expense');
+                    Ext.getStore('TP.store.QuoteExpenses').insert(0, r);
+                    this.up('gridpanel').getPlugin('rowEditPlugin').startEdit(0, 0);
+                }
+            }],
+            layout: 'hbox' // The items are arranged horizontally
+        }];
         this.columns = [{
             header: 'Modèle',
             dataIndex: 'item_id',
             flex: 1,
             summaryType: 'count',
-            summaryRenderer: function(value, summaryData, dataIndex) {
-                return Ext.String.format('Total : {0} dépense{1}', value, value !== 1 ? 's' : '');
-            },
+
             renderer: function(value, meta, record) {
                 if (value !== null) {
                     a = Ext.getStore('TP.store.Items').findRecord('id', value);
@@ -187,7 +181,9 @@ Ext.define('TP.view.expense.QuoteList', {
             header: 'Total HT',
             width: 80,
             dataIndex: 'total_ht',
-            summaryType: 'sum'
+            renderer: function(value, meta, record) {
+                return record.data.quantite * record.data.prix_unitaire;
+            }
 
         },
         {

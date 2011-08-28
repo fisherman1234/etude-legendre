@@ -9,6 +9,7 @@ Ext.define('TP.view.activite.EditDocument', {
     layout: 'border',
     closable: false,
     initComponent: function() {
+
         this.items = [{
             region: 'center',
             layout: 'vbox',
@@ -49,6 +50,7 @@ Ext.define('TP.view.activite.EditDocument', {
             id: 'delete'
 
         }];
+
         this.callParent(arguments);
     }
 });

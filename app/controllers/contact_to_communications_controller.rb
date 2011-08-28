@@ -9,7 +9,7 @@ class ContactToCommunicationsController < ApplicationController
       if params[:clear].present? && params[:clear] == 'true'
         @contact_to_communications = []
       else
-        @contact_to_communications = ContactToCommunication.where(:communication_id,params[:communication_id] )
+        @contact_to_communications = ContactToCommunication.where(:communication_id => params[:communication_id] )
       end
     else
       @contact_to_communications = []

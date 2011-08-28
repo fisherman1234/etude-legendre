@@ -4,14 +4,7 @@ Ext.define('TP.view.reminder.ShortList' ,{
 		id: 'reminderShortList',
     title: 'Tous les dossiers',
     store: 'TP.store.Reminders',
-		tools:[{
-		    type:'plus',
-		    tooltip: 'Ajouter un mémo',
-		    // hidden:true,
-		    handler: function(event, toolEl, panel){
-		        // refresh logic
-		    }
-		}],
+		
     initComponent: function() {
 		    
         this.columns = [{
@@ -25,7 +18,12 @@ Ext.define('TP.view.reminder.ShortList' ,{
             flex: 1
         }
         ];
+				this.tools=[{
+				    type:'plus',
+				    tooltip: 'Ajouter un mémo',
+						action: 'trigger'
 
+				}];
         this.callParent(arguments);
     }
 });

@@ -9,6 +9,8 @@ Ext.define('TP.view.activite.EditRapport', {
     bodyStyle: 'padding:15px',
     layout: 'border',
     initComponent: function() {
+        Ext.getStore('TP.store.TypeActivites').clearFilter();
+        Ext.getStore('TP.store.TypeActivites').filter('categorie_id', 3);
         this.items = [{
             region: 'center',
             xtype: 'activiteRapportForm',
@@ -34,7 +36,9 @@ Ext.define('TP.view.activite.EditRapport', {
             action: 'deleteRapport'
 
         }];
-
+        this.on('beforeclose', function() {
+            Ext.getStore('TP.store.TypeActivites').clearFilter();
+        });
         this.callParent(arguments);
     }
 });

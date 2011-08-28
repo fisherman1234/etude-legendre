@@ -116,6 +116,7 @@ EtudeLegendre::Application.routes.draw do
   match "to_pdf", :to => "application#to_pdf", :method => :post 
   match "export/contacts", :to => "export#partieList"
   match "export/documents", :to => "export#documents"
+  match "export/expenses", :to => "export#expenses"
   
   
   # The priority is based upon order of creation:

@@ -19,21 +19,21 @@ Ext.define('TP.controller.ContactToCommunications', {
         });
     },
     editContacts: function() {
-        console.log('click');
-        var comWin = Ext.getCmp('contacttocommunicationEditContactCommunication');
-        if (typeof(comWin) == 'undefined') {
-            comWin = Ext.widget('contacttocommunicationEditContactCommunication');
-        }
-        comWin.show();
+        comWin = Ext.widget('contacttocommunicationEditContactCommunication');
     },
     purgeContactToCommunicationList: function() {
         Ext.getStore('TP.store.ContactToCommunications').removeAll();
 
     },
-    saveConCom: function() {
-        var comWin = Ext.getCmp('contacttocommunicationEditContactCommunication');
+    saveConCom: function(button) {
+        comWin = button.up('window');
+				communication_id = Ext.getStore('TP.store.ContactToCommunications').proxy.extraParams.communication_id;
+				newRecords = Ext.getStore('TP.store.ContactToCommunications').getNewRecords();
+				Ext.each(newRecords, function(record, index) {
+            record.set('communication_id', communication_id);
+        });
         Ext.getStore('TP.store.ContactToCommunications').sync();
-        comWin.hide();
+        comWin.close();
     }
 
 });

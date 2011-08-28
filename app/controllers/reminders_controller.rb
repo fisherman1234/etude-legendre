@@ -45,7 +45,8 @@ class RemindersController < ApplicationController
   # POST /reminders.xml
   def create
     @reminder = Reminder.new(params[:reminder])
-
+    @reminder.dossier_id = params[:dossier]
+    @reminder.user_id = current_user.id
     respond_to do |format|
       if @reminder.save
         format.html { redirect_to(@reminder, :notice => 'Reminder was successfully created.') }
@@ -63,7 +64,8 @@ class RemindersController < ApplicationController
   # PUT /reminders/1.xml
   def update
     @reminder = Reminder.find(params[:id])
-
+    @reminder.dossier_id = params[:dossier]
+     @reminder.user_id = current_user.id
     respond_to do |format|
       if @reminder.update_attributes(params[:reminder])
         format.html { redirect_to(@reminder, :notice => 'Reminder was successfully updated.') }

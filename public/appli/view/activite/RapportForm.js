@@ -46,7 +46,6 @@ Ext.define('TP.view.activite.RapportForm', {
                 fieldLabel: "Heure",
                 anchor: '96%',
                 name: 'heure',
-                allowBlank: false,
                 increment: 30
 
             }]

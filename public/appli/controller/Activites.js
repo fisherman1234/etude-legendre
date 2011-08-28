@@ -60,6 +60,9 @@ Ext.define('TP.controller.Activites', {
             'activiteEditCourrier button[action=cancelAddCourrier]': {
                 click: this.cancelAddCourrier
             },
+            'activiteEditCourrier button[action=delete]': {
+                click: this.deleteCourrier
+            },
             'activiteEditDocument button[action=cancelAddDocument]': {
                 click: this.cancelAddDocument
             },
@@ -339,8 +342,6 @@ Ext.define('TP.controller.Activites', {
     },
     addConvocation: function() {
         comWin = Ext.widget('activiteEditConvocation');
-        Ext.getStore('TP.store.TypeActivites').filter('categorie_id', 2);
-
         comWin.show();
 
     },
@@ -351,14 +352,13 @@ Ext.define('TP.controller.Activites', {
         values = formActivite.getValues();
         if (formActivite.form.isValid()) {
             activite = formActivite.getRecord();
-            if (typeof activite == 'undefined') {								
+            if (typeof activite == 'undefined') {
                 activite = Ext.ModelManager.create(values, 'TP.model.Activite');
                 Ext.getStore('TP.store.Activites').insert(0, activite);
 
             } else {
                 activite.set(values);
             }
-            Ext.getStore('TP.store.TypeActivites').clearFilter();
             Ext.getStore('TP.store.Activites').sync();
             comWin.close();
         }
@@ -372,19 +372,17 @@ Ext.define('TP.controller.Activites', {
             Ext.getStore('TP.store.Activites').remove(activite);
             Ext.getStore('TP.store.Activites').sync();
         }
-        Ext.getStore('TP.store.TypeActivites').clearFilter();
         comWin.close();
     },
     editConvocation: function(record) {
         comWin = Ext.widget('activiteEditConvocation');
-        Ext.getStore('TP.store.TypeActivites').filter('categorie_id', 2);
         formActivite = comWin.items.items[0];
         formActivite.loadRecord(record);
 
     },
     cancelAddConvocation: function(button) {
         comWin = button.up("window");
-        Ext.getStore('TP.store.TypeActivites').clearFilter();
+
         comWin.close();
     },
     addCourrier: function() {
@@ -420,8 +418,6 @@ Ext.define('TP.controller.Activites', {
         200);
         //
         //Clear the datastores & prepares silots to store associated records
-        Ext.getStore('TP.store.TypeActivites').filter('categorie_id', 1);
-
         Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.clear = 'true';
         Ext.getStore('TP.store.ActiviteToDocuments').load();
         Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.clear = 'undefined';
@@ -433,34 +429,62 @@ Ext.define('TP.controller.Activites', {
         Ext.getStore('TP.store.ContactDossiers').proxy.extraParams.dossier = dossier_id;
         Ext.getStore('TP.store.ContactDossiers').load();
 
-        var comWin = Ext.getCmp('activiteEditCourrier');
-        if (typeof(comWin) == 'undefined') {
-            comWin = Ext.widget('activiteEditCourrier');
-        }
-        Ext.getCmp("cancelAddCourrier").show();
-
-        comWin.show();
+        comWin = Ext.widget('activiteEditCourrier');
     },
-    cancelAddCourrier: function() {
-        activite = Ext.getStore('TP.store.Activites').getAt(0);
-        Ext.getStore('TP.store.Activites').remove(activite);
-        Ext.getStore('TP.store.Activites').sync();
-        var comWin = Ext.getCmp('activiteEditCourrier');
-        Ext.getStore('TP.store.TypeActivites').clearFilter();
-        delete Ext.getStore('TP.store.ContactDossiers').proxy.extraParams.dossier;
-        comWin.hide();
+    cancelAddCourrier: function(button) {
+				comWin = button.up('window');
+				activiteForm = comWin.items.items[1].items.items[0];
+				activiteRecord = activiteForm.getRecord();
+				if (typeof activiteRecord == "undefined"){
+					activite = Ext.getStore('TP.store.Activites').getAt(0);
+					Ext.getStore('TP.store.Activites').remove(activite);
+	        Ext.getStore('TP.store.Activites').sync();
+				}
+        comWin.close();
     },
-    saveCourrier: function() {
-        delete Ext.getStore('TP.store.ContactDossiers').proxy.extraParams.dossier;
+		deleteCourrier: function(button){
+			comWin = button.up('window');
+			activiteForm = comWin.items.items[1].items.items[0];
+			activiteRecord = activiteForm.getRecord();
+			if (typeof activiteRecord == "undefined"){
+				activite = Ext.getStore('TP.store.Activites').getAt(0);
+			}
+			Ext.getStore('TP.store.Activites').remove(activite);
+      Ext.getStore('TP.store.Activites').sync();
+      comWin.close();
+		},
+		editCourrier: function(record){
+			communicationRecord = Ext.getStore('TP.store.Communications').findRecord('activite_id', record.data.id);
+			comWin = Ext.widget('activiteEditCourrier');
+			
+			formCommunication = comWin.items.items[1].items.items[1];
+      formActivite = comWin.items.items[1].items.items[0];
+						
+			formCommunication.loadRecord(communicationRecord);
+			formActivite.loadRecord(record);
+			
+			Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.activite_id = record.data.id;
+      Ext.getStore('TP.store.ActiviteToDocuments').load();
+			
+			Ext.getStore('TP.store.ContactToCommunications').proxy.extraParams.communication_id = communicationRecord.data.id;
+			Ext.getStore('TP.store.ContactToCommunications').load();
 
-        var comWin = Ext.getCmp('activiteEditCourrier');
-        formCommunication = Ext.getCmp('communicationCourrierForm');
-        formActivite = Ext.getCmp('activiteCourrierForm');
+			dossier_id = Ext.getStore('TP.store.Activites').proxy.extraParams.dossier;
+      Ext.getStore('TP.store.ContactDossiers').proxy.extraParams.dossier = dossier_id;
+      Ext.getStore('TP.store.ContactDossiers').load();
+			
+		},
+    saveCourrier: function(button) {
+				comWin = button.up('window');
+
+				formCommunication = comWin.items.items[1].items.items[1];
+        formActivite = comWin.items.items[1].items.items[0];
+				
 
         if (formCommunication.form.isValid() && formActivite.form.isValid()) {
             communicationRecord = formCommunication.form.getRecord();
             communicationValues = formCommunication.form.getValues();
-            if (typeof communicationRecord == "undefined" || communicationRecord.phantom) { // this is a new com
+            if (typeof communicationRecord == "undefined") { // this is a new com
                 communicationRecord = Ext.getStore('TP.store.Communications').getAt(0);
             }
             communicationRecord.set(communicationValues);
@@ -468,14 +492,13 @@ Ext.define('TP.controller.Activites', {
 
             activiteRecord = formActivite.form.getRecord();
             activiteValues = formActivite.form.getValues();
-            if (typeof activiteRecord == "undefined" || activiteRecord.phantom) { // this is a new com
+            if (typeof activiteRecord == "undefined") { // this is a new com
                 activiteRecord = Ext.getStore('TP.store.Activites').getAt(0);
             }
             activiteRecord.set(activiteValues);
             activiteRecord.set("description", communicationValues.subject_id);
             Ext.getStore('TP.store.Activites').sync();
-            Ext.getStore('TP.store.TypeActivites').clearFilter();
-            comWin.hide();
+            comWin.close();
         }
     },
     addReport: function() {
@@ -488,7 +511,6 @@ Ext.define('TP.controller.Activites', {
 
         Ext.getStore('TP.store.Activites').insert(0, activite);
         Ext.getStore('TP.store.Activites').sync();
-        Ext.getStore('TP.store.TypeActivites').filter('categorie_id', 3);
         comWin = Ext.widget('activiteEditRapport');
 
         var timer = setInterval(function() {
@@ -522,14 +544,12 @@ Ext.define('TP.controller.Activites', {
             }
             activite.set(activiteValues);
             Ext.getStore('TP.store.Activites').sync();
-            Ext.getStore('TP.store.TypeActivites').clearFilter();
             comWin.close();
         }
 
     },
     editRapport: function(record) {
         activite = record;
-        Ext.getStore('TP.store.TypeActivites').filter('categorie_id', 3);
         Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.activite_id = activite.data.id;
         Ext.getStore('TP.store.ActiviteToDocuments').load();
         comWin = Ext.widget('activiteEditRapport');
@@ -544,17 +564,17 @@ Ext.define('TP.controller.Activites', {
         }
         Ext.getStore('TP.store.Activites').remove(activite);
         Ext.getStore('TP.store.Activites').sync();
-        Ext.getStore('TP.store.TypeActivites').clearFilter();
         comWin.close();
     },
     editActivite: function(grid, record) {
         activite = record;
         context = this;
+        Ext.getStore('TP.store.TypeActivites').clearFilter();
         typeActivite = Ext.getStore('TP.store.TypeActivites').findRecord('id', activite.data.type_activite_id);
         categorie_id = typeActivite.data.categorie_id;
         switch (categorie_id) {
         case 1:
-            //execute code block 1
+            context.editCourrier(record);
             break;
         case 2:
             context.editConvocation(record);
