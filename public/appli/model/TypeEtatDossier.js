@@ -14,5 +14,5 @@ Ext.define('TP.model.TypeEtatDossier', {
             writeAllFields: false
         }
     },
-    fields: ['id', 'description']
+    fields: ['id', 'description', 'ordre_apparition']
 });

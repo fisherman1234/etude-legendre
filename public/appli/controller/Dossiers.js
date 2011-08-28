@@ -1,6 +1,6 @@
 Ext.define('TP.controller.Dossiers', {
     extend: 'Ext.app.Controller',
-    stores: ['TP.store.ContactDossiers','Dossiers', 'TP.store.Institutions', 'TP.store.Users', 'TP.store.TypeExpertises', 'TP.store.TypeDecisions', 'TP.store.Contacts', 'TP.store.Unites', 'TP.store.TypeEtatDossiers', 'TP.store.Activites', 'TP.store.Expenses', 'TP.store.Items', 'TP.store.Categories', 'TP.store.Documents', 'TP.store.TreeActeurs', 'TP.store.ContactActeurs', 'TP.store.Acteurs', 'TP.store.TypeIntervenants', 'TP.store.TypeInstitutions', 'TP.store.TypeActivites', 'TP.store.Communications', 'TP.store.Reminders'],
+    stores: ['TP.store.ContactDossiers', 'Dossiers', 'TP.store.Institutions', 'TP.store.Users', 'TP.store.TypeExpertises', 'TP.store.TypeDecisions', 'TP.store.Contacts', 'TP.store.Unites', 'TP.store.TypeEtatDossiers', 'TP.store.Activites', 'TP.store.Expenses', 'TP.store.Items', 'TP.store.Categories', 'TP.store.Documents', 'TP.store.TreeActeurs', 'TP.store.ContactActeurs', 'TP.store.Acteurs', 'TP.store.TypeIntervenants', 'TP.store.TypeInstitutions', 'TP.store.TypeActivites', 'TP.store.Communications', 'TP.store.Reminders'],
 
     models: ['Dossier', 'TP.model.Institution', 'TP.model.User', 'TP.model.TypeExpertise', 'TP.model.TypeDecision', 'TP.model.Contact', 'TP.model.TypeEtatDossier', 'TP.model.Expense', 'TP.model.Unite', 'TP.model.Activite', 'TP.model.Expense', 'TP.model.Item', 'TP.model.Categorie', 'TP.model.Document', 'TP.model.ContactActeur', 'TP.model.Acteur', 'TP.model.TypeIntervenant', 'TP.model.TypeInstitution', 'TP.model.TypeActivite', 'TP.model.Communication', 'TP.model.Reminder'],
 
@@ -32,10 +32,10 @@ Ext.define('TP.controller.Dossiers', {
         var main_window = Ext.getCmp('centerArea');
         //main_window.removeAll();
         var overviewPan = Ext.getCmp('overviewPan');
-				
-				Ext.getStore('TP.store.Reminders').clearFilter();
-				Ext.getStore('TP.store.Reminders').filter("dossier_id", record.data.id);
-				
+
+        Ext.getStore('TP.store.Reminders').clearFilter();
+        Ext.getStore('TP.store.Reminders').filter("dossier_id", record.data.id);
+
         if (typeof(overviewPan) == 'undefined') {
             /*
 						 * Create forms
@@ -49,7 +49,7 @@ Ext.define('TP.controller.Dossiers', {
             var viewport = Ext.widget('dossierOverview');
             main_window.add(viewport);
             var view = Ext.getCmp('dossierCenter');
-						
+
             Ext.getStore('TP.store.Activites').proxy.extraParams = {
                 dossier: record.data.id
             };
@@ -150,9 +150,12 @@ Ext.define('TP.controller.Dossiers', {
     updateDossier: function(button) {
         var win = button.up('panel');
         form = win.down('form');
-        record = form.getRecord();
-        values = form.getValues();
-        record.set(values);
-        record.save();
+        if (form.form.isValid()) {
+            record = form.getRecord();
+            values = form.getValues();
+            record.set(values);
+            record.save();
+        }
+
     }
 });

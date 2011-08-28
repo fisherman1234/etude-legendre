@@ -6,6 +6,8 @@
 #  - Tsutomu Kuroda - http://github.com/kuroda (t-kuroda@oiax.jp)
 fr:
   date:
+    input:
+      formats: [:default] # <- this and ...
     formats:
       default: "%d/%m/%Y"
       short: "%e %b"

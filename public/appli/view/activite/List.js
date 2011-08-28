@@ -42,7 +42,7 @@ Ext.define('TP.view.activite.List', {
             xtype: 'button',
             text: 'Nouveau CR/Rapport',
             icon: '/images/report_add.png',
-            action: 'add_document'
+            action: 'add_report'
         }],
         layout: 'hbox' // The items are arranged horizontally
     }],
@@ -55,9 +55,18 @@ Ext.define('TP.view.activite.List', {
             flex: 1
         },
         {
-            header: 'No Accedit',
-            dataIndex: 'no_accedit',
-            flex: 1
+            header: 'Type',
+            dataIndex: 'type_activite_id',
+            flex: 1,
+            renderer: function(val) {
+                if (val !== null && val !== '') {
+                    rec = Ext.getStore('TP.store.TypeActivites').findRecord('id', val);
+                    if (rec !== null) {
+                        return rec.data.description;
+                    }
+
+                }
+            }
         }];
 
         this.callParent(arguments);

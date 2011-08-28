@@ -1,7 +1,6 @@
 Ext.define('TP.view.activite.EditQuote', {
     extend: 'Ext.window.Window',
     alias: 'widget.activiteEditQuote',
-    id: 'activiteEditQuote',
     title: "Détails du devis",
 		closable: false,
     width: 900,
@@ -13,34 +12,35 @@ Ext.define('TP.view.activite.EditQuote', {
         // applied to each contained panel
         border: false
     },
-    items: [{
-        xtype: 'activiteQuoteForm',
-        flex: 1, 
-				width: '100%'
-    },
-    {
-        xtype: 'expenseQuoteList',
-        flex: 6, 
-				width: '100%'
+		initComponent: function() {
+        this.items = [{
+		        xtype: 'activiteQuoteForm',
+		        flex: 1, 
+						width: '100%'
+		    },
+		    {
+		        xtype: 'expenseQuoteList',
+		        flex: 6, 
+						width: '100%'
 
-    }],
-    buttons: [{
-        text: 'Annuler',
-        action: 'cancel', 
-				id: 'cancelAdd',
-				hidden: true
-				
+		    }];
+				this.buttons= [{
+		        text: 'Annuler',
+		        action: 'cancel'
 
-    },{
-        text: 'Enregistrer',
-        action: 'save'
 
-    },
-    {
-        text: 'Supprimer',
-        action: 'delete', 
-				hidden: true, 
-				id: 'delete'
-				
-    }]
+		    },{
+		        text: 'Enregistrer',
+		        action: 'save'
+
+		    },
+		    {
+		        text: 'Supprimer',
+		        action: 'delete'
+
+		    }];
+
+        this.callParent(arguments);
+    }
+
 });

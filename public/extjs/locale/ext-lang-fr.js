@@ -111,7 +111,7 @@ Ext.onReady(function() {
             thousandSeparator: '.',
             decimalSeparator: ',',
             currencySign: '\u20ac',  // French Euro
-            dateFormat: 'd/m/Y'
+            dateFormat: 'Y-m-d'
         });
     }
 
@@ -128,7 +128,7 @@ Ext.onReady(function() {
             prevText          : "Mois précédent (CTRL+Flèche gauche)",
             monthYearText     : "Choisissez un mois (CTRL+Flèche haut ou bas pour changer d'année.)",
             todayTip          : "{0} (Barre d'espace)",
-            format            : "d/m/y",
+            format            : "Y-m-d",
             startDay          : 1
         });
     }
@@ -189,8 +189,7 @@ Ext.onReady(function() {
             minText           : "La date de ce champ ne peut être antérieure au {0}",
             maxText           : "La date de ce champ ne peut être postérieure au {0}",
             invalidText       : "{0} n'est pas une date valide - elle doit être au format suivant: {1}",
-            format            : "d/m/y",
-            altFormats        : "d/m/Y|d-m-y|d-m-Y|d/m|d-m|dm|dmy|dmY|d|Y-m-d"
+            format            : "Y-m-d"
         });
     }
 
@@ -308,7 +307,7 @@ Ext.onReady(function() {
         Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
             nameText   : "Propriété",
             valueText  : "Valeur",
-            dateFormat : "d/m/Y",
+            dateFormat : "Y-m-d",
             trueText   : "vrai",
             falseText  : "faux"
         });

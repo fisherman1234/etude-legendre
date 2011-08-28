@@ -66,7 +66,7 @@ class CommunicationsController < ApplicationController
   # POST /communications
   # POST /communications.xml
   def create
-    @communication = Communication.new()
+    @communication = Communication.new(params[:communication])
     @communication.dossier_id = params[:dossier]
     @communication.activite_id = params[:activite_id]
     

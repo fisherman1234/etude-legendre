@@ -2,7 +2,7 @@ Ext.define('TP.view.document.Edit', {
     extend: 'Ext.window.Window',
     alias: 'widget.documentEdit',
 
-    title: "Edition d'un fichier",
+    title: "Propriétés du dossier",
     layout: 'fit',
     id: "documentEdit",
     autoShow: true,

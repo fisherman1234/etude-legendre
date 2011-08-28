@@ -4,9 +4,7 @@ Ext.define('TP.view.expense.QuoteList', {
 
     title: 'Dépenses',
     store: 'TP.store.QuoteExpenses',
-    id: "expenseQuoteList",
-
-
+		frame: true,
     features: [{
         groupHeaderTpl: 'Activite: {name}',
         ftype: 'groupingsummary'
@@ -17,32 +15,31 @@ Ext.define('TP.view.expense.QuoteList', {
         clicksToEdit: 1,
 				pluginId: 'rowEditPlugin'
     })],
-    dockedItems: [{
-        xtype: 'toolbar',
-        dock: 'top',
-        store: 'TP.store.QuoteExpenses',
-        displayInfo: true,
-        items: [{
-            xtype: 'button',
-            text: 'Ajouter',
-            icon: '/images/add.png',
-            handler: function() {
-                // empty record
-                var r = Ext.ModelManager.create({
-                    activite_id: null,
-                    unite_id: null,
-                    taux_tva_id: null, 
-										activite_name: null
-                },
-                'TP.model.Expense');
-                Ext.getStore('TP.store.QuoteExpenses').insert(0, r);
-								this.up('gridpanel').getPlugin('rowEditPlugin').startEdit(0, 0);
-            }
-        }],
-        layout: 'hbox' // The items are arranged horizontally
-    }],
     initComponent: function() {
-
+				this.dockedItems= [{
+		        xtype: 'toolbar',
+		        dock: 'top',
+		        store: 'TP.store.QuoteExpenses',
+		        displayInfo: true,
+		        items: [{
+		            xtype: 'button',
+		            text: 'Ajouter',
+		            icon: '/images/add.png',
+		            handler: function() {
+		                // empty record
+		                var r = Ext.ModelManager.create({
+		                    activite_id: null,
+		                    unite_id: null,
+		                    taux_tva_id: null, 
+												activite_name: null
+		                },
+		                'TP.model.Expense');
+		                Ext.getStore('TP.store.QuoteExpenses').insert(0, r);
+										this.up('gridpanel').getPlugin('rowEditPlugin').startEdit(0, 0);
+		            }
+		        }],
+		        layout: 'hbox' // The items are arranged horizontally
+		    }];
         this.columns = [{
             header: 'Modèle',
             dataIndex: 'item_id',
