@@ -18,8 +18,6 @@ gem "best_in_place"
 gem "spreadsheet", "~> 0.6.5.7"
 
 
-gem 'netzke-core', :git => "git://github.com/skozlov/netzke-core.git"
-gem 'netzke-basepack', :git => "git://github.com/skozlov/netzke-basepack.git"
 gem 'will_paginate', '~>3.0.pre2'
 
 gem 'liquid'
