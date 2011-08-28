@@ -20,7 +20,7 @@ Ext.define('TP.controller.Activites', {
             'activiteList button[action=courrier_add]': {
                 click: this.addCourrier
             },
-
+            //Begin EditConvocation
             'activiteEditConvocation button[action=save]': {
                 click: this.saveConvocation
             },
@@ -28,7 +28,10 @@ Ext.define('TP.controller.Activites', {
             'activiteEditConvocation button[action=cancelAddConvocation]': {
                 click: this.cancelAddConvocation
             },
-
+            'activiteEditConvocation button[action=delete]': {
+                click: this.deleteConvocation
+            },
+            //
             'activiteList button[action=add_document]': {
                 click: this.addDocument
             },
@@ -200,10 +203,21 @@ Ext.define('TP.controller.Activites', {
 
             activiteRecord.set(activiteValues);
             Ext.getStore('TP.store.Activites').sync();
-            Ext.getStore('TP.store.QuoteExpenses').sync();
+
+            activite_id = Ext.getStore('TP.store.QuoteExpenses').proxy.extraParams.activite_id;
             delete Ext.getStore('TP.store.QuoteExpenses').proxy.extraParams.activite_id;
+            newRecords = Ext.getStore('TP.store.QuoteExpenses').getNewRecords();
+
+            Ext.each(newRecords, function(record, index) {
+                record.set('activite_id', activite_id);
+            });
+
+            Ext.getStore('TP.store.QuoteExpenses').sync();
+
+            //delete Ext.getStore('TP.store.QuoteExpenses').proxy.extraParams.activite_id;
             Ext.getStore('TP.store.Expenses').load();
             comWin.hide();
+
         }
     },
     cancelAddQuote: function(button) {
@@ -324,38 +338,54 @@ Ext.define('TP.controller.Activites', {
         comWin.close();
     },
     addConvocation: function() {
+        comWin = Ext.widget('activiteEditConvocation');
         Ext.getStore('TP.store.TypeActivites').filter('categorie_id', 2);
-        var comWin = Ext.getCmp('activiteEditConvocation');
-        if (typeof(comWin) == 'undefined') {
-            comWin = Ext.widget('activiteEditConvocation');
-        }
-        Ext.getCmp("cancelAddConvocation").show();
+
         comWin.show();
 
     },
-    saveConvocation: function() {
-        Ext.getStore('TP.store.TypeActivites').clearFilter();
-        comWin = Ext.getCmp('activiteEditConvocation');
-        formActivite = Ext.getCmp('activiteConvocationForm');
+    saveConvocation: function(button) {
+        comWin = button.up("window");
+
+        formActivite = comWin.items.items[0];
         values = formActivite.getValues();
         if (formActivite.form.isValid()) {
             activite = formActivite.getRecord();
-            if (typeof record == 'undefined') {
+            if (typeof activite == 'undefined') {								
                 activite = Ext.ModelManager.create(values, 'TP.model.Activite');
                 Ext.getStore('TP.store.Activites').insert(0, activite);
 
             } else {
                 activite.set(values);
             }
+            Ext.getStore('TP.store.TypeActivites').clearFilter();
             Ext.getStore('TP.store.Activites').sync();
-            comWin.hide();
+            comWin.close();
         }
 
     },
-    cancelAddConvocation: function() {
+    deleteConvocation: function(button) {
+        comWin = button.up("window");
+        formActivite = comWin.items.items[0];
+        activite = formActivite.getRecord();
+        if (typeof activite != 'undefined') {
+            Ext.getStore('TP.store.Activites').remove(activite);
+            Ext.getStore('TP.store.Activites').sync();
+        }
         Ext.getStore('TP.store.TypeActivites').clearFilter();
-        comWin = Ext.getCmp('activiteEditConvocation');
-        comWin.hide();
+        comWin.close();
+    },
+    editConvocation: function(record) {
+        comWin = Ext.widget('activiteEditConvocation');
+        Ext.getStore('TP.store.TypeActivites').filter('categorie_id', 2);
+        formActivite = comWin.items.items[0];
+        formActivite.loadRecord(record);
+
+    },
+    cancelAddConvocation: function(button) {
+        comWin = button.up("window");
+        Ext.getStore('TP.store.TypeActivites').clearFilter();
+        comWin.close();
     },
     addCourrier: function() {
         activite = Ext.ModelManager.create({},
@@ -527,7 +557,7 @@ Ext.define('TP.controller.Activites', {
             //execute code block 1
             break;
         case 2:
-            //execute code block 2
+            context.editConvocation(record);
             break;
         case 3:
             context.editRapport(record);

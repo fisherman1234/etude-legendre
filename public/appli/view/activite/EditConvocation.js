@@ -1,7 +1,6 @@
 Ext.define('TP.view.activite.EditConvocation', {
     extend: 'Ext.window.Window',
     alias: 'widget.activiteEditConvocation',
-    id: 'activiteEditConvocation',
 		closable: false,
     title: "Détails de la convocation",
     width: 900,
@@ -13,28 +12,27 @@ Ext.define('TP.view.activite.EditConvocation', {
         // applied to each contained panel
         border: false
     },
-    items: [{
-        xtype: 'activiteConvocationForm',
-        flex: 1, 
-				width: '100%'
-    }],
-    buttons: [{
-        text: 'Annuler',
-        action: 'cancelAddConvocation', 
-				id: 'cancelAddConvocation',
-				hidden: true
-				
+		initComponent: function() {
+		      this.items = [{
+			        xtype: 'activiteConvocationForm',
+			        flex: 1, 
+							width: '100%'
+			    }];
+					this.buttons = [{
+			        text: 'Annuler',
+			        action: 'cancelAddConvocation'
 
-    },{
-        text: 'Enregistrer',
-        action: 'save'
 
-    },
-    {
-        text: 'Supprimer',
-        action: 'delete', 
-				hidden: true, 
-				id: 'delete'
-				
-    }]
+			    },{
+			        text: 'Enregistrer',
+			        action: 'save'
+
+			    },
+			    {
+			        text: 'Supprimer',
+			        action: 'delete' 
+
+			    }];
+		      this.callParent(arguments);
+		  }
 });

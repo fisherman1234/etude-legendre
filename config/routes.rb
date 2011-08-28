@@ -8,7 +8,7 @@ EtudeLegendre::Application.routes.draw do
     get :autocomplete_institutions_nom, :on => :collection
   end
 
-  netzke
+  
   match 'components/:component' => 'components#index', :as => "components"
   
   resources :type_status_consignations
