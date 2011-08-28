@@ -14,7 +14,8 @@ Ext.define('TP.controller.Menus', {
       });
     },
 		homeButton: function(){
-			console.log("home button");
+			var main_window = Ext.getCmp('centerArea');
+			main_window.layout.setActiveItem(0);
 		},
 		newDossier: function(){
 			console.log("new dosseir");

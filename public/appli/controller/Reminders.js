@@ -2,7 +2,7 @@ Ext.define('TP.controller.Reminders', {
     extend: 'Ext.app.Controller',
     stores: ['Reminders' , 'TP.store.RemindersTodays'],
     models: ['Reminder'],
-    views: ['reminder.ReminderForm', 'reminder.EditReminder'],
+    views: ['reminder.ReminderForm', 'reminder.EditReminder', 'reminder.RemindersToday'],
 
     init: function() {
         this.control({

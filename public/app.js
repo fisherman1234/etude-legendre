@@ -28,9 +28,11 @@ Ext.application({
             },
             {
                 region: 'center',
-                items: [],
+                items: [{
+                    xtype: 'dossierAllDossiers'
+                }],
                 id: 'centerArea',
-                layout: 'fit'
+                layout: 'card'
                 //xtype: 'contacttocommunicationListLarge'
             }]
         });

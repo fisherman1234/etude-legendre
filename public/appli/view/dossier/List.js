@@ -3,7 +3,7 @@ Ext.define('TP.view.dossier.List', {
     alias: 'widget.dossierlist',
 
     title: 'Tous les dossiers',
-    store: 'Dossiers',
+    store: 'TP.store.Dossiers',
     initComponent: function() {
 
         this.columns = [{

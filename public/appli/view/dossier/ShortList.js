@@ -3,7 +3,7 @@ Ext.define('TP.view.dossier.ShortList' ,{
     alias : 'widget.dossiershortlist',
 
     title: 'Tous les dossiers',
-    store: 'Dossiers',
+    store: 'TP.store.Dossiers',
     features: [{ftype:'grouping', groupHeaderTpl: '{name} ({rows.length})'}],
 
     initComponent: function() {
