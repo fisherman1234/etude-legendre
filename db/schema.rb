@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110819181601) do
+ActiveRecord::Schema.define(:version => 20110829164413) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -480,6 +480,7 @@ ActiveRecord::Schema.define(:version => 20110819181601) do
     t.string   "site_web"
     t.integer  "parametres_cabinet_id"
     t.integer  "contact_id"
+    t.integer  "type_intervenant_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

@@ -118,6 +118,8 @@ EtudeLegendre::Application.routes.draw do
   match "export/documents", :to => "export#documents"
   match "export/expenses", :to => "export#expenses"
   
+  resources :my_user
+  
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

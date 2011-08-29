@@ -14,14 +14,14 @@ class User < ActiveRecord::Base
   has_many :contacts
   has_many :reminders
   has_many :dossiers
-
+  attr_accessor :full_name
   
   
   
   liquid_methods :email, :nom, :civilite, :prenom, :titre_lettres, :fonction, :adresse1, :adresse2, :adresse3, :code_postal, :ville, :pays, :telephone, :fax, :signature_lettres, :genre_adresse, :genre_lettre, :site_web, :parametres_cabinet_id
   
   def full_name
-    return prenom+' '+nom
+    return prenom.to_s+' '+nom.to_s
   end
   
   def update_contact
@@ -44,6 +44,7 @@ class User < ActiveRecord::Base
     contact.genre_adresse = genre_adresse
     contact.genre_lettre = genre_lettre
     contact.site_web = site_web
+    contact.type_intervenant_id = type_intervenant_id
     contact.save
   end
 end
