@@ -24,7 +24,7 @@ class Document < ActiveRecord::Base
       end
     end
     
-    /
+    
     def generate_link
       a = "R_64d5c9cba22c95c6a0048afcc7bb4d90"
       b = "thibaultpoisson"
@@ -42,9 +42,9 @@ class Document < ActiveRecord::Base
         url = AWS::S3::S3Object.url_for(self.file.path, self.file.bucket_name, :expires_in => 1.year)
         return url
       end
-    */
     
     
+    /
     ##Flight mode
     def generate_link
       return self.file.path
@@ -53,6 +53,6 @@ class Document < ActiveRecord::Base
      def generate_long_link
         return self.file.path
       end
-    
+    */
 
 end
