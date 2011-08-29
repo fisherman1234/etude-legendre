@@ -60,12 +60,12 @@ class DossiersController < ApplicationController
   # POST /dossiers.xml
   def create
     @dossier = Dossier.new(params[:dossier])
-
+    @dossier.parametres_cabinet_id = current_user.parametres_cabinet_id
     respond_to do |format|
       if @dossier.save
         format.html { redirect_to(@dossier, :notice => 'Le dossier a bien été créé') }
         format.xml  { render :xml => @dossier, :status => :created, :location => @dossier }
-        format.json  { render :json => @dossier, :status => :created, :location => @dossier }
+        format.json  { render :json => { :success => true, :message => "Updated Dossier #{@dossier.id}", :data => @dossier.attributes.merge(:institution_nom => @dossier.institution.nom, :type_etat_dossier_description => @dossier.type_etat_dossier.try(:description), :juge_mission_id => @dossier.juge_mission.try(:contact_id), :juge_controlleur_id => @dossier.juge_controlleur.try(:contact_id))}}
         
       else
         format.html { render :action => "new" }
@@ -78,7 +78,7 @@ class DossiersController < ApplicationController
   # PUT /dossiers/1.xml
   def update
     @dossier = Dossier.find(params[:id])
-
+    
     respond_to do |format|
       if @dossier.update_attributes(params[:dossier])
         format.html { redirect_to(@dossier, :notice => 'Dossier was successfully updated.') }

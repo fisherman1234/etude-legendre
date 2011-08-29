@@ -1,6 +1,6 @@
 Ext.define('TP.controller.Reminders', {
     extend: 'Ext.app.Controller',
-    stores: ['Reminders' , 'TP.store.RemindersTodays'],
+    stores: ['Reminders', 'TP.store.RemindersTodays'],
     models: ['Reminder'],
     views: ['reminder.ReminderForm', 'reminder.EditReminder', 'reminder.RemindersToday'],
 
@@ -20,8 +20,64 @@ Ext.define('TP.controller.Reminders', {
             },
             'reminderShortList': {
                 itemdblclick: this.editReminder
+            },
+            'remindersToday': {
+                itemdblclick: this.editDossier
+            },
+            'remindersToday button[action=filterToday]': {
+                click: this.filterToday
+            },
+            'remindersToday button[action=filterTomorrow]': {
+                click: this.filterTomorrow
+            },
+            'remindersToday button[action=filterThisWeek]': {
+                click: this.filterThisWeek
+            },
+            'remindersToday button[action=filterAll]': {
+                click: this.filterAll
             }
         });
+    },
+    filterToday: function(button) {
+        store = Ext.getStore('TP.store.RemindersTodays');
+        store.clearFilter();
+        store.filterBy(function myfilter(record) {
+            date = Ext.Date.parse(record.data.reminder_date, 'Y-m-d');
+            today = new Date();
+            return date == today;
+        });
+    },
+    filterTomorrow: function() {
+        store = Ext.getStore('TP.store.RemindersTodays');
+        store.clearFilter();
+        store.filterBy(function myfilter(record) {
+            date = Ext.Date.parse(record.data.reminder_date, 'Y-m-d');
+            today = new Date();
+            tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            return date <= tomorrow && date > today;
+        });
+    },
+    filterThisWeek: function() {
+        store = Ext.getStore('TP.store.RemindersTodays');
+        store.clearFilter();
+        store.filterBy(function myfilter(record) {
+            date = Ext.Date.parse(record.data.reminder_date, 'Y-m-d');
+            today = new Date();
+            week = new Date();
+            week.setDate(week.getDate() + 7);
+            return date <= week && date > today;
+        });
+    },
+    filterAll: function() {
+        store = Ext.getStore('TP.store.RemindersTodays');
+        store.clearFilter();
+    },
+    editDossier: function(grid, record) {
+        dossier = Ext.getStore('TP.store.Dossiers').findRecord('id', record.data.dossier_id);
+        if (dossier !== null) {
+            this.getController('TP.controller.Dossiers').editDossier(null, dossier);
+        }
     },
     addReminder: function() {
         Ext.widget('reminderEditReminder');

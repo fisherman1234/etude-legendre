@@ -3,7 +3,7 @@ class Dossier < ActiveRecord::Base
   belongs_to :type_decision
   belongs_to :type_expertise
   belongs_to :institution
-  after_create :create_actors
+
   has_many :documents
   has_many :activites
   has_paper_trail
@@ -14,6 +14,10 @@ class Dossier < ActiveRecord::Base
   has_many :communications
   has_many :reminders
   
+  before_update :set_cabinet
+  before_create :create_cabinet_and_actors
+  
+  has_many :expenses
   validates_presence_of :institution_id, :parametres_cabinet_id, :ref_cabinet, :nom_dossier
   
   attr_accessor :juge_controlleur_id
@@ -23,12 +27,17 @@ class Dossier < ActiveRecord::Base
   
   
   def juge_mission_id=(juge_mission_id)
-    self.acteur_tribunal.contact_acteurs.find_or_initialize_by_qualite_procedurale_id(2).update_attribute(:contact_id, juge_mission_id)
+    
+   if !juge_mission_id.to_s.empty?   
+  self.acteur_tribunal.contact_acteurs.find_or_initialize_by_qualite_procedurale_id(2).update_attribute(:contact_id, juge_mission_id)
+   end
     
   end
   
   def juge_controlleur_id=(juge_controlleur_id)
-self.acteur_tribunal.contact_acteurs.find_or_initialize_by_qualite_procedurale_id(1).update_attribute(:contact_id, juge_controlleur_id)  
+    if !juge_controlleur_id.to_s.empty?
+self.acteur_tribunal.contact_acteurs.find_or_initialize_by_qualite_procedurale_id(1).update_attribute(:contact_id, juge_controlleur_id) 
+end 
   end
   
   has_attached_file :recap_frais,
@@ -41,11 +50,19 @@ self.acteur_tribunal.contact_acteurs.find_or_initialize_by_qualite_procedurale_i
     }
   
   
-  before_update :set_cabinet
-  before_create :set_cabinet
-  has_many :expenses
+
   
   liquid_methods :nom_dossier, :ref_cabinet, :date_decision, :date_avis_designation, :date_cible_depot_rapport, :date_effective_depot_raport, :numero_role_general, :typeExpertise, :typeDecision, :juridiction, :date_debut_op_theorique
+  
+  def create_cabinet_and_actors
+    
+    self.acteurs.build(:type_acteur_id => 3,:description => TypeActeur.find(3).description)
+    self.acteurs.build(:type_acteur_id => 4,:description => TypeActeur.find(4).description)
+    self.acteurs.build(:type_acteur_id => 5,:description => TypeActeur.find(5).description)
+    self.acteurs.build(:type_acteur_id => 6,:description => TypeActeur.find(6).description)
+    a = self.acteurs.build(:type_acteur_id => 7, :description => TypeActeur.find(7).description)
+    a.contact_acteurs.build(:qualite_procedurale_id => 13, :contact_id => self.user_id)
+  end
   
   def set_cabinet
     if self.user_id && self.user_id_changed?
@@ -77,19 +94,17 @@ self.acteur_tribunal.contact_acteurs.find_or_initialize_by_qualite_procedurale_i
   
   def institution_id=(institution_id)
     write_attribute(:institution_id, institution_id)
-    a = self.acteurs.find_or_initialize_by_type_acteur_id(1)
-    a.type_acteur_id = 1
-    a.description = Institution.find(institution_id).nom
-    a.save
+    if self.new_record?
+      self.acteurs.build(:type_acteur_id => 1, :description => Institution.find(institution_id).nom )
+    else
+      a = self.acteurs.find_or_initialize_by_type_acteur_id(1)
+      a.type_acteur_id = 1
+      a.description = Institution.find(institution_id).nom
+      a.save
+    end
   end
   
-  def create_actors
-    Acteur.create(:type_acteur_id => 3, :dossier_id => self.id, :description => TypeActeur.find(3).description)
-    Acteur.create(:type_acteur_id => 4, :dossier_id => self.id, :description => TypeActeur.find(4).description)
-    Acteur.create(:type_acteur_id => 5, :dossier_id => self.id, :description => TypeActeur.find(5).description)
-    Acteur.create(:type_acteur_id => 6, :dossier_id => self.id, :description => TypeActeur.find(6).description)
-    Acteur.create(:type_acteur_id => 7, :dossier_id => self.id, :description => TypeActeur.find(7).description)
-  end
+
   
   def acteur_tribunal
     self.acteurs.find(:first, :conditions => {:type_acteur_id => 1})

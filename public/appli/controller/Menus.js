@@ -6,9 +6,6 @@ Ext.define('TP.controller.Menus', {
 			this.control({
           'mainMenu button[action=home]': {
               click: this.homeButton
-          },
-					'mainMenu button[action=new_dosser]': {
-              click: this.newDossier
           }
 
       });
@@ -16,9 +13,6 @@ Ext.define('TP.controller.Menus', {
 		homeButton: function(){
 			var main_window = Ext.getCmp('centerArea');
 			main_window.layout.setActiveItem(0);
-		},
-		newDossier: function(){
-			console.log("new dosseir");
 		}
 
 });

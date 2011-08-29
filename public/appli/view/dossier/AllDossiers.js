@@ -9,43 +9,56 @@ Ext.define('TP.view.dossier.AllDossiers', {
         // applied to each contained panel
         frame: true
     },
-    title: 'Informations',
-    prepareData: function() {
-        // Defining the fields for the record.
-        var fields = ['description', 'recordCount'];
 
-        // Creates an array with the data
-        var data = [];
-        a = Ext.getStore('TP.store.Dossiers');
-        a.group("type_etat_dossier_id");
-        values = a.count(true);
-        Ext.Object.each(values, function(key, value, myself) {
-            data.push({
-                recordCount: value,
-                description: key
-            });
-
-        });
-
-        // And finally the store
-        var store = new Ext.data.Store({
-            fields: fields,
-            data: data
-        });
-        return store;
-
-    },
     initComponent: function() {
-        this.items = [
+        this.items = [{
+            xtype: 'remindersToday',
+            flex: 1
+        },
         {
-            xtype: 'chart',
-            animate: true,
-            store: this.prepareData(),
-            flex: 1,
-            theme: 'Base:gradients',
-            series: [{
-                type: 'pie',
-                field: 'recordCount'
+            xtype: 'panel',
+            title: 'Répartition des dossiers',
+						frame: true,
+						flex: 1,
+						layout: 'fit',
+						padding: 30,
+            items: [{
+                
+                height: 200,
+                animate: true,
+                xtype: 'chart',
+                store: 'TP.store.DossierCounts',
+                theme: 'Base:gradients',
+                shadow: true,
+                series: [{
+                    type: 'pie',
+                    field: 'recordCount',
+                    showInLegend: true,
+                    tips: {
+                        trackMouse: true,
+                        width: 140,
+                        height: 50,
+                        renderer: function(storeItem, item) {
+                            // calculate and display percentage on hover
+                            var total = 0;
+                            Ext.getStore('TP.store.DossierCounts').each(function(rec) {
+                                total += rec.get('recordCount');
+                            });
+                            this.setTitle(storeItem.get('description') + ': ' + Math.round(storeItem.get('recordCount') / total * 100) + '%');
+                        }
+                    },
+                    highlight: {
+                        segment: {
+                            margin: 20
+                        }
+                    },
+                    label: {
+                        field: 'description',
+                        display: 'rotate',
+                        contrast: true,
+                        font: '10px Arial'
+                    }
+                }]
             }]
         }];
 

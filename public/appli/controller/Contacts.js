@@ -1,8 +1,8 @@
 Ext.define('TP.controller.Contacts', {
     extend: 'Ext.app.Controller',
-    stores: ['Contacts', 'TP.store.Civilites', 'ContactDossiers', 'TP.store.ContactToCommunications','TP.store.TransmissionMediums'],
-    models: ['Contact', 'TP.model.ContactToCommunication','TP.model.TransmissionMedium'],
-    views: ['contact.ListLarge', 'contact.EditLight', 'contact.Edit', 'contact.EditForm'],
+    stores: ['Contacts', 'TP.store.Civilites', 'ContactDossiers', 'TP.store.ContactToCommunications', 'TP.store.TransmissionMediums'],
+    models: ['Contact', 'TP.model.ContactToCommunication', 'TP.model.TransmissionMedium'],
+    views: ['contact.ListLarge', 'contact.EditLight', 'contact.Edit', 'contact.EditForm', 'contact.ContactList', 'contact.ListAll'],
 
     init: function() {
         this.control({
@@ -17,6 +17,9 @@ Ext.define('TP.controller.Contacts', {
             },
             'contactEdit button[action=delete]': {
                 click: this.deleteContact
+            },
+            'contactEdit button[action=cancel]': {
+                click: this.cancelAdd
             },
             'contactEditLight button[action=add_institution]': {
                 click: this.addInstitution
@@ -35,11 +38,21 @@ Ext.define('TP.controller.Contacts', {
             },
             'contactListLarge button[action=addAllContactsToCom]': {
                 click: this.addAllContactsToCom
+            },
+            'contactListAll': {
+                itemdblclick: this.openContact
+            },
+						'contactContactList button[action=close]': {
+                click: this.cancelAdd
             }
-
 
         });
     },
+		openContact: function(grid, record){
+			win = Ext.widget('contactEdit');
+			form = win.down('form');
+			form.loadRecord(record);
+		},
     addInstitution: function(button) {
         //todo : lier directement le champs parent lors de l'ajout
         institution = Ext.widget('institutionEdit');
@@ -60,16 +73,30 @@ Ext.define('TP.controller.Contacts', {
         formDossier.loadRecord(record);
     },
     saveContact: function(button) {
-        contactForm = Ext.getCmp("contactEditForm");
-        record = contactForm.getRecord();
-        values = contactForm.getValues();
-        record.set(values);
-        record.store.sync();
-        button.up("window").close();
+        win = button.up("window");
+        contactForm = win.down('form');
+				if (contactForm.form.isValid()){
+				  record = contactForm.getRecord();
+	        values = contactForm.getValues();
+					if (typeof record == "undefined"){
+						record = Ext.ModelManager.create({},
+		        'TP.model.Contact');
+						Ext.getStore('TP.store.Contacts').insert(0, record);
+					}
+	        record.set(values);
+	        Ext.getStore('TP.store.Contacts').sync();
+	        win.close();	
+				}
+
 
     },
+    cancelAdd: function(button) {
+        win = button.up("window");
+        win.close();
+    },
     deleteContact: function(button)  {
-        contactForm = Ext.getCmp("contactEditForm");
+        win = button.up("window");
+        contactForm = win.down('form');
         record = contactForm.getRecord();
         Ext.Msg.show({
             title: 'Supprimer cet enregistrement',
@@ -77,9 +104,11 @@ Ext.define('TP.controller.Contacts', {
             buttons: Ext.Msg.YESNO,
             fn: function(id) {
                 if (id == "yes") {
-                    Ext.getStore('TP.store.Contacts').remove(record);
-                    Ext.getStore('TP.store.Contacts').sync();
-                    button.up("window").close();
+                    if (typeof record != "undefined") {
+                        Ext.getStore('TP.store.Contacts').remove(record);
+                        Ext.getStore('TP.store.Contacts').sync();
+                    }
+                    win.close();
 
                 }
             },
@@ -114,7 +143,7 @@ Ext.define('TP.controller.Contacts', {
     },
     addContactCom: function(grid, rowIndex, colIndex) { // unused ...
         record = grid.getStore().getAt(rowIndex);
-				concom = Ext.ModelManager.create({
+        concom = Ext.ModelManager.create({
             contact_id: record.data.id,
             transmission_medium_id: record.data.contact_medium_id
         },

@@ -11,16 +11,24 @@ Ext.define('TP.view.contact.Edit', {
         // applied to each contained panel
         border: false
     },
-    items: [{
-        xtype: 'contactEditForm'
-    }],
-		buttons: [{
-        text: 'Enregistrer',
-        action: 'save'
+    initComponent: function() {
+        this.items = [{
+            xtype: 'contactEditForm'
+        }];
+        this.buttons = [{
+            text: 'Annuler',
+            action: 'cancel'
 
-    },
-		{
-        text: 'Supprimer',
-        action: 'delete'
-    }]
+        },{
+            text: 'Enregistrer',
+            action: 'save'
+
+        },
+        {
+            text: 'Supprimer',
+            action: 'delete'
+        }];
+        this.callParent(arguments);
+    }
+
 });

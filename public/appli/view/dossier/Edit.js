@@ -28,13 +28,15 @@ Ext.define('TP.view.dossier.Edit', {
                             xtype: 'textfield',
                             fieldLabel: 'Nom du dossier',
                             anchor: '96%',
-                            name: 'nom_dossier'
+                            name: 'nom_dossier',
+                            allowBlank: false
                         },
                         {
                             xtype: 'textfield',
                             fieldLabel: 'Références dossier',
                             anchor: '96%',
-                            name: 'ref_cabinet'
+                            name: 'ref_cabinet',
+                            allowBlank: false
                         }]
 
                     },
@@ -51,8 +53,8 @@ Ext.define('TP.view.dossier.Edit', {
                             displayField: 'description',
                             valueField: 'id',
                             hiddenName: 'type_expertise_id',
-						                forceSelection: true,
-
+                            forceSelection: true,
+														allowBlank: false,
                             queryMode: 'local'
 
                         },
@@ -65,7 +67,7 @@ Ext.define('TP.view.dossier.Edit', {
                             store: 'TP.store.Users',
                             displayField: 'nom_complet',
                             valueField: 'id',
-						                forceSelection: true,
+                            forceSelection: true,
 
                             hiddenName: 'user_id'
 
@@ -88,8 +90,8 @@ Ext.define('TP.view.dossier.Edit', {
                     displayField: 'nom',
                     valueField: 'id',
                     hiddenName: 'institution_id',
-		                forceSelection: true
-
+                    forceSelection: true,
+										allowBlank: false
 
                 },
                 {
@@ -102,8 +104,8 @@ Ext.define('TP.view.dossier.Edit', {
                     displayField: 'description',
                     valueField: 'id',
                     hiddenName: 'type_decision_id',
-		                forceSelection: true
-
+                    forceSelection: true,
+										allowBlank: false
 
                 },
 
@@ -124,8 +126,7 @@ Ext.define('TP.view.dossier.Edit', {
                             displayField: 'nom_complet',
                             valueField: 'id',
                             hiddenName: 'juge_mission_id',
-						                forceSelection: true
-
+                            forceSelection: true
 
                         },
                         {
@@ -155,8 +156,7 @@ Ext.define('TP.view.dossier.Edit', {
                             displayField: 'nom_complet',
                             valueField: 'id',
                             hiddenName: 'juge_controlleur_id',
-						                forceSelection: true
-
+                            forceSelection: true
 
                         },
                         {

@@ -40,8 +40,8 @@ Ext.define('TP.view.dossier.Summary', {
                 type: 'gauge',
                 position: 'gauge',
                 minimum: 0,
-                maximum: 11,
-                steps: 11,
+                maximum: Ext.getStore('TP.store.TypeEtatDossiers').count(),
+                steps: Ext.getStore('TP.store.TypeEtatDossiers').count(),
                 margin: 7,
                 title: 'Etat du dossier'
             }],

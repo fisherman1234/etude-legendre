@@ -1,7 +1,7 @@
 Ext.define('TP.view.reminder.RemindersToday', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.remindersToday',
-    title: 'Tous les dossiers',
+    title: 'Rappels',
     store: 'TP.store.RemindersTodays',
 
     initComponent: function() {
@@ -23,17 +23,26 @@ Ext.define('TP.view.reminder.RemindersToday', {
             items: [{
                 xtype: 'button',
                 text: 'Aujourd\'hui',
-                action: 'filterToday'
+                action: 'filterToday',
+                icon: '/images/date.png'
             },
             {
                 xtype: 'button',
                 text: 'Demain',
-                action: 'filterTomorrow'
+                action: 'filterTomorrow',
+                icon: '/images/date_next.png'
             },
             {
                 xtype: 'button',
                 text: 'Cette semaine',
-                action: 'filterThisWeek'
+                action: 'filterThisWeek',
+                icon: '/images/calendar_view_week.png'
+            },
+            {
+                xtype: 'button',
+                text: 'Tous',
+                action: 'filterAll',
+                icon: '/images/calendar.png'
             }],
             layout: 'hbox' // The items are arranged horizontally
         }];

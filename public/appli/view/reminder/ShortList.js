@@ -2,7 +2,7 @@ Ext.define('TP.view.reminder.ShortList' ,{
     extend: 'Ext.grid.Panel',
     alias : 'widget.reminderShortList',
 		id: 'reminderShortList',
-    title: 'Tous les dossiers',
+    title: 'Rappels dossiers',
     store: 'TP.store.Reminders',
 		
     initComponent: function() {
