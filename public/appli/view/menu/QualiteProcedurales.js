@@ -1,9 +1,9 @@
-Ext.define('TP.view.menu.TypeInstitutions', {
+Ext.define('TP.view.menu.QualiteProcedurales', {
     extend: 'Ext.grid.Panel',
-    alias: 'widget.menuTypeInstitutions',
+    alias: 'widget.menuQualiteProcedurales',
 
-    title: 'Types de sociétés',
-    store: 'TP.store.TypeInstitutions',
+    title: 'Liste des qualités procédurales',
+    store: 'TP.store.QualiteProcedurales',
     selType: 'rowmodel',
 
     initComponent: function() {

@@ -1,9 +1,9 @@
-Ext.define('TP.view.menu.TypeInstitutions', {
+Ext.define('TP.view.menu.TauxTvas', {
     extend: 'Ext.grid.Panel',
-    alias: 'widget.menuTypeInstitutions',
+    alias: 'widget.menuTauxTvas',
 
-    title: 'Types de sociétés',
-    store: 'TP.store.TypeInstitutions',
+    title: 'Liste des taux de tva',
+    store: 'TP.store.TauxTvas',
     selType: 'rowmodel',
 
     initComponent: function() {
@@ -37,6 +37,14 @@ Ext.define('TP.view.menu.TypeInstitutions', {
             flex: 1,
             editor: {
                 xtype: 'textfield'
+            }
+        },
+				{
+            header: 'Taux',
+            dataIndex: 'taux',
+            flex: 1,
+            editor: {
+                xtype: 'numberfield'
             }
         },
         {

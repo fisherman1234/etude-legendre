@@ -45,11 +45,12 @@ class TypeDecisionsController < ApplicationController
   # POST /type_decisions.xml
   def create
     @type_decision = TypeDecision.new(params[:type_decision])
-
+    @type_decision.parametres_cabinet_id = current_user.parametres_cabinet_id
     respond_to do |format|
       if @type_decision.save
         format.html { redirect_to(@type_decision, :notice => 'Type decision was successfully created.') }
         format.xml  { render :xml => @type_decision, :status => :created, :location => @type_decision }
+        format.json {render :json => {"success"=>true,"data"=>@type_decision}}
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @type_decision.errors, :status => :unprocessable_entity }
@@ -66,6 +67,7 @@ class TypeDecisionsController < ApplicationController
       if @type_decision.update_attributes(params[:type_decision])
         format.html { redirect_to(@type_decision, :notice => 'Type decision was successfully updated.') }
         format.xml  { head :ok }
+        format.json {render :json => {"success"=>true,"data"=>@type_decision}}
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @type_decision.errors, :status => :unprocessable_entity }
@@ -82,6 +84,7 @@ class TypeDecisionsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(type_decisions_url) }
       format.xml  { head :ok }
+      format.json {render :json => {"success"=>true,"data"=>[]}}
     end
   end
 end

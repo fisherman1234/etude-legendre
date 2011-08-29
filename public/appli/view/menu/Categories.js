@@ -1,9 +1,9 @@
-Ext.define('TP.view.menu.TypeInstitutions', {
+Ext.define('TP.view.menu.Categories', {
     extend: 'Ext.grid.Panel',
-    alias: 'widget.menuTypeInstitutions',
+    alias: 'widget.menuCategories',
 
-    title: 'Types de sociétés',
-    store: 'TP.store.TypeInstitutions',
+    title: 'Catégories de dépenses',
+    store: 'TP.store.Categories',
     selType: 'rowmodel',
 
     initComponent: function() {
@@ -21,12 +21,10 @@ Ext.define('TP.view.menu.TypeInstitutions', {
                 icon: '/images/add.png',
                 handler: function() {
                     // empty record
-                    grid = this.up('gridpanel');
-                    model = grid.store.model.modelName;
                     var r = Ext.ModelManager.create({},
-                    model);
-                    grid.store.insert(0, r);
-                    grid.getPlugin('rowEditPlugin').startEdit(0, 0);
+                    'TP.model.Categorie');
+                    Ext.getStore('TP.store.Categories').insert(0, r);
+                    this.up('gridpanel').getPlugin('rowEditPlugin').startEdit(0, 0);
                 }
             }],
             layout: 'hbox' // The items are arranged horizontally
@@ -37,6 +35,29 @@ Ext.define('TP.view.menu.TypeInstitutions', {
             flex: 1,
             editor: {
                 xtype: 'textfield'
+            }
+        },
+        {
+            header: 'Taux de TVA',
+            dataIndex: 'taux_tva_id',
+            flex: 1,
+            renderer: function(value, meta, record) {
+                if (value !== null) {
+                    a = Ext.getStore('TP.store.TauxTvas').findRecord('id', value);
+                    if (a !== null) {
+                        return a.data.description;
+                    }
+                }
+            },
+            editor: {
+                xtype: 'combo',
+                forceSelection: true,
+                queryMode: 'local',
+                name: 'taux_tva_id',
+                store: 'TP.store.TauxTvas',
+                displayField: 'description',
+                valueField: 'id',
+                hiddenName: 'taux_tva_id'
             }
         },
         {

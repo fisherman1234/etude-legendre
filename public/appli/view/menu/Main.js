@@ -67,6 +67,9 @@ Ext.define('TP.view.menu.Main', {
     },
     {
         text: 'Options',
-        icon: '/images/cog.png'
+        icon: '/images/cog.png',
+				handler: function(el){
+					Ext.widget('menuSettings');
+				}
     }]
 });

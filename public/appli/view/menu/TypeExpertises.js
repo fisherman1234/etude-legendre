@@ -1,9 +1,9 @@
-Ext.define('TP.view.menu.TypeInstitutions', {
+Ext.define('TP.view.menu.TypeExpertises', {
     extend: 'Ext.grid.Panel',
-    alias: 'widget.menuTypeInstitutions',
+    alias: 'widget.menuTypeExpertises',
 
-    title: 'Types de sociétés',
-    store: 'TP.store.TypeInstitutions',
+    title: 'Types d\'expertises',
+    store: 'TP.store.TypeExpertises',
     selType: 'rowmodel',
 
     initComponent: function() {

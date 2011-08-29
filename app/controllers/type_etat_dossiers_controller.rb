@@ -45,11 +45,12 @@ class TypeEtatDossiersController < ApplicationController
   # POST /type_etat_dossiers.xml
   def create
     @type_etat_dossier = TypeEtatDossier.new(params[:type_etat_dossier])
-
+@type_etat_dossier.parametres_cabinet_id = current_user.parametres_cabinet_id
     respond_to do |format|
       if @type_etat_dossier.save
         format.html { redirect_to(@type_etat_dossier, :notice => 'Type etat dossier was successfully created.') }
         format.xml  { render :xml => @type_etat_dossier, :status => :created, :location => @type_etat_dossier }
+        format.json {render :json => {"success"=>true,"data"=>@type_etat_dossier}}
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @type_etat_dossier.errors, :status => :unprocessable_entity }
@@ -66,6 +67,7 @@ class TypeEtatDossiersController < ApplicationController
       if @type_etat_dossier.update_attributes(params[:type_etat_dossier])
         format.html { redirect_to(@type_etat_dossier, :notice => 'Type etat dossier was successfully updated.') }
         format.xml  { head :ok }
+        format.json {render :json => {"success"=>true,"data"=>@type_etat_dossier}}
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @type_etat_dossier.errors, :status => :unprocessable_entity }
@@ -82,6 +84,7 @@ class TypeEtatDossiersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(type_etat_dossiers_url) }
       format.xml  { head :ok }
+      format.json {render :json => {"success"=>true,"data"=>[]}}
     end
   end
 end

@@ -50,11 +50,12 @@ class TypeExpertisesController < ApplicationController
   # POST /type_expertises.xml
   def create
     @type_expertise = TypeExpertise.new(params[:type_expertise])
-
+    @type_expertise.parametres_cabinet_id = current_user.parametres_cabinet_id
     respond_to do |format|
       if @type_expertise.save
         format.html { redirect_to(@type_expertise, :notice => 'Type expertise was successfully created.') }
         format.xml  { render :xml => @type_expertise, :status => :created, :location => @type_expertise }
+        format.json {render :json => {"success"=>true,"data"=>@type_expertise}}
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @type_expertise.errors, :status => :unprocessable_entity }
@@ -71,6 +72,7 @@ class TypeExpertisesController < ApplicationController
       if @type_expertise.update_attributes(params[:type_expertise])
         format.html { redirect_to(@type_expertise, :notice => 'Type expertise was successfully updated.') }
         format.xml  { head :ok }
+        format.json {render :json => {"success"=>true,"data"=>@type_expertise}}
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @type_expertise.errors, :status => :unprocessable_entity }
@@ -84,9 +86,11 @@ class TypeExpertisesController < ApplicationController
     @type_expertise = TypeExpertise.find(params[:id])
     @type_expertise.destroy
 
+
     respond_to do |format|
       format.html { redirect_to(type_expertises_url) }
       format.xml  { head :ok }
+      format.json {render :json => {"success"=>true,"data"=>[]}}
     end
   end
 end

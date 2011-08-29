@@ -45,11 +45,12 @@ class TauxTvasController < ApplicationController
   # POST /taux_tvas.xml
   def create
     @taux_tva = TauxTva.new(params[:taux_tva])
-
+    @taux_tva.parametres_cabinet_id = current_user.parametres_cabinet_id
     respond_to do |format|
       if @taux_tva.save
         format.html { redirect_to(@taux_tva, :notice => 'Taux tva was successfully created.') }
         format.xml  { render :xml => @taux_tva, :status => :created, :location => @taux_tva }
+        format.json {render :json => {"success"=>true,"data"=>@taux_tva}}
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @taux_tva.errors, :status => :unprocessable_entity }
@@ -66,6 +67,7 @@ class TauxTvasController < ApplicationController
       if @taux_tva.update_attributes(params[:taux_tva])
         format.html { redirect_to(@taux_tva, :notice => 'Taux tva was successfully updated.') }
         format.xml  { head :ok }
+        format.json {render :json => {"success"=>true,"data"=>@taux_tva}}
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @taux_tva.errors, :status => :unprocessable_entity }
@@ -82,6 +84,7 @@ class TauxTvasController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(taux_tvas_url) }
       format.xml  { head :ok }
+      format.json {render :json => {"success"=>true,"data"=>[]}}
     end
   end
 end

@@ -12,7 +12,7 @@ Ext.define('TP.model.Item', {
         },
         writer: {
             type: 'json',
-            root: 'activite',
+            root: 'item',
             writeAllFields: false
         }
     },

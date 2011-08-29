@@ -45,11 +45,12 @@ class UnitesController < ApplicationController
   # POST /unites.xml
   def create
     @unite = Unite.new(params[:unite])
-
+    @unite.parametres_cabinet_id = current_user.parametres_cabinet_id
     respond_to do |format|
       if @unite.save
         format.html { redirect_to(@unite, :notice => 'Unite was successfully created.') }
         format.xml  { render :xml => @unite, :status => :created, :location => @unite }
+         format.json {render :json => {"success"=>true,"data"=>@unite}}
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @unite.errors, :status => :unprocessable_entity }
@@ -66,6 +67,7 @@ class UnitesController < ApplicationController
       if @unite.update_attributes(params[:unite])
         format.html { redirect_to(@unite, :notice => 'Unite was successfully updated.') }
         format.xml  { head :ok }
+         format.json {render :json => {"success"=>true,"data"=>@unite}}
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @unite.errors, :status => :unprocessable_entity }
@@ -82,6 +84,7 @@ class UnitesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(unites_url) }
       format.xml  { head :ok }
+       format.json {render :json => {"success"=>true,"data"=>[]}}
     end
   end
 end

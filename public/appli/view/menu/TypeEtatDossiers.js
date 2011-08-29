@@ -1,9 +1,9 @@
-Ext.define('TP.view.menu.TypeInstitutions', {
+Ext.define('TP.view.menu.TypeEtatDossiers', {
     extend: 'Ext.grid.Panel',
-    alias: 'widget.menuTypeInstitutions',
+    alias: 'widget.menuTypeEtatDossiers',
 
-    title: 'Types de sociétés',
-    store: 'TP.store.TypeInstitutions',
+    title: 'Liste des Unités',
+    store: 'TP.store.TypeEtatDossiers',
     selType: 'rowmodel',
 
     initComponent: function() {
@@ -38,7 +38,14 @@ Ext.define('TP.view.menu.TypeInstitutions', {
             editor: {
                 xtype: 'textfield'
             }
-        },
+        },		{
+		            header: 'Rang chronologique',
+		            dataIndex: 'ordre_apparition',
+		            flex: 1,
+		            editor: {
+		                xtype: 'numberfield'
+		            }
+		        },
         {
             xtype: 'actioncolumn',
             width: 30,

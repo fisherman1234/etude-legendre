@@ -45,11 +45,12 @@ class CategoriesController < ApplicationController
   # POST /categories.xml
   def create
     @categorie = Categorie.new(params[:categorie])
-
+    @categorie.parametres_cabinet_id = current_user.parametres_cabinet_id
     respond_to do |format|
       if @categorie.save
         format.html { redirect_to(@categorie, :notice => 'Categorie was successfully created.') }
         format.xml  { render :xml => @categorie, :status => :created, :location => @categorie }
+        format.json {render :json => {"success"=>true,"data"=>@categorie}}
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @categorie.errors, :status => :unprocessable_entity }
@@ -66,6 +67,7 @@ class CategoriesController < ApplicationController
       if @categorie.update_attributes(params[:categorie])
         format.html { redirect_to(@categorie, :notice => 'Categorie was successfully updated.') }
         format.xml  { head :ok }
+        format.json {render :json => {"success"=>true,"data"=>@categorie}}
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @categorie.errors, :status => :unprocessable_entity }
@@ -82,6 +84,7 @@ class CategoriesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(categories_url) }
       format.xml  { head :ok }
+      format.json {render :json => {"success"=>true,"data"=>[]}}
     end
   end
 end

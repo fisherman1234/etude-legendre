@@ -48,11 +48,13 @@ class ItemsController < ApplicationController
   # POST /items.xml
   def create
     @item = Item.new(params[:item])
-
+    @item.parametres_cabinet_id = current_user.parametres_cabinet_id
     respond_to do |format|
       if @item.save
         format.html { redirect_to(@item, :notice => 'Item was successfully created.') }
         format.xml  { render :xml => @item, :status => :created, :location => @item }
+        format.json {render :json => {"success"=>true,"data"=>@item}}
+        
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @item.errors, :status => :unprocessable_entity }
@@ -69,6 +71,8 @@ class ItemsController < ApplicationController
       if @item.update_attributes(params[:item])
         format.html { redirect_to(@item, :notice => 'Item was successfully updated.') }
         format.xml  { head :ok }
+        format.json {render :json => {"success"=>true,"data"=>@item}}
+        
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @item.errors, :status => :unprocessable_entity }
@@ -85,6 +89,7 @@ class ItemsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(items_url) }
       format.xml  { head :ok }
+      format.json {render :json => {"success"=>true,"data"=>[]}}
     end
   end
 end
