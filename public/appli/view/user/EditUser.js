@@ -36,7 +36,7 @@ Ext.define('TP.view.user.EditUser', {
 				                'TP.model.User');
 				            }
 				            record.set(values);
-				            record.save();
+				            Ext.getStore('TP.store.Users').sync();
 				            win.close();
 				        }
 				    }
@@ -47,7 +47,7 @@ Ext.define('TP.view.user.EditUser', {
             action: 'delete',
 						handler: function(button) {
 				        win = button.up('window');
-				        form = win.downn('form');
+				        form = win.down('form');
 				        record = form.getRecord();
 
 				        Ext.Msg.show({
@@ -57,6 +57,7 @@ Ext.define('TP.view.user.EditUser', {
 				            fn: function(id) {
 				                if (id == "yes") {
 				                    Ext.getStore('TP.store.Users').remove(record);
+														Ext.getStore('TP.store.Users').sync();
 				                    win.close();
 				                }
 				            },

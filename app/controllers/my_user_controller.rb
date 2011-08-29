@@ -60,7 +60,7 @@ class MyUserController < ApplicationController
       if @user.update_attributes(params[:my_user])
         format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
         format.xml  { head :ok }
-        format.json {render :json => {"success"=>true,"data"=>@user.attributes.merge(:nom_complet => @user.full_name)}}
+        format.json {render :json => {"success"=>true,"data"=>@user}}
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }

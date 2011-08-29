@@ -53,14 +53,10 @@ Ext.define('TP.store.Settings', {
         card_id: 9
     },
 
-    {
-        id: 13,
-        description: 'Paramètres du cabinet',
-        card_id: 10
-    },
+
     {
         id: 14,
         description: 'Utilisateurs',
-        card_id: 11
+        card_id: 10
     }]
 });

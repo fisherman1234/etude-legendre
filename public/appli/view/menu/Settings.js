@@ -48,9 +48,6 @@ Ext.define('TP.view.menu.Settings', {
                 xtype: 'menuTypeIntervenants'
             },
 						{
-                xtype: 'menuTypeIntervenants'
-            },
-						{
                 xtype: 'userUserList'
             }]
         }];
