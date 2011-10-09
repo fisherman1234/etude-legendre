@@ -125,7 +125,6 @@ Ext.define('TP.view.activite.ConvocationForm', {
                 }]
             }]
         }];
-
         this.callParent(arguments);
     }
 

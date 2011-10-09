@@ -9,12 +9,25 @@ Ext.define('TP.view.reminder.RemindersToday', {
         this.columns = [{
             header: 'Description',
             dataIndex: 'description',
-            flex: 1
+            flex: 2
         },
         {
             header: 'Date',
             dataIndex: 'reminder_date',
             flex: 1
+        },
+				{
+            header: 'Dossier',
+            dataIndex: 'dossier_id',
+            flex: 2,
+						renderer: function(value){
+							if (value !== null) {
+                  a = Ext.getStore('TP.store.Dossiers').findRecord('id', value);
+                  if (a !== null) {
+                      return a.data.nom_dossier+' - Ref:'+a.data.ref_cabinet+'';
+                  }
+              }
+						}
         }];
         this.dockedItems = [{
             xtype: 'toolbar',

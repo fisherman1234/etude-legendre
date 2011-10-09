@@ -29,6 +29,7 @@ Ext.define('TP.store.ParametresCabinets', {
                 Ext.getStore('TP.store.TypeIntervenants').loadData(resp.type_intervenants);
                 Ext.getStore('TP.store.Contacts').loadData(resp.contacts);
                 Ext.getStore('TP.store.Items').loadData(resp.items);
+                Ext.getStore('TP.store.Dossiers').loadData(resp.dossiers);
 
                 myMask.hide();
             }
