@@ -33,6 +33,12 @@ Ext.define('TP.view.expense.QuoteList', {
                     Ext.getStore('TP.store.QuoteExpenses').insert(0, r);
                     this.up('gridpanel').getPlugin('rowEditPlugin').startEdit(0, 0);
                 }
+            },
+            {
+							xtype: 'button',
+              text: 'Télécharger le devis',
+              icon: '/images/table_go.png',
+							action: 'downloadQuote'
             }],
             layout: 'hbox' // The items are arranged horizontally
         }];

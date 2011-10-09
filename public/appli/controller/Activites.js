@@ -44,7 +44,9 @@ Ext.define('TP.controller.Activites', {
             'activiteEditQuote button[action=delete]': {
                 click: this.deleteQuote
             },
-
+            'expenseQuoteList button[action=downloadQuote]': {
+                click: this.downloadQuote
+            },
             'activiteEditCall button[action=save]': {
                 click: this.saveCall
             },
@@ -193,6 +195,13 @@ Ext.define('TP.controller.Activites', {
         200);
     },
     saveQuote: function(button) {
+        if (this.sendQuote(button)) {
+            delete Ext.getStore('TP.store.QuoteExpenses').proxy.extraParams.activite_id;
+            comWin.hide();
+        }
+
+    },
+    sendQuote: function(button) {
         comWin = button.up("window");
         formActivite = comWin.items.items[0];
 
@@ -208,7 +217,6 @@ Ext.define('TP.controller.Activites', {
             Ext.getStore('TP.store.Activites').sync();
 
             activite_id = Ext.getStore('TP.store.QuoteExpenses').proxy.extraParams.activite_id;
-            delete Ext.getStore('TP.store.QuoteExpenses').proxy.extraParams.activite_id;
             newRecords = Ext.getStore('TP.store.QuoteExpenses').getNewRecords();
 
             Ext.each(newRecords, function(record, index) {
@@ -219,9 +227,20 @@ Ext.define('TP.controller.Activites', {
 
             //delete Ext.getStore('TP.store.QuoteExpenses').proxy.extraParams.activite_id;
             Ext.getStore('TP.store.Expenses').load();
-            comWin.hide();
+            return true;
 
+        } else {
+            return false;
         }
+    },
+    downloadQuote: function(button) {
+        if (this.sendQuote(button)) {
+            quote_id = Ext.getStore('TP.store.QuoteExpenses').proxy.extraParams.activite_id;
+            ifrm = document.createElement("IFRAME");
+            ifrm.setAttribute("src", "/export/quote?id=" + quote_id);
+            document.body.appendChild(ifrm);
+        }
+
     },
     cancelAddQuote: function(button) {
         comWin = button.up("window");
@@ -432,54 +451,53 @@ Ext.define('TP.controller.Activites', {
         comWin = Ext.widget('activiteEditCourrier');
     },
     cancelAddCourrier: function(button) {
-				comWin = button.up('window');
-				activiteForm = comWin.items.items[1].items.items[0];
-				activiteRecord = activiteForm.getRecord();
-				if (typeof activiteRecord == "undefined"){
-					activite = Ext.getStore('TP.store.Activites').getAt(0);
-					Ext.getStore('TP.store.Activites').remove(activite);
-	        Ext.getStore('TP.store.Activites').sync();
-				}
+        comWin = button.up('window');
+        activiteForm = comWin.items.items[1].items.items[0];
+        activiteRecord = activiteForm.getRecord();
+        if (typeof activiteRecord == "undefined") {
+            activite = Ext.getStore('TP.store.Activites').getAt(0);
+            Ext.getStore('TP.store.Activites').remove(activite);
+            Ext.getStore('TP.store.Activites').sync();
+        }
         comWin.close();
     },
-		deleteCourrier: function(button){
-			comWin = button.up('window');
-			activiteForm = comWin.items.items[1].items.items[0];
-			activiteRecord = activiteForm.getRecord();
-			if (typeof activiteRecord == "undefined"){
-				activite = Ext.getStore('TP.store.Activites').getAt(0);
-			}
-			Ext.getStore('TP.store.Activites').remove(activite);
-      Ext.getStore('TP.store.Activites').sync();
-      comWin.close();
-		},
-		editCourrier: function(record){
-			communicationRecord = Ext.getStore('TP.store.Communications').findRecord('activite_id', record.data.id);
-			comWin = Ext.widget('activiteEditCourrier');
-			
-			formCommunication = comWin.items.items[1].items.items[1];
-      formActivite = comWin.items.items[1].items.items[0];
-						
-			formCommunication.loadRecord(communicationRecord);
-			formActivite.loadRecord(record);
-			
-			Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.activite_id = record.data.id;
-      Ext.getStore('TP.store.ActiviteToDocuments').load();
-			
-			Ext.getStore('TP.store.ContactToCommunications').proxy.extraParams.communication_id = communicationRecord.data.id;
-			Ext.getStore('TP.store.ContactToCommunications').load();
+    deleteCourrier: function(button) {
+        comWin = button.up('window');
+        activiteForm = comWin.items.items[1].items.items[0];
+        activiteRecord = activiteForm.getRecord();
+        if (typeof activiteRecord == "undefined") {
+            activite = Ext.getStore('TP.store.Activites').getAt(0);
+        }
+        Ext.getStore('TP.store.Activites').remove(activite);
+        Ext.getStore('TP.store.Activites').sync();
+        comWin.close();
+    },
+    editCourrier: function(record) {
+        communicationRecord = Ext.getStore('TP.store.Communications').findRecord('activite_id', record.data.id);
+        comWin = Ext.widget('activiteEditCourrier');
 
-			dossier_id = Ext.getStore('TP.store.Activites').proxy.extraParams.dossier;
-      Ext.getStore('TP.store.ContactDossiers').proxy.extraParams.dossier = dossier_id;
-      Ext.getStore('TP.store.ContactDossiers').load();
-			
-		},
-    saveCourrier: function(button) {
-				comWin = button.up('window');
-
-				formCommunication = comWin.items.items[1].items.items[1];
+        formCommunication = comWin.items.items[1].items.items[1];
         formActivite = comWin.items.items[1].items.items[0];
-				
+
+        formCommunication.loadRecord(communicationRecord);
+        formActivite.loadRecord(record);
+
+        Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.activite_id = record.data.id;
+        Ext.getStore('TP.store.ActiviteToDocuments').load();
+
+        Ext.getStore('TP.store.ContactToCommunications').proxy.extraParams.communication_id = communicationRecord.data.id;
+        Ext.getStore('TP.store.ContactToCommunications').load();
+
+        dossier_id = Ext.getStore('TP.store.Activites').proxy.extraParams.dossier;
+        Ext.getStore('TP.store.ContactDossiers').proxy.extraParams.dossier = dossier_id;
+        Ext.getStore('TP.store.ContactDossiers').load();
+
+    },
+    saveCourrier: function(button) {
+        comWin = button.up('window');
+
+        formCommunication = comWin.items.items[1].items.items[1];
+        formActivite = comWin.items.items[1].items.items[0];
 
         if (formCommunication.form.isValid() && formActivite.form.isValid()) {
             communicationRecord = formCommunication.form.getRecord();
