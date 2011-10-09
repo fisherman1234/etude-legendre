@@ -66,11 +66,6 @@ Ext.define('TP.view.dossier.Summary', {
                     return Ext.getStore('TP.store.TypeEtatDossiers').findRecord('id', value).data.description;
                 };
 
-            },
-            afterrender: function(c) {
-                this.items.items[0].html = this.tpl.applyTemplate(Ext.getStore('TP.store.CurrentDossiers').getAt(0).data);
-
-                this.items.items[2].html = this.tplExport.applyTemplate(Ext.getStore('TP.store.CurrentDossiers').getAt(0).data);
             }
         };
 

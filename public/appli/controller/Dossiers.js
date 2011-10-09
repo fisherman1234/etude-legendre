@@ -52,132 +52,15 @@ Ext.define('TP.controller.Dossiers', {
         var addContact = Ext.widget('contactActeurAdd');
     },
     editDossier: function(grid, record) {
-        var main_window = Ext.getCmp('centerArea');
-        //main_window.removeAll();
-        var overviewPan = Ext.getCmp('overviewPan');
-
-        Ext.getStore('TP.store.Reminders').clearFilter();
-        Ext.getStore('TP.store.Reminders').filter("dossier_id", record.data.id);
-        Ext.getStore('TP.store.CurrentDossiers').loadRecords([record]);
-
+				var overviewPan = Ext.getCmp('overviewPan');
+				var main_window = Ext.getCmp('centerArea');
+				
+				Ext.getStore('TP.store.Dossiers').setBaseParams(record.data.id);
+				Ext.getStore('TP.store.Dossiers').loadEntireDossier(record.data.id);
         if (typeof(overviewPan) == 'undefined') {
-            /*
-						 * Create forms
-						 */
-            var formDossier = Ext.widget('dossieredit');
-            formDossier.down('form').loadRecord(record);
-            var expenseList = Ext.widget('expenseList');
-            var activiteList = Ext.widget('activiteOverview');
-            var dossierSummary = Ext.widget("dossierSummary");
-            var documentList = Ext.widget('documentList');
-            var viewport = Ext.widget('dossierOverview');
-            main_window.add(viewport);
-            var view = Ext.getCmp('dossierCenter');
-            view.add(dossierSummary);
-
-            Ext.getStore('TP.store.Activites').proxy.extraParams = {
-                dossier: record.data.id
-            };
-            Ext.getStore('TP.store.Activites').load({
-                callback: function(r, options, success) {
-                    Ext.getStore('TP.store.Expenses').proxy.extraParams = {
-                        dossier: record.data.id
-                    };
-                    Ext.getStore('TP.store.Expenses').load();
-
-                    Ext.getStore('TP.store.Reminders').proxy.extraParams = {
-                        dossier: record.data.id
-                    };
-
-                    Ext.getStore('TP.store.Documents').proxy.extraParams = {
-                        dossier: record.data.id
-                    };
-                    Ext.getStore('TP.store.Documents').load();
-
-                    Ext.getStore('TP.store.TreeActeurs').proxy.extraParams = {
-                        dossier: record.data.id
-                    };
-                    //Ext.getStore('TP.store.TreeActeurs').load(); NOT NEEDED HERE OTHERWISE DOUBLE CALL
-                    Ext.getStore('TP.store.ContactActeurs').proxy.extraParams = {
-                        dossier: record.data.id
-                    };
-                    Ext.getStore('TP.store.ContactActeurs').load();
-
-                    Ext.getStore('TP.store.Acteurs').proxy.extraParams = {
-                        dossier: record.data.id
-                    };
-                    Ext.getStore('TP.store.Acteurs').load();
-
-                    Ext.getStore('TP.store.Communications').proxy.extraParams = {
-                        dossier: record.data.id
-                    };
-                    Ext.getStore('TP.store.Communications').load();
-
-                    var acteurTree = Ext.widget('acteurTree');
-                    var dossierContact = Ext.widget('dossierContact');
-
-                    view.add(formDossier);
-                    view.add(expenseList);
-                    view.add(activiteList);
-                    view.add(documentList);
-                    view.add(dossierContact);
-                    main_window.layout.setActiveItem(1);
-                }
-            });
-
-        } else {
-            /*
-					 * Update forms
-					 */
-            main_window.layout.setActiveItem(1);
-            var formDossier1 = Ext.getCmp('editForm');
-            formDossier1.down('form').loadRecord(record);
-            Ext.getStore('TP.store.Activites').proxy.extraParams = {
-                dossier: record.data.id
-            };
-            Ext.getStore('TP.store.Activites').load({
-                callback: function(r, options, success) {
-                    Ext.getStore('TP.store.Expenses').proxy.extraParams = {
-                        dossier: record.data.id
-                    };
-                    Ext.getStore('TP.store.Expenses').load();
-                    Ext.getStore('TP.store.Documents').proxy.extraParams = {
-                        dossier: record.data.id
-                    };
-                    Ext.getStore('TP.store.Documents').load();
-
-                    Ext.getStore('TP.store.TreeActeurs').proxy.extraParams = {
-                        dossier: record.data.id
-                    };
-                    Ext.getStore('TP.store.TreeActeurs').load();
-
-                    Ext.getStore('TP.store.ContactActeurs').proxy.extraParams = {
-                        dossier: record.data.id
-                    };
-                    Ext.getStore('TP.store.Reminders').proxy.extraParams = {
-                        dossier: record.data.id
-                    };
-                    Ext.getStore('TP.store.ContactActeurs').load();
-
-                    Ext.getStore('TP.store.Acteurs').proxy.extraParams = {
-                        dossier: record.data.id
-                    };
-                    Ext.getStore('TP.store.Acteurs').load();
-
-                    Ext.getStore('TP.store.Acteurs').proxy.extraParams = {
-                        dossier: record.data.id
-                    };
-                    Ext.getStore('TP.store.Acteurs').load();
-
-                    Ext.getStore('TP.store.Communications').proxy.extraParams = {
-                        dossier: record.data.id
-                    };
-                    Ext.getStore('TP.store.Communications').load();
-                }
-            });
-
+					this.createTabs();
         }
-
+				main_window.layout.setActiveItem(1);
     },
 
     updateDossier: function(button) {
@@ -207,5 +90,24 @@ Ext.define('TP.controller.Dossiers', {
     cancelAddDossier: function(button) {
         var win = button.up('window');
         win.close();
-    }
+    },
+		createTabs: function(){
+			var main_window = Ext.getCmp('centerArea');
+			var formDossier = Ext.widget('dossieredit');
+      var expenseList = Ext.widget('expenseList');
+      var activiteList = Ext.widget('activiteOverview');
+      var dossierSummary = Ext.widget("dossierSummary");
+      var documentList = Ext.widget('documentList');
+      var viewport = Ext.widget('dossierOverview');
+      var acteurTree = Ext.widget('acteurTree');
+      var dossierContact = Ext.widget('dossierContact');
+      main_window.add(viewport);
+      var view = Ext.getCmp('dossierCenter');
+      view.add(dossierSummary);
+      view.add(formDossier);
+      view.add(expenseList);
+      view.add(activiteList);
+      view.add(documentList);
+      view.add(dossierContact);
+		}
 });

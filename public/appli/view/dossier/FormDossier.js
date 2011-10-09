@@ -92,6 +92,7 @@ Ext.define('TP.view.dossier.FormDossier', {
 
         }];
 
+
         this.callParent(arguments);
     }
 });

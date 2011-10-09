@@ -9,6 +9,7 @@ Ext.application({
     controllers: [ 'Expenses', 'Activites', 'Documents', 'Acteurs', 'ContactActeurs', 'Contacts', 'Institutions', 'QualiteProcedurales', 'Communications', 'Reminders', 'Menus', 'ContactToCommunications', 'Dossiers'],
 
     launch: function() {
+				Ext.getStore('TP.store.ParametresCabinets').loadCabData();
         Ext.create('Ext.container.Viewport', {
             layout: 'border',
             renderTo: document.body,

@@ -39,7 +39,60 @@ Ext.define('TP.store.Dossiers', {
 
             });
         }
-    }
+    },
+		loadEntireDossier: function(dossier_id){
+			var myMask = new Ext.LoadMask(Ext.getBody(), {msg:"Chargement du dossier..."});
+			myMask.show();
+			var currentDossierStore = Ext.getStore('TP.store.CurrentDossiers');
+			Ext.Ajax.request({
+          url: '/dossiers/'+dossier_id+'.json',
+          method: 'get',
+          success: function(response) {
+              resp = Ext.decode(response.responseText);
+			        currentDossierStore.loadData([resp.dossier]);
+							Ext.getStore('TP.store.Activites').loadData(resp.activites);
+							Ext.getStore('TP.store.Expenses').loadData(resp.expenses);
+							Ext.getStore('TP.store.Documents').loadData(resp.documents);
+							Ext.getStore('TP.store.ContactActeurs').loadData(resp.contact_acteurs);
+							Ext.getStore('TP.store.Acteurs').loadData(resp.acteurs);
+							Ext.getStore('TP.store.Communications').loadData(resp.communications);
+							Ext.getStore('TP.store.TreeActeurs').setRootNode(resp.tree);
+							currentDossierStore.fireEvent('dossierFullyLoaded', currentDossierStore.getAt(0));
+							myMask.hide();
+          }
+      });
+		},
+		setBaseParams: function(dossier_id){
+			Ext.getStore('TP.store.Reminders').clearFilter();
+      Ext.getStore('TP.store.Reminders').filter("dossier_id", dossier_id);
+			Ext.getStore('TP.store.Activites').proxy.extraParams = {
+          dossier: dossier_id
+      };
+			Ext.getStore('TP.store.Activites').proxy.extraParams = {
+          dossier: dossier_id
+      };
+			Ext.getStore('TP.store.Expenses').proxy.extraParams = {
+          dossier: dossier_id
+      };
+			Ext.getStore('TP.store.Reminders').proxy.extraParams = {
+          dossier: dossier_id
+      };
+			Ext.getStore('TP.store.Documents').proxy.extraParams = {
+          dossier: dossier_id
+      };
+			Ext.getStore('TP.store.ContactActeurs').proxy.extraParams = {
+          dossier: dossier_id
+      };
+      Ext.getStore('TP.store.Acteurs').proxy.extraParams = {
+          dossier: dossier_id
+      };
+			Ext.getStore('TP.store.Communications').proxy.extraParams = {
+          dossier: dossier_id
+      };
+			Ext.getStore('TP.store.TreeActeurs').proxy.extraParams = {
+          dossier: dossier_id //todo
+      };
+		}
     //autoSync: true,
     //groupField: 'type_etat_dossier_description'
 });

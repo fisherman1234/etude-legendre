@@ -1,5 +1,4 @@
 Ext.define('TP.store.Categories', {
     extend: 'Ext.data.Store',
-    model: 'TP.model.Categorie',
-    autoLoad: true
+    model: 'TP.model.Categorie'
 });

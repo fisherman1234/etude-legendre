@@ -12,20 +12,7 @@ Ext.define('TP.view.contact.EditLight', {
                 xtype: 'container',
                 padding: 10,
                 layout: 'anchor',
-                items: [{
-                    xtype: 'combo',
-                    fieldLabel: "Civilité",
-                    anchor: '100%',
-                    name: 'civilite',
-                    store: 'TP.store.Civilites',
-                    displayField: 'description',
-                    valueField: 'id',
-                    hiddenName: 'civilite',
-                    queryMode: 'local',
-                    forceSelection: true,
-                    allowBlank: false
-
-                },
+                items: [
                 {
                     xtype: 'textfield',
                     fieldLabel: 'Nom',
@@ -77,6 +64,14 @@ Ext.define('TP.view.contact.EditLight', {
                     fieldLabel: 'Téléphone portable',
                     anchor: '100%',
                     name: 'portable',
+                    maskRe: /[0-9 -+.]/,
+                    emptyText: 'ex. +33.6.72.66.41.90'
+                },
+								{
+                    xtype: 'textfield',
+                    fieldLabel: 'Fax',
+                    anchor: '100%',
+                    name: 'fax',
                     maskRe: /[0-9 -+.]/,
                     emptyText: 'ex. +33.6.72.66.41.90'
                 },

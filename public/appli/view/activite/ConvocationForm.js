@@ -69,46 +69,51 @@ Ext.define('TP.view.activite.ConvocationForm', {
 			            flex: 1
 			        }]
 			    },
-			    {
-			        xtype: 'textfield',
-			        fieldLabel: "Adresse 1",
-			        anchor: '96%',
-			        name: 'adresse1'
-			    },
-			    {
-			        xtype: 'textfield',
-			        fieldLabel: "Adresse 2",
-			        anchor: '96%',
-			        name: 'adresse2'
-			    },
-			    {
-			        xtype: 'textfield',
-			        fieldLabel: "Adresse 3",
-			        anchor: '96%',
-			        name: 'adresse3'
-			    },
-			    {
-			        xtype: 'fieldcontainer',
-			        layout: 'hbox',
-			        defaults: {
-			            flex: 1
-			        },
-			        anchor: '96%',
-			        items: [{
-			            xtype: 'textfield',
-			            fieldLabel: "Code postal",
-			            name: 'code_postal',
-			            flex: 1,
-			            margin: '0 5 0 0'
+					{
+              xtype: 'fieldset',
+              padding: 5,
+              title: 'Adresse de la convocation',
+              items: [{
+					        xtype: 'textfield',
+					        fieldLabel: "Adresse 1",
+					        anchor: '96%',
+					        name: 'adresse1'
+					    },
+					    {
+					        xtype: 'textfield',
+					        fieldLabel: "Adresse 2",
+					        anchor: '96%',
+					        name: 'adresse2'
+					    },
+					    {
+					        xtype: 'textfield',
+					        fieldLabel: "Adresse 3",
+					        anchor: '96%',
+					        name: 'adresse3'
+					    },
+					    {
+					        xtype: 'fieldcontainer',
+					        layout: 'hbox',
+					        defaults: {
+					            flex: 1
+					        },
+					        anchor: '96%',
+					        items: [{
+					            xtype: 'textfield',
+					            fieldLabel: "Code postal",
+					            name: 'code_postal',
+					            flex: 1,
+					            margin: '0 5 0 0'
 
-			        },
-			        {
-			            xtype: 'textfield',
-			            fieldLabel: "Ville",
-			            name: 'ville',
-			            flex: 1
-			        }]
-			    }];
+					        },
+					        {
+					            xtype: 'textfield',
+					            fieldLabel: "Ville",
+					            name: 'ville',
+					            flex: 1
+					        }]
+					    }]}
+			    ];
 
 		      this.callParent(arguments);
 		  }

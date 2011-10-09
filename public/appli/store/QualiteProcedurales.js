@@ -1,5 +1,4 @@
 Ext.define('TP.store.QualiteProcedurales', {
     extend: 'Ext.data.Store',
-    model: 'TP.model.QualiteProcedurale',
-    autoLoad: true
+    model: 'TP.model.QualiteProcedurale'
 });

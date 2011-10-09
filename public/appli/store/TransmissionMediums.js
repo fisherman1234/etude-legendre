@@ -1,5 +1,4 @@
 Ext.define('TP.store.TransmissionMediums', {
     extend: 'Ext.data.Store',
-    model: 'TP.model.TransmissionMedium',
-    autoLoad: true
+    model: 'TP.model.TransmissionMedium'
 });

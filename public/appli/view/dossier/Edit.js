@@ -232,7 +232,9 @@ Ext.define('TP.view.dossier.Edit', {
 
             ]
         }];
-
+				Ext.getStore('TP.store.CurrentDossiers').on('dossierFullyLoaded', function(record) {
+            this.items.items[0].loadRecord(record);
+        }, this);
         this.buttons = [{
             text: 'Enregistrer',
             action: 'save'

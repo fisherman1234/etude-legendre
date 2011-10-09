@@ -1,7 +1,6 @@
 Ext.define('TP.store.Contacts', {
     extend: 'Ext.data.Store',
     model: 'TP.model.Contact',
-    autoLoad: true,
     listeners: {
         write: function(store, operation) {
 						store2 = Ext.getStore('TP.store.TreeActeurs');

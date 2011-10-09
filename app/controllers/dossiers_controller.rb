@@ -25,11 +25,28 @@ class DossiersController < ApplicationController
   # GET /dossiers/1.xml
   def show
     @dossier = Dossier.find(params[:id])
+    @acteurs = @dossier.acteurs
+    @contact_acteurs = []
+    tree = []
+    @acteurs.each do |acteur|
+      content = {:expanded => true, :cls => "folder", :id => acteur.id, :text => acteur.description, :qualite_procedurale => '', :institution=>'', :email => '', :telephone => ''}
+      contact_acteurs = []
+      acteur.contact_acteurs.each do |conact|
+        @contact_acteurs.push(conact)
+        
+        contact_content = {:id => conact.id, :text => conact.contact.full_name, :qualite_procedurale => conact.qualite_procedurale.try(:description), :institution=>conact.contact.institution.try(:nom), :email => conact.contact.try(:email), :telephone => conact.contact.try(:telephone), :leaf => true}
+        contact_acteurs.push(contact_content)
+      end
+      content[:children] = contact_acteurs
+      tree.push(content)
+    end
     
 
+    
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @dossier }
+      format.json { render :json => {:dossier => @dossier, :activites => @dossier.activites, :expenses => @dossier.expenses, :reminders => @dossier.reminders, :documents => @dossier.documents, :acteurs =>@acteurs, :communications => @dossier.communications, :contact_acteurs=>@contact_acteurs, :tree => tree}}
       format.pdf {
         html = render_to_string( :action => "show")
         kit = PDFKit.new(html,  :page_size => 'A4')
