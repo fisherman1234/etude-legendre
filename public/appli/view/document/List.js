@@ -25,6 +25,18 @@ Ext.define('TP.view.document.List', {
     initComponent: function() {
 
         this.columns = [{
+            header: 'Emetteur',
+            dataIndex: 'contact_id',
+            flex: 1,
+            renderer: function(value, meta, record) {
+	            if (value !== null) {
+                  a = Ext.getStore('TP.store.Contacts').findRecord('id', value);
+                  if (a !== null) {
+                      return a.data.nom_complet;
+                  }
+              }
+            }
+        },{
             header: 'Description',
             dataIndex: 'description',
             flex: 1

@@ -36,7 +36,7 @@ class ExportController < ApplicationController
     sheet1.row(0).push 'Dossier', @dossier.nom_dossier, 'Référence', @dossier.ref_cabinet
     sheet1.row(1).push 'Liste des documents'
     
-    sheet1.row(3).push 'Description', "Nom du fichier", 'Taille', "Mise à jour", "Lien"
+    sheet1.row(3).push 'Description', "Nom du fichier", 'Taille', "Mise à jour", "Lien", "Emetteur", "Enregistré le"
     k=0
     while k < 8
       sheet1.column(k).width = 20
@@ -44,7 +44,7 @@ class ExportController < ApplicationController
     end
     i = 4
     @dossier.documents.each do |document|
-      sheet1.row(i).push document.description, document.file_file_name, document.file_file_size.to_s, document.file_updated_at, document.generate_link
+      sheet1.row(i).push document.description, document.file_file_name, document.file_file_size.to_s, document.file_updated_at, document.generate_link, document.contact.full_name, document.created_at
       i=i+1
     end
     book.write "#{RAILS_ROOT}/tmp/documents.xls"

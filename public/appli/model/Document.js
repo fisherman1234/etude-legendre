@@ -14,5 +14,5 @@ Ext.define('TP.model.Document', {
             writeAllFields: false
         }
     },
-    fields: ['id', 'description', 'file', 'file_content_type', 'file_file_name', 'file_file_size', 'short_link', 'long_link']
+    fields: ['id', 'description', 'file', 'file_content_type', 'file_file_name', 'file_file_size', 'short_link', 'long_link', 'contact_id']
 });

@@ -4,7 +4,6 @@ Ext.define('TP.view.document.Edit', {
 
     title: "Propriétés du dossier",
     layout: 'fit',
-    id: "documentEdit",
     autoShow: true,
     width: 500,
 
@@ -19,8 +18,6 @@ Ext.define('TP.view.document.Edit', {
                 name: 'description',
                 margin: 10,
                 allowBlank: false
-
-
             },
             {
                 xtype: 'filefield',
@@ -32,7 +29,19 @@ Ext.define('TP.view.document.Edit', {
                 margin: 10,
                 allowBlank: false
 
-
+            },
+            {
+                xtype: 'combo',
+                margin: 10,
+                queryMode: 'local',
+                fieldLabel: 'Emetteur',
+                anchor: '96%',
+                name: 'contact_id',
+                store: 'TP.store.Contacts',
+                displayField: 'nom_complet',
+                valueField: 'id',
+                hiddenName: 'contact_id',
+                forceSelection: true
             }]
         }];
 
@@ -48,8 +57,7 @@ Ext.define('TP.view.document.Edit', {
         {
             text: 'Supprimer',
             action: 'delete',
-            hidden: true,
-            id: 'deleteButton'
+            hidden: true
         }];
 
         this.callParent(arguments);

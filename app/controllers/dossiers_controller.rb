@@ -10,7 +10,7 @@ class DossiersController < ApplicationController
     if params[:term] != nil
       @dossiers = Dossier.find(:all, :conditions => ['id LIKE :search OR LOWER(ref_cabinet) LIKE LOWER(:search) OR LOWER(nom_dossier) LIKE LOWER(:search)', {:search => "%#{params[:term]}%"}])
     else
-      @dossiers = Dossier.all
+      @dossiers = current_user.parametres_cabinet.dossiers
     end
     respond_to do |format|
       format.html # index.html.erb
@@ -46,7 +46,7 @@ class DossiersController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @dossier }
-      format.json { render :json => {:dossier => @dossier, :activites => @dossier.activites, :expenses => @dossier.expenses, :reminders => @dossier.reminders, :documents => @dossier.documents, :acteurs =>@acteurs, :communications => @dossier.communications, :contact_acteurs=>@contact_acteurs, :tree => tree}}
+      format.json { render :json => {:dossier => @dossier.attributes.merge(:institution_nom => @dossier.institution.nom, :type_etat_dossier_description => @dossier.type_etat_dossier.try(:description), :juge_mission_id => @dossier.juge_mission.try(:contact_id), :juge_controlleur_id => @dossier.juge_controlleur.try(:contact_id)), :activites => @dossier.activites, :expenses => @dossier.expenses, :reminders => @dossier.reminders, :documents => @dossier.documents, :acteurs =>@acteurs, :communications => @dossier.communications, :contact_acteurs=>@contact_acteurs, :tree => tree}}
       format.pdf {
         html = render_to_string( :action => "show")
         kit = PDFKit.new(html,  :page_size => 'A4')

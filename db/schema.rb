@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110829164413) do
+ActiveRecord::Schema.define(:version => 20111009133957) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -197,6 +197,7 @@ ActiveRecord::Schema.define(:version => 20110829164413) do
     t.string   "file_content_type"
     t.integer  "file_file_size"
     t.datetime "file_updated_at"
+    t.integer  "contact_id"
   end
 
   create_table "dossiers", :force => true do |t|

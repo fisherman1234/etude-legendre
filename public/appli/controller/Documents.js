@@ -1,7 +1,7 @@
 Ext.define('TP.controller.Documents', {
     extend: 'Ext.app.Controller',
-    stores: ['Documents'],
-    models: ['Document'],
+    stores: ['Documents', 'TP.store.Contacts'],
+    models: ['Document', 'TP.model.Contact'],
     views: ['document.List', 'document.Edit'],
 
     init: function() {
@@ -59,7 +59,8 @@ Ext.define('TP.controller.Documents', {
     editDocument: function(grid, record) {
         var formEdit = Ext.widget('documentEdit');
         formEdit.down('form').loadRecord(record);
-        Ext.getCmp('deleteButton').show();
+        formEdit.getDockedItems()[1].items.items[3].show();
+				
 
     },
     deleteDocument: function(button) {

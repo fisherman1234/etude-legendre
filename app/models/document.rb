@@ -1,5 +1,6 @@
 class Document < ActiveRecord::Base
   belongs_to :dossier
+  belongs_to :contact
   after_commit :set_relationship
   has_many :activites, :through => :activite_to_documents
   has_many :activite_to_documents, :dependent => :destroy
