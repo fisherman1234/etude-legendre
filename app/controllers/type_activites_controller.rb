@@ -4,7 +4,7 @@ class TypeActivitesController < ApplicationController
   # GET /type_activites
   # GET /type_activites.xml
   def index
-    @type_activites = current_user.parametres_cabinet.type_activites.all
+    @type_activites = TypeActivite.all
 
     respond_to do |format|
       format.html {render :layout => "light"}  # index.html.erb
