@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111009133957) do
+ActiveRecord::Schema.define(:version => 20111009141953) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(:version => 20111009133957) do
     t.string   "references"
     t.text     "notes"
     t.float    "montant_devis"
+    t.string   "role_in_procedure"
   end
 
   create_table "contact_to_communications", :force => true do |t|

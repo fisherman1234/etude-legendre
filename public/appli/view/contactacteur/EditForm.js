@@ -25,6 +25,12 @@ Ext.define('TP.view.contactacteur.EditForm', {
         name: 'references',
         anchor: '100%'
     },
+		{
+        xtype: 'textfield',
+        fieldLabel: 'Role dans la procédure',
+        name: 'role_in_procedure',
+        anchor: '100%'
+    },
     {
         xtype: 'textfield',
         fieldLabel: 'Montant du devis',

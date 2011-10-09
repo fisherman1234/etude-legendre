@@ -27,6 +27,13 @@ Ext.define('TP.view.contactacteur.Edit', {
 						        allowBlank: false
 
 						    },
+								{
+                    xtype: 'textfield',
+                    fieldLabel: 'Role dans la procédure',
+                    name: 'role_in_procedure',
+                    anchor: '100%'
+                },
+						
                 {
                     xtype: 'textfield',
                     fieldLabel: 'Références correspondance',
