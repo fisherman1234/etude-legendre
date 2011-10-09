@@ -17,7 +17,25 @@ Ext.define('TP.view.communication.CallForm', {
             queryMode: 'local',
             forceSelection: true,
             allowBlank: false
-
+        },
+        {
+            xtype: 'fieldcontainer',
+            fieldLabel: 'Sens de l\'appel',
+            defaultType: 'radiofield',
+            defaults: {
+                flex: 1
+            },
+            layout: 'hbox',
+            items: [{
+                boxLabel: 'Appel reçu par le cabinet',
+                name: 'inbound',
+								inputValue: 1
+            },
+            {
+                boxLabel: 'Appel émis par le cabinet',
+                name: 'inbound',
+								inputValue: 0
+            }]
         },
         {
             xtype: 'textfield',

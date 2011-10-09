@@ -50,6 +50,11 @@ Ext.define('TP.view.activite.List', {
     initComponent: function() {
 
         this.columns = [{
+            header: 'Date',
+            dataIndex: 'updated_at',
+						renderer: Ext.util.Format.dateRenderer('Y-m-d'),
+            flex: 1
+        },{
             header: 'Description',
             dataIndex: 'description',
             flex: 1

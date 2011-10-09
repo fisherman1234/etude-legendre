@@ -19,7 +19,6 @@ class Communication < ActiveRecord::Base
                                 :reject_if => :all_blank
                                 
                                 
-  liquid_methods :date_communication, :subject_id, :description
   
   def date_communication
     return I18n.localize(Communication.last.created_at, :format => "%e %B %Y")

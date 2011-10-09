@@ -14,5 +14,5 @@ Ext.define('TP.model.Communication', { //
             writeAllFields: false
         }
     },
-    fields: ['id', 'sender_id', 'dossier_id', 'subject_id', 'description', 'activite_id', 'message_template_id', 'letter_body', 'is_doc_generated', 'is_sent']
+    fields: ['id', 'sender_id', 'dossier_id', 'subject_id', 'description', 'activite_id', 'message_template_id', 'letter_body', 'is_doc_generated', 'is_sent', 'inbound']
 });

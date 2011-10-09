@@ -120,7 +120,6 @@ Ext.define('TP.controller.Activites', {
             communicationRecord = comWin.items.items[1].getRecord();
             activiteValues = comWin.items.items[0].getValues();
             communicationValues = comWin.items.items[1].getValues();
-
             if (typeof activiteRecord == "undefined") { // this is a new com
                 activiteRecord = Ext.getStore('TP.store.Activites').getAt(0);
             }

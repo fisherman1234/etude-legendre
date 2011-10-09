@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111009141953) do
+ActiveRecord::Schema.define(:version => 20111009161507) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(:version => 20111009141953) do
     t.text     "letter_body"
     t.integer  "is_doc_generated"
     t.integer  "is_sent"
+    t.integer  "inbound",             :default => 0
   end
 
   create_table "consignation_lines", :force => true do |t|
