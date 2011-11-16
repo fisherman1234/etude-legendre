@@ -111,11 +111,15 @@ end
   end
   
   def juge_mission
-    self.acteur_tribunal.contact_acteurs.find(:first, :conditions => {:qualite_procedurale_id => 2})
+    if self.acteur_tribunal
+      self.acteur_tribunal.contact_acteurs.find(:first, :conditions => {:qualite_procedurale_id => 2})
+    end
   end
   
   def juge_controlleur
-    self.acteur_tribunal.contact_acteurs.find(:first, :conditions => {:qualite_procedurale_id => 1})
+    if self.acteur_tribunal
+      self.acteur_tribunal.contact_acteurs.find(:first, :conditions => {:qualite_procedurale_id => 1})
+    end
   end
     
   

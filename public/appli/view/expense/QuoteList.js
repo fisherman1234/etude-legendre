@@ -35,10 +35,10 @@ Ext.define('TP.view.expense.QuoteList', {
                 }
             },
             {
-							xtype: 'button',
-              text: 'Télécharger le devis',
-              icon: '/images/table_go.png',
-							action: 'downloadQuote'
+                xtype: 'button',
+                text: 'Télécharger le devis',
+                icon: '/images/table_go.png',
+                action: 'downloadQuote'
             }],
             layout: 'hbox' // The items are arranged horizontally
         }];
@@ -117,7 +117,8 @@ Ext.define('TP.view.expense.QuoteList', {
             dataIndex: 'description',
             flex: 1,
             editor: {
-                xtype: 'textfield'
+                xtype: 'textfield',
+                allowBlank: false
             }
         },
         {
@@ -125,7 +126,8 @@ Ext.define('TP.view.expense.QuoteList', {
             dataIndex: 'prix_unitaire',
             width: 60,
             editor: {
-                xtype: 'numberfield'
+                xtype: 'numberfield',
+                allowBlank: false
             }
         },
         {
@@ -133,7 +135,8 @@ Ext.define('TP.view.expense.QuoteList', {
             dataIndex: 'quantite',
             width: 60,
             editor: {
-                xtype: 'numberfield'
+                xtype: 'numberfield',
+                allowBlank: false
             }
         },
         {
@@ -156,7 +159,8 @@ Ext.define('TP.view.expense.QuoteList', {
                 store: 'TP.store.Unites',
                 displayField: 'description',
                 valueField: 'id',
-                hiddenName: 'unite_id'
+                hiddenName: 'unite_id',
+                allowBlank: false
             }
         },
         {
@@ -179,7 +183,8 @@ Ext.define('TP.view.expense.QuoteList', {
                 store: 'TP.store.TauxTvas',
                 displayField: 'description',
                 valueField: 'id',
-                hiddenName: 'taux_tva_id'
+                hiddenName: 'taux_tva_id',
+                allowBlank: false
             }
         },
 
