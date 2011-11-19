@@ -13,6 +13,8 @@ class Dossier < ActiveRecord::Base
   belongs_to :type_etat_dossier
   has_many :communications
   has_many :reminders
+  has_many :contact_acteurs, :through => :acteurs 
+  
   
   before_update :set_cabinet
   before_create :create_cabinet_and_actors
@@ -79,6 +81,7 @@ end
     return self.acteurs.map{|l| [l.description, l.contact_acteurs.map{|u| u.contact}]}
   end
   
+
   
   def typeExpertise
     return self.type_expertise.description

@@ -1,6 +1,8 @@
 class MessageTemplate < ActiveRecord::Base
   has_many :communications
   has_and_belongs_to_many :type_acteurs
+  belongs_to :parametre_cabinet
+  
   
   def render_final_file(concom_id)
     @message_template = self
@@ -20,8 +22,8 @@ class MessageTemplate < ActiveRecord::Base
     @margins_left = "%.2f" % ((@dossier.parametres_cabinet.en_tete_marge_gauche || 10)/25.4).to_s+'in'
     
     html = ActionView::Base.new(Rails.configuration.paths.app.views.first).render(:template => 'message_templates/show.html.haml', :format=>'html',:layout => "layouts/pdf.html.pdf.haml", :locals => {
-      :@message_template=> MessageTemplate.find(4), 
-      :@concom =>ContactToCommunication.find(139), 
+      :@message_template=> @message_template, 
+      :@concom => @concom, 
       :@template_signature => Liquid::Template.parse(@expert.signature_lettres), 
       :@template => Liquid::Template.parse(@message_template.letter_body), 
       :@template_sujet => Liquid::Template.parse(@message_template.mail_subject), 

@@ -3,6 +3,8 @@ class ContactToCommunication < ActiveRecord::Base
   belongs_to :communication
   belongs_to :contact_acteur
   belongs_to :transmission_medium
+  before_save :set_infos
+  
   attr_accessor :partie
   has_attached_file :final_file,
     :storage => :s3,
@@ -16,6 +18,15 @@ class ContactToCommunication < ActiveRecord::Base
   liquid_methods :moyenTransmission, :nomDestinataire, :prenomDestinataire, :adresse1, :adresse2, :adresse3, :code_postal, :pays, :telephone, :email, :fax, :genre_lettre, :genre_adresse, :references_courrier, :ville
   
 
+  def set_infos
+    @dossier = self.communication.dossier
+    @contact = self.contact
+    @contact_acteur = @dossier.contact_acteurs.where(:contact_id => contact_id).first
+    if !@contact_acteur.nil?      
+      self.contact_acteur_id = @contact_acteur.id
+      puts self.inspect
+    end
+  end
   
   def moyenTransmission
     return self.transmission_medium.description
@@ -54,10 +65,11 @@ class ContactToCommunication < ActiveRecord::Base
   
   def render_final_file
     @concom = self
+    @contact = self.contact
     @communication = self.communication
     @dossier = @communication.dossier
     @other_recipients = @communication.contact_to_communications.find(:all, :conditions => ["id != ? AND transmission_medium_id !=0", @concom.id])
-    @expert = @dossier.user
+    @expert = @dossier.user.contacts.first
     
     @template_signature = Liquid::Template.parse(@expert.signature_lettres)
     @template = Liquid::Template.parse(@communication.letter_body)
@@ -70,6 +82,7 @@ class ContactToCommunication < ActiveRecord::Base
     
     html = ActionView::Base.new(Rails.configuration.paths.app.views.first).render(:template => 'message_templates/show.html.haml', :format=>'html',:layout => "layouts/pdf.html.pdf.haml", :locals => {
       :@concom =>@concom, 
+      :@contact => @contact,
       :@template_signature => @template_signature, 
       :@template => @template, 
       :@template_sujet => @template_sujet, 

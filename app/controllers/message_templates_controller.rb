@@ -8,11 +8,13 @@ class MessageTemplatesController < ApplicationController
   
   #uses_tiny_mce 
   def index
-    @message_templates = MessageTemplate.all
+    @message_templates = current_user.parametres_cabinet.message_templates.all
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @message_templates }
+      format.json {render :json => {"success"=>true,"data"=>@message_templates}}
+      
     end
   end
 

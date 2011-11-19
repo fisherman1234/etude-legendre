@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111009161507) do
+ActiveRecord::Schema.define(:version => 20111119155928) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -296,11 +296,15 @@ ActiveRecord::Schema.define(:version => 20111009161507) do
     t.string   "mail_subject"
     t.text     "letter_body"
     t.string   "description"
+    t.integer  "parametres_cabinet_id"
   end
 
   create_table "message_templates_type_acteurs", :id => false, :force => true do |t|
     t.integer "type_acteur_id"
     t.integer "message_template_id"
+  end
+
+  create_table "netzke_temp_table", :force => true do |t|
   end
 
   create_table "parametres_cabinets", :force => true do |t|
@@ -386,6 +390,7 @@ ActiveRecord::Schema.define(:version => 20111009161507) do
     t.datetime "updated_at"
     t.integer  "parametres_cabinet_id"
     t.integer  "categorie_id"
+    t.integer  "message_template_id"
   end
 
   create_table "type_adresses", :force => true do |t|
@@ -451,9 +456,9 @@ ActiveRecord::Schema.define(:version => 20111009161507) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                                :default => "", :null => false
-    t.string   "encrypted_password",    :limit => 128, :default => "", :null => false
-    t.string   "password_salt",                        :default => "", :null => false
+    t.string   "email",                                               :null => false
+    t.string   "encrypted_password",    :limit => 128,                :null => false
+    t.string   "password_salt",                                       :null => false
     t.string   "reset_password_token"
     t.string   "remember_token"
     t.datetime "remember_created_at"

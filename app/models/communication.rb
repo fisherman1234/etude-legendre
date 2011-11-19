@@ -3,6 +3,7 @@ class Communication < ActiveRecord::Base
   belongs_to :activite
   belongs_to :message_template
   belongs_to :contact, :foreign_key => :sender_id
+  before_save :set_infos
   has_many :documents, :through => :document_to_communications
   has_many :contacts, :through => :contact_to_communications
   has_many :contact_to_communications, :dependent => :destroy
@@ -18,7 +19,14 @@ class Communication < ActiveRecord::Base
                                 :allow_destroy => true, 
                                 :reject_if => :all_blank
                                 
-                                
+  liquid_methods :date_communication, :subject_id, :description
+  
+                 
+  def set_infos
+    if sender_id.nil?
+      self.sender_id = self.dossier.user.contacts.first
+    end
+  end
   
   def date_communication
     return I18n.localize(Communication.last.created_at, :format => "%e %B %Y")

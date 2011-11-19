@@ -34,30 +34,30 @@
       
       
   #recipient_adress
-    = @concom.genre_adresse
-    = @concom.prenomDestinataire
-    = @concom.nomDestinataire
+    = @contact.genre_adresse
+    = @contact.prenom
+    = @contact.nom
     %br
-    = @concom.adresse1
-    - if !@concom.adresse2.empty?
+    = @contact.adresse1
+    - if !@contact.adresse2.empty?
       %br
-      = @concom.adresse2
-    - if !@concom.adresse3.empty?
+      = @contact.adresse2
+    - if !@contact.adresse3.empty?
       %br
-      = @concom.adresse3
+      = @contact.adresse3
     %br
-    = @concom.code_postal
-    = @concom.ville
+    = @contact.code_postal
+    = @contact.ville
     %br
-    = @concom.pays
+    = @contact.pays
     
   #date-adresse
     
   
   #references
     Objet : 
-    = raw @template_sujet.render( 'dossier' => @dossier, 'destinataire'=> @concom, 'expert' => @expert, 'communication' => @communication)
-    -if @concom.contact_acteur.references
+    = raw @template_sujet.render( 'dossier' => @dossier, 'destinataire'=> @contact, 'expert' => @expert, 'communication' => @communication)
+    -if @concom.contact_acteur && @concom.contact_acteur.references
       %br
       V/Réf : 
       = @concom.contact_acteur.references
@@ -80,15 +80,16 @@
     = @dossier.juridiction
     %br
     %br
-    Courrier envoyé par :
-    = @concom.transmission_medium.description.capitalize
+    - if @concom.transmission_medium
+      Courrier envoyé par :
+      = @concom.transmission_medium.description.capitalize
   
   
   #corps-message
-    %p #{@concom.genre_lettre},
-    %p= raw @template.render( 'dossier' => @dossier, 'destinataire'=> @concom, 'expert' => @expert, 'communication' => @communication) 
+    %p #{@contact.genre_lettre},
+    %p= raw @template.render( 'dossier' => @dossier, 'destinataire'=> @contact, 'expert' => @expert, 'communication' => @communication) 
     #salutation
-      %p Veuillez agréer, #{@concom.genre_lettre}, l'expression de mes salutations distinguées.
+      %p Veuillez agréer, #{@contact.genre_lettre}, l'expression de mes salutations distinguées.
       %p#signature= raw @template_signature.render( 'dossier' => @dossier, 'destinataire'=> @concom, 'expert' => @expert, 'communication' => @communication)
   
   #autres-destinataires
@@ -103,7 +104,7 @@
         
   
   %div{:id=>"pieces-jointes", :class=>"pbi_avoid"}
-    -if @communication.activite.activite_to_documents.where(:included_in_activite => 1).map {|p| p.document}.count != 0
+    -if @communication.activite.activite_to_documents.count != 0
       %p Documents attachés :
       %br
       %table{:style => "width:100%", :class=>"template-attachements"}
@@ -113,7 +114,7 @@
           %th Lien
           %th QR-Code
         %tbody
-          - @communication.activite.activite_to_documents.where(:included_in_activite => 1).each do |doccom|
+          - @communication.activite.activite_to_documents.each do |doccom|
             %tr
               %td
                 = doccom.document.description

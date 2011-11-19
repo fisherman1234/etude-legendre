@@ -15,6 +15,7 @@ class ParametresCabinet < ActiveRecord::Base
   has_many :qualite_procedurales
   has_many :type_activites
   has_many :categories
+  has_many :message_templates
   
   has_attached_file :logo,
     :storage => :s3,
