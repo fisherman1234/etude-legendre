@@ -30,6 +30,9 @@ Ext.define('TP.store.ParametresCabinets', {
                 Ext.getStore('TP.store.Contacts').loadData(resp.contacts);
                 Ext.getStore('TP.store.Items').loadData(resp.items);
                 Ext.getStore('TP.store.Dossiers').loadData(resp.dossiers);
+                Ext.getStore('TP.store.Dossiers').loadData(resp.dossiers);
+                Ext.getStore('TP.store.MessageTemplates').loadData(resp.message_templates);
+
 
                 myMask.hide();
             }

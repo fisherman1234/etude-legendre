@@ -4,7 +4,7 @@ class TypeActivitesController < ApplicationController
   # GET /type_activites
   # GET /type_activites.xml
   def index
-    @type_activites = TypeActivite.all
+    @type_activites = current_user.parametres_cabinet.type_activites.all
 
     respond_to do |format|
       format.html {render :layout => "light"}  # index.html.erb
@@ -47,6 +47,7 @@ class TypeActivitesController < ApplicationController
   # POST /type_activites.xml
   def create
     @type_activite = TypeActivite.new(params[:type_activite])
+    @type_activite.parametres_cabinet_id = current_user.parametres_cabinet_id
 
     respond_to do |format|
       if @type_activite.save
@@ -65,11 +66,14 @@ class TypeActivitesController < ApplicationController
   # PUT /type_activites/1.xml
   def update
     @type_activite = TypeActivite.find(params[:id])
+    @type_activite.parametres_cabinet_id = current_user.parametres_cabinet_id
 
     respond_to do |format|
       if @type_activite.update_attributes(params[:type_activite])
         format.html { redirect_to(@type_activite, :notice => 'Type activite was successfully updated.') }
         format.xml  { head :ok }
+        format.json {render :json => {"success"=>true,"data"=>@type_activite}}
+        
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @type_activite.errors, :status => :unprocessable_entity }

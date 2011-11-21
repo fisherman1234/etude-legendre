@@ -49,6 +49,9 @@ Ext.define('TP.view.menu.Settings', {
             },
 						{
                 xtype: 'userUserList'
+            },
+            {
+                xtype: 'menuTypeActivites'
             }]
         }];
         this.buttons = [{

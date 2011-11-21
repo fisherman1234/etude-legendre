@@ -14,5 +14,5 @@ Ext.define('TP.model.TypeActivite', { //
             writeAllFields: false
         }
     },
-    fields: ['id', 'description', 'categorie_id']
+    fields: ['id', 'description', 'categorie_id', 'message_template_id']
 });

@@ -58,5 +58,10 @@ Ext.define('TP.store.Settings', {
         id: 14,
         description: 'Utilisateurs',
         card_id: 10
+    },
+    {
+        id: 15,
+        description: 'Types de courriers',
+        card_id: 11
     }]
 });

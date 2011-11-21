@@ -96,11 +96,14 @@ class MessageTemplatesController < ApplicationController
   # POST /message_templates.xml
   def create
     @message_template = MessageTemplate.new(params[:message_template])
+    @message_template.parametres_cabinet_id = current_user.parametres_cabinet_id
 
     respond_to do |format|
       if @message_template.save
         format.html { redirect_to(@message_template, :notice => 'Message template was successfully created.') }
         format.xml  { render :xml => @message_template, :status => :created, :location => @message_template }
+        format.json {render :json => {"success"=>true,"data"=>@message_template}}
+        
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @message_template.errors, :status => :unprocessable_entity }
@@ -113,11 +116,14 @@ class MessageTemplatesController < ApplicationController
   def update
     params[:message_template][:type_acteur_ids] ||= []
     @message_template = MessageTemplate.find(params[:id])
+    @message_template.parametres_cabinet_id = current_user.parametres_cabinet_id
 
     @message_template.update_attributes(params[:message_template])    
     respond_to do |format|
         format.html { head :ok }
         format.xml  { head :ok }
+        format.json {render :json => {"success"=>true,"data"=>@message_template}}
+        
     end
   end
 
