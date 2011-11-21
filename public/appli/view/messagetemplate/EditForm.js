@@ -8,7 +8,7 @@ Ext.define('TP.view.messagetemplate.EditForm', {
             xtype: 'textfield',
             fieldLabel: 'Objet du courrier/message',
             anchor: '96%',
-            name: 'description',
+            name: 'mail_subject',
             allowBlank: false
 
         },

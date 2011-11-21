@@ -95,6 +95,11 @@ class MessageTemplatesController < ApplicationController
   # POST /message_templates
   # POST /message_templates.xml
   def create
+    params[:message_template][:message_body] = Iconv.conv('ISO-8859-1//IGNORE//TRANSLIT', 'utf-8', params[:message_template][:message_body])
+    params[:message_template][:mail_subject] = Iconv.conv('ISO-8859-1//IGNORE//TRANSLIT', 'utf-8', params[:message_template][:mail_subject])
+    params[:message_template][:letter_body] = Iconv.conv('ISO-8859-1//IGNORE//TRANSLIT', 'utf-8', params[:message_template][:letter_body])
+    
+
     @message_template = MessageTemplate.new(params[:message_template])
     @message_template.parametres_cabinet_id = current_user.parametres_cabinet_id
 
