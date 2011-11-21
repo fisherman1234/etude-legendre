@@ -12,7 +12,7 @@ Ext.define('TP.controller.MessageTemplates', {
         });
     },
     save: function(button){
-      win = button.up("window");
+      var win = button.up("window");
       contactForm = win.down('form');
 			if (contactForm.form.isValid()){
 			  record = contactForm.getRecord();
@@ -24,9 +24,20 @@ Ext.define('TP.controller.MessageTemplates', {
 				}
         record.set(values);
         Ext.getStore('TP.store.MessageTemplates').sync();
-        /*while (record.phantom === true) {
-         console.log('phantom');
-        }*/
+        
+        var timer2 = setInterval(function() {
+            
+            if (!record.phantom) {
+                clearInterval(timer2);
+                var rec  = Ext.getStore('TP.store.TypeActivites').getAt(win.parentRowIndex);
+                rec.set('message_template_id', record.data.id);
+                rec.store.sync();
+                win.close();
+                
+
+            }
+        },
+        200);
 			}
       
     }
