@@ -19,7 +19,24 @@ Ext.define('TP.view.activite.CourrierForm', {
             forceSelection: true,
             allowBlank: false,
             triggerAction: 'all',
-            lastQuery: ''
+            lastQuery: '',
+            listeners: {
+                'select': {
+                    fn: function(combobox, records) {
+                      var msgId = records[0].data.message_template_id;
+                        if (msgId !== null){
+                          var messageTemplate = Ext.getStore('TP.store.MessageTemplates').findRecord('id', msgId);
+                          if (messageTemplate!==null){
+                            var formCom = combobox.up('window').items.items[1].items.items[1];
+                            formCom.items.items[0].setValue(messageTemplate.data.mail_subject);
+                            formCom.items.items[0].setValue(messageTemplate.data.message_body);
+                            formCom.items.items[0].setValue(messageTemplate.data.letter_body);
+                          }
+                          
+                        }
+                    }
+                }
+            }
 
         },
         {
