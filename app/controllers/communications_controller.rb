@@ -1,6 +1,7 @@
 class CommunicationsController < ApplicationController
   before_filter :authenticate_user!
-  
+  require 'zip/zip'
+  require 'zip/zipfilesystem'
   # GET /communications
   # GET /communications.xml
   def index
@@ -129,7 +130,27 @@ class CommunicationsController < ApplicationController
     @communication.generate_attachments_docs
     book = @communication.generate_summary_spreadsheet
     book.write "#{RAILS_ROOT}/tmp/communication.xls"
-    send_file "#{RAILS_ROOT}/tmp/communication.xls"
+    
+    
+    file_name = "communication#{(0...8).map{65.+(rand(25)).chr}.join}.zip"
+    pathZip = "#{RAILS_ROOT}/tmp/#{file_name}"
+    zipfile = Zip::ZipFile.open(pathZip, Zip::ZipFile::CREATE)
+    zipfile.add( "description.xls", "#{RAILS_ROOT}/tmp/communication.xls")
+    
+    @communication.contact_to_communications.each do |concom|
+       begin
+          a = open(AWS::S3::S3Object.url_for(concom.final_file.path, concom.final_file.bucket_name, :expires_in => 1.year))
+          zipfile.add(concom.transmission_medium.try(:description).to_s+'-'+concom.contact.full_name.gsub(/[^0-9A-Za-z]/, '').to_s+'.pdf', a)
+        rescue
+        end
+    end
+    zipfile.commit
+   
+
+    send_file pathZip, :type => 'application/zip',
+                           :disposition => 'attachment',
+                           :filename => file_name,:stream => false
+    
   end
   
   def send_documents

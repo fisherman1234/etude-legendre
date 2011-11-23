@@ -16,7 +16,7 @@ gem 'rails3-jquery-autocomplete'
 #In place edit
 gem "best_in_place"
 gem "spreadsheet", "~> 0.6.5.7"
-
+gem 'rubyzip'
 
 gem 'will_paginate', '~>3.0.pre2'
 

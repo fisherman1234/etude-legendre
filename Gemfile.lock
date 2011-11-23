@@ -124,6 +124,7 @@ GEM
     ruby-ole (1.2.11.1)
     ruby_parser (2.0.6)
       sexp_processor (~> 3.0)
+    rubyzip (0.9.4)
     sexp_processor (3.0.5)
     spreadsheet (0.6.5.7)
       ruby-ole (>= 1.0)
@@ -167,6 +168,7 @@ DEPENDENCIES
   rake (= 0.8.7)
   ruby-mysql
   ruby_parser
+  rubyzip
   spreadsheet (~> 0.6.5.7)
   tiny_mce
   web-app-theme (>= 0.6.2)
