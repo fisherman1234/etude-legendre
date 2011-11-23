@@ -626,28 +626,33 @@ Ext.define('TP.controller.Activites', {
         context = this;
         Ext.getStore('TP.store.TypeActivites').clearFilter();
         typeActivite = Ext.getStore('TP.store.TypeActivites').findRecord('id', activite.data.type_activite_id);
-        categorie_id = typeActivite.data.categorie_id;
-        switch (categorie_id) {
-        case 1:
-            context.editCourrier(record);
-            break;
-        case 2:
-            context.editConvocation(record);
-            break;
-        case 3:
-            context.editRapport(record);
-            break;
-        case 22:
-            context.editDocument(record);
-            break;
-        case 20:
-            context.editCall(record);
-            break;
-        case 21:
-            context.editQuote(record);
-            break;
-        default:
-            //code to be executed if n is different from case 1 and 2
+        if (typeActivite === null) {
+            Ext.getStore('TP.store.Activites').remove(activite);
+            Ext.getStore('TP.store.Activites').sync();
+        } else {
+            categorie_id = typeActivite.data.categorie_id;
+            switch (categorie_id) {
+            case 1:
+                context.editCourrier(record);
+                break;
+            case 2:
+                context.editConvocation(record);
+                break;
+            case 3:
+                context.editRapport(record);
+                break;
+            case 22:
+                context.editDocument(record);
+                break;
+            case 20:
+                context.editCall(record);
+                break;
+            case 21:
+                context.editQuote(record);
+                break;
+            default:
+                //code to be executed if n is different from case 1 and 2
+            }
         }
     }
 
