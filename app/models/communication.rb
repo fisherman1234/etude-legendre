@@ -25,7 +25,7 @@ class Communication < ActiveRecord::Base
                  
   def set_infos
     if sender_id.nil?
-      self.sender_id = self.dossier.user.contacts.first
+      self.sender_id = self.dossier.user.contacts.first.id
     end
   end
   
