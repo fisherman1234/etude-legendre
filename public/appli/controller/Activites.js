@@ -407,6 +407,18 @@ Ext.define('TP.controller.Activites', {
         comWin.close();
     },
     addCourrier: function() {
+      //
+      //Clear the datastores & prepares silots to store associated records
+      Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.clear = 'true';
+      Ext.getStore('TP.store.ActiviteToDocuments').load();
+      Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.clear = 'undefined';
+      Ext.getStore('TP.store.ContactToCommunications').proxy.extraParams.clear = 'true';
+      Ext.getStore('TP.store.ContactToCommunications').load();
+      Ext.getStore('TP.store.ContactToCommunications').proxy.extraParams.clear = 'undefined';
+
+      dossier_id = Ext.getStore('TP.store.Activites').proxy.extraParams.dossier;
+      Ext.getStore('TP.store.ContactDossiers').proxy.extraParams.dossier = dossier_id;
+      Ext.getStore('TP.store.ContactDossiers').load();
         activite = Ext.ModelManager.create({},
         'TP.model.Activite');
         Ext.getStore('TP.store.Activites').insert(0, activite);
@@ -426,6 +438,7 @@ Ext.define('TP.controller.Activites', {
                     communication = Ext.getStore('TP.store.Communications').getAt(0);
                     if (!communication.phantom) {
                         Ext.getStore('TP.store.ContactToCommunications').proxy.extraParams.communication_id = communication.data.id;
+                        Ext.getStore('TP.store.ContactToCommunications').load();
                         clearInterval(timer2);
 
                     }
@@ -437,18 +450,7 @@ Ext.define('TP.controller.Activites', {
             }
         },
         200);
-        //
-        //Clear the datastores & prepares silots to store associated records
-        Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.clear = 'true';
-        Ext.getStore('TP.store.ActiviteToDocuments').load();
-        Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.clear = 'undefined';
-        Ext.getStore('TP.store.ContactToCommunications').proxy.extraParams.clear = 'true';
-        Ext.getStore('TP.store.ContactToCommunications').load();
-        Ext.getStore('TP.store.ContactToCommunications').proxy.extraParams.clear = 'undefined';
 
-        dossier_id = Ext.getStore('TP.store.Activites').proxy.extraParams.dossier;
-        Ext.getStore('TP.store.ContactDossiers').proxy.extraParams.dossier = dossier_id;
-        Ext.getStore('TP.store.ContactDossiers').load();
 
         comWin = Ext.widget('activiteEditCourrier');
     },
@@ -500,8 +502,9 @@ Ext.define('TP.controller.Activites', {
 
         formCommunication = comWin.items.items[1].items.items[1];
         formActivite = comWin.items.items[1].items.items[0];
-
+        
         if (formCommunication.form.isValid() && formActivite.form.isValid()) {
+            
             communicationRecord = formCommunication.form.getRecord();
             communicationValues = formCommunication.form.getValues();
             if (typeof communicationRecord == "undefined") { // this is a new com
