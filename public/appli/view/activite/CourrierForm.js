@@ -29,8 +29,8 @@ Ext.define('TP.view.activite.CourrierForm', {
                           if (messageTemplate!==null){
                             var formCom = combobox.up('window').items.items[1].items.items[1];
                             formCom.items.items[0].setValue(messageTemplate.data.mail_subject);
-                            formCom.items.items[0].setValue(messageTemplate.data.message_body);
-                            formCom.items.items[0].setValue(messageTemplate.data.letter_body);
+                            formCom.items.items[1].setValue(messageTemplate.data.message_body);
+                            formCom.items.items[2].setValue(messageTemplate.data.letter_body);
                           }
                           
                         }

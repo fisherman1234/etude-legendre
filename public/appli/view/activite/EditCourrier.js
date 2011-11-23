@@ -4,7 +4,7 @@ Ext.define('TP.view.activite.EditCourrier', {
     closable: false,
     title: "Détails du courrier",
     width: 1000,
-    height: 400,
+    height: 600,
     autoShow: true,
     bodyStyle: 'padding:15px',
     layout: 'border',
@@ -60,6 +60,10 @@ Ext.define('TP.view.activite.EditCourrier', {
             text: 'Supprimer',
             action: 'delete'
 
+        },
+        {
+            text: 'Générer les documents',
+            action: 'createDocs'
         }];
         this.callParent(arguments);
     }

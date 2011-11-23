@@ -53,7 +53,6 @@ class ContactToCommunication < ActiveRecord::Base
     a = "R_64d5c9cba22c95c6a0048afcc7bb4d90"
     b = "thibaultpoisson"
     bitly = Bitly.new(b,a)
-    
     static_files =  bitly.shorten(AWS::S3::S3Object.url_for(self.final_file.path, self.final_file.bucket_name, :expires_in => 1.year)).short_url
     return static_files
   end
@@ -71,7 +70,7 @@ class ContactToCommunication < ActiveRecord::Base
     @other_recipients = @communication.contact_to_communications.find(:all, :conditions => ["id != ? AND transmission_medium_id !=0", @concom.id])
     @expert = @dossier.user.contacts.first
     
-    @template_signature = Liquid::Template.parse(@expert.signature_lettres)
+    @template_signature = Liquid::Template.parse(@dossier.user.signature_lettres)
     @template = Liquid::Template.parse(@communication.letter_body)
     @template_sujet = Liquid::Template.parse(@communication.subject_id)
     
@@ -128,7 +127,7 @@ class ContactToCommunication < ActiveRecord::Base
     @concom.final_file = file
     @concom.save
     puts "pdf uploaded"
-    return  @concom.generate_template_doc_link
+    return  AWS::S3::S3Object.url_for(self.final_file.path, self.final_file.bucket_name, :expires_in => 1.year)
   end
   
   

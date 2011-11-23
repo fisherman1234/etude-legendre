@@ -120,6 +120,10 @@ class MessageTemplatesController < ApplicationController
   # PUT /message_templates/1.xml
   def update
     params[:message_template][:type_acteur_ids] ||= []
+    params[:message_template][:message_body] = Iconv.conv('ISO-8859-1//IGNORE//TRANSLIT', 'utf-8', params[:message_template][:message_body])
+    params[:message_template][:mail_subject] = Iconv.conv('ISO-8859-1//IGNORE//TRANSLIT', 'utf-8', params[:message_template][:mail_subject])
+    params[:message_template][:letter_body] = Iconv.conv('ISO-8859-1//IGNORE//TRANSLIT', 'utf-8', params[:message_template][:letter_body])
+    
     @message_template = MessageTemplate.find(params[:id])
     @message_template.parametres_cabinet_id = current_user.parametres_cabinet_id
 

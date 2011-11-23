@@ -14,7 +14,9 @@ class Contact < ActiveRecord::Base
     [prenom, :nom].join(' ')
   end
   
-
+  def full_adresse
+    [genre_adresse,full_name,adresse1,adresse2,adresse3,code_postal,ville ].join(' ')
+  end
 
 
 end

@@ -65,6 +65,9 @@ Ext.define('TP.controller.Activites', {
             'activiteEditCourrier button[action=delete]': {
                 click: this.deleteCourrier
             },
+            'activiteEditCourrier button[action=createDocs]': {
+                click: this.createCourrierDocs
+            },
             'activiteEditDocument button[action=cancelAddDocument]': {
                 click: this.cancelAddDocument
             },
@@ -492,7 +495,7 @@ Ext.define('TP.controller.Activites', {
         Ext.getStore('TP.store.ContactDossiers').load();
 
     },
-    saveCourrier: function(button) {
+    performSaveCourrier: function(button) {
         comWin = button.up('window');
 
         formCommunication = comWin.items.items[1].items.items[1];
@@ -515,8 +518,43 @@ Ext.define('TP.controller.Activites', {
             activiteRecord.set(activiteValues);
             activiteRecord.set("description", communicationValues.subject_id);
             Ext.getStore('TP.store.Activites').sync();
+            return true;
+        } else {
+            return false;
+        }
+
+    },
+    createCourrierDocs: function(button) {
+        comWin = button.up('window');
+
+        if (this.performSaveCourrier(button)) {
+            formCommunication = comWin.items.items[1].items.items[1];
+            communicationRecord = formCommunication.form.getRecord();
+            if (typeof communicationRecord == "undefined") { // this is a new com
+                communicationRecord = Ext.getStore('TP.store.Communications').getAt(0);
+            }
+            var currentDossierStore = Ext.getStore('TP.store.CurrentDossiers');
+            var url = '/communications/' + communicationRecord.data.id + '/generate_attachments_docs.json';
+            window.open(url, 'Download');
+            Ext.MessageBox.show({
+                msg: 'Une nouvelle fenêtre va s\'ouvrir et les documents vont être automatiquement téléchargés. Veuillez patienter jusqu\'a la fin du chargement de la page...',
+                progressText: 'Génération des documents...',
+                width: 300,
+                wait: true,
+                buttons: Ext.MessageBox.OKCANCEL
+
+            });
+
+        }
+
+    },
+    saveCourrier: function(button) {
+        comWin = button.up('window');
+
+        if (this.performSaveCourrier(button)) {
             comWin.close();
         }
+
     },
     addReport: function() {
         activite = Ext.ModelManager.create({},

@@ -15,14 +15,14 @@ Ext.define('TP.view.communication.CourrierForm', {
 
 			    },
 			    {
-			        xtype: 'textarea',
+			        xtype: 'htmleditor',
 			        fieldLabel: "Corps du mail",
 			        anchor: '96%',
 			        name: 'description'
 
 			    },
 					{
-			        xtype: 'textarea',
+			        xtype: 'htmleditor',
 			        fieldLabel: "Corps de la lettre",
 			        anchor: '96%',
 			        name: 'letter_body'

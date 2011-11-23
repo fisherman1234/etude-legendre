@@ -66,10 +66,16 @@ class CommunicationsController < ApplicationController
   # POST /communications
   # POST /communications.xml
   def create
+    params[:communication][:subject_id] = Iconv.conv('ISO-8859-1//IGNORE//TRANSLIT', 'utf-8', params[:communication][:subject_id])
+    params[:communication][:description] = Iconv.conv('ISO-8859-1//IGNORE//TRANSLIT', 'utf-8', params[:communication][:description])
+    params[:communication][:letter_body] = Iconv.conv('ISO-8859-1//IGNORE//TRANSLIT', 'utf-8', params[:communication][:letter_body])
     @communication = Communication.new(params[:communication])
     @communication.dossier_id = params[:dossier]
     @communication.activite_id = params[:activite_id]
     
+
+    
+
     respond_to do |format|
       if @communication.save
         format.html { redirect_to(@communication, :notice => 'Communication was successfully created.') }
@@ -86,6 +92,9 @@ class CommunicationsController < ApplicationController
   # PUT /communications/1
   # PUT /communications/1.xml
   def update
+    params[:communication][:subject_id] = Iconv.conv('ISO-8859-1//IGNORE//TRANSLIT', 'utf-8', params[:communication][:subject_id])
+    params[:communication][:description] = Iconv.conv('ISO-8859-1//IGNORE//TRANSLIT', 'utf-8', params[:communication][:description])
+    params[:communication][:letter_body] = Iconv.conv('ISO-8859-1//IGNORE//TRANSLIT', 'utf-8', params[:communication][:letter_body])
     @communication = Communication.find(params[:id])
 
     respond_to do |format|
@@ -117,10 +126,10 @@ class CommunicationsController < ApplicationController
   
   def generate_attachments_docs
     @communication = Communication.find(params[:id])
-    @communication.contact_to_communications.where('transmission_medium_id != 0').each do |concom|
-      concom.render_final_file  
-    end
-    redirect_to :action => "review", :id => params[:id]
+    @communication.generate_attachments_docs
+    book = @communication.generate_summary_spreadsheet
+    book.write "#{RAILS_ROOT}/tmp/communication.xls"
+    send_file "#{RAILS_ROOT}/tmp/communication.xls"
   end
   
   def send_documents
@@ -132,9 +141,12 @@ class CommunicationsController < ApplicationController
   
   def review
     @communication = Communication.find(params[:id])
+    
     respond_to do |format|
       format.html # index.html.erb
     end
   end
+  
+  
   
 end
