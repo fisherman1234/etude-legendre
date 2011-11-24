@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111119155928) do
+ActiveRecord::Schema.define(:version => 20111124204738) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -355,6 +355,7 @@ ActiveRecord::Schema.define(:version => 20111119155928) do
     t.integer  "dossier_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "priorite"
   end
 
   create_table "status_consignations", :force => true do |t|

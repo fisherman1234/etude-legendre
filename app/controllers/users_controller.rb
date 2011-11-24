@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, :only => [:index, :show, :current_user, :destroy_current_user_session]
+  before_filter :authenticate_user!, :only => [:show, :current_user, :destroy_current_user_session]
   
   def index
     @users = current_user.parametres_cabinet.users
    
     respond_to do |format|
-     
+     format.html # show.html.erb
       format.json {render :json => {"success"=>true,"data"=>@users.map {|p| p.attributes.merge(:nom_complet => p.full_name)}}}
     end
   end
@@ -34,18 +34,20 @@ class UsersController < ApplicationController
 
   # POST /users
   # POST /users.xml
-  #def create
-  #  @user = User.new(params[:user])
-  #  puts "********"
-  #  respond_to do |format|
-  #      format.html { redirect_to(@user, :notice => 'User was successfully created.') }
-  #      format.xml  { render :xml => @user, :status => :created, :location => @user }
-  #    else
-  #      format.html { render :action => "new" }
-  #      format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
-  #    end
-  #  end
-  #end
+  def create
+    @user = User.new(params[:user])
+    @parametres_cabinet = ParametresCabinet.find(params[:user][:parametres_cabinet_id])
+    puts "********"
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to(parametres_cabinets_url) }
+        format.xml  { render :xml => @user, :status => :created, :location => @user }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
 
   # PUT /users/1
   # PUT /users/1.xml

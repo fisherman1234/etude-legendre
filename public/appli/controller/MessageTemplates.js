@@ -8,8 +8,16 @@ Ext.define('TP.controller.MessageTemplates', {
         this.control({
             'messageTemplateEdit button[action=save]': {
                 click: this.save
+            },
+            'messagetemplateAvailableSettings': {
+                itemdblclick: this.setValue
             }
         });
+    },
+    setValue: function(grid, record){
+      win = grid.up('window');
+      field = win.items.items[0].items.items[1].activeTab.items.items[0];
+      field.insertAtCursor(record.data.field);      
     },
     save: function(button) {
         var win = button.up("window");

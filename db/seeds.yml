@@ -1,0 +1,812 @@
+categories:
+  -
+    id: 1
+    description: DÉPLACEMENT
+    taux_tva_id: 2
+    created_at: 2011-06-17 18:05:19
+    updated_at: 2011-08-31 08:52:03
+    parametres_cabinet_id: 2
+  -
+    id: 2
+    description: HONORAIRES
+    taux_tva_id: 1
+    created_at: 2011-06-17 18:05:41
+    updated_at: 2011-07-25 17:53:43
+    parametres_cabinet_id: 2
+  -
+    id: 3
+    description: SAPITEURS
+    taux_tva_id: 1
+    created_at: 2011-06-17 18:05:52
+    updated_at: 2011-08-29 14:46:56
+    parametres_cabinet_id: 2
+  -
+    id: 4
+    description: SECRETARIAT
+    taux_tva_id: 2
+    created_at: 2011-06-17 18:06:07
+    updated_at: 2011-08-29 14:42:11
+    parametres_cabinet_id: 2
+  -
+    id: 5
+    description: HÉBERGEMENT
+    taux_tva_id: 1
+    created_at: 2011-08-29 14:40:57
+    updated_at: 2011-08-29 14:40:57
+    parametres_cabinet_id: 2
+items:
+  -
+    id: 1
+    description: DÉPLACEMENT
+    categorie_id: 1
+    taux_tva_id: 1
+    unite_id: 1
+    created_at: 2011-06-18 08:29:05
+    updated_at: 2011-07-25 17:57:19
+    parametres_cabinet_id: 2
+  -
+    id: 2
+    description: PEAGES
+    categorie_id: 1
+    taux_tva_id: 1
+    unite_id: 2
+    created_at: 2011-06-18 08:29:39
+    updated_at: 2011-07-25 17:57:19
+    parametres_cabinet_id: 2
+  -
+    id: 3
+    description: REPAS
+    categorie_id: 1
+    taux_tva_id: 1
+    unite_id: 2
+    created_at: 2011-06-18 08:29:46
+    updated_at: 2011-07-25 17:57:19
+    parametres_cabinet_id: 2
+  -
+    id: 4
+    description: DIVERS DÉPLACEMENT
+    categorie_id: 1
+    taux_tva_id: 1
+    unite_id: 2
+    created_at: 2011-06-18 08:29:56
+    updated_at: 2011-07-25 17:57:19
+    parametres_cabinet_id: 2
+  -
+    id: 5
+    description: HONORAIRES DÉPLACEMENT
+    categorie_id: 2
+    prix_unitaire: 90
+    taux_tva_id: 1
+    unite_id: 3
+    created_at: 2011-06-18 08:30:26
+    updated_at: 2011-09-04 06:29:27
+    parametres_cabinet_id: 2
+  -
+    id: 6
+    description: HONORAIRE ACCEDIT
+    categorie_id: 2
+    prix_unitaire: 80
+    taux_tva_id: 1
+    unite_id: 3
+    created_at: 2011-06-18 08:33:51
+    updated_at: 2011-07-25 17:57:19
+    parametres_cabinet_id: 2
+  -
+    id: 7
+    description: HONORAIRE ETUDE
+    categorie_id: 2
+    prix_unitaire: 80
+    taux_tva_id: 1
+    unite_id: 3
+    created_at: 2011-06-18 08:34:01
+    updated_at: 2011-07-25 17:57:19
+    parametres_cabinet_id: 2
+  -
+    id: 8
+    description: HONORAIRE RÉDACTION
+    categorie_id: 2
+    prix_unitaire: 80
+    taux_tva_id: 1
+    unite_id: 3
+    created_at: 2011-06-18 08:34:18
+    updated_at: 2011-07-25 17:57:19
+    parametres_cabinet_id: 2
+  -
+    id: 9
+    description: HONORAIRE DIVERS
+    categorie_id: 2
+    prix_unitaire: 75
+    taux_tva_id: 1
+    unite_id: 3
+    created_at: 2011-06-18 08:34:28
+    updated_at: 2011-07-25 17:57:19
+    parametres_cabinet_id: 2
+  -
+    id: 10
+    description: TEMPS PASSÉ EXPERT
+    categorie_id: 3
+    prix_unitaire: 80
+    taux_tva_id: 1
+    unite_id: 3
+    created_at: 2011-06-18 08:34:44
+    updated_at: 2011-08-31 08:48:30
+    parametres_cabinet_id: 2
+  -
+    id: 11
+    description: SAPITEURS
+    categorie_id: 3
+    taux_tva_id: 1
+    unite_id: 2
+    created_at: 2011-06-18 08:35:11
+    updated_at: 2011-07-25 17:57:19
+    parametres_cabinet_id: 2
+  -
+    id: 12
+    description: PAGE DACTYLO
+    categorie_id: 4
+    prix_unitaire: 7
+    taux_tva_id: 1
+    unite_id: 4
+    created_at: 2011-06-18 08:35:32
+    updated_at: 2011-07-25 17:57:19
+    parametres_cabinet_id: 2
+  -
+    id: 13
+    description: PHOTOCOPIE
+    categorie_id: 4
+    prix_unitaire: 2
+    taux_tva_id: 1
+    unite_id: 4
+    created_at: 2011-06-18 08:35:44
+    updated_at: 2011-07-25 17:57:19
+    parametres_cabinet_id: 2
+  -
+    id: 14
+    description: PHOTOGRAPHIE
+    categorie_id: 4
+    prix_unitaire: 5
+    taux_tva_id: 1
+    unite_id: 4
+    created_at: 2011-06-18 08:35:57
+    updated_at: 2011-07-25 17:57:19
+    parametres_cabinet_id: 2
+  -
+    id: 15
+    description: CORRESPONDANCE
+    categorie_id: 4
+    prix_unitaire: 5
+    taux_tva_id: 1
+    unite_id: 2
+    created_at: 2011-06-18 08:36:11
+    updated_at: 2011-07-25 17:57:19
+    parametres_cabinet_id: 2
+  -
+    id: 16
+    description: TÉLÉPHONE
+    categorie_id: 4
+    taux_tva_id: 1
+    unite_id: 2
+    created_at: 2011-06-18 08:36:21
+    updated_at: 2011-07-25 17:57:19
+    parametres_cabinet_id: 2
+  -
+    id: 17
+    description: FRAIS DIVERS
+    categorie_id: 4
+    taux_tva_id: 1
+    unite_id: 2
+    created_at: 2011-06-18 08:36:43
+    updated_at: 2011-07-25 17:57:19
+    parametres_cabinet_id: 2
+  -
+    id: 18
+    description: OUVERTURE
+    categorie_id: 4
+    prix_unitaire: 50
+    taux_tva_id: 1
+    unite_id: 6
+    created_at: 2011-06-18 08:37:00
+    updated_at: 2011-07-25 17:57:19
+    parametres_cabinet_id: 2
+  -
+    id: 19
+    description: LETTRE SIMPLE
+    categorie_id: 4
+    prix_unitaire: 3
+    taux_tva_id: 1
+    unite_id: 5
+    created_at: 2011-06-18 08:37:33
+    updated_at: 2011-07-25 17:57:19
+    parametres_cabinet_id: 2
+taux_tvas:
+  -
+    id: 1
+    description: 19,6
+    taux: 19.6
+    created_at: 2011-06-17 17:58:35
+    updated_at: 2011-07-25 17:52:01
+    parametres_cabinet_id: 2
+  -
+    id: 2
+    description: 5,5
+    taux: 5.5
+    created_at: 2011-06-17 17:58:45
+    updated_at: 2011-07-25 17:52:01
+    parametres_cabinet_id: 2
+  -
+    id: 3
+    description: 0
+    taux: 0
+    created_at: 2011-06-17 17:58:50
+    updated_at: 2011-07-25 17:52:01
+    parametres_cabinet_id: 2
+type_acteurs:
+  -
+    id: 1
+    description: Tribunal
+    created_at: 2011-05-28 16:16:35
+    updated_at: 2011-07-25 16:46:11
+    parametres_cabinet_id: 2
+  -
+    id: 2
+    description: Partie
+    created_at: 2011-05-28 16:16:46
+    updated_at: 2011-07-25 16:46:11
+    parametres_cabinet_id: 2
+  -
+    id: 3
+    description: Co-experts
+    created_at: 2011-05-28 16:18:03
+    updated_at: 2011-07-25 16:46:11
+    parametres_cabinet_id: 2
+  -
+    id: 4
+    description: Sapiteurs
+    created_at: 2011-05-29 13:58:40
+    updated_at: 2011-07-25 16:46:11
+    parametres_cabinet_id: 2
+  -
+    id: 5
+    description: Huissiers
+    created_at: 2011-05-29 13:59:04
+    updated_at: 2011-07-25 16:46:11
+    parametres_cabinet_id: 2
+  -
+    id: 6
+    description: Autres
+    created_at: 2011-05-29 13:59:13
+    updated_at: 2011-07-25 16:46:11
+    parametres_cabinet_id: 2
+  -
+    id: 7
+    description: Cabinet
+    created_at: 2011-06-06 08:02:51
+    updated_at: 2011-07-25 16:46:11
+    parametres_cabinet_id: 2
+type_activites:
+  -
+    id: 1
+    description: Acceptation de mission
+    created_at: 2011-06-03 09:17:15
+    updated_at: 2011-11-21 23:15:40
+    parametres_cabinet_id: 2
+    categorie_id: 1
+    message_template_id: 12
+  -
+    id: 2
+    description: Prise de rendez-vous
+    created_at: 2011-06-03 09:17:25
+    updated_at: 2011-11-21 23:26:58
+    parametres_cabinet_id: 2
+    categorie_id: 2
+    message_template_id: 35
+  -
+    id: 3
+    description: Convocation accédit n°1
+    created_at: 2011-06-03 09:17:44
+    updated_at: 2011-08-19 18:21:40
+    parametres_cabinet_id: 2
+    categorie_id: 2
+  -
+    id: 4
+    description: "Note aux parties : compte-rendu d'accédit n°1 + courrier au tribunal"
+    created_at: 2011-06-03 09:17:52
+    updated_at: 2011-08-19 18:23:00
+    parametres_cabinet_id: 2
+    categorie_id: 3
+  -
+    id: 5
+    description: Convocation visite technique
+    created_at: 2011-06-03 09:19:23
+    updated_at: 2011-08-19 18:21:55
+    parametres_cabinet_id: 2
+    categorie_id: 2
+  -
+    id: 8
+    description: "Note aux parties : compte-rendu de visite technique"
+    created_at: 2011-07-29 20:03:47
+    updated_at: 2011-08-19 18:23:05
+    parametres_cabinet_id: 2
+    categorie_id: 3
+  -
+    id: 9
+    description: Convocation accédit
+    created_at: 2011-07-29 20:03:47
+    updated_at: 2011-08-19 18:22:02
+    parametres_cabinet_id: 2
+    categorie_id: 2
+  -
+    id: 10
+    description: "Note aux parties : compte-rendu d'accédit"
+    created_at: 2011-07-29 20:03:47
+    updated_at: 2011-08-19 18:23:22
+    parametres_cabinet_id: 2
+    categorie_id: 3
+  -
+    id: 11
+    description: Courrier aux parties
+    created_at: 2011-07-29 20:03:47
+    updated_at: 2011-08-19 18:19:14
+    parametres_cabinet_id: 2
+    categorie_id: 1
+  -
+    id: 12
+    description: "Courrier à avocat (avis conforme à l'art 245 du CPC)"
+    created_at: 2011-07-29 20:03:47
+    updated_at: 2011-08-19 18:19:20
+    parametres_cabinet_id: 2
+    categorie_id: 1
+  -
+    id: 13
+    description: Courrier au tribunal
+    created_at: 2011-07-29 20:03:47
+    updated_at: 2011-08-19 18:19:26
+    parametres_cabinet_id: 2
+    categorie_id: 1
+  -
+    id: 14
+    description: Demande de consignation complémentaire
+    created_at: 2011-07-29 20:03:47
+    updated_at: 2011-08-19 18:19:31
+    parametres_cabinet_id: 2
+    categorie_id: 1
+  -
+    id: 15
+    description: Demande de délai supplémentaire
+    created_at: 2011-07-29 20:03:47
+    updated_at: 2011-08-19 18:19:43
+    parametres_cabinet_id: 2
+    categorie_id: 1
+  -
+    id: 16
+    description: Document de synthèse / pré-rapport
+    created_at: 2011-07-29 20:03:47
+    updated_at: 2011-08-19 18:23:31
+    parametres_cabinet_id: 2
+    categorie_id: 3
+  -
+    id: 17
+    description: Rapport
+    created_at: 2011-07-29 20:03:47
+    updated_at: 2011-08-19 18:23:37
+    parametres_cabinet_id: 2
+    categorie_id: 3
+  -
+    id: 18
+    description: "Diffusion de l'ordonnance de taxation"
+    created_at: 2011-07-29 20:03:47
+    updated_at: 2011-08-19 18:20:35
+    parametres_cabinet_id: 2
+    categorie_id: 1
+  -
+    id: 19
+    description: Relance(s)
+    created_at: 2011-07-29 20:03:47
+    updated_at: 2011-08-19 18:21:10
+    parametres_cabinet_id: 2
+    categorie_id: 1
+  -
+    id: 20
+    description: Appel téléphonique
+    created_at: 2011-08-19 12:12:13
+    updated_at: 2011-08-28 08:30:53
+    parametres_cabinet_id: 2
+    categorie_id: 20
+  -
+    id: 21
+    description: Devis
+    created_at: 2011-08-19 12:16:47
+    updated_at: 2011-08-28 08:31:00
+    parametres_cabinet_id: 2
+    categorie_id: 21
+  -
+    id: 22
+    description: "Enregistrement d'un document"
+    created_at: 2011-08-19 18:01:49
+    updated_at: 2011-08-28 08:31:07
+    parametres_cabinet_id: 2
+    categorie_id: 22
+type_adresses:
+  -
+    id: 10
+    description_adresse: M
+    description_courrier: Monsieur le juge
+    type_intervenant_id: 1
+    civilite_id: 1
+    created_at: 2011-05-27 20:10:05
+    updated_at: 2011-07-25 17:15:51
+    parametres_cabinet_id: 2
+  -
+    id: 11
+    description_adresse: MME
+    description_courrier: Madame le juge
+    type_intervenant_id: 1
+    civilite_id: 2
+    created_at: 2011-07-18 10:59:46
+    updated_at: 2011-07-25 17:15:51
+    parametres_cabinet_id: 2
+  -
+    id: 12
+    description_adresse: MME
+    description_courrier: "Madame l'avocat"
+    type_intervenant_id: 2
+    civilite_id: 2
+    created_at: 2011-07-18 12:39:06
+    updated_at: 2011-07-25 17:15:51
+    parametres_cabinet_id: 2
+  -
+    id: 13
+    description_adresse: MLLE
+    description_courrier: Mademoiselle
+    type_intervenant_id: 3
+    civilite_id: 1
+    created_at: 2011-07-18 12:40:15
+    updated_at: 2011-07-25 17:15:51
+    parametres_cabinet_id: 2
+type_decisions:
+  -
+    id: 1
+    description: Ordonnance de référé
+    commentaires: 
+    created_at: 2011-05-27 19:20:02
+    updated_at: 2011-07-25 17:39:20
+    parametres_cabinet_id: 2
+  -
+    id: 3
+    description: "Ordonnance du juge d'instruction"
+    commentaires: 
+    created_at: 2011-05-27 20:23:15
+    updated_at: 2011-07-25 17:39:20
+    parametres_cabinet_id: 2
+  -
+    id: 4
+    description: Rapport de consultant
+    commentaires: 
+    created_at: 2011-05-27 20:23:24
+    updated_at: 2011-07-25 17:39:20
+    parametres_cabinet_id: 2
+  -
+    id: 5
+    description: "Arrêt de la cour d'appel"
+    commentaires: 
+    created_at: 2011-05-30 10:05:58
+    updated_at: 2011-07-25 17:39:20
+    parametres_cabinet_id: 2
+  -
+    id: 6
+    description: Jugement
+    commentaires: 
+    created_at: 2011-05-30 10:06:06
+    updated_at: 2011-07-25 17:39:20
+    parametres_cabinet_id: 2
+  -
+    id: 7
+    description: Ordonnance du juge de la mise en état
+    commentaires: 
+    created_at: 2011-05-30 10:06:25
+    updated_at: 2011-07-25 17:39:20
+    parametres_cabinet_id: 2
+  -
+    id: 8
+    description: Réquisition du parquet
+    commentaires: 
+    created_at: 2011-05-30 10:06:39
+    updated_at: 2011-07-25 17:39:20
+    parametres_cabinet_id: 2
+type_etat_dossiers:
+  -
+    id: 1
+    description: Attente consignation
+    ordre_apparition: 1
+    created_at: 2011-05-27 21:07:36
+    updated_at: 2011-07-29 19:59:09
+    parametres_cabinet_id: 2
+  -
+    id: 2
+    description: Organisation accédit
+    ordre_apparition: 2
+    created_at: 2011-05-27 21:07:45
+    updated_at: 2011-07-29 19:59:09
+    parametres_cabinet_id: 2
+  -
+    id: 3
+    description: Convoquer
+    ordre_apparition: 3
+    created_at: 2011-05-27 21:07:52
+    updated_at: 2011-07-29 19:59:09
+    parametres_cabinet_id: 2
+  -
+    id: 4
+    description: Attente accédit
+    ordre_apparition: 4
+    created_at: 2011-07-29 19:59:27
+    updated_at: 2011-07-29 19:59:27
+    parametres_cabinet_id: 2
+  -
+    id: 5
+    description: Rédiger NAP
+    ordre_apparition: 5
+    created_at: 2011-07-29 19:59:28
+    updated_at: 2011-07-29 19:59:28
+    parametres_cabinet_id: 2
+  -
+    id: 6
+    description: Attente visite technique
+    ordre_apparition: 6
+    created_at: 2011-07-29 19:59:28
+    updated_at: 2011-07-29 19:59:28
+    parametres_cabinet_id: 2
+  -
+    id: 7
+    description: Contacter avocat
+    ordre_apparition: 7
+    created_at: 2011-07-29 19:59:28
+    updated_at: 2011-08-27 22:27:29
+    parametres_cabinet_id: 2
+  -
+    id: 8
+    description: Rédiger doc de synthèse
+    ordre_apparition: 8
+    created_at: 2011-07-29 19:59:28
+    updated_at: 2011-07-29 19:59:28
+    parametres_cabinet_id: 2
+  -
+    id: 9
+    description: Rédiger rapport
+    ordre_apparition: 9
+    created_at: 2011-07-29 19:59:28
+    updated_at: 2011-07-29 19:59:28
+    parametres_cabinet_id: 2
+  -
+    id: 10
+    description: Diffuser ordonnance de taxation
+    ordre_apparition: 10
+    created_at: 2011-07-29 19:59:28
+    updated_at: 2011-07-29 19:59:28
+    parametres_cabinet_id: 2
+  -
+    id: 11
+    description: Relancer taxation
+    ordre_apparition: 11
+    created_at: 2011-07-29 19:59:28
+    updated_at: 2011-07-29 19:59:28
+    parametres_cabinet_id: 2
+type_expertises:
+  -
+    id: 1
+    description: Expertise technique
+    commentaires: 
+    created_at: 2011-05-27 19:15:03
+    updated_at: 2011-07-25 17:43:23
+    parametres_cabinet_id: 2
+  -
+    id: 2
+    description: Expertise judiciaire
+    commentaires: 
+    created_at: 2011-05-27 19:58:20
+    updated_at: 2011-07-25 17:43:23
+    parametres_cabinet_id: 2
+type_institutions:
+  -
+    id: 1
+    description: Tribunal
+    created_at: 2011-05-27 20:15:24
+    updated_at: 2011-07-25 17:46:01
+    parametres_cabinet_id: 2
+  -
+    id: 2
+    description: "Cabinet d'avocat"
+    created_at: 2011-05-27 20:15:37
+    updated_at: 2011-07-25 17:46:01
+    parametres_cabinet_id: 2
+  -
+    id: 3
+    description: "Cabinet d'expert"
+    created_at: 2011-05-27 20:15:49
+    updated_at: 2011-07-25 17:46:01
+    parametres_cabinet_id: 2
+  -
+    id: 4
+    description: "Compagnie d'assurances"
+    created_at: 2011-09-23 14:56:06
+    updated_at: 2011-09-23 14:56:06
+    parametres_cabinet_id: 2
+  -
+    id: 5
+    description: Entreprise
+    created_at: 2011-09-23 14:56:06
+    updated_at: 2011-09-23 14:56:06
+    parametres_cabinet_id: 2
+  -
+    id: 6
+    description: SEM
+    created_at: 2011-09-23 14:56:48
+    updated_at: 2011-09-23 14:56:48
+    parametres_cabinet_id: 2
+type_intervenants:
+  -
+    id: 1
+    description: Juge
+    created_at: 2011-05-27 19:30:56
+    updated_at: 2011-07-25 17:48:08
+    parametres_cabinet_id: 2
+  -
+    id: 2
+    description: Avocat
+    created_at: 2011-05-27 19:31:05
+    updated_at: 2011-07-25 17:48:08
+    parametres_cabinet_id: 2
+  -
+    id: 3
+    description: Secrétaire
+    created_at: 2011-05-29 22:43:31
+    updated_at: 2011-07-25 17:48:08
+    parametres_cabinet_id: 2
+  -
+    id: 4
+    description: Expert
+    created_at: 2011-05-30 10:01:33
+    updated_at: 2011-07-25 17:48:08
+    parametres_cabinet_id: 2
+type_status_consignations:
+  -
+    id: 1
+    description: DEMANDÉE
+    created_at: 2011-06-20 11:39:43
+    updated_at: 2011-06-20 11:39:43
+  -
+    id: 2
+    description: ORDONNÉE
+    created_at: 2011-06-20 11:39:54
+    updated_at: 2011-06-20 11:39:54
+  -
+    id: 3
+    description: CONSIGNÉE
+    created_at: 2011-06-20 11:40:00
+    updated_at: 2011-06-20 11:40:00
+  -
+    id: 4
+    description: PAYÉE
+    created_at: 2011-06-20 11:40:08
+    updated_at: 2011-06-20 11:40:08
+  -
+    id: 5
+    description: PROVISIONNÉE
+    created_at: 2011-06-20 11:40:14
+    updated_at: 2011-06-20 11:40:14
+unites:
+  -
+    id: 1
+    description: KMS
+    created_at: 2011-06-17 17:56:30
+    updated_at: 2011-07-25 17:50:14
+    parametres_cabinet_id: 2
+  -
+    id: 2
+    description: EUROS
+    created_at: 2011-06-17 17:56:43
+    updated_at: 2011-07-25 17:50:14
+    parametres_cabinet_id: 2
+  -
+    id: 3
+    description: HEURES
+    created_at: 2011-06-17 17:56:52
+    updated_at: 2011-07-25 17:50:14
+    parametres_cabinet_id: 2
+  -
+    id: 4
+    description: PAGES
+    created_at: 2011-06-17 17:57:03
+    updated_at: 2011-07-25 17:50:14
+    parametres_cabinet_id: 2
+  -
+    id: 5
+    description: COPIES
+    created_at: 2011-06-17 17:57:07
+    updated_at: 2011-07-25 17:50:14
+    parametres_cabinet_id: 2
+  -
+    id: 6
+    description: FORFAIT
+    created_at: 2011-06-17 17:57:20
+    updated_at: 2011-07-25 17:50:14
+    parametres_cabinet_id: 2
+qualite_procedurales:
+  -
+    id: 1
+    description: Juge controlleur
+    created_at: 2011-05-28 16:34:30
+    updated_at: 2011-07-25 17:33:14
+    parametres_cabinet_id: 2
+  -
+    id: 2
+    description: Juge mission
+    created_at: 2011-05-28 16:34:38
+    updated_at: 2011-07-25 17:33:14
+    parametres_cabinet_id: 2
+  -
+    id: 3
+    description: Demandeur
+    created_at: 2011-05-29 23:33:11
+    updated_at: 2011-07-25 17:33:14
+    parametres_cabinet_id: 2
+  -
+    id: 4
+    description: Défendeur
+    created_at: 2011-05-29 23:33:17
+    updated_at: 2011-07-25 17:33:14
+    parametres_cabinet_id: 2
+  -
+    id: 5
+    description: Intervenant volontaire
+    created_at: 2011-05-29 23:33:57
+    updated_at: 2011-07-25 17:33:14
+    parametres_cabinet_id: 2
+  -
+    id: 6
+    description: Appelé en cause
+    created_at: 2011-05-29 23:34:13
+    updated_at: 2011-07-25 17:33:14
+    parametres_cabinet_id: 2
+  -
+    id: 7
+    description: Autre
+    created_at: 2011-05-29 23:34:21
+    updated_at: 2011-07-25 17:33:14
+    parametres_cabinet_id: 2
+  -
+    id: 8
+    description: Avocat
+    created_at: 2011-05-29 23:35:23
+    updated_at: 2011-07-25 17:33:14
+    parametres_cabinet_id: 2
+  -
+    id: 9
+    description: Assureur
+    created_at: 2011-05-29 23:35:29
+    updated_at: 2011-07-25 17:33:14
+    parametres_cabinet_id: 2
+  -
+    id: 10
+    description: Conseil technique
+    created_at: 2011-05-29 23:35:37
+    updated_at: 2011-07-25 17:33:14
+    parametres_cabinet_id: 2
+  -
+    id: 11
+    description: Sachant
+    created_at: 2011-05-29 23:35:46
+    updated_at: 2011-07-25 17:33:14
+    parametres_cabinet_id: 2
+  -
+    id: 12
+    description: Intervenant
+    created_at: 2011-05-29 23:35:53
+    updated_at: 2011-07-25 17:33:14
+    parametres_cabinet_id: 2
+  -
+    id: 13
+    description: Expert
+    created_at: 2011-06-09 13:06:10
+    updated_at: 2011-07-25 17:33:14
+    parametres_cabinet_id: 2

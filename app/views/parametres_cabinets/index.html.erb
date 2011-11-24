@@ -1,0 +1,19 @@
+ <h1>Liste des cabinets</h1>
+
+    <table>
+      <tr>
+        <th>Nom</th>
+        <th>Editer</th>
+      </tr>
+
+    <% @parametres_cabinets.each do |par_cab| %>
+      <tr>
+        <td><%= par_cab.nom_cabinet %></td>
+        <td><%= link_to 'Editer', edit_parametres_cabinet_path(par_cab) %></td>
+      </tr>
+    <% end %>
+    </table>
+
+    <br />
+
+    <%= link_to 'Nouveau cabinet', new_parametres_cabinet_path %>

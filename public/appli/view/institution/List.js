@@ -3,7 +3,7 @@ Ext.define('TP.view.institution.List', {
     alias: 'widget.institutionlist',
 
     title: 'Toutes les sociétés',
-    store: 'Institutions',
+    store: 'TP.store.Institutions',
     initComponent: function() {
 
         this.columns = [{

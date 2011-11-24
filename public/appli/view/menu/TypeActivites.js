@@ -2,11 +2,18 @@ Ext.define('TP.view.menu.TypeActivites', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.menuTypeActivites',
 
-    title: 'Liste des courriers',
+    title: 'Liste des courriers et activités',
     store: 'TP.store.TypeActivites',
     selType: 'rowmodel',
 
     initComponent: function() {
+        Ext.getStore('TP.store.TypeActivites').clearFilter();
+        Ext.getStore('TP.store.TypeActivites').filter('categorie_id', 1);
+
+        this.on('beforeclose', function() {
+            Ext.getStore('TP.store.TypeActivites').clearFilter();
+            delete Ext.getStore('TP.store.ContactDossiers').proxy.extraParams.dossier;
+        });
         this.plugins = [
         Ext.create('Ext.grid.plugin.RowEditing', {
             clicksToEdit: 1,
@@ -65,15 +72,21 @@ Ext.define('TP.view.menu.TypeActivites', {
                 icon: '/images/email_edit.png',
                 tooltip: 'Editer courrier',
                 handler: function(grid, rowIndex, colIndex) {
-                    var a = Ext.widget('messageTemplateEdit');
                     var rec = grid.getStore().getAt(rowIndex);
-                    a.parentRowIndex = rowIndex;
-                    if ((rec.data.message_template_id !== null) || (typeof rec.data.message_template_id != 'undefined')) {
-                        var msgtp = Ext.getStore('TP.store.MessageTemplates').findRecord('id', rec.data.message_template_id);
+                    if (rec !== null && rec.data.categorie_id == 1) {
 
-                        if (msgtp !== null) {
-                            a.down('form').loadRecord(msgtp);
+                        var a = Ext.widget('messageTemplateEdit');
+                        a.parentRowIndex = rowIndex;
+                        if ((rec.data.message_template_id !== null) || (typeof rec.data.message_template_id != 'undefined')) {
+                            var msgtp = Ext.getStore('TP.store.MessageTemplates').findRecord('id', rec.data.message_template_id);
+
+                            if (msgtp !== null) {
+                                a.down('form').loadRecord(msgtp);
+                            }
                         }
+                    } else {
+                        Ext.MessageBox.alert('Edition', 'Vous ne pouvez pas créer un message pour ce type d\'activité.', null);
+
                     }
 
                 }

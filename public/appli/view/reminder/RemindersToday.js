@@ -16,6 +16,11 @@ Ext.define('TP.view.reminder.RemindersToday', {
             dataIndex: 'reminder_date',
             flex: 1
         },
+        {
+            header: 'Priorité',
+            dataIndex: 'priorite',
+            flex: 1
+        },
 				{
             header: 'Dossier',
             dataIndex: 'dossier_id',

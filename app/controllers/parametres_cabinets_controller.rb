@@ -4,7 +4,7 @@ class ParametresCabinetsController < ApplicationController
   # GET /parametres_cabinets
   # GET /parametres_cabinets.xml
   def index
-    @parametres_cabinet = current_user.parametres_cabinet
+    @parametres_cabinets = ParametresCabinet.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -29,7 +29,6 @@ class ParametresCabinetsController < ApplicationController
   # GET /parametres_cabinets/new.xml
   def new
     @parametres_cabinet = ParametresCabinet.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @parametres_cabinet }
@@ -38,6 +37,8 @@ class ParametresCabinetsController < ApplicationController
 
   # GET /parametres_cabinets/1/edit
   def edit
+    @user = User.new
+    
     @parametres_cabinet = ParametresCabinet.find(params[:id])
     render :layout => "light"
   end
@@ -49,7 +50,7 @@ class ParametresCabinetsController < ApplicationController
 
     respond_to do |format|
       if @parametres_cabinet.save
-        format.html { redirect_to(@parametres_cabinet, :notice => 'Parametres cabinet was successfully created.') }
+        format.html { redirect_to(parametres_cabinets_url) }
         format.xml  { render :xml => @parametres_cabinet, :status => :created, :location => @parametres_cabinet }
       else
         format.html { render :action => "new" }
@@ -65,7 +66,7 @@ class ParametresCabinetsController < ApplicationController
 
     respond_to do |format|
       if @parametres_cabinet.update_attributes(params[:parametres_cabinet])
-        format.html { redirect_to(@parametres_cabinet, :notice => 'Parametres cabinet was successfully updated.') }
+        format.html { redirect_to(parametres_cabinets_url) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

@@ -14,5 +14,5 @@ Ext.define('TP.model.Reminder', {
             writeAllFields: false
         }
     },
-    fields: ['id', 'reminder_date', 'description', 'activite_id', 'user_id', 'dossier_id']
+    fields: ['id', 'reminder_date', 'description', 'activite_id', 'user_id', 'dossier_id', 'priorite']
 });
