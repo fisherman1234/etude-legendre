@@ -1,0 +1,2 @@
+module TypeCivilitesCorrespondancesHelper
+end

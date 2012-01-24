@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   before_update :update_contact
   before_create :update_contact
-
+  
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable, :lockable and :timeoutable
   devise :database_authenticatable,

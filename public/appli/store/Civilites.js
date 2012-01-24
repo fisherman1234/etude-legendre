@@ -13,5 +13,9 @@ Ext.define('TP.store.Civilites', {
     {
         id: 3,
         description: 'Mlle'
+    },
+    {
+        id: 4,
+        description: 'Maître'
     }]
 });

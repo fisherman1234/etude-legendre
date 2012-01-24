@@ -71,5 +71,12 @@ Ext.define('TP.view.menu.Main', {
 				handler: function(el){
 					Ext.widget('menuSettings');
 				}
+    },
+    {
+        text: 'Déconnexion',
+        icon: '/images/lock_go.png',
+				handler: function(el){
+					window.location.href="/logout";
+				}
     }]
 });

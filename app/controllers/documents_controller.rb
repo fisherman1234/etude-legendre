@@ -64,6 +64,7 @@ class DocumentsController < ApplicationController
     @document.file = params[:file]
     @document.dossier_id = params[:dossier_id]
     @document.contact_id = params[:contact_id]
+    @document.type_document_id = params[:type_document_id]
     
     if params[:activite_id].present? && params[:activite_id]!='undefined'
       @document.activite_to_documents.build(:activite_id => params[:activite_id])
@@ -86,6 +87,7 @@ class DocumentsController < ApplicationController
     @document.file = params[:file]
     @document.dossier_id = params[:dossier_id]
     @document.contact_id = params[:contact_id]
+    @document.type_document_id = params[:type_document_id]
     
     @document.save
     

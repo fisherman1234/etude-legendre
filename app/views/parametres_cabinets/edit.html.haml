@@ -1,13 +1,21 @@
 %h1 Edition d'un cabinet
 = render 'form'
 
+%h1 Liste des utilisateurs du cabinet
+%table{:border => "0", :class => "main-form", :id=>"userForm"}
+  - @parametres_cabinet.users.each do |user|
+    %tr
+      %td= user.full_name
+      %td
+        %a{:href =>"javascript: if (confirm('Confirmer la suppression ?')) { window.location.href='/users/#{user.id}/destroy' } else { void('') };"} Supprimer
+
 %h1 Créer un utilisateur pour le cabinet
 - form_for(@user) do |f|
   %input{:type=>"hidden", :name=>"user[parametres_cabinet_id]", :value=>"#{@parametres_cabinet.id}"}
   %table{:border => "0", :class => "main-form", :id=>"userForm"}
     %tr
       %td Civilite
-      %td= select( "contact", "civilite", { "M" => 1, "Mme" => 2, "Mlle" => 3})
+      %td= select( "contact", "civilite", { "M" => 1, "Mme" => 2, "Mlle" => 3, "Maître" => 4})
       %td Prenom
       %td= f.text_field :prenom
       %td Nom
@@ -17,4 +25,11 @@
       %td= f.text_field :email
       %td Mot de passe
       %td= f.text_field :password
-  = f.submit
+  = f.submit "Créer cet utilisateur"
+%br
+%br
+%a{:href =>"/parametres_cabinets"} Retour
+|
+%a{:href =>"javascript: if (confirm('Confirmer la suppression ? Cela supprimera également les utilisateurs associés au cabinet')) { window.location.href='/parametres_cabinets/#{@parametres_cabinet.id}/destroy' } else { void('') };"} Supprimer ce cabinet
+  
+  

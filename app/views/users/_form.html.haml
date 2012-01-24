@@ -3,61 +3,17 @@
   %table{:border => "0", :class => "main-form", :id=>"userForm"}
     %tr
       %td Civilite
-      %td= select( "contact", "civilite", { "M" => 1, "Mme" => 2, "Mlle" => 3})
+      %td= select( "contact", "civilite", { "M" => 1, "Mme" => 2, "Mlle" => 3, "Maître" => 4})
       %td Prenom
       %td= f.text_field :prenom
       %td Nom
       %td= f.text_field :nom
-  
-    %tr
-      %td Titre de l'expert
-      %td= f.text_field :titre_lettres, :class => "minuscule"
-      %td Fonction
-      %td= f.text_field :fonction, :class => "minuscule"
-
-    %tr
-      %td Adresse ligne 1
-      %td{:COLSPAN=>"5"}= f.text_field :adresse1
-    %tr
-      %td Adresse ligne 2
-      %td{:COLSPAN=>"5"}= f.text_field :adresse2
-    %tr
-      %td Adresse ligne 3
-      %td{:COLSPAN=>"5"}= f.text_field :adresse3
-
-    %tr
-      %td Code Postal
-      %td= f.text_field :code_postal
-      %td Ville
-      %td= f.text_field :ville
-      %td Pays
-      %td= f.text_field :pays
-  
-    %tr{:class=>"spacer"}
-  
-    %tr
-      %td Téléphone
-      %td= f.text_field :telephone, :class=>"phone"
-      %td Fax
-      %td= f.text_field :fax, :class=>"phone"
-  
     %tr
       %td Email
-      %td{:COLSPAN=>"5"}= f.text_field :email
-
-    %tr 
-      %td Site web
-      %td{:COLSPAN=>"5"}= f.text_field :site_web
-
-    %tr
-      %td Formule adresse
-      %td= f.text_field :genre_adresse
-      %td Formule courrier
-      %td= f.text_field :genre_lettre
-
-    %tr
-      %td Bloc de signature
-      %td{:COLSPAN=>"5"}= f.text_area :signature_lettres
+      %td= f.text_field :email
+      %td Mot de passe
+      %td= f.text_field :password
+  = f.submit "Créer cet utilisateur"
 
 
 

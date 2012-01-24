@@ -1,0 +1,2 @@
+module TypeDocumentsHelper
+end

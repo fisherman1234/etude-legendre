@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Description:</b>
+  <%= @type_civilites_correspondance.description %>
+</p>
+
+<p>
+  <b>Parametres cabinet:</b>
+  <%= @type_civilites_correspondance.parametres_cabinet_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_type_civilites_correspondance_path(@type_civilites_correspondance) %> |
+<%= link_to 'Back', type_civilites_correspondances_path %>

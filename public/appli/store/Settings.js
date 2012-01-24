@@ -53,7 +53,6 @@ Ext.define('TP.store.Settings', {
         card_id: 9
     },
 
-
     {
         id: 14,
         description: 'Utilisateurs',
@@ -63,5 +62,15 @@ Ext.define('TP.store.Settings', {
         id: 15,
         description: 'Types de courriers',
         card_id: 11
+    },
+    {
+        id: 16,
+        description: 'Civilités correspondance',
+        card_id: 12
+    },
+    {
+        id: 17,
+        description: 'Types de documents',
+        card_id: 13
     }]
 });

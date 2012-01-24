@@ -7,10 +7,7 @@ Ext.define('TP.view.expense.List', {
     id: "expenselist",
 
 
-    features: [{
-        groupHeaderTpl: 'Activite: {name}',
-        ftype: 'groupingsummary'
-    }],
+
     selType: 'rowmodel',
     plugins: [
     Ext.create('Ext.grid.plugin.RowEditing', {
@@ -36,7 +33,7 @@ Ext.define('TP.view.expense.List', {
                 },
                 'TP.model.Expense');
                 Ext.getStore('TP.store.Expenses').insert(0, r);
-								this.up('gridpanel').getPlugin('rowEditPlugin').startEdit(0, 0);
+								//this.up('gridpanel').getPlugin('rowEditPlugin').startEdit(0, 0);
             }
         }],
         layout: 'hbox' // The items are arranged horizontally

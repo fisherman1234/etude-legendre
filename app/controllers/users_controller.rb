@@ -40,7 +40,7 @@ class UsersController < ApplicationController
     puts "********"
     respond_to do |format|
       if @user.save
-        format.html { redirect_to(parametres_cabinets_url) }
+        format.html { redirect_to("/parametres_cabinets/#{@user.parametres_cabinet_id}/edit") }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else
         format.html { render :action => "new" }
@@ -56,7 +56,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
+        format.html { redirect_to("/parametres_cabinets/#{@user.parametres_cabinet_id}/edit") }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -66,6 +66,18 @@ class UsersController < ApplicationController
   end
 
 
+  
+  # DELETE /dossiers/1
+  # DELETE /dossiers/1.xml
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+
+    respond_to do |format|
+      format.html { redirect_to("/parametres_cabinets/#{@user.parametres_cabinet_id}/edit") }
+      format.xml  { head :ok }
+    end
+  end
   
   # Current user
   # GET /users/current_user_signed_in

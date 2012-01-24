@@ -2,7 +2,7 @@ Ext.define('TP.view.document.Edit', {
     extend: 'Ext.window.Window',
     alias: 'widget.documentEdit',
 
-    title: "Propriétés du dossier",
+    title: "Propriétés du document",
     layout: 'fit',
     autoShow: true,
     width: 500,
@@ -17,7 +17,8 @@ Ext.define('TP.view.document.Edit', {
                 fieldLabel: 'Description',
                 name: 'description',
                 margin: 10,
-                allowBlank: false
+                allowBlank: false, 
+                width: 450
             },
             {
                 xtype: 'filefield',
@@ -29,6 +30,19 @@ Ext.define('TP.view.document.Edit', {
                 margin: 10,
                 allowBlank: false
 
+            },
+            {
+                xtype: 'combo',
+                margin: 10,
+                queryMode: 'local',
+                fieldLabel: 'Type de document',
+                anchor: '96%',
+                name: 'type_document_id',
+                store: 'TP.store.TypeDocuments',
+                displayField: 'description',
+                valueField: 'id',
+                hiddenName: 'type_document_id',
+                forceSelection: true
             },
             {
                 xtype: 'combo',

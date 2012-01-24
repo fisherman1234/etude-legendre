@@ -116,7 +116,7 @@ class DossiersController < ApplicationController
     @dossier.destroy
 
     respond_to do |format|
-      format.html { redirect_to(dossiers_url) }
+      format.html { redirect_to("/") }
       format.xml  { head :ok }
     end
   end

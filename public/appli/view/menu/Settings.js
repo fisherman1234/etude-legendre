@@ -47,12 +47,19 @@ Ext.define('TP.view.menu.Settings', {
             {
                 xtype: 'menuTypeIntervenants'
             },
-						{
+            {
                 xtype: 'userUserList'
             },
             {
                 xtype: 'menuTypeActivites'
+            },
+            {
+                xtype: 'menuTypeCivilitesCorrespondances'
+            },
+            {
+                xtype: 'menuTypeDocuments'
             }]
+
         }];
         this.buttons = [{
             text: 'Fermer',

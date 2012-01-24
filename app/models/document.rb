@@ -1,6 +1,7 @@
 class Document < ActiveRecord::Base
   belongs_to :dossier
   belongs_to :contact
+  belongs_to :type_document
   after_commit :set_relationship
   has_many :activites, :through => :activite_to_documents
   has_many :activite_to_documents, :dependent => :destroy
@@ -31,7 +32,7 @@ class Document < ActiveRecord::Base
       b = "thibaultpoisson"
       bitly = Bitly.new(b,a)
 
-      url = bitly.shorten(AWS::S3::S3Object.url_for(self.file.path, self.file.bucket_name, :expires_in => 1.year)).short_url
+      url = bitly.shorten(AWS::S3::S3Object.url_for(self.file.path.to_s, self.file.bucket_name.to_s, :expires_in => 1.year)).short_url
       return url
     end
     

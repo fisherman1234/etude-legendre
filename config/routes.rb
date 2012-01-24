@@ -1,5 +1,11 @@
 EtudeLegendre::Application.routes.draw do
 
+  resources :type_documents
+
+  resources :type_civilites_correspondances
+
+  resources :civilite_correspondances
+
   resources :reminders
 
   resources :civilites
@@ -85,6 +91,10 @@ EtudeLegendre::Application.routes.draw do
   match "versions/:id/revert", :to => "versions#revert",  :method => :post 
   match "current_user_signed_in", :to => "users#current_user_signed_in", :method => :get 
   match "users/destroy_current_user_session", :to => "users#destroy_current_user_session", :method => :get 
+  match "users/:id/destroy", :to => "users#destroy"
+  match "parametres_cabinets/:id/destroy", :to => "parametres_cabinets#destroy"
+
+  
   match "users/connexion", :to => "users#connexion", :method => :get 
   match "contacts/:id/destroy", :to => "contacts#destroy", :method => :post 
   match "activites/:id/destroy", :to => "activites#destroy", :method => :post 

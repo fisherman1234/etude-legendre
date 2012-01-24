@@ -10,6 +10,8 @@ class Contact < ActiveRecord::Base
   
   liquid_methods :id, :nom, :prenom, :civilite, :adresse1, :adresse2, :adresse3, :code_postal, :ville, :pays, :telephone, :fax, :portable, :email, :site_web, :institution_id, :genre_adresse, :genre_lettre, :created_at, :updated_at, :type_intervenant_id, :avocat_au_barreau, :notes, :contact_medium_id, :user_id, :parametres_cabinet_id
   
+
+  
   def full_name
     [prenom, nom].join(' ')
   end

@@ -2,7 +2,7 @@ Ext.define('TP.view.dossier.Contact', {
     extend: 'Ext.Panel',
     alias: 'widget.dossierContact',
     id: "dossierContact",
-    title: "Contacts",
+    title: "Acteurs",
 		layout: 'border',
     items: [{
 				region: 'center',

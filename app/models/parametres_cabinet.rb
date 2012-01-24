@@ -1,10 +1,11 @@
 class ParametresCabinet < ActiveRecord::Base
-  has_many :users
+  has_many :users, :dependent => :destroy
   has_many :dossiers
   has_many :type_expertises
   has_many :type_decisions
   has_many :contacts
   has_many :type_etat_dossiers
+  has_many :type_civilites_correspondances
   has_many :taux_tvas
   has_many :unites
   has_many :items
@@ -12,6 +13,7 @@ class ParametresCabinet < ActiveRecord::Base
   has_many :institutions
   has_many :type_intervenants
   has_many :type_institutions
+  has_many :type_documents
   has_many :qualite_procedurales
   has_many :type_activites
   has_many :categories
@@ -111,6 +113,16 @@ class ParametresCabinet < ActiveRecord::Base
     end
     config['qualite_procedurales'].each do |l|
       a = QualiteProcedurale.new(l)
+      a.parametres_cabinet_id = id
+      a.save
+    end
+    config['type_civilite_correspondance'].each do |l|
+      a = TypeCivilitesCorrespondance.new(l)
+      a.parametres_cabinet_id = id
+      a.save
+    end
+    config['type_documents'].each do |l|
+      a = TypeDocument.new(l)
       a.parametres_cabinet_id = id
       a.save
     end
