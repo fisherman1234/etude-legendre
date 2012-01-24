@@ -102,7 +102,7 @@ class ExportController < ApplicationController
     sheet = @book.create_worksheet(:name => "Synthèse")
     sheet.row(0).push 'Dossier', @dossier.nom_dossier, 'Référence', @dossier.ref_cabinet
     if isDevis == true
-      sheet1.row(1).push 'Devis', @activite.try(:description)
+      sheet.row(1).push 'Devis', @activite.try(:description)
     end
     k=0
     while k < 8
