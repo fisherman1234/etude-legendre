@@ -3,8 +3,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>The source code</title>
-  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
-  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
   <style type="text/css">
     .highlight { display: block; background-color: #ddd; }
   </style>
@@ -19,7 +19,6 @@
 </span> * @class Ext.panel.Header
  * @extends Ext.container.Container
  * Simple header class which is used for on {@link Ext.panel.Panel} and {@link Ext.window.Window}
- * @xtype header
  */
 Ext.define('Ext.panel.Header', {
     extend: 'Ext.container.Container',
@@ -31,10 +30,26 @@ Ext.define('Ext.panel.Header', {
     indicateDrag   : false,
     weight         : -1,
 
-    renderTpl: ['&lt;div class=&quot;{baseCls}-body&lt;tpl if=&quot;bodyCls&quot;&gt; {bodyCls}&lt;/tpl&gt;&lt;tpl if=&quot;uiCls&quot;&gt;&lt;tpl for=&quot;uiCls&quot;&gt; {parent.baseCls}-body-{parent.ui}-{.}&lt;/tpl&gt;&lt;/tpl&gt;&quot;&lt;tpl if=&quot;bodyStyle&quot;&gt; style=&quot;{bodyStyle}&quot;&lt;/tpl&gt;&gt;&lt;/div&gt;'],
+    renderTpl: [
+        '&lt;div id=&quot;{id}-body&quot; class=&quot;{baseCls}-body&lt;tpl if=&quot;bodyCls&quot;&gt; {bodyCls}&lt;/tpl&gt;',
+        '&lt;tpl if=&quot;uiCls&quot;&gt;',
+            '&lt;tpl for=&quot;uiCls&quot;&gt; {parent.baseCls}-body-{parent.ui}-{.}&lt;/tpl&gt;',
+        '&lt;/tpl&gt;&quot;',
+        '&lt;tpl if=&quot;bodyStyle&quot;&gt; style=&quot;{bodyStyle}&quot;&lt;/tpl&gt;&gt;&lt;/div&gt;'],
+
+<span id='Ext-panel-Header-cfg-title'>    /**
+</span>     * @cfg {String} title
+     * The title text to display
+     */
+
+<span id='Ext-panel-Header-cfg-iconCls'>    /**
+</span>     * @cfg {String} iconCls
+     * CSS class for icon in header. Used for displaying an icon to the left of a title.
+     */
 
     initComponent: function() {
         var me = this,
+            ruleStyle,
             rule,
             style,
             titleTextEl,
@@ -52,9 +67,7 @@ Ext.define('Ext.panel.Header', {
         me.addClsWithUI(me.orientation);
         me.addClsWithUI(me.dock);
 
-        Ext.applyIf(me.renderSelectors, {
-            body: '.' + me.baseCls + '-body'
-        });
+        me.addChildEls('body');
 
         // Add Icon
         if (!Ext.isEmpty(me.iconCls)) {
@@ -89,7 +102,11 @@ Ext.define('Ext.panel.Header', {
             if (Ext.isArray(ui)) {
                 ui = ui[0];
             }
-            rule = Ext.util.CSS.getRule('.' + me.baseCls + '-text-' + ui);
+            ruleStyle = '.' + me.baseCls + '-text-' + ui;
+            if (Ext.scopeResetCSS) {
+                ruleStyle = '.' + Ext.baseCSSPrefix + 'reset ' + ruleStyle;
+            }
+            rule = Ext.util.CSS.getRule(ruleStyle);
             if (rule) {
                 style = rule.style;
             }
@@ -105,9 +122,12 @@ Ext.define('Ext.panel.Header', {
                 ariaRole  : 'heading',
                 focusable: false,
                 viewBox: false,
+                flex : 1,
                 autoSize: true,
                 margins: '5 0 0 0',
                 items: [ me.textConfig ],
+                // this is a bit of a cheat: we are not selecting an element of titleCmp
+                // but rather of titleCmp.items[0] (so we cannot use childEls)
                 renderSelectors: {
                     textEl: '.' + me.baseCls + '-text'
                 }
@@ -123,26 +143,20 @@ Ext.define('Ext.panel.Header', {
                 xtype     : 'component',
                 ariaRole  : 'heading',
                 focusable: false,
-                renderTpl : ['&lt;span class=&quot;{cls}-text {cls}-text-{ui}&quot;&gt;{title}&lt;/span&gt;'],
+                flex : 1,
+                cls: me.baseCls + '-text-container',
+                renderTpl : [
+                    '&lt;span id=&quot;{id}-textEl&quot; class=&quot;{cls}-text {cls}-text-{ui}&quot;&gt;{title}&lt;/span&gt;'
+                ],
                 renderData: {
                     title: me.title,
                     cls  : me.baseCls,
                     ui   : me.ui
                 },
-                renderSelectors: {
-                    textEl: '.' + me.baseCls + '-text'
-                }
+                childEls: ['textEl']
             });
         }
         me.items.push(me.titleCmp);
-
-        // Spacer -&gt;
-        me.items.push({
-            xtype: 'component',
-            html : '&amp;nbsp;',
-            flex : 1,
-            focusable: false
-        });
 
         // Add Tools
         me.items = me.items.concat(me.tools);
@@ -152,16 +166,16 @@ Ext.define('Ext.panel.Header', {
     initIconCmp: function() {
         this.iconCmp = Ext.create('Ext.Component', {
             focusable: false,
-            renderTpl : ['&lt;img alt=&quot;&quot; src=&quot;{blank}&quot; class=&quot;{cls}-icon {iconCls}&quot;/&gt;'],
+            renderTpl : [
+                '&lt;img id=&quot;{id}-iconEl&quot; alt=&quot;&quot; src=&quot;{blank}&quot; class=&quot;{cls}-icon {iconCls}&quot;/&gt;'
+            ],
             renderData: {
                 blank  : Ext.BLANK_IMAGE_URL,
                 cls    : this.baseCls,
                 iconCls: this.iconCls,
                 orientation: this.orientation
             },
-            renderSelectors: {
-                iconEl: '.' + this.baseCls + '-icon'
-            },
+            childEls: ['iconEl'],
             iconCls: this.iconCls
         });
     },
@@ -192,36 +206,90 @@ Ext.define('Ext.panel.Header', {
 
     // inherit docs
     addUIClsToElement: function(cls, force) {
-        var me = this;
-
-        me.callParent(arguments);
+        var me = this,
+            result = me.callParent(arguments),
+            classes = [me.baseCls + '-body-' + cls, me.baseCls + '-body-' + me.ui + '-' + cls],
+            array, i;
 
         if (!force &amp;&amp; me.rendered) {
-            me.body.addCls(me.baseCls + '-body-' + cls);
-            me.body.addCls(me.baseCls + '-body-' + me.ui + '-' + cls);
+            if (me.bodyCls) {
+                me.body.addCls(me.bodyCls);
+            } else {
+                me.body.addCls(classes);
+            }
+        } else {
+            if (me.bodyCls) {
+                array = me.bodyCls.split(' ');
+
+                for (i = 0; i &lt; classes.length; i++) {
+                    if (!Ext.Array.contains(array, classes[i])) {
+                        array.push(classes[i]);
+                    }
+                }
+
+                me.bodyCls = array.join(' ');
+            } else {
+                me.bodyCls = classes.join(' ');
+            }
         }
+
+        return result;
     },
 
     // inherit docs
     removeUIClsFromElement: function(cls, force) {
-        var me = this;
-
-        me.callParent(arguments);
+        var me = this,
+            result = me.callParent(arguments),
+            classes = [me.baseCls + '-body-' + cls, me.baseCls + '-body-' + me.ui + '-' + cls],
+            array, i;
 
         if (!force &amp;&amp; me.rendered) {
-            me.body.removeCls(me.baseCls + '-body-' + cls);
-            me.body.removeCls(me.baseCls + '-body-' + me.ui + '-' + cls);
+            if (me.bodyCls) {
+                me.body.removeCls(me.bodyCls);
+            } else {
+                me.body.removeCls(classes);
+            }
+        } else {
+            if (me.bodyCls) {
+                array = me.bodyCls.split(' ');
+
+                for (i = 0; i &lt; classes.length; i++) {
+                    Ext.Array.remove(array, classes[i]);
+                }
+
+                me.bodyCls = array.join(' ');
+            }
         }
+
+       return result;
     },
 
     // inherit docs
     addUIToElement: function(force) {
-        var me = this;
+        var me = this,
+            array, cls;
 
         me.callParent(arguments);
 
+        cls = me.baseCls + '-body-' + me.ui;
         if (!force &amp;&amp; me.rendered) {
-            me.body.addCls(me.baseCls + '-body-' + me.ui);
+            if (me.bodyCls) {
+                me.body.addCls(me.bodyCls);
+            } else {
+                me.body.addCls(cls);
+            }
+        } else {
+            if (me.bodyCls) {
+                array = me.bodyCls.split(' ');
+
+                if (!Ext.Array.contains(array, cls)) {
+                    array.push(cls);
+                }
+
+                me.bodyCls = array.join(' ');
+            } else {
+                me.bodyCls = cls;
+            }
         }
 
         if (!force &amp;&amp; me.titleCmp &amp;&amp; me.titleCmp.rendered &amp;&amp; me.titleCmp.textEl) {
@@ -231,12 +299,26 @@ Ext.define('Ext.panel.Header', {
 
     // inherit docs
     removeUIFromElement: function() {
-        var me = this;
+        var me = this,
+            array, cls;
 
         me.callParent(arguments);
 
+        cls = me.baseCls + '-body-' + me.ui;
         if (me.rendered) {
-            me.body.removeCls(me.baseCls + '-body-' + me.ui);
+            if (me.bodyCls) {
+                me.body.removeCls(me.bodyCls);
+            } else {
+                me.body.removeCls(cls);
+            }
+        } else {
+            if (me.bodyCls) {
+                array = me.bodyCls.split(' ');
+                Ext.Array.remove(array, cls);
+                me.bodyCls = array.join(' ');
+            } else {
+                me.bodyCls = cls;
+            }
         }
 
         if (me.titleCmp &amp;&amp; me.titleCmp.rendered &amp;&amp; me.titleCmp.textEl) {
@@ -301,24 +383,25 @@ Ext.define('Ext.panel.Header', {
     },
 
 <span id='Ext-panel-Header-method-setIconCls'>    /**
-</span>     * Sets the CSS class that provides the icon image for this panel.  This method will replace any existing
-     * icon class if one has already been set and fire the {@link #iconchange} event after completion.
+</span>     * Sets the CSS class that provides the icon image for this header.  This method will replace any existing
+     * icon class if one has already been set.
      * @param {String} cls The new CSS class name
      */
     setIconCls: function(cls) {
-        this.iconCls = cls;
-        if (!this.iconCmp) {
-            this.initIconCmp();
-            this.insert(0, this.iconCmp);
-        }
-        else {
-            if (!cls || !cls.length) {
-                this.iconCmp.destroy();
-            }
-            else {
-                var iconCmp = this.iconCmp,
-                    el      = iconCmp.iconEl;
-
+        var me = this,
+            isEmpty = !cls || !cls.length,
+            iconCmp = me.iconCmp,
+            el;
+        
+        me.iconCls = cls;
+        if (!me.iconCmp &amp;&amp; !isEmpty) {
+            me.initIconCmp();
+            me.insert(0, me.iconCmp);
+        } else if (iconCmp) {
+            if (isEmpty) {
+                me.iconCmp.destroy();
+            } else {
+                el = iconCmp.iconEl;
                 el.removeCls(iconCmp.iconCls);
                 el.addCls(cls);
                 iconCmp.iconCls = cls;

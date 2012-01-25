@@ -6,10 +6,10 @@ Ext.application({
     name: 'TP',
     appFolder: 'appli',
     title: 'Cabinet Legendre',
-    controllers: [ 'Expenses', 'Activites', 'Documents', 'Acteurs', 'ContactActeurs', 'Contacts', 'Institutions', 'QualiteProcedurales', 'Communications', 'Reminders', 'Menus', 'ContactToCommunications', 'Dossiers', 'MessageTemplates'],
+    controllers: ['Expenses', 'Activites', 'Documents', 'Acteurs', 'ContactActeurs', 'Contacts', 'Institutions', 'QualiteProcedurales', 'Communications', 'Reminders', 'Menus', 'ContactToCommunications', 'Dossiers', 'MessageTemplates'],
 
     launch: function() {
-				Ext.getStore('TP.store.ParametresCabinets').loadCabData();
+        Ext.getStore('TP.store.ParametresCabinets').loadCabData();
         Ext.create('Ext.container.Viewport', {
             layout: 'border',
             renderTo: document.body,
@@ -50,4 +50,14 @@ Ext.Ajax.on('requestexception', function(conn, response, options, e) {
     if (response.status == 401) {
         window.location = '/login';
     }
+});
+
+Ext.ModelManager.create = function(config, name, id) {
+    var con = (typeof name == 'function') ? name : this.types[name || config.name];
+
+    return new con(config, id || config[con.prototype.idProperty]);
+};
+
+Ext.apply(Ext.util.Format, {
+    defaultDateFormat: 'Y-M-d'
 });

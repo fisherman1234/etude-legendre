@@ -14,5 +14,14 @@ Ext.define('TP.model.TypeCivilitesCorrespondance', {
             writeAllFields: false
         }
     },
-    fields: ['id', 'description']
+    fields: [{
+        "name": "id",
+        "persist": true,
+        "type": "int"
+    },
+    {
+        "name": "description",
+        "allowBlank": true,
+        "type": "string"
+    }]
 });

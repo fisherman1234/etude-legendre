@@ -1,4 +1,18 @@
 /*
+
+This file is part of Ext JS 4
+
+Copyright (c) 2011 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
+
+If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
+
+*/
+/*
  * Note that this control will most likely remain as an example, and not as a core Ext form
  * control.  However, the API will be changing in a future release and so should not yet be
  * treated as a final, stable API at this time.
@@ -85,7 +99,8 @@ Ext.define('Ext.ux.form.ItemSelector', {
                 dragGroup: ddGroup,
                 dropGroup: ddGroup,
                 flex: 1,
-                hideLabel: true
+                hideLabel: true,
+                disabled: me.disabled
             },
             fromConfig = Ext.apply({
                 listTitle: 'Available',
@@ -352,6 +367,28 @@ Ext.define('Ext.ux.form.ItemSelector', {
             });
         }
     },
+    
+    onDisable: function(){
+        this.callParent();
+        var fromField = this.fromField;
+        
+        // if we have one, we have both, they get created at the same time    
+        if (fromField) {
+            fromField.disable();
+            this.toField.disable();
+        }
+    },
+    
+    onEnable: function(){
+        this.callParent();
+        var fromField = this.fromField;
+        
+        // if we have one, we have both, they get created at the same time    
+        if (fromField) {
+            fromField.enable();
+            this.toField.enable();
+        }
+    },
 
     onDestroy: function() {
         Ext.destroyMembers(this, 'innerCt');
@@ -359,3 +396,4 @@ Ext.define('Ext.ux.form.ItemSelector', {
     }
 
 });
+

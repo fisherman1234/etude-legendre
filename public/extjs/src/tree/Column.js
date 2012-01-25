@@ -1,3 +1,17 @@
+/*
+
+This file is part of Ext JS 4
+
+Copyright (c) 2011 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
+
+If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
+
+*/
 /**
  * @class Ext.tree.Column
  * @extends Ext.grid.column.Column
@@ -45,21 +59,21 @@ Ext.define('Ext.tree.Column', {
                                 record.get('checked') ? 'aria-checked="true"' : ''
                             ));
                             if (record.get('checked')) {
-                                metaData.tdCls += (' ' + Ext.baseCSSPrefix + 'tree-checked');
+                                metaData.tdCls += (' ' + treePrefix + 'checked');
                             }
                         }
                         if (record.isLast()) {
-                            if (record.isLeaf() || (record.isLoaded() && !record.hasChildNodes())) {
-                                buf.unshift(format(imgText, (elbowPrefix + 'end'), Ext.BLANK_IMAGE_URL));
-                            } else {
+                            if (record.isExpandable()) {
                                 buf.unshift(format(imgText, (elbowPrefix + 'end-plus ' + expanderCls), Ext.BLANK_IMAGE_URL));
+                            } else {
+                                buf.unshift(format(imgText, (elbowPrefix + 'end'), Ext.BLANK_IMAGE_URL));
                             }
                             
                         } else {
-                            if (record.isLeaf() || (record.isLoaded() && !record.hasChildNodes())) {
-                                buf.unshift(format(imgText, (treePrefix + 'elbow'), Ext.BLANK_IMAGE_URL));
-                            } else {
+                            if (record.isExpandable()) {
                                 buf.unshift(format(imgText, (elbowPrefix + 'plus ' + expanderCls), Ext.BLANK_IMAGE_URL));
+                            } else {
+                                buf.unshift(format(imgText, (treePrefix + 'elbow'), Ext.BLANK_IMAGE_URL));
                             }
                         }
                     } else {
@@ -73,12 +87,14 @@ Ext.define('Ext.tree.Column', {
                 record = record.parentNode;
             }
             if (href) {
-                formattedValue = format('<a href="{0}" target="{1}">{2}</a>', href, target, formattedValue);
+                buf.push('<a href="', href, '" target="', target, '">', formattedValue, '</a>');
+            } else {
+                buf.push(formattedValue);
             }
             if (cls) {
                 metaData.tdCls += ' ' + cls;
             }
-            return buf.join("") + formattedValue;
+            return buf.join('');
         };
         this.callParent(arguments);
     },

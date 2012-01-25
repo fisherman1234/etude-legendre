@@ -1,3 +1,17 @@
+/*
+
+This file is part of Ext JS 4
+
+Copyright (c) 2011 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
+
+If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
+
+*/
 /**
 * @class Ext.ux.ProgressBarPager
 * @extends Object
@@ -24,6 +38,11 @@ Ext.define('Ext.ux.ProgressBarPager', {
      * @cfg {Object} defaultAnimCfg
      * <p>A {@link Ext.fx.Anim Ext.fx.Anim} configuration object.</p>
      */
+    defaultAnimCfg : {
+		duration: 1000,
+		easing: 'bounceOut'	
+	},	
+    
     constructor : function(config) {
         if (config) {
             Ext.apply(this, config);
@@ -85,11 +104,12 @@ Ext.define('Ext.ux.ProgressBarPager', {
                         this.displayMsg,
                         pageData.fromRecord, pageData.toRecord, this.store.getTotalCount()
                     ),
-                    percentage = pageData.currentPage / pageData.pageCount;
+                    percentage = pageData.pageCount > 0 ? (pageData.currentPage / pageData.pageCount) : 0;
 
                 this.displayItem.updateProgress(percentage, message, this.animate || this.defaultAnimConfig);
             }
         }
     }
 });
+
 

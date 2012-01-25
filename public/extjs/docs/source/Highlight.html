@@ -3,8 +3,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>The source code</title>
-  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
-  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
   <style type="text/css">
     .highlight { display: block; background-color: #ddd; }
   </style>
@@ -17,7 +17,7 @@
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js"><span id='Ext-chart-Highlight'>/**
 </span> * @class Ext.chart.Highlight
- * @ignore
+ * A mixin providing highlight functionality for Ext.chart.series.Series.
  */
 Ext.define('Ext.chart.Highlight', {
 
@@ -29,7 +29,7 @@ Ext.define('Ext.chart.Highlight', {
 
 <span id='Ext-chart-Highlight-property-highlight'>    /**
 </span>     * Highlight the given series item.
-     * @param {Boolean|Object} Default's false. Can also be an object width style properties (i.e fill, stroke, radius) 
+     * @param {Boolean/Object} Default's false. Can also be an object width style properties (i.e fill, stroke, radius) 
      * or just use default styles per series by setting highlight = true.
      */
     highlight: false,
@@ -66,10 +66,7 @@ Ext.define('Ext.chart.Highlight', {
             opts = me.highlightCfg,
             surface = me.chart.surface,
             animate = me.chart.animate,
-            p,
-            from,
-            to,
-            pi;
+            p, from, to, pi;
 
         if (!me.highlight || !sprite || sprite._highlighted) {
             return;
@@ -79,8 +76,7 @@ Ext.define('Ext.chart.Highlight', {
         }
         sprite._highlighted = true;
         if (!sprite._defaults) {
-            sprite._defaults = Ext.apply(sprite._defaults || {},
-            sprite.attr);
+            sprite._defaults = Ext.apply({}, sprite.attr);
             from = {};
             to = {};
             for (p in opts) {
@@ -110,6 +106,7 @@ Ext.define('Ext.chart.Highlight', {
             }
             sprite._from = from;
             sprite._to = to;
+            sprite._endStyle = to;
         }
         if (animate) {
             sprite._anim = Ext.create('Ext.fx.Anim', {
@@ -137,9 +134,7 @@ Ext.define('Ext.chart.Highlight', {
             opts = me.highlightCfg,
             animate = me.chart.animate,
             i = 0,
-            obj,
-            p,
-            sprite;
+            obj, p, sprite;
 
         for (; i &lt; len; i++) {
             if (!items[i]) {
@@ -161,6 +156,8 @@ Ext.define('Ext.chart.Highlight', {
                     }
                 }
                 if (animate) {
+                    //sprite._to = obj;
+                    sprite._endStyle = obj;
                     sprite._anim = Ext.create('Ext.fx.Anim', {
                         target: sprite,
                         to: obj,

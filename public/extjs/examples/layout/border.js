@@ -1,3 +1,17 @@
+/*
+
+This file is part of Ext JS 4
+
+Copyright (c) 2011 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
+
+If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
+
+*/
 Ext.require(['*']);
 Ext.onReady(function() {
     var cw;
@@ -16,6 +30,7 @@ Ext.onReady(function() {
             title: 'North',
             split: true,
             height: 100,
+            minHeight: 60,
             html: 'north'
         },{
             region: 'west',
@@ -23,6 +38,8 @@ Ext.onReady(function() {
             title: 'Starts at width 30%',
             split: true,
             width: '30%',
+            minWidth: 100,
+            minHeight: 140,
             html: 'west<br>I am floatable'
         },{
             region: 'center',
@@ -32,6 +49,7 @@ Ext.onReady(function() {
                 region: 'center',
                 html: 'center center',
                 title: 'Center',
+                minHeight: 80,
                 items: [cw = Ext.create('Ext.Window', {
                     xtype: 'window',
                     closable: false,
@@ -65,6 +83,7 @@ Ext.onReady(function() {
                 split: true,
                 collapsible: true,
                 title: 'Splitter above me',
+                minHeight: 60,
                 html: 'center south'
             }]
         },{
@@ -73,6 +92,8 @@ Ext.onReady(function() {
             floatable: true,
             split: true,
             width: 200,
+            minWidth: 120,
+            minHeight: 140,
             title: 'East',
             layout: {
                 type: 'vbox',
@@ -81,6 +102,7 @@ Ext.onReady(function() {
             },
             items: [{
                 xtype: 'textfield',
+                labelWidth: 70,
                 fieldLabel: 'Text field'
             }, {
                 xtype: 'component',
@@ -91,6 +113,7 @@ Ext.onReady(function() {
             collapsible: true,
             split: true,
             height: 200,
+            minHeight: 120,
             title: 'South',
             layout: {
                 type: 'border',
@@ -99,11 +122,13 @@ Ext.onReady(function() {
             items: [{
                 title: 'South Central',
                 region: 'center',
+                minWidth: 80,
                 html: 'South Central'
             }, {
                 title: 'South Eastern',
                 region: 'east',
                 flex: 1,
+                minWidth: 80,
                 html: 'South Eastern',
                 split: true,
                 collapsible: true
@@ -111,6 +136,7 @@ Ext.onReady(function() {
                 title: 'South Western',
                 region: 'west',
                 flex: 1,
+                minWidth: 80,
                 html: 'South Western<br>I collapse to nothing',
                 split: true,
                 collapsible: true,

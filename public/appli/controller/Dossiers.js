@@ -61,6 +61,11 @@ Ext.define('TP.controller.Dossiers', {
 					this.createTabs();
         }
 				main_window.layout.setActiveItem(1);
+				
+				
+				Ext.getCmp('overviewPan').setTitle(record.data.nom_dossier+" - "+record.data.institution_nom);
+        
+        
     },
 
     updateDossier: function(button) {

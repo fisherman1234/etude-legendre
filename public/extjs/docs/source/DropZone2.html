@@ -3,8 +3,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>The source code</title>
-  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
-  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
   <style type="text/css">
     .highlight { display: block; background-color: #ddd; }
   </style>
@@ -41,7 +41,7 @@ Ext.define('Ext.grid.header.DropZone', {
 
     getTopIndicator: function() {
         if (!this.topIndicator) {
-            this.topIndicator = Ext.core.DomHelper.append(Ext.getBody(), {
+            this.topIndicator = Ext.DomHelper.append(Ext.getBody(), {
                 cls: &quot;col-move-top&quot;,
                 html: &quot;&amp;#160;&quot;
             }, true);
@@ -51,7 +51,7 @@ Ext.define('Ext.grid.header.DropZone', {
 
     getBottomIndicator: function() {
         if (!this.bottomIndicator) {
-            this.bottomIndicator = Ext.core.DomHelper.append(Ext.getBody(), {
+            this.bottomIndicator = Ext.DomHelper.append(Ext.getBody(), {
                 cls: &quot;col-move-bottom&quot;,
                 html: &quot;&amp;#160;&quot;
             }, true);

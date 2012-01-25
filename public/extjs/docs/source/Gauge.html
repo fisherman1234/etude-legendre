@@ -3,8 +3,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>The source code</title>
-  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
-  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
   <style type="text/css">
     .highlight { display: block; background-color: #ddd; }
   </style>
@@ -42,21 +42,30 @@ Ext.define('Ext.chart.axis.Gauge', {
     extend: 'Ext.chart.axis.Abstract',
 
     /* End Definitions */
-    
+
 <span id='Ext-chart-axis-Gauge-cfg-minimum'>    /**
-</span>     * @cfg {Number} minimum (required) the minimum value of the interval to be displayed in the axis.
+</span>     * @cfg {Number} minimum (required)
+     * The minimum value of the interval to be displayed in the axis.
      */
 
 <span id='Ext-chart-axis-Gauge-cfg-maximum'>    /**
-</span>     * @cfg {Number} maximum (required) the maximum value of the interval to be displayed in the axis.
+</span>     * @cfg {Number} maximum (required)
+     * The maximum value of the interval to be displayed in the axis.
      */
 
 <span id='Ext-chart-axis-Gauge-cfg-steps'>    /**
-</span>     * @cfg {Number} steps (required) the number of steps and tick marks to add to the interval.
+</span>     * @cfg {Number} steps (required)
+     * The number of steps and tick marks to add to the interval.
      */
 
 <span id='Ext-chart-axis-Gauge-cfg-margin'>    /**
-</span>     * @cfg {Number} margin (optional) the offset positioning of the tick marks and labels in pixels. Default's 10.
+</span>     * @cfg {Number} [margin=10]
+     * The offset positioning of the tick marks and labels in pixels.
+     */
+
+<span id='Ext-chart-axis-Gauge-cfg-title'>    /**
+</span>     * @cfg {String} title
+     * The title for the Axis.
      */
 
     position: 'gauge',
@@ -119,7 +128,7 @@ Ext.define('Ext.chart.axis.Gauge', {
             this.drawTitle();
         }
     },
-    
+
     drawTitle: function() {
         var me = this,
             chart = me.chart,
@@ -127,12 +136,12 @@ Ext.define('Ext.chart.axis.Gauge', {
             bbox = chart.chartBBox,
             labelSprite = me.titleSprite,
             labelBBox;
-        
+
         if (!labelSprite) {
             me.titleSprite = labelSprite = surface.add({
                 type: 'text',
                 zIndex: 2
-            });    
+            });
         }
         labelSprite.setAttributes(Ext.apply({
             text: me.title

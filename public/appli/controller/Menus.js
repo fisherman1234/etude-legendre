@@ -1,7 +1,7 @@
 Ext.define('TP.controller.Menus', {
     extend: 'Ext.app.Controller',
     views: ['menu.TypeActivites', 'menu.Main', 'menu.Settings', 'menu.SettingsList', 'menu.Categories', 'menu.Items', 'menu.QualiteProcedurales', 'menu.TauxTvas', 'menu.Unites', 'menu.TypeDecisions', 'menu.TypeEtatDossiers', 'menu.TypeExpertises', 'menu.TypeInstitutions', 'menu.TypeIntervenants', 'TP.view.user.UserList', 'TP.view.user.UserForm', 'TP.view.user.NewUserForm','TP.view.user.EditUser', 'TP.view.user.NewUser','TP.view.messagetemplate.Edit', 'menu.TypeCivilitesCorrespondances', 'menu.TypeDocuments'],
-		stores: ['TP.store.TypeActivites','TP.store.Settings', 'TP.store.Categories', 'TP.store.TauxTvas', 'TP.store.QualiteProcedurales', 'TP.store.TypeDecisions', 'TP.store.TypeEtatDossiers', 'TP.store.TypeExpertises', 'TP.store.TypeInstitutions','TP.store.TypeIntervenants', 'TP.store.Users', 'TP.store.ParametresCabinets'],
+		stores: ['TP.store.TypeActivites','TP.store.Settings', 'TP.store.Categories', 'TP.store.TauxTvas', 'TP.store.Unites', 'TP.store.QualiteProcedurales', 'TP.store.TypeDecisions', 'TP.store.TypeEtatDossiers', 'TP.store.TypeExpertises', 'TP.store.TypeInstitutions','TP.store.TypeIntervenants', 'TP.store.Users', 'TP.store.ParametresCabinets'],
 
     init: function() {
 			this.control({

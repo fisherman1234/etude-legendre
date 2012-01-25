@@ -3,8 +3,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>The source code</title>
-  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
-  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
   <style type="text/css">
     .highlight { display: block; background-color: #ddd; }
   </style>
@@ -111,8 +111,8 @@ Ext.define('Ext.draw.CompositeSprite', {
         });
     },
 
-<span id='Ext-draw-CompositeSprite-method-add'>    /** Add a Sprite to the Group */
-</span>    add: function(key, o) {
+    // Inherit docs from MixedCollection
+    add: function(key, o) {
         var result = this.callParent(arguments);
         this.attachEvents(result);
         return result;
@@ -122,8 +122,8 @@ Ext.define('Ext.draw.CompositeSprite', {
         return this.callParent(arguments);
     },
 
-<span id='Ext-draw-CompositeSprite-method-remove'>    /** Remove a Sprite from the Group */
-</span>    remove: function(o) {
+    // Inherit docs from MixedCollection
+    remove: function(o) {
         var me = this;
         
         o.un({
@@ -134,13 +134,14 @@ Ext.define('Ext.draw.CompositeSprite', {
             mouseout: me.onMouseOut,
             click: me.onClick
         });
-        me.callParent(arguments);
+        return me.callParent(arguments);
     },
     
 <span id='Ext-draw-CompositeSprite-method-getBBox'>    /**
 </span>     * Returns the group bounding box.
-     * Behaves like {@link Ext.draw.Sprite} getBBox method.
-    */
+     * Behaves like {@link Ext.draw.Sprite#getBBox} method.
+     * @return {Object} an object with x, y, width, and height properties.
+     */
     getBBox: function() {
         var i = 0,
             sprite,
@@ -174,10 +175,11 @@ Ext.define('Ext.draw.CompositeSprite', {
     },
 
 <span id='Ext-draw-CompositeSprite-method-setAttributes'>    /**
-</span>     *  Iterates through all sprites calling
-     *  `setAttributes` on each one. For more information
-     *  {@link Ext.draw.Sprite} provides a description of the
-     *  attributes that can be set with this method.
+</span>     * Iterates through all sprites calling `setAttributes` on each one. For more information {@link Ext.draw.Sprite}
+     * provides a description of the attributes that can be set with this method.
+     * @param {Object} attrs Attributes to be changed on the sprite.
+     * @param {Boolean} redraw Flag to immediatly draw the change.
+     * @return {Ext.draw.CompositeSprite} this
      */
     setAttributes: function(attrs, redraw) {
         var i = 0,
@@ -193,6 +195,8 @@ Ext.define('Ext.draw.CompositeSprite', {
 <span id='Ext-draw-CompositeSprite-method-hide'>    /**
 </span>     * Hides all sprites. If the first parameter of the method is true
      * then a redraw will be forced for each sprite.
+     * @param {Boolean} redraw Flag to immediatly draw the change.
+     * @return {Ext.draw.CompositeSprite} this
      */
     hide: function(redraw) {
         var i = 0,
@@ -208,6 +212,8 @@ Ext.define('Ext.draw.CompositeSprite', {
 <span id='Ext-draw-CompositeSprite-method-show'>    /**
 </span>     * Shows all sprites. If the first parameter of the method is true
      * then a redraw will be forced for each sprite.
+     * @param {Boolean} redraw Flag to immediatly draw the change.
+     * @return {Ext.draw.CompositeSprite} this
      */
     show: function(redraw) {
         var i = 0,

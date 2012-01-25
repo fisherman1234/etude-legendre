@@ -3,8 +3,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>The source code</title>
-  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
-  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
   <style type="text/css">
     .highlight { display: block; background-color: #ddd; }
   </style>
@@ -18,9 +18,8 @@
   <pre class="prettyprint lang-js"><span id='Ext-layout-container-Container'>/**
 </span>* @class Ext.layout.container.Container
 * @extends Ext.layout.container.AbstractContainer
-* @private
-* &lt;p&gt;This class is intended to be extended or created via the &lt;tt&gt;&lt;b&gt;{@link Ext.container.Container#layout layout}&lt;/b&gt;&lt;/tt&gt;
-* configuration property.  See &lt;tt&gt;&lt;b&gt;{@link Ext.container.Container#layout}&lt;/b&gt;&lt;/tt&gt; for additional details.&lt;/p&gt;
+* &lt;p&gt;This class is intended to be extended or created via the {@link Ext.container.Container#layout layout}
+* configuration property.  See {@link Ext.container.Container#layout} for additional details.&lt;/p&gt;
 */
 Ext.define('Ext.layout.container.Container', {
 
@@ -28,14 +27,14 @@ Ext.define('Ext.layout.container.Container', {
 
     extend: 'Ext.layout.container.AbstractContainer',
     alternateClassName: 'Ext.layout.ContainerLayout',
-    
+
     /* End Definitions */
 
     layoutItem: function(item, box) {
-        box = box || {};
-        if (item.componentLayout.initialized !== true) {
-            this.setItemSize(item, box.width || item.width || undefined, box.height || item.height || undefined);
-            // item.doComponentLayout(box.width || item.width || undefined, box.height || item.height || undefined);
+        if (box) {
+            item.doComponentLayout(box.width, box.height);
+        } else {
+            item.doComponentLayout();
         }
     },
 
@@ -66,11 +65,6 @@ Ext.define('Ext.layout.container.Container', {
         else {
             return false;
         }
-    },
-
-    afterLayout: function() {
-        this.owner.afterLayout(arguments);
-        this.callParent(arguments);
     },
 
 <span id='Ext-layout-container-Container-method-getRenderedItems'>    /**

@@ -3,8 +3,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>The source code</title>
-  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
-  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
   <style type="text/css">
     .highlight { display: block; background-color: #ddd; }
   </style>
@@ -15,8 +15,8 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js"><span id='Ext-data-JsonStore-method-constructor'><span id='Ext-data-JsonStore'>/**
-</span></span> * @author Ed Spencer
+  <pre class="prettyprint lang-js"><span id='Ext-data-JsonStore'>/**
+</span> * @author Ed Spencer
  * @class Ext.data.JsonStore
  * @extends Ext.data.Store
  * @ignore
@@ -30,7 +30,7 @@
 var store = new Ext.data.JsonStore({
     // store configs
     autoDestroy: true,
-    storeId: 'myStore'
+    storeId: 'myStore',
 
     proxy: {
         type: 'ajax',
@@ -58,8 +58,6 @@ var store = new Ext.data.JsonStore({
  *
  * &lt;p&gt;An object literal of this form could also be used as the {@link #data} config option.&lt;/p&gt;
  *
- * @constructor
- * @param {Object} config
  * @xtype jsonstore
  */
 Ext.define('Ext.data.JsonStore',  {

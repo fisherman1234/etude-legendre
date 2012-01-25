@@ -1,5 +1,7 @@
 Ext.define('TP.model.Activite', {
     extend: 'Ext.data.Model',
+    autoLoad: true,
+    
     proxy: {
         type: 'rest',
         url: '/activites',
@@ -14,5 +16,60 @@ Ext.define('TP.model.Activite', {
             writeAllFields: false
         }
     },
-    fields: ['id', 'type_activite_id', 'description', 'no_accedit', 'adresse1', 'adresse2', 'adresse3', 'code_postal', 'ville', 'pays', 'heure', 'commentaires', 'is_confidentiel', 'terme_date', 'dossier_id', 'message_template_id', 'add_to_gcal', 'date_visite']
+    fields: [{
+        "name": "id",
+        "persist": true,
+        "type": "int"
+    },
+    {
+        "name": 'type_activite_id'
+    },
+    {
+        "name": "description"
+    },
+    {
+        "name": "no_accedit"
+    },
+    {
+        "name": "adresse1"
+    },
+    {
+        "name": "adresse2"
+    },
+    {
+        "name": "adresse3"
+    },
+    {
+        "name": "code_postal"
+    },
+    {
+        "name": "ville"
+    },
+    {
+        "name": "pays"
+    },
+    {
+        "name": "heure"
+    },
+    {
+        "name": "commentaires"
+    },
+    {
+        "name": "is_confidentiel"
+    },
+    {
+        "name": "terme_date"
+    },
+    {
+        "name": "dossier_id"
+    },
+    {
+        "name": "message_template_id"
+    },
+    {
+        "name": "add_to_gcal"
+    },
+    {
+        "name": "date_visite"
+    }]
 });

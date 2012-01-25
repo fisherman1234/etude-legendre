@@ -3,8 +3,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>The source code</title>
-  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
-  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
   <style type="text/css">
     .highlight { display: block; background-color: #ddd; }
   </style>
@@ -15,8 +15,8 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js"><span id='Ext-Action-method-constructor'><span id='Ext-Action'>/**
-</span></span> * @class Ext.Action
+  <pre class="prettyprint lang-js"><span id='Ext-Action'>/**
+</span> * @class Ext.Action
  * &lt;p&gt;An Action is a piece of reusable functionality that can be abstracted out of any particular component so that it
  * can be usefully shared among multiple components.  Actions let you share handlers, configuration options and UI
  * updates across any components that support the Action interface (primarily {@link Ext.toolbar.Toolbar}, {@link Ext.button.Button}
@@ -30,7 +30,7 @@
  * &lt;li&gt;&lt;code&gt;setIconCls(string)&lt;/code&gt;&lt;/li&gt;
  * &lt;li&gt;&lt;code&gt;setDisabled(boolean)&lt;/code&gt;&lt;/li&gt;
  * &lt;li&gt;&lt;code&gt;setVisible(boolean)&lt;/code&gt;&lt;/li&gt;
- * &lt;li&gt;&lt;code&gt;setHandler(function)&lt;/code&gt;&lt;/li&gt;&lt;/ul&gt;.&lt;/p&gt;
+ * &lt;li&gt;&lt;code&gt;setHandler(function)&lt;/code&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
  * &lt;p&gt;This allows the Action to control its associated Components.&lt;/p&gt;
  * Example usage:&lt;br&gt;
  * &lt;pre&gt;&lt;code&gt;
@@ -73,8 +73,6 @@ var btn = panel.getComponent('myAction');
 var aRef = btn.baseAction;
 aRef.setText('New text');
 &lt;/code&gt;&lt;/pre&gt;
- * @constructor
- * @param {Object} config The configuration options
  */
 Ext.define('Ext.Action', {
 
@@ -83,12 +81,13 @@ Ext.define('Ext.Action', {
     /* End Definitions */
 
 <span id='Ext-Action-cfg-text'>    /**
-</span>     * @cfg {String} text The text to set for all components configured by this Action (defaults to '').
+</span>     * @cfg {String} [text='']
+     * The text to set for all components configured by this Action.
      */
 <span id='Ext-Action-cfg-iconCls'>    /**
-</span>     * @cfg {String} iconCls
+</span>     * @cfg {String} [iconCls='']
      * The CSS class selector that specifies a background image to be used as the header icon for
-     * all components configured by this Action (defaults to '').
+     * all components configured by this Action.
      * &lt;p&gt;An example of specifying a custom icon class would be something like:
      * &lt;/p&gt;&lt;pre&gt;&lt;code&gt;
 // specify the property in the config for the class:
@@ -100,24 +99,32 @@ Ext.define('Ext.Action', {
 &lt;/code&gt;&lt;/pre&gt;
      */
 <span id='Ext-Action-cfg-disabled'>    /**
-</span>     * @cfg {Boolean} disabled True to disable all components configured by this Action, false to enable them (defaults to false).
+</span>     * @cfg {Boolean} [disabled=false]
+     * True to disable all components configured by this Action, false to enable them.
      */
 <span id='Ext-Action-cfg-hidden'>    /**
-</span>     * @cfg {Boolean} hidden True to hide all components configured by this Action, false to show them (defaults to false).
+</span>     * @cfg {Boolean} [hidden=false]
+     * True to hide all components configured by this Action, false to show them.
      */
 <span id='Ext-Action-cfg-handler'>    /**
-</span>     * @cfg {Function} handler The function that will be invoked by each component tied to this Action
-     * when the component's primary event is triggered (defaults to undefined).
+</span>     * @cfg {Function} handler
+     * The function that will be invoked by each component tied to this Action
+     * when the component's primary event is triggered.
      */
 <span id='Ext-Action-cfg-itemId'>    /**
 </span>     * @cfg {String} itemId
      * See {@link Ext.Component}.{@link Ext.Component#itemId itemId}.
      */
 <span id='Ext-Action-cfg-scope'>    /**
-</span>     * @cfg {Object} scope The scope (&lt;code&gt;&lt;b&gt;this&lt;/b&gt;&lt;/code&gt; reference) in which the
-     * &lt;code&gt;{@link #handler}&lt;/code&gt; is executed. Defaults to the browser window.
+</span>     * @cfg {Object} scope
+     * The scope (this reference) in which the {@link #handler} is executed.
+     * Defaults to the browser window.
      */
 
+<span id='Ext-Action-method-constructor'>    /**
+</span>     * Creates new Action.
+     * @param {Object} config Config object.
+     */
     constructor : function(config){
         this.initialConfig = config;
         this.itemId = config.itemId = (config.itemId || config.id || Ext.id());
@@ -185,7 +192,7 @@ Ext.define('Ext.Action', {
     },
 
 <span id='Ext-Action-method-isDisabled'>    /**
-</span>     * Returns true if the components using this Action are currently disabled, else returns false.  
+</span>     * Returns true if the components using this Action are currently disabled, else returns false.
      */
     isDisabled : function(){
         return this.initialConfig.disabled;
@@ -249,7 +256,7 @@ Ext.define('Ext.Action', {
         var items = this.items,
             i = 0,
             len = items.length;
-            
+
         for(; i &lt; len; i++){
             items[i][fnName].apply(items[i], args);
         }
@@ -270,9 +277,7 @@ Ext.define('Ext.Action', {
 </span>     * Executes this Action manually using the handler function specified in the original config object
      * or the handler function set with &lt;code&gt;{@link #setHandler}&lt;/code&gt;.  Any arguments passed to this
      * function will be passed on to the handler function.
-     * @param {Mixed} arg1 (optional) Variable number of arguments passed to the handler function
-     * @param {Mixed} arg2 (optional)
-     * @param {Mixed} etc... (optional)
+     * @param {Object...} args (optional) Variable number of arguments passed to the handler function
      */
     execute : function(){
         this.initialConfig.handler.apply(this.initialConfig.scope || Ext.global, arguments);

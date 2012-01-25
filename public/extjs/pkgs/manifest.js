@@ -1,8 +1,16 @@
 /*
-Ext JS - JavaScript Library
-Copyright (c) 2006-2011, Sencha Inc.
-All rights reserved.
-licensing@sencha.com
+
+This file is part of Ext JS 4
+
+Copyright (c) 2011 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation and appearing in the file LICENSE included in the packaging of this file.  Please review the following information to ensure the GNU General Public License version 3.0 requirements will be met: http://www.gnu.org/copyleft/gpl.html.
+
+If you are unsure which license is appropriate for your use, please contact the sales department at http://www.sencha.com/contact.
+
 */
 (function(){ var data = {
     "nameToAliasesMap":{
@@ -21,8 +29,6 @@ licensing@sencha.com
         "Ext.ComponentQuery":[""
         ],
         "Ext.ElementLoader":[""
-        ],
-        "Ext.LoadMask":[""
         ],
         "Ext.ModelManager":[""
         ],
@@ -124,6 +130,8 @@ licensing@sencha.com
         ],
         "Ext.data.HasManyAssociation":["association.hasmany"
         ],
+        "Ext.data.IdGenerator":[""
+        ],
         "Ext.data.JsonP":[""
         ],
         "Ext.data.JsonPStore":["store.jsonp"
@@ -142,6 +150,8 @@ licensing@sencha.com
         ],
         "Ext.data.ResultSet":[""
         ],
+        "Ext.data.SequentialIdGenerator":["idgen.sequential"
+        ],
         "Ext.data.SortTypes":[""
         ],
         "Ext.data.Store":["store.store"
@@ -153,6 +163,8 @@ licensing@sencha.com
         "Ext.data.TreeStore":["store.tree"
         ],
         "Ext.data.Types":[""
+        ],
+        "Ext.data.UuidGenerator":[""
         ],
         "Ext.data.validations":[""
         ],
@@ -309,6 +321,8 @@ licensing@sencha.com
         ],
         "Ext.util.Inflector":[""
         ],
+        "Ext.util.Memento":[""
+        ],
         "Ext.util.MixedCollection":[""
         ],
         "Ext.util.Observable":[""
@@ -338,6 +352,8 @@ licensing@sencha.com
             "widget.imagecomponent"
         ],
         "Ext.Layer":[""
+        ],
+        "Ext.LoadMask":["widget.loadmask"
         ],
         "Ext.ProgressBar":["widget.progressbar"
         ],
@@ -795,7 +811,7 @@ licensing@sencha.com
         "Ext.data.Writer":"Ext.data.writer.Writer",
         "Ext.data.XmlWriter":"Ext.data.writer.Xml",
         "Ext.Direct.Transaction":"Ext.direct.Transaction",
-        "Ext.AbstractStoreSelectionModel":"Ext.selection.Model",
+        "Ext.AbstractSelectionModel":"Ext.selection.Model",
         "Ext.view.AbstractView":"Ext.view.AbstractView",
         "Ext.FocusMgr":"Ext.FocusManager",
         "Ext.WindowGroup":"Ext.ZIndexManager",
@@ -900,8 +916,7 @@ licensing@sencha.com
         "Ext.KeyMap":"Ext.util.KeyMap",
         "Ext.KeyNav":"Ext.util.KeyNav",
         "Ext.BoundList":"Ext.view.BoundList",
-        "Ext.view.View":"Ext.view.View",
-        "Ext.MessageBox":"Ext.window.MessageBox",
+        "Ext.DataView":"Ext.view.View",
         "Ext.Window":"Ext.window.Window"
     }
 };var scripts = document.getElementsByTagName('script'),

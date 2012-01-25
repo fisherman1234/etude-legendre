@@ -3,8 +3,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>The source code</title>
-  <link href="../prettify/prettify.css" type="text/css" rel="stylesheet" />
-  <script type="text/javascript" src="../prettify/prettify.js"></script>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
   <style type="text/css">
     .highlight { display: block; background-color: #ddd; }
   </style>
@@ -15,8 +15,8 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js"><span id='Ext-util-KeyNav-method-constructor'><span id='Ext-util-KeyNav'>/**
-</span></span> * @class Ext.util.KeyNav
+  <pre class="prettyprint lang-js"><span id='Ext-util-KeyNav'>/**
+</span> * @class Ext.util.KeyNav
  * &lt;p&gt;Provides a convenient wrapper for normalized keyboard navigation.  KeyNav allows you to bind
  * navigation keys to function calls that will get called when the keys are pressed, providing an easy
  * way to implement custom navigation schemes for any UI component.&lt;/p&gt;
@@ -36,9 +36,6 @@ var nav = new Ext.util.KeyNav(&quot;my-element&quot;, {
     scope : this
 });
 &lt;/code&gt;&lt;/pre&gt;
- * @constructor
- * @param {Mixed} el The element to bind to
- * @param {Object} config The config
  */
 Ext.define('Ext.util.KeyNav', {
     
@@ -64,7 +61,12 @@ Ext.define('Ext.util.KeyNav', {
             tab: 9
         }
     },
-    
+
+<span id='Ext-util-KeyNav-method-constructor'>    /**
+</span>     * Creates new KeyNav.
+     * @param {String/HTMLElement/Ext.Element} el The element or its ID to bind to
+     * @param {Object} config The config
+     */
     constructor: function(el, config){
         this.setConfig(el, config || {});
     },
@@ -72,8 +74,8 @@ Ext.define('Ext.util.KeyNav', {
 <span id='Ext-util-KeyNav-method-setConfig'>    /**
 </span>     * Sets up a configuration for the KeyNav.
      * @private
-     * @param {Mixed} el The element to bind to
-     * @param {Object}A configuration object as specified in the constructor.
+     * @param {String/HTMLElement/Ext.Element} el The element or its ID to bind to
+     * @param {Object} config A configuration object as specified in the constructor.
      */
     setConfig: function(el, config) {
         if (this.map) {
@@ -118,7 +120,7 @@ Ext.define('Ext.util.KeyNav', {
     
 <span id='Ext-util-KeyNav-cfg-disabled'>    /**
 </span>     * @cfg {Boolean} disabled
-     * True to disable this KeyNav instance (defaults to false)
+     * True to disable this KeyNav instance.
      */
     disabled: false,
     
@@ -126,13 +128,13 @@ Ext.define('Ext.util.KeyNav', {
 </span>     * @cfg {String} defaultEventAction
      * The method to call on the {@link Ext.EventObject} after this KeyNav intercepts a key.  Valid values are
      * {@link Ext.EventObject#stopEvent}, {@link Ext.EventObject#preventDefault} and
-     * {@link Ext.EventObject#stopPropagation} (defaults to 'stopEvent')
+     * {@link Ext.EventObject#stopPropagation}.
      */
     defaultEventAction: &quot;stopEvent&quot;,
     
 <span id='Ext-util-KeyNav-cfg-forceKeyDown'>    /**
 </span>     * @cfg {Boolean} forceKeyDown
-     * Handle the keydown event instead of keypress (defaults to false).  KeyNav automatically does this for IE since
+     * Handle the keydown event instead of keypress.  KeyNav automatically does this for IE since
      * IE does not propagate special keys on keypress, but setting this to true will force other browsers to also
      * handle keydown instead of keypress.
      */
