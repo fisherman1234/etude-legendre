@@ -51,7 +51,7 @@ Ext.define('TP.view.activite.List', {
 
         this.columns = [{
             header: 'Date',
-            dataIndex: 'updated_at',
+            dataIndex: 'terme_date',
 						renderer: Ext.util.Format.dateRenderer('Y-m-d'),
             flex: 1
         },{

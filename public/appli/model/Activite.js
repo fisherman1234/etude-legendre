@@ -6,9 +6,7 @@ Ext.define('TP.model.Activite', {
         format: 'json',
         reader: {
             type: 'json',
-            root: 'data',
-		        totalProperty: 'totalSize'
-
+            root: 'data'
         },
         writer: {
             type: 'json',

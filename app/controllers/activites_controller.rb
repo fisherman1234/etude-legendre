@@ -1,5 +1,5 @@
 class ActivitesController < ApplicationController
-  before_filter :authenticate_user!
+  #before_filter :authenticate_user!
   
   # GET /activites
   # GET /activites.xml

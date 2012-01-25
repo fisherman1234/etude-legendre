@@ -5,6 +5,9 @@ Ext.define('TP.controller.Activites', {
     views: ['activite.EditRapport', 'activite.RapportForm', 'activite.EditCourrier', 'activite.CourrierForm', 'TP.view.communication.CourrierForm', 'activite.List', 'activite.EditCall', 'activite.CallForm', 'activite.Overview', 'activite.EditQuote', 'activite.QuoteForm', 'TP.view.expense.QuoteList', 'TP.view.document.ListShort', 'TP.view.communication.DocumentForm', 'TP.view.communication.DocumentForm', 'activite.EditDocument', 'activite.DocumentForm', 'activite.ConvocationForm', 'activite.EditConvocation'],
     init: function() {
         this.control({
+            'activiteCallForm button[action=set_time_to_now]': {
+                click: this.set_time_to_now
+            },
             'activiteList button[action=add_call]': {
                 click: this.addCall
             },
@@ -112,12 +115,20 @@ Ext.define('TP.controller.Activites', {
         200);
         var comWin = Ext.widget('activiteEditCall');
     },
+    set_time_to_now: function(button) {
+        var form = button.up('form');
+        form.form.setValues({
+            terme_date: Ext.util.Format.date(new Date(), 'Y-m-d'),
+            heure: Ext.util.Format.date(new Date(), 'H:m')
+        });
+
+    },
     saveCall: function(button) {
         var comWin = button.up('window');
 
         formActivite = comWin.items.items[0];
         formCommunication = comWin.items.items[1];
-
+        
         if (formActivite.form.isValid() && formCommunication.form.isValid()) {
             activiteRecord = comWin.items.items[0].getRecord();
             communicationRecord = comWin.items.items[1].getRecord();
@@ -407,18 +418,18 @@ Ext.define('TP.controller.Activites', {
         comWin.close();
     },
     addCourrier: function() {
-      //
-      //Clear the datastores & prepares silots to store associated records
-      Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.clear = 'true';
-      Ext.getStore('TP.store.ActiviteToDocuments').load();
-      Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.clear = 'undefined';
-      Ext.getStore('TP.store.ContactToCommunications').proxy.extraParams.clear = 'true';
-      Ext.getStore('TP.store.ContactToCommunications').load();
-      Ext.getStore('TP.store.ContactToCommunications').proxy.extraParams.clear = 'undefined';
+        //
+        //Clear the datastores & prepares silots to store associated records
+        Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.clear = 'true';
+        Ext.getStore('TP.store.ActiviteToDocuments').load();
+        Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.clear = 'undefined';
+        Ext.getStore('TP.store.ContactToCommunications').proxy.extraParams.clear = 'true';
+        Ext.getStore('TP.store.ContactToCommunications').load();
+        Ext.getStore('TP.store.ContactToCommunications').proxy.extraParams.clear = 'undefined';
 
-      dossier_id = Ext.getStore('TP.store.Activites').proxy.extraParams.dossier;
-      Ext.getStore('TP.store.ContactDossiers').proxy.extraParams.dossier = dossier_id;
-      Ext.getStore('TP.store.ContactDossiers').load();
+        dossier_id = Ext.getStore('TP.store.Activites').proxy.extraParams.dossier;
+        Ext.getStore('TP.store.ContactDossiers').proxy.extraParams.dossier = dossier_id;
+        Ext.getStore('TP.store.ContactDossiers').load();
         activite = Ext.ModelManager.create({},
         'TP.model.Activite');
         Ext.getStore('TP.store.Activites').insert(0, activite);
@@ -450,7 +461,6 @@ Ext.define('TP.controller.Activites', {
             }
         },
         200);
-
 
         comWin = Ext.widget('activiteEditCourrier');
     },
@@ -502,9 +512,9 @@ Ext.define('TP.controller.Activites', {
 
         formCommunication = comWin.items.items[1].items.items[1];
         formActivite = comWin.items.items[1].items.items[0];
-        
+
         if (formCommunication.form.isValid() && formActivite.form.isValid()) {
-            
+
             communicationRecord = formCommunication.form.getRecord();
             communicationValues = formCommunication.form.getValues();
             if (typeof communicationRecord == "undefined") { // this is a new com

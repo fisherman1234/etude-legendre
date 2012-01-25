@@ -149,7 +149,7 @@ Ext.define('TP.view.dossier.Edit', {
                         items: [{
                             xtype: 'combo',
                             queryMode: 'local',
-                            fieldLabel: 'Juge controlleur',
+                            fieldLabel: 'Juge contrôleur',
                             anchor: '96%',
                             name: 'juge_controlleur_id',
                             store: 'TP.store.Contacts',

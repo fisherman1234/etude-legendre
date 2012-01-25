@@ -10,8 +10,8 @@ Ext.define('TP.model.Communication', { //
         },
         writer: {
             type: 'json',
-            root: 'communication' //
-            //writeAllFields: false
+            root: 'communication',
+            writeAllFields: false
         }
     },
     fields: ['id', 'sender_id', 'dossier_id', 'subject_id', 'description', 'activite_id', 'message_template_id', 'letter_body', 'is_doc_generated', 'is_sent', 'inbound']

@@ -33,13 +33,23 @@ Ext.define('TP.view.expense.List', {
                 },
                 'TP.model.Expense');
                 Ext.getStore('TP.store.Expenses').insert(0, r);
-								//this.up('gridpanel').getPlugin('rowEditPlugin').startEdit(0, 0);
+								//
+								var a = this;
+								
+								var timer = setInterval(function() {
+                    expense = Ext.getStore('TP.store.Expenses').getAt(0);
+                    if (!expense.phantom) {
+                        a.up('gridpanel').getPlugin('rowEditPlugin').startEdit(0, 0);
+                        clearInterval(timer);
+
+                    }
+                },
+                200);								
             }
         }],
         layout: 'hbox' // The items are arranged horizontally
     }],
     initComponent: function() {
-
         this.columns = [{
             header: 'Modèle',
             dataIndex: 'item_id',

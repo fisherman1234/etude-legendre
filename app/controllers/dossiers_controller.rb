@@ -33,9 +33,10 @@ class DossiersController < ApplicationController
       contact_acteurs = []
       acteur.contact_acteurs.each do |conact|
         @contact_acteurs.push(conact)
-        
-        contact_content = {:id => conact.id, :text => conact.contact.full_name, :qualite_procedurale => conact.qualite_procedurale.try(:description), :institution=>conact.contact.institution.try(:nom), :email => conact.contact.try(:email), :telephone => conact.contact.try(:telephone), :leaf => true}
-        contact_acteurs.push(contact_content)
+        if conact.contact
+          contact_content = {:id => conact.id, :text => conact.contact.full_name, :qualite_procedurale => conact.qualite_procedurale.try(:description), :institution=>conact.contact.institution.try(:nom), :email => conact.contact.try(:email), :telephone => conact.contact.try(:telephone), :leaf => true}
+          contact_acteurs.push(contact_content)
+        end
       end
       content[:children] = contact_acteurs
       tree.push(content)

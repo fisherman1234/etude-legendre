@@ -67,9 +67,7 @@ class CommunicationsController < ApplicationController
   # POST /communications
   # POST /communications.xml
   def create
-    params[:communication][:subject_id] = Iconv.conv('UTF-8//IGNORE//TRANSLIT', 'utf-8', params[:communication][:subject_id])
-    params[:communication][:description] = Iconv.conv('UTF-8//IGNORE//TRANSLIT', 'utf-8', params[:communication][:description])
-    params[:communication][:letter_body] = Iconv.conv('UTF-8//IGNORE//TRANSLIT', 'utf-8', params[:communication][:letter_body])
+
     @communication = Communication.new(params[:communication])
     @communication.dossier_id = params[:dossier]
     @communication.activite_id = params[:activite_id]
@@ -93,9 +91,7 @@ class CommunicationsController < ApplicationController
   # PUT /communications/1
   # PUT /communications/1.xml
   def update
-    params[:communication][:subject_id] = Iconv.conv('UTF-8//IGNORE//TRANSLIT', 'utf-8', params[:communication][:subject_id])
-    params[:communication][:description] = Iconv.conv('UTF-8//IGNORE//TRANSLIT', 'utf-8', params[:communication][:description])
-    params[:communication][:letter_body] = Iconv.conv('UTF-8//IGNORE//TRANSLIT', 'utf-8', params[:communication][:letter_body])
+
     @communication = Communication.find(params[:id])
 
     respond_to do |format|

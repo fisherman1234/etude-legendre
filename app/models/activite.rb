@@ -20,7 +20,13 @@ class Activite < ActiveRecord::Base
   accepts_nested_attributes_for :activite_to_documents, 
                                 :allow_destroy => true
   
+  before_save :set_date
   
+  def set_date
+    if terme_date.nil?
+      self.terme_date = Time.now.to_date
+    end
+  end
   
   def total_expense
     total = 0

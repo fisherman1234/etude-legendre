@@ -101,8 +101,10 @@ class ActeursController < ApplicationController
          content = {:expanded => true, :cls => "folder", :id => acteur.id, :text => acteur.description, :qualite_procedurale => '', :institution=>'', :email => '', :telephone => ''}
          contact_acteurs = []
          acteur.contact_acteurs.each do |con_act|
-           contact_content = {:id => con_act.id, :text => con_act.contact.full_name, :qualite_procedurale => con_act.qualite_procedurale.try(:description), :institution=>con_act.contact.institution.try(:nom), :email => con_act.contact.try(:email), :telephone => con_act.contact.try(:telephone), :leaf => true}
-           contact_acteurs.push(contact_content)
+           if con_act.contact
+             contact_content = {:id => con_act.id, :text => con_act.contact.full_name, :qualite_procedurale => con_act.qualite_procedurale.try(:description), :institution=>con_act.contact.institution.try(:nom), :email => con_act.contact.try(:email), :telephone => con_act.contact.try(:telephone), :leaf => true}
+             contact_acteurs.push(contact_content)
+            end
          end
         content[:children] = contact_acteurs
         tree.push(content)

@@ -67,7 +67,7 @@ TypeInstitution.create(:description => "Cabinet d'expert")
 TypeInstitution.create(:description => "Société d'assurance")
 
 QualiteProcedurale.delete_all
-QualiteProcedurale.create(:description => "Juge controlleur")		
+QualiteProcedurale.create(:description => "Juge contrôleur")		
 QualiteProcedurale.create(:description => "Juge mission")
 QualiteProcedurale.create(:description => "Demandeur")	
 QualiteProcedurale.create(:description => "Défendeur")		

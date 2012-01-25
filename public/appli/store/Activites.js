@@ -1,6 +1,4 @@
 Ext.define('TP.store.Activites', {
     extend: 'Ext.data.Store',
-    model: 'TP.model.Activite',
-    //autoLoad: true,
-
+    model: 'TP.model.Activite'
 });
