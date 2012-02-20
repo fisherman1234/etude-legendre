@@ -8,6 +8,9 @@ Ext.define('TP.controller.Activites', {
             'activiteCallForm button[action=set_time_to_now]': {
                 click: this.set_time_to_now
             },
+            'activiteCourrierForm button[action=set_time_to_now]': {
+                click: this.set_time_to_now
+            },
             'activiteList button[action=add_call]': {
                 click: this.addCall
             },

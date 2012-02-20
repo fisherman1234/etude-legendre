@@ -126,9 +126,8 @@ Ext.define('TP.controller.Contacts', {
     addAllContactsToCom: function() {
         records = Ext.getStore('TP.store.ContactDossiers').data.items;
 
-        activite = Ext.ModelManager.create({},
-        'TP.model.Activite');
-        Ext.getStore('TP.store.Activites').insert(0, activite);
+        //activite = Ext.ModelManager.create({},'TP.model.Activite');
+        //Ext.getStore('TP.store.Activites').insert(0, activite);
 
         Ext.each(records, function(record, index) {
             concom = Ext.ModelManager.create({

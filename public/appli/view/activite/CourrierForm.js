@@ -62,6 +62,13 @@ Ext.define('TP.view.activite.CourrierForm', {
                 allowBlank: false,
                 increment: 30
 
+            },
+            {
+                xtype: "button",
+                margin: '0 0 0 4',
+                flex: 0.1,
+                action: 'set_time_to_now',
+                icon: '/images/clock_play.png'
             }]
         },
         {

@@ -63,6 +63,7 @@ Ext.apply(Ext.util.Format, {
     defaultDateFormat: 'Y-M-d'
 });
 
+// pour ne pas avoir le byg avec u200b
 Ext.override(Ext.form.HtmlEditor, {
     defaultValue: '<!-- Will be removed by the editor -->',
     cleanDefaultValue: true,
