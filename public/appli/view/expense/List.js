@@ -219,8 +219,11 @@ Ext.define('TP.view.expense.List', {
         {
             header: 'Total HT',
             width: 80,
-            dataIndex: 'total_ht',
-            summaryType: 'sum'
+            renderer: function(value, meta, record) {
+                qte = record.data.quantite || 0;
+                montant = record.data.prix_unitaire || 0;
+                return qte * montant;
+            }
 
         },
         {
