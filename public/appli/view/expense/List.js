@@ -82,7 +82,7 @@ Ext.define('TP.view.expense.List', {
                             description: value[0].data.description,
                             unite_id: value[0].data.unite_id,
                             taux_tva_id: value[0].data.taux_tva_id,
-                            prix_unitaire: value[0].data.unite_id,
+                            prix_unitaire: value[0].data.prix_unitaire,
                             categorie_id: value[0].data.categorie_id
 
                         });
