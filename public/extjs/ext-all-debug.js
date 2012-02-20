@@ -74507,7 +74507,8 @@ Ext.define('Ext.form.field.HtmlEditor', {
             me.syncValue();
         }
         value = me.rendered ? me.textareaEl.dom.value : me.value;
-        me.value = value;
+
+        me.value = value;        
         return value;
     },
 

@@ -517,6 +517,12 @@ Ext.define('TP.controller.Activites', {
 
             communicationRecord = formCommunication.form.getRecord();
             communicationValues = formCommunication.form.getValues();
+            
+            console.log(communicationValues);
+            communicationValues.description = communicationValues.description.replace(/\\u200B/, '');
+            communicationValues.letter_body = communicationValues.letter_body.replace(/\\u200B/, '');
+            communicationValues.subject_id = escape(communicationValues.subject_id);
+            
             if (typeof communicationRecord == "undefined") { // this is a new com
                 communicationRecord = Ext.getStore('TP.store.Communications').getAt(0);
             }

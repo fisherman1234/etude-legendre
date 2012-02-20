@@ -62,3 +62,18 @@ Ext.ModelManager.create = function(config, name, id) {
 Ext.apply(Ext.util.Format, {
     defaultDateFormat: 'Y-M-d'
 });
+
+Ext.override(Ext.form.HtmlEditor, {
+    defaultValue: '<!-- Will be removed by the editor -->',
+    cleanDefaultValue: true,
+    cleanHtml: function(html) {
+        html = String(html);
+        if(Ext.isWebKit){
+            html = html.replace(/\sclass="(?:Apple-style-span|khtml-block-placeholder)"/gi, '');
+        }
+        if(this.cleanDefaultValue){
+            html = html.replace(new RegExp(this.defaultValue), '');
+        }
+        return html;
+    }
+});

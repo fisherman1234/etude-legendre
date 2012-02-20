@@ -91,9 +91,8 @@ class CommunicationsController < ApplicationController
   # PUT /communications/1
   # PUT /communications/1.xml
   def update
-
     @communication = Communication.find(params[:id])
-
+    
     respond_to do |format|
       if @communication.update_attributes(params[:communication])
         format.html { redirect_to(@communication, :notice => 'Communication was successfully updated.') }
