@@ -44,7 +44,7 @@ class ExportController < ApplicationController
     end
     i = 4
     @dossier.documents.each do |document|
-      sheet1.row(i).push document.description, document.file_file_name, document.file_file_size.to_s, document.file_updated_at, document.generate_link, document.contact.full_name, document.created_at
+      sheet1.row(i).push document.description, document.file_file_name, document.file_file_size.to_s, document.file_updated_at, document.generate_link, document.contact.try(:full_name), document.created_at
       i=i+1
     end
     book.write "#{RAILS_ROOT}/tmp/documents.xls"
