@@ -89,7 +89,7 @@ class ExportController < ApplicationController
       k = k+1
     end
     i = 4
-    expenses.sort_by(&:item_id).each do |expense|
+    expenses.sort_by! { |a| [ a.item_id || 0 ]}.each do |expense|
       sheet1.row(i).push expense.categorie.try(:description), expense.date_item, expense.description, expense.prix_unitaire, expense.quantite, expense.unite.try(:description), expense.taux_tva.description, expense.prix_unitaire*expense.quantite
       i=i+1
     end
