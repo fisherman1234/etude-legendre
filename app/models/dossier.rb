@@ -1,18 +1,18 @@
 class Dossier < ActiveRecord::Base
-  has_many :acteurs
+  has_many :acteurs, :dependent => :destroy
   belongs_to :type_decision
   belongs_to :type_expertise
   belongs_to :institution
 
-  has_many :documents
-  has_many :activites
+  has_many :documents, :dependent => :destroy
+  has_many :activites, :dependent => :destroy
   has_paper_trail
   belongs_to :parametres_cabinet
   belongs_to :user
-  has_many :consignations
+  has_many :consignations, :dependent => :destroy
   belongs_to :type_etat_dossier
-  has_many :communications
-  has_many :reminders
+  has_many :communications, :dependent => :destroy
+  has_many :reminders, :dependent => :destroy
   has_many :contact_acteurs, :through => :acteurs 
   
   
