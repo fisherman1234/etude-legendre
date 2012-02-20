@@ -219,10 +219,15 @@ Ext.define('TP.view.expense.List', {
         {
             header: 'Total HT',
             width: 80,
+            dataIndex: 'total_ht',
             renderer: function(value, meta, record) {
-                qte = record.data.quantite || 0;
-                montant = record.data.prix_unitaire || 0;
-                return qte * montant;
+                if (value !== null) {
+                    a = Ext.getStore('TP.store.TauxTvas').findRecord('id', value);
+                    if (a !== null) {
+                        return a.data.description;
+                    }
+                }
+                
             }
 
         },

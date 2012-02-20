@@ -47,7 +47,7 @@ class DossiersController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @dossier }
-      format.json { render :json => {:dossier => @dossier.attributes.merge(:institution_nom => @dossier.institution.nom, :type_etat_dossier_description => @dossier.type_etat_dossier.try(:description), :juge_mission_id => @dossier.juge_mission.try(:contact_id), :juge_controlleur_id => @dossier.juge_controlleur.try(:contact_id)), :activites => @dossier.activites, :expenses => @dossier.expenses, :reminders => @dossier.reminders, :documents => @dossier.documents, :acteurs =>@acteurs, :communications => @dossier.communications, :contact_acteurs=>@contact_acteurs, :tree => tree}}
+      format.json { render :json => {:dossier => @dossier.attributes.merge(:institution_nom => @dossier.institution.nom, :type_etat_dossier_description => @dossier.type_etat_dossier.try(:description), :juge_mission_id => @dossier.juge_mission.try(:contact_id), :juge_controlleur_id => @dossier.juge_controlleur.try(:contact_id)), :activites => @dossier.activites, :expenses => @dossier.expenses.map {|p| p.attributes.merge(:total_ht => p.total, :total_ttc => p.total_ttc, :activite_name => p.activite.try(:description)), :reminders => @dossier.reminders, :documents => @dossier.documents, :acteurs =>@acteurs, :communications => @dossier.communications, :contact_acteurs=>@contact_acteurs, :tree => tree}}
       format.pdf {
         html = render_to_string( :action => "show")
         kit = PDFKit.new(html,  :page_size => 'A4')
