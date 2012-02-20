@@ -51,13 +51,14 @@ Ext.Ajax.on('requestexception', function(conn, response, options, e) {
         window.location = '/login';
     }
 });
-
+// fix for internalId and loadData 
 Ext.ModelManager.create = function(config, name, id) {
     var con = (typeof name == 'function') ? name : this.types[name || config.name];
 
     return new con(config, id || config[con.prototype.idProperty]);
 };
 
+// for test purpose ... don't know if it really works ....
 Ext.apply(Ext.util.Format, {
     defaultDateFormat: 'Y-M-d'
 });

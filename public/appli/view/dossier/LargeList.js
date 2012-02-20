@@ -72,6 +72,11 @@ function formatHeaderDossier(value) {
     if (actistore.isLoading()) {
         setTimeout(formatHeaderDossier(value), 1000);
     } else {
-        return actistore.findRecord('id', value).data.description;
+        if (typeof actistore.findRecord('id', value) != 'undefined' && actistore.findRecord('id', value) !== null)
+        {
+          return actistore.findRecord('id', value).data.description;
+        }
+        else
+          return "";
     }
 }
