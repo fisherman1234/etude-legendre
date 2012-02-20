@@ -191,10 +191,7 @@ Ext.define('TP.view.expense.QuoteList', {
         {
             header: 'Total HT',
             width: 80,
-            dataIndex: 'total_ht',
-            renderer: function(value, meta, record) {
-                return record.data.quantite * record.data.prix_unitaire;
-            }
+            dataIndex: 'total_ht'
 
         },
         {
