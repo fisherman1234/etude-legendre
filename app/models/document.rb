@@ -10,6 +10,8 @@ class Document < ActiveRecord::Base
   has_attached_file :file,
     :storage => :s3,
     :bucket => 'etude-legendre',
+    :url => "/system/:hash.:extension",
+    :hash_secret => "longSecretString",
     :s3_permissions => 'authenticated-read',
     :s3_credentials => {
       :access_key_id => 'AKIAJN75XNBEIO2RQGMQ',

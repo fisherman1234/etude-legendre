@@ -24,6 +24,8 @@ class ParametresCabinet < ActiveRecord::Base
   has_attached_file :logo,
     :storage => :s3,
     :bucket => 'etude-legendre',
+    :url => "/system/:hash.:extension",
+    :hash_secret => "longSecretString",
     :s3_permissions => 'authenticated-read',
     :s3_credentials => {
       :access_key_id => 'AKIAJN75XNBEIO2RQGMQ',
@@ -32,12 +34,16 @@ class ParametresCabinet < ActiveRecord::Base
     
   has_attached_file :papier_en_tete,
     :storage => :s3,
+    :url => "/system/:hash.:extension",
+    :hash_secret => "longSecretString",
     :bucket => 'etude-legendre',
     :s3_permissions => 'authenticated-read',
     :s3_credentials => {
       :access_key_id => 'AKIAJN75XNBEIO2RQGMQ',
       :secret_access_key => '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'
     }
+    
+
   
   validates_attachment_content_type :logo, :content_type => ['image/jpeg', 'image/png']
   

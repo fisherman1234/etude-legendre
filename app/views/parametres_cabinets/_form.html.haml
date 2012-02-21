@@ -1,5 +1,5 @@
 #parameter-content
-  - form_for(@parametres_cabinet) do |f| 
+  - form_for @parametres_cabinet, :html => { :multipart => true }  do |f| 
     %table{:border => "0", :class => "main-form"}
       %tr
         %td Nom du cabinet
