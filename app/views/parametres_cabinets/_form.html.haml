@@ -46,8 +46,12 @@
         %td{:COLSPAN=>"5"}= f.text_field :site_internet
 
       %tr
-        %td Papier à en-tête (pdf)
-        %td{:COLSPAN=>"5"}= f.file_field :papier_en_tete
+        %td 
+          Papier à en-tête (pdf)
+          %a{:target => '_blank', :href =>"#{AWS::S3::S3Object.url_for(@parametres_cabinet.papier_en_tete.path.to_s, @parametres_cabinet.papier_en_tete.bucket_name.to_s, :expires_in => 10.year)}"} (Fichier actuel)
+        %td{:COLSPAN=>"3"}= f.file_field :papier_en_tete
+        %td
+          
       %tr
         %td
         %td
