@@ -377,6 +377,14 @@ Ext.define('TP.controller.Activites', {
     },
     addConvocation: function() {
         comWin = Ext.widget('activiteEditConvocation');
+        dossier_id = Ext.getStore('TP.store.Activites').proxy.extraParams.dossier;
+        dossier = Ext.getStore('TP.store.Dossiers').findRecord('id', dossier_id);
+        comWin.down('form').form.setValues({
+            adresse1: dossier.data.adresse1,
+            adresse2: dossier.data.adresse2,
+            code_postal: dossier.data.code_postal,
+            ville: dossier.data.ville
+        });
         comWin.show();
 
     },

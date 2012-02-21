@@ -24,11 +24,11 @@ Ext.define('TP.view.activite.ConvocationForm', {
             listeners: {
                 change: {
                     fn: function(field, newValue, oldValue) {
-                        if (newValue == 5){
-													this.up('form').items.items[1].items.items[1].disable();
-												} else {
-													this.up('form').items.items[1].items.items[1].enable();
-												}
+                        if (newValue == 5) {
+                            this.up('form').items.items[1].items.items[1].disable();
+                        } else {
+                            this.up('form').items.items[1].items.items[1].enable();
+                        }
                     }
                 }
             }

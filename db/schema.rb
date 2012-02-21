@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120220204755) do
+ActiveRecord::Schema.define(:version => 20120221091319) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -228,6 +228,11 @@ ActiveRecord::Schema.define(:version => 20120220204755) do
     t.string   "recap_frais_content_type"
     t.integer  "recap_frais_file_size"
     t.datetime "recap_frais_updated_at"
+    t.string   "adresse1"
+    t.string   "adresse2"
+    t.string   "adresse3"
+    t.string   "code_postal"
+    t.string   "ville"
   end
 
   create_table "drop_type_adresses", :force => true do |t|

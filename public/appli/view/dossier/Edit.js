@@ -54,7 +54,7 @@ Ext.define('TP.view.dossier.Edit', {
                             valueField: 'id',
                             hiddenName: 'type_expertise_id',
                             forceSelection: true,
-														allowBlank: false,
+                            allowBlank: false,
                             queryMode: 'local'
 
                         },
@@ -91,7 +91,7 @@ Ext.define('TP.view.dossier.Edit', {
                     valueField: 'id',
                     hiddenName: 'institution_id',
                     forceSelection: true,
-										allowBlank: false
+                    allowBlank: false
 
                 },
                 {
@@ -105,7 +105,7 @@ Ext.define('TP.view.dossier.Edit', {
                     valueField: 'id',
                     hiddenName: 'type_decision_id',
                     forceSelection: true,
-										allowBlank: false
+                    allowBlank: false
 
                 },
 
@@ -228,13 +228,63 @@ Ext.define('TP.view.dossier.Edit', {
 
                     }]
                 }]
-            }
+            },
+            {
+                xtype: 'fieldset',
+                padding: 5,
+                title: 'Adresse du dossier',
+                items: [{
+                    layout: 'anchor',
+                    margin: 5,
+                    border: false,
+                    items: [{
+                        xtype: 'textfield',
+                        fieldLabel: 'Adresse',
+                        anchor: '96%',
+                        name: 'adresse1'
+                    },
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'Adresse',
+                        anchor: '96%',
+                        name: 'adresse2'
+                    },
+                    {
+                        xtype: 'container',
+                        layout: 'column',
+                        items: [{
 
-            ]
+                            xtype: 'container',
+                            layout: 'anchor',
+                            columnWidth: 0.5,
+                            items: [{
+                                xtype: 'textfield',
+                                fieldLabel: 'Code Postal',
+                                anchor: '96%',
+                                name: 'code_postal'
+                            }]
+                        },
+                        {
+
+                            xtype: 'container',
+                            layout: 'anchor',
+                            columnWidth: 0.5,
+                            items: [{
+                                xtype: 'textfield',
+                                fieldLabel: 'Ville',
+                                anchor: '96%',
+                                name: 'ville'
+                            }]
+                        }]
+
+                    }]
+                }]
+            }]
         }];
-				Ext.getStore('TP.store.CurrentDossiers').on('dossierFullyLoaded', function(record) {
+        Ext.getStore('TP.store.CurrentDossiers').on('dossierFullyLoaded', function(record) {
             this.items.items[0].loadRecord(record);
-        }, this);
+        },
+        this);
         this.buttons = [{
             text: 'Enregistrer',
             action: 'save'

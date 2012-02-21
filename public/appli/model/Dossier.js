@@ -95,5 +95,20 @@ Ext.define('TP.model.Dossier', {
     },
     {
         "name": "juge_controlleur_id"
+    },
+    {
+        "name": "adresse1"
+    },
+    {
+        "name": "adresse2"
+    },
+    {
+        "name": "adresse3"
+    },
+    {
+        "name": "code_postal"
+    },
+    {
+        "name": "ville"
     }]
 });
