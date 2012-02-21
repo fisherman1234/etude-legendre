@@ -18,7 +18,7 @@ Ext.define('TP.view.dossier.Summary', {
     title: 'Informations',
     store: 'Dossiers',
     tplMarkup: ['<h1>Nom du dossier: {nom_dossier}</h1>', '<h1>Références cabinet: {ref_cabinet}</h1>', '<h2>Etat du dossier: {type_etat_dossier_id:this.renderEtatDossier}</h2>', "</h2>Avis de désignation le: {date_avis_designation:date}</h2>"],
-    tplMarkupExport: ['<h1>Export :</h1><a href=/export/contacts?id={id}>Exporter la liste des contacts</a><br/>', '<a href=/export/documents?id={id}>Exporter la liste des documents</a><br/><a href=/export/expenses?id={id}>Exporter la liste des dépenses</a>','<br/><br/><a href="javascript: if (confirm(\'Confirmer la suppression ?\')) { window.location.href=\'/dossiers/{id}/destroy\' } else { void(\'\') };">Supprimer ce dossier</a>'],
+    tplMarkupExport: ['<h1>Export :</h1><a href=/export/contacts?id={id}>Exporter la liste des contacts</a><br/>', '<a href=/export/convocations?id={id}>Exporter la liste des convocations</a><br/>', '<a href=/export/documents?id={id}>Exporter la liste des documents</a><br/><a href=/export/expenses?id={id}>Exporter la liste des dépenses</a>','<br/><br/><a href="javascript: if (confirm(\'Confirmer la suppression ?\')) { window.location.href=\'/dossiers/{id}/destroy\' } else { void(\'\') };">Supprimer ce dossier</a>'],
     startingMarkup: 'Please select a record to see additional details',
     initComponent: function() {
         this.tpl = Ext.create('Ext.Template', this.tplMarkup);

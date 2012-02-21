@@ -75,6 +75,40 @@ class ExportController < ApplicationController
     send_file "#{RAILS_ROOT}/tmp/quote.xls"
   end
   
+  def convocations
+    @dossier = Dossier.find(params[:id])
+    Spreadsheet.client_encoding = 'UTF-8'
+    
+    book = Spreadsheet::Workbook.new
+    @activites = @dossier.activites
+    @convocations = []
+    @activites.each do |act|
+      if act.type_activite.categorie_id == 2
+        @convocations.push(act)
+      end
+    end
+    sheet1 = book.create_worksheet
+    sheet1.row(0).push 'Liste des convocations'
+    
+    sheet1.row(2).push 'Dossier', @dossier.nom_dossier, 'Référence', @dossier.ref_cabinet
+    
+    sheet1.row(4).push 'Type de convocation', "Date", 'Heure', "Adresse"
+    
+    k=0
+    while k < 3
+      sheet1.column(k).width = 20
+      k = k+1
+    end
+    sheet1.column(k).width = 50
+    i = 5
+    @convocations.sort_by! { |a| [ a.terme_date || Time.now ]}.each do |convocation|
+      sheet1.row(i).push convocation.type_activite.description, convocation.terme_date, convocation.heure, [convocation.adresse1, convocation.adresse2, convocation.adresse3, convocation.code_postal, convocation.ville].reject{|s| s.to_s.empty?}.join(' ')
+      i=i+1
+    end
+    book.write "#{RAILS_ROOT}/tmp/convocations.xls"
+    send_file "#{RAILS_ROOT}/tmp/convocations.xls"
+  end
+  
   def full_expenses_sheet(expenses, isDevis)
     sheet1 = @book.create_worksheet(:name => "Liste complète")
     sheet1.row(0).push 'Dossier', @dossier.nom_dossier, 'Référence', @dossier.ref_cabinet

@@ -128,6 +128,7 @@ EtudeLegendre::Application.routes.draw do
   match "export/documents", :to => "export#documents"
   match "export/expenses", :to => "export#expenses"
   match "export/quote", :to => "export#quote"
+  match "export/convocations", :to => "export#convocations"
   
   resources :my_user
   
