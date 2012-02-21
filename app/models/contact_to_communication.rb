@@ -8,6 +8,8 @@ class ContactToCommunication < ActiveRecord::Base
   attr_accessor :partie
   has_attached_file :final_file,
     :storage => :s3,
+    :url => "/system/:hash.:extension",
+    :hash_secret => "longSecretString",
     :bucket => 'etude-legendre',
     :s3_permissions => 'authenticated-read',
     :s3_credentials => {

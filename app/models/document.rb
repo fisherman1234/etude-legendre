@@ -18,7 +18,7 @@ class Document < ActiveRecord::Base
       :secret_access_key => '5Wve1Q0SmeR2PqsFxxPBBhLSkTLaiyEfHY/WWXLA'
     }
     
-    before_post_process :before_post_process
+    after_post_process :before_post_process
     def before_post_process
          self.short_link = nil
          self.long_link = nil

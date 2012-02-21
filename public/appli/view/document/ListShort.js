@@ -33,7 +33,7 @@ Ext.define('TP.view.document.ListShort', {
             dataIndex: 'short_link',
             flex: 1,
             renderer: function(value, meta, record) {
-                return '<a target="_blank" rel="external" href="' + record.data.file_file_name + '">' + '<img src="/images/page.png"> ' + value  + '</a>';
+                return '<a target="_blank" rel="external" href="' + value + '">' + '<img src="/images/page.png"> ' + value  + '</a>';
             }
         },
         {
