@@ -79,16 +79,15 @@ Ext.override(Ext.form.HtmlEditor, {
     }
 });
 // pour le scroll sur ipad
-Ext.override(Ext.Panel, {
-    afterRender: Ext.Panel.prototype.afterRender.createSequence(function() {
+Ext.override(Ext.panel.Panel, {
+    afterRender: Ext.Function.createSequence(Ext.Panel.prototype.afterRender, function() {        
         if (this.getXType() == 'panel') {
             this._getIScrollElement = function() {
                 return (this.el.child('.x-panel-body', true));
             };
         }
-
         //Uncomment below to use iScroll only on mobile devices but use regular scrolling on PCs.
-        if (this.autoScroll && Ext.isMobileDevice) {
+        if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) ) {
             if (this._getIScrollElement) {
                 this._updateIScroll();
                 this.on('afterlayout', this._updateIScroll);
@@ -99,7 +98,8 @@ Ext.override(Ext.Panel, {
     _ensureIScroll: function() {
         if (!this.iScroll) {
             var el = this._getIScrollElement();
-            if (el.children.length > 0) {
+
+            if (el && el.children.length > 0) {
                 this.iScroll = new iScroll(el);
                 this.iScrollTask = new Ext.util.DelayedTask(this._refreshIScroll, this);
             }
@@ -120,19 +120,21 @@ Ext.override(Ext.Panel, {
     }
 });
 
-Ext.override(Ext.tree.TreePanel, {
+Ext.override(Ext.tree.Panel, {
     _getIScrollElement: function() {
         return (this.el.child('.x-panel-body', true));
     }
 });
 
-Ext.override(Ext.grid.GridPanel, {
+Ext.override(Ext.grid.Panel, {
     _getIScrollElement: function() {
-        return (this.el.child('.x-grid3-scroller', true));
+        return (this.el.child('.x-grid-body', true));
     },
 
-    afterRender: Ext.grid.GridPanel.prototype.afterRender.createSequence(function() {
+    afterRender: Ext.Function.createSequence(Ext.grid.Panel.prototype.afterRender, function() {
         //TODO: need to hook into more events and to update iScroll.
-        this.view.on('refresh', this._updateIScroll, this);
+        if (this.viewConfig && this.viewConfig.autoScroll && Ext.isMobileDevice) {
+            this.view.on('refresh', this._updateIScroll, this);
+        }
     })
 });
