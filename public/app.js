@@ -133,7 +133,7 @@ Ext.override(Ext.grid.Panel, {
 
     afterRender: Ext.Function.createSequence(Ext.grid.Panel.prototype.afterRender, function() {
         //TODO: need to hook into more events and to update iScroll.
-        if (this.viewConfig && this.viewConfig.autoScroll && Ext.isMobileDevice) {
+        if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i)) {
             this.view.on('refresh', this._updateIScroll, this);
         }
     })
