@@ -45,6 +45,7 @@ Ext.define('TP.controller.Dossiers', {
     },
 		openDossier: function(grid, record){
 				this.editDossier(grid, record);
+        Ext.getCmp('main_window').items.items[1].getSelectionModel().select(grid.store.indexOf(record));
 				var win = grid.up('window');
         win.close();
 		},
