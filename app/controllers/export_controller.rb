@@ -33,9 +33,9 @@ class ExportController < ApplicationController
     
     book = Spreadsheet::Workbook.new
     sheet1 = book.create_worksheet
+    sheet1.name = "Documents reçus"
     sheet1.row(0).push 'Dossier', @dossier.nom_dossier, 'Référence', @dossier.ref_cabinet
     sheet1.row(1).push 'Liste des documents'
-    
     sheet1.row(3).push 'Description', "Nom du fichier", 'Taille', "Mise à jour", "Lien", "Emetteur", "Enregistré le", "Type de document"
     k=0
     while k < 8
