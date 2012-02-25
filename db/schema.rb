@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120221091319) do
+ActiveRecord::Schema.define(:version => 20120225154546) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -346,6 +346,7 @@ ActiveRecord::Schema.define(:version => 20120221091319) do
     t.string   "papier_en_tete_content_type"
     t.integer  "papier_en_tete_file_size"
     t.datetime "papier_en_tete_updated_at"
+    t.boolean  "add_destinataire_to_courrier"
   end
 
   create_table "qualite_procedurales", :force => true do |t|

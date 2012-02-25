@@ -1,55 +1,35 @@
 %div#page-content-inner
 
-  #sender_adress
-    = @communication.contact.genre_adresse
-    = @communication.contact.prenom
-    = @communication.contact.nom
-    %br
-    = @communication.contact.adresse1
-    - if !@communication.contact.adresse2.empty?
+
+  %br
+  %br
+  %br
+  %br
+  %br
+  #recipient_adress  
+    - if @dossier.parametres_cabinet.add_destinataire_to_courrier
+      = @contact.genre_adresse
+      = @contact.prenom
+      = @contact.nom
       %br
-      = @communication.contact.adresse2
-    - if !@communication.contact.adresse3.empty?
+      = @contact.adresse1
+      - if !@contact.adresse2.empty?
+        %br
+        = @contact.adresse2
+      - if !@contact.adresse3.empty?
+        %br
+        = @contact.adresse3
       %br
-      = @communication.contact.adresse3
-    %br
-    = @communication.contact.code_postal
-    = @communication.contact.ville
-    %br
-    = @communication.contact.pays
-    
-    - if !@communication.contact.telephone.empty?
+      = @contact.code_postal
+      = @contact.ville
       %br
-      Tel : 
-      = @communication.contact.telephone
-    - if !@communication.contact.fax.empty?
+      = @contact.pays
+    - else
       %br
-      Fax : 
-      = @communication.contact.fax
-    - if !@communication.contact.email.empty?
       %br
-      Email : 
-      = @communication.contact.email.downcase
-    
-      
-      
-  #recipient_adress
-    = @contact.genre_adresse
-    = @contact.prenom
-    = @contact.nom
-    %br
-    = @contact.adresse1
-    - if !@contact.adresse2.empty?
       %br
-      = @contact.adresse2
-    - if !@contact.adresse3.empty?
       %br
-      = @contact.adresse3
-    %br
-    = @contact.code_postal
-    = @contact.ville
-    %br
-    = @contact.pays
+      %br
     
   #date-adresse
     
@@ -64,6 +44,19 @@
     %br
     N/Réf : 
     = @dossier.ref_cabinet
+    %br
+    Contact :
+    = @communication.contact.prenom
+     
+    = @communication.contact.nom
+    - if !@communication.contact.telephone.empty?
+      %br
+      Tel : 
+      = @communication.contact.telephone
+    - if !@communication.contact.email.empty?
+      %br
+      Email : 
+      = @communication.contact.email.downcase
     - if @dossier.numero_service_expertise
       %br
       N° S.E. :
@@ -94,9 +87,17 @@
   
   #autres-destinataires
     - if @other_recipients.count != 0
-      Copie à : 
+      Destinataires : 
       %ul
         - @other_recipients.each do |concom_autre|
+          %li
+          = concom_autre.contact.prenom
+          = concom_autre.contact.nom
+      %br
+    - if @other_copy.count != 0
+      Copie à : 
+      %ul
+        - @other_copy.each do |concom_autre|
           %li
           = concom_autre.contact.prenom
           = concom_autre.contact.nom

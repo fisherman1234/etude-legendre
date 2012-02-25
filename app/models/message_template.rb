@@ -27,7 +27,9 @@ class MessageTemplate < ActiveRecord::Base
       :@template_signature => Liquid::Template.parse(@expert.signature_lettres), 
       :@template => Liquid::Template.parse(@message_template.letter_body), 
       :@template_sujet => Liquid::Template.parse(@message_template.mail_subject), 
-      :@other_recipients=>@communication.contact_to_communications.find(:all, :conditions => ["id != ?", @concom.id]), 
+      :@other_recipients=>@communication.contact_to_communications.find(:all, :conditions => ["id != ? and transmission_medium_id != 1", @concom.id]), 
+      :@other_copy=>@communication.contact_to_communications.find(:all, :conditions => ["id != ? and transmission_medium_id = 1", @concom.id]), 
+      
       :@communication=>@concom.communication, 
       :@dossier=>@communication.dossier, 
       :@expert=> @dossier.user})

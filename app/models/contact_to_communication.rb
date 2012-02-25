@@ -69,7 +69,8 @@ class ContactToCommunication < ActiveRecord::Base
     @contact = self.contact
     @communication = self.communication
     @dossier = @communication.dossier
-    @other_recipients = @communication.contact_to_communications.find(:all, :conditions => ["id != ? AND transmission_medium_id !=0", @concom.id])
+    @other_recipients = @communication.contact_to_communications.find(:all, :conditions => ["id != ? AND (transmission_medium_id = 2 OR transmission_medium_id=3)", @concom.id])
+    @other_copy = @communication.contact_to_communications.find(:all, :conditions => ["id != ? AND transmission_medium_id =1", @concom.id])
     @expert = @dossier.user.contacts.first
     
     @template_signature = Liquid::Template.parse(@dossier.user.signature_lettres)
@@ -88,6 +89,7 @@ class ContactToCommunication < ActiveRecord::Base
       :@template => @template, 
       :@template_sujet => @template_sujet, 
       :@other_recipients=>@other_recipients, 
+      :@other_copy => @other_copy,
       :@communication=>@communication, 
       :@dossier=>@dossier, 
       :@expert=> @expert})

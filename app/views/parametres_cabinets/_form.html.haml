@@ -51,7 +51,9 @@
           %a{:target => '_blank', :href =>"#{AWS::S3::S3Object.url_for(@parametres_cabinet.papier_en_tete.path.to_s, @parametres_cabinet.papier_en_tete.bucket_name.to_s, :expires_in => 10.year)}"} (Fichier actuel)
         %td{:COLSPAN=>"3"}= f.file_field :papier_en_tete
         %td
-          
+      %tr
+        %td Ajouter l'adresse des destinataires sur les courriers
+        %td= f.check_box :add_destinataire_to_courrier
       %tr
         %td
         %td
