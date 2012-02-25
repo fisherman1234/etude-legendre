@@ -30,10 +30,11 @@ class ExportController < ApplicationController
   def documents
     @dossier = Dossier.find(params[:id])
     Spreadsheet.client_encoding = 'UTF-8'
-    
+    @cabinet_contacts_id_arry = @dossier.parametres_cabinet.users.collect{|l| l.contacts.collect {|u| u.id}}.flatten
     book = Spreadsheet::Workbook.new
     sheet1 = book.create_worksheet
     sheet1.name = "Documents reçus"
+    
     sheet1.row(0).push 'Dossier', @dossier.nom_dossier, 'Référence', @dossier.ref_cabinet
     sheet1.row(1).push 'Liste des documents'
     sheet1.row(3).push 'Description', "Nom du fichier", 'Taille', "Mise à jour", "Lien", "Emetteur", "Enregistré le", "Type de document"
@@ -43,10 +44,28 @@ class ExportController < ApplicationController
       k = k+1
     end
     i = 4
-    @dossier.documents.sort_by{|l| [l.type_document.try(:description) ]}.each do |document|
+    @dossier.documents.where(["contact_id not in (?)", @cabinet_contacts_id_arry]).sort_by{|l| [l.type_document.try(:description) ]}.each do |document|
       sheet1.row(i).push document.description, document.file_file_name, document.file_file_size.to_s, document.file_updated_at, document.generate_link, document.contact.try(:full_name), document.created_at, document.type_document.try(:description)
       i=i+1
     end
+    
+    sheet2 = book.create_worksheet
+    sheet2.name = "Documents émis par le cabinet"
+    
+    sheet2.row(0).push 'Dossier', @dossier.nom_dossier, 'Référence', @dossier.ref_cabinet
+    sheet2.row(1).push 'Liste des documents'
+    sheet2.row(3).push 'Description', "Nom du fichier", 'Taille', "Mise à jour", "Lien", "Emetteur", "Enregistré le", "Type de document"
+    k=0
+    while k < 8
+      sheet2.column(k).width = 20
+      k = k+1
+    end
+    i = 4
+    @dossier.documents.where(["contact_id in (?)", @cabinet_contacts_id_arry]).sort_by{|l| [l.type_document.try(:description) ]}.each do |document|
+      sheet2.row(i).push document.description, document.file_file_name, document.file_file_size.to_s, document.file_updated_at, document.generate_link, document.contact.try(:full_name), document.created_at, document.type_document.try(:description)
+      i=i+1
+    end
+    
     book.write "#{RAILS_ROOT}/tmp/documents.xls"
     send_file "#{RAILS_ROOT}/tmp/documents.xls"
   end
