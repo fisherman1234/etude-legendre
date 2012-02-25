@@ -145,7 +145,7 @@ class ExportController < ApplicationController
       k = k+1
     end
     i = 4
-    sheet.row(3).push "Catégorie", 'Type',  "Total HT", "Taux TVA", "Total TTC"
+    sheet.row(3).push "Catégorie", 'Type',  "Total HT"
     @categories.sort_by(&:description).each do |categorie|
       categorie.items.sort_by(&:description).each do |item|
         expenses = grouped_expenses[item.id]
@@ -157,7 +157,7 @@ class ExportController < ApplicationController
             total_ttc += expense.total_ttc
           end
         end
-        sheet.row(i).push categorie.try(:description), item.try(:description), total_ht, item.taux_tva.description, total_ttc
+        sheet.row(i).push categorie.try(:description), item.try(:description), total_ht
         i+=1
       end
     end
