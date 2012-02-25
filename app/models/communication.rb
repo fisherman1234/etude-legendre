@@ -61,6 +61,28 @@ class Communication < ActiveRecord::Base
         sheet1.row(i).push contact.full_name, contact.email, contact.full_adresse, concom.transmission_medium.try(:description), concom.generate_template_doc_link, @template.render( 'dossier' => @dossier, 'destinataire'=> contact, 'expert' => @expert, 'communication' => @communication) 
         i +=1
       end
+      sheet2 = book.create_worksheet
+      sheet2.name = "Lettre simple"
+      sheet2.row(0).push 'ENTREP', 'CONTACT', 'ADR1', 'ADR2', 'ADR3', 'CP_VILLE'
+      i = 1
+      self.contact_to_communications.each do |concom|
+        if concom.transmission_medium_id == 2
+          contact = concom.contact
+          sheet2.row(i).push contact.institution.try(:nom), contact.full_name, contact.adresse1, contact.adresse2, contact.adresse3, contact.code_postal+' '+contact.ville.to_s.upcase
+          i +=1
+        end
+      end
+      sheet3 = book.create_worksheet
+      sheet3.name = "Lettre recommandée"
+      sheet3.row(0).push 'ENTREP', 'CONTACT', 'ADR1', 'ADR2', 'ADR3', 'CP_VILLE'
+      i = 1
+      self.contact_to_communications.each do |concom|
+        if concom.transmission_medium_id == 3
+          contact = concom.contact
+          sheet3.row(i).push contact.institution.try(:nom), contact.full_name, contact.adresse1, contact.adresse2, contact.adresse3, contact.code_postal+' '+contact.ville.to_s.upcase
+          i +=1
+        end
+      end
       return book
 
   end

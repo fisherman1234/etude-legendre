@@ -6,6 +6,9 @@
   %br
   %br
   %br
+  %br
+  %br
+  %br
   #recipient_adress  
     - if @dossier.parametres_cabinet.add_destinataire_to_courrier
       = @contact.genre_adresse
@@ -31,12 +34,12 @@
       %br
       %br
     
-  #date-adresse
-    
+
   
   #references
     Objet : 
     = raw @template_sujet.render( 'dossier' => @dossier, 'destinataire'=> @contact, 'expert' => @expert, 'communication' => @communication)
+    %br
     -if @concom.contact_acteur && @concom.contact_acteur.references
       %br
       V/Réf : 
@@ -66,6 +69,7 @@
       N° R.G. : 
       = @dossier.numero_role_general
     %br
+    %br
     Dossier :
     = @dossier.nom_dossier
     %br
@@ -77,7 +81,12 @@
       Courrier envoyé par :
       = @concom.transmission_medium.description.capitalize
   
-  
+  #date-adresse
+    = @dossier.parametres_cabinet.ville.capitalize
+    , 
+    = I18n.localize(@communication.activite.terme_date, :format => '%d %B %Y')
+    %br
+    
   #corps-message
     %p #{@contact.genre_lettre},
     %p= raw @template.render( 'dossier' => @dossier, 'destinataire'=> @contact, 'expert' => @expert, 'communication' => @communication) 
@@ -89,19 +98,20 @@
     - if @other_recipients.count != 0
       Destinataires : 
       %ul
-        - @other_recipients.each do |concom_autre|
-          %li
+      - @other_recipients.each do |concom_autre|
+        %li
           = concom_autre.contact.prenom
           = concom_autre.contact.nom
       %br
     - if @other_copy.count != 0
-      Copie à : 
+      Copie par courriel à : 
       %ul
         - @other_copy.each do |concom_autre|
           %li
-          = concom_autre.contact.prenom
-          = concom_autre.contact.nom
+            = concom_autre.contact.prenom
+            = concom_autre.contact.nom
       %br
+
         
   
   %div{:id=>"pieces-jointes", :class=>"pbi_avoid"}

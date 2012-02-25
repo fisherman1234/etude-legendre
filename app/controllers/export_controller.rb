@@ -36,15 +36,15 @@ class ExportController < ApplicationController
     sheet1.row(0).push 'Dossier', @dossier.nom_dossier, 'Référence', @dossier.ref_cabinet
     sheet1.row(1).push 'Liste des documents'
     
-    sheet1.row(3).push 'Description', "Nom du fichier", 'Taille', "Mise à jour", "Lien", "Emetteur", "Enregistré le"
+    sheet1.row(3).push 'Description', "Nom du fichier", 'Taille', "Mise à jour", "Lien", "Emetteur", "Enregistré le", "Type de document"
     k=0
     while k < 8
       sheet1.column(k).width = 20
       k = k+1
     end
     i = 4
-    @dossier.documents.each do |document|
-      sheet1.row(i).push document.description, document.file_file_name, document.file_file_size.to_s, document.file_updated_at, document.generate_link, document.contact.try(:full_name), document.created_at
+    @dossier.documents.sort_by{|l| [l.type_document.try(:description) ]}.each do |document|
+      sheet1.row(i).push document.description, document.file_file_name, document.file_file_size.to_s, document.file_updated_at, document.generate_link, document.contact.try(:full_name), document.created_at, document.type_document.try(:description)
       i=i+1
     end
     book.write "#{RAILS_ROOT}/tmp/documents.xls"
@@ -131,7 +131,7 @@ class ExportController < ApplicationController
   
   def synthesis_expenses_sheet(expenses, isDevis)
     
-    @categories = Categorie.find(:all, :conditions => {:parametres_cabinet_id => expenses.last.dossier.parametres_cabinet_id})
+    @categ = Categorie.find(:all, :conditions => {:parametres_cabinet_id => @dossier.parametres_cabinet_id})
     grouped_expenses = expenses.group_by(&:item_id)
     
     sheet = @book.create_worksheet(:name => "Synthèse")
@@ -146,8 +146,8 @@ class ExportController < ApplicationController
     end
     i = 4
     sheet.row(3).push "Catégorie", 'Type',  "Total HT"
-    @categories.sort_by(&:description).each do |categorie|
-      categorie.items.sort_by(&:description).each do |item|
+    @categ.sort_by(&:description).each do |categorie|
+      categorie.items.find(:all, :conditions => {:parametres_cabinet_id => @dossier.parametres_cabinet_id}).sort_by(&:description).each do |item|
         expenses = grouped_expenses[item.id]
         total_ht = 0
         total_ttc = 0
