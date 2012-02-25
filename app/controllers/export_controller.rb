@@ -130,7 +130,8 @@ class ExportController < ApplicationController
   end
   
   def synthesis_expenses_sheet(expenses, isDevis)
-    @categories = Categorie.all
+    
+    @categories = Categorie.find(:all, :conditions => {:parametres_cabinet_id => expenses.last.dossier.parametres_cabinet_id})
     grouped_expenses = expenses.group_by(&:item_id)
     
     sheet = @book.create_worksheet(:name => "Synthèse")
