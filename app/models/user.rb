@@ -45,6 +45,7 @@ class User < ActiveRecord::Base
     contact.genre_lettre = genre_lettre
     contact.site_web = site_web
     contact.type_intervenant_id = type_intervenant_id
+    contact.parametres_cabinet_id = parametres_cabinet_id
     contact.save
   end
 end
