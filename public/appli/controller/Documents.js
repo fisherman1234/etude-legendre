@@ -16,7 +16,7 @@ Ext.define('TP.controller.Documents', {
                 click: this.deleteDocument
             },
             'documentList': {
-                itemclick: this.editDocument
+                itemdblclick: this.editDocument
             }
         });
     },
