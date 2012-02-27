@@ -44,7 +44,7 @@ class ExportController < ApplicationController
       k = k+1
     end
     i = 4
-    @dossier.documents.where(["contact_id not in (?)", @cabinet_contacts_id_arry]).sort_by{|l| [l.type_document.try(:description) ]}.each do |document|
+    @dossier.documents.where(["contact_id not in (?)", @cabinet_contacts_id_arry]).sort_by{|l| [l.type_document.try(:description) || '']}.each do |document|
       sheet1.row(i).push document.description, document.file_file_name, document.file_file_size.to_s, document.file_updated_at, document.generate_link, document.contact.try(:full_name), document.created_at, document.type_document.try(:description)
       i=i+1
     end
