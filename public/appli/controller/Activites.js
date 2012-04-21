@@ -26,6 +26,10 @@ Ext.define('TP.controller.Activites', {
             'activiteList button[action=courrier_add]': {
                 click: this.addCourrier
             },
+            'activiteEditConvocation button[action=set_place_to_dossier_adress]': {
+                click: this.set_place_to_dossier_adress
+            },
+            
             //Begin EditConvocation
             'activiteEditConvocation button[action=save]': {
                 click: this.saveConvocation
@@ -98,7 +102,19 @@ Ext.define('TP.controller.Activites', {
 
         });
     },
-
+    set_place_to_dossier_adress: function(button){
+      var comWin = button.up('window');
+      
+      dossier_id = Ext.getStore('TP.store.Activites').proxy.extraParams.dossier;
+      dossier = Ext.getStore('TP.store.Dossiers').findRecord('id', dossier_id);
+      comWin.down('form').form.setValues({
+          adresse1: dossier.data.adresse1,
+          adresse2: dossier.data.adresse2,
+          code_postal: dossier.data.code_postal,
+          ville: dossier.data.ville
+      });
+      
+    },
     addCall: function(button) {
         activite = Ext.ModelManager.create({
             type_activite_id: 20
@@ -377,14 +393,14 @@ Ext.define('TP.controller.Activites', {
     },
     addConvocation: function() {
         comWin = Ext.widget('activiteEditConvocation');
-        dossier_id = Ext.getStore('TP.store.Activites').proxy.extraParams.dossier;
+        /*dossier_id = Ext.getStore('TP.store.Activites').proxy.extraParams.dossier;
         dossier = Ext.getStore('TP.store.Dossiers').findRecord('id', dossier_id);
         comWin.down('form').form.setValues({
             adresse1: dossier.data.adresse1,
             adresse2: dossier.data.adresse2,
             code_postal: dossier.data.code_postal,
             ville: dossier.data.ville
-        });
+        });*/
         comWin.show();
 
     },
@@ -428,7 +444,7 @@ Ext.define('TP.controller.Activites', {
 
         comWin.close();
     },
-    addCourrier: function() {
+    addCourrier: function(linked_activite_id) {
         //
         //Clear the datastores & prepares silots to store associated records
         Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.clear = 'true';
@@ -441,8 +457,14 @@ Ext.define('TP.controller.Activites', {
         dossier_id = Ext.getStore('TP.store.Activites').proxy.extraParams.dossier;
         Ext.getStore('TP.store.ContactDossiers').proxy.extraParams.dossier = dossier_id;
         Ext.getStore('TP.store.ContactDossiers').load();
-        activite = Ext.ModelManager.create({},
-        'TP.model.Activite');
+        if (typeof(linked_activite_id) == 'undefined'){
+          activite = Ext.ModelManager.create({},
+          'TP.model.Activite');
+        } else{
+          activite = Ext.ModelManager.create({linked_activite_id: linked_activite_id},
+          'TP.model.Activite');
+        }
+
         Ext.getStore('TP.store.Activites').insert(0, activite);
         Ext.getStore('TP.store.Activites').sync();
         var timer = setInterval(function() {

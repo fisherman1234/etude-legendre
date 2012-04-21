@@ -83,6 +83,9 @@ end
     return self.acteurs.map{|l| [l.description, l.contact_acteurs.map{|u| u.contact}]}
   end
   
+  def avocats
+    contact_acteurs.all.select{|l| l.qualite_procedurale.try(:description) == "Avocat"}.collect{|l| l.contact}
+  end
 
   
   def typeExpertise

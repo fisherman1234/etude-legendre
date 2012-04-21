@@ -20,5 +20,8 @@ class Contact < ActiveRecord::Base
     [genre_adresse,full_name,adresse1,adresse2,adresse3,code_postal,ville ].join(' ')
   end
 
+  def geo_adresse
+    [adresse1,adresse2,adresse3,code_postal,ville ].join(' ')
+  end
 
 end

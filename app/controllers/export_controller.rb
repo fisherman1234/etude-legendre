@@ -7,7 +7,7 @@ class ExportController < ApplicationController
     book = Spreadsheet::Workbook.new
     sheet1 = book.create_worksheet
     sheet1.row(0).push 'Dossier', @dossier.nom_dossier, 'Référence', @dossier.ref_cabinet
-    sheet1.row(3).push 'Partie/Type intervenant', "Role", 'Nom', "Prénom", "Entreprise", "Références", "Note", "Montant devis"
+    sheet1.row(3).push 'Nom', "Prénom", 'Adresse', "Téléphone", "Fax", "Mobile", "Email", "Qualité procédurale", "Rôle dans l'affaire"
     k=0
     while k < 8
       sheet1.column(k).width = 20
@@ -17,8 +17,10 @@ class ExportController < ApplicationController
     @dossier.acteurs.each do |acteur|
       acteur.contact_acteurs.each do |contact_acteur|
         if contact_acteur.contact
+
             
-            sheet1.row(i).push contact_acteur.acteur.description, contact_acteur.qualite_procedurale.description, contact_acteur.contact.try(:nom), contact_acteur.contact.try(:prenom), contact_acteur.contact.institution.try(:nom), contact_acteur.references, contact_acteur.notes, contact_acteur.montant_devis
+            sheet1.row(i).push contact_acteur.contact.try(:nom), contact_acteur.contact.try(:prenom), contact_acteur.contact.try(:geo_adresse), contact_acteur.contact.try(:telephone),contact_acteur.contact.try(:fax),contact_acteur.contact.try(:portable),contact_acteur.contact.try(:email), contact_acteur.qualite_procedurale.description, contact_acteur.role_in_procedure
+
             i +=1
         end
       end
@@ -182,6 +184,31 @@ class ExportController < ApplicationController
     end
         
     
+  end
+  
+  
+  def list_pieces
+    @dossier = Dossier.find(params[:id])
+    Spreadsheet.client_encoding = 'UTF-8'
+    book = Spreadsheet::Workbook.new
+    sheet1 = book.create_worksheet
+    sheet1.name = "Pièces envoyées par les avocats"
+    
+    sheet1.row(0).push 'Dossier', @dossier.nom_dossier, 'Référence', @dossier.ref_cabinet
+    sheet1.row(1).push 'Liste des documents'
+    sheet1.row(3).push "Avocat", 'Numéro de pièce', "Nom du fichier", 'Taille', "Mise à jour", "Lien", "Enregistré le", "Type de document"
+    k=0
+    while k < 8
+      sheet1.column(k).width = 20
+      k = k+1
+    end
+    i = 4
+    @dossier.documents.where(["contact_id in (?)", @dossier.avocats.collect{|l| l.id}]).sort_by!{|l| [l.contact_id, l.type_document.try(:description).to_s]}.each do |document|
+      sheet1.row(i).push document.contact.try(:full_name), document.description, document.file_file_name, document.file_file_size.to_s, document.file_updated_at, document.generate_link,  document.created_at, document.type_document.try(:description)
+      i=i+1
+    end
+    book.write "#{RAILS_ROOT}/tmp/list_pieces.xls"
+    send_file "#{RAILS_ROOT}/tmp/list_pieces.xls"
   end
   
 end

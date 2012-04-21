@@ -84,11 +84,25 @@ Ext.define('TP.view.activite.ConvocationForm', {
             xtype: 'fieldset',
             padding: 5,
             title: 'Adresse de la convocation',
-            items: [{
-                xtype: 'textfield',
-                fieldLabel: "Adresse 1",
+            anchor: '96%',
+            items: [
+            {
+                xtype: 'container',
+                layout: 'hbox',
                 anchor: '96%',
-                name: 'adresse1'
+
+                items: [{
+                    xtype: "button",
+                    margin: '0 4 0 0',
+                    action: 'set_place_to_dossier_adress',
+                    icon: '/images/house_go.png',
+                    tooltip: 'Choisir l\'adresse du dossier'
+                },{
+                    xtype: 'textfield',
+                    fieldLabel: "Adresse 1",
+                    name: 'adresse1',
+                    flex: 1
+                }]
             },
             {
                 xtype: 'textfield',

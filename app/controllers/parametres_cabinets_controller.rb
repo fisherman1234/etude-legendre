@@ -16,7 +16,8 @@ class ParametresCabinetsController < ApplicationController
   # GET /parametres_cabinets/1.xml
   def show
     @parametres_cabinet = current_user.parametres_cabinet
-    @categories = Categorie.find(:all, :conditions => {:parametres_cabinet_id => current_user.parametres_cabinet_id})
+    #@categories = Categorie.find(:all, :conditions => {:parametres_cabinet_id => current_user.parametres_cabinet_id})
+    @categories = Categorie.where(:parametres_cabinet_id => current_user.parametres_cabinet_id)
 
     respond_to do |format|
       format.html # show.html.erb

@@ -5,7 +5,7 @@ gem 'rake', '0.8.7'
 
 gem 'paper_trail'
 gem 'paperclip'
-gem "nested_form", :git => "git://github.com/madebydna/nested_form.git"
+#gem "nested_form", :git => "git://github.com/madebydna/nested_form.git"
 gem 'bitly'
 gem "prawn"
 gem "pdfkit", '0.5.1'
@@ -43,6 +43,7 @@ gem "meta_search"
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'ruby-mysql'
+gem 'pg'
 
 #gem 'sqlite3-ruby', :require => 'sqlite3'
 

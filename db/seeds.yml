@@ -291,7 +291,6 @@ type_activites:
     updated_at: 2011-11-21 23:15:40
     parametres_cabinet_id: 2
     categorie_id: 1
-    message_template_id: 12
   -
     id: 2
     description: Prise de rendez-vous
@@ -299,7 +298,6 @@ type_activites:
     updated_at: 2011-11-21 23:26:58
     parametres_cabinet_id: 2
     categorie_id: 2
-    message_template_id: 35
   -
     id: 3
     description: Convocation accédit n°1
@@ -426,6 +424,22 @@ type_activites:
     updated_at: 2011-08-28 08:31:07
     parametres_cabinet_id: 2
     categorie_id: 22
+  -
+    description: "Courrier : Acceptation de mission"
+    parametres_cabinet_id: 2
+    categorie_id: 1
+  -
+    description: "Courrier : Prise de rendez-vous"
+    parametres_cabinet_id: 2
+    categorie_id: 1
+  -
+    description: "Courrier : Convocation accédit n°1"
+    parametres_cabinet_id: 2
+    categorie_id: 1
+  -
+    description: "Courrier : Note aux parties : compte-rendu d'accédit n°1 + courrier au tribunal"
+    parametres_cabinet_id: 2
+    categorie_id: 1
 type_adresses:
   -
     id: 10

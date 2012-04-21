@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120225154546) do
+ActiveRecord::Schema.define(:version => 20120421151746) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(:version => 20120225154546) do
     t.integer  "message_template_id"
     t.integer  "add_to_gcal"
     t.datetime "date_visite"
+    t.integer  "linked_activite_id"
   end
 
   create_table "categories", :force => true do |t|

@@ -72,6 +72,7 @@ class ContactToCommunication < ActiveRecord::Base
     @other_recipients = @communication.contact_to_communications.find(:all, :conditions => ["id != ? AND (transmission_medium_id = 2 OR transmission_medium_id=3)", @concom.id])
     @other_copy = @communication.contact_to_communications.find(:all, :conditions => ["id != ? AND transmission_medium_id =1", @concom.id])
     @expert = @dossier.user.contacts.first
+    @convocation = Activite.find(@communication.activite.linked_activite_id)
     
     @template_signature = Liquid::Template.parse(@dossier.user.signature_lettres)
     @template = Liquid::Template.parse(@communication.letter_body)
@@ -91,7 +92,8 @@ class ContactToCommunication < ActiveRecord::Base
       :@other_recipients=>@other_recipients, 
       :@other_copy => @other_copy,
       :@communication=>@communication, 
-      :@dossier=>@dossier, 
+      :@dossier=>@dossier,
+      :@convocation => @convocation,
       :@expert=> @expert})
     
     puts "html rendered"

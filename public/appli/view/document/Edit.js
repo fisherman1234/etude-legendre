@@ -14,7 +14,7 @@ Ext.define('TP.view.document.Edit', {
 
             items: [{
                 xtype: 'textfield',
-                fieldLabel: 'Description',
+                fieldLabel: 'Description/No de pièce',
                 name: 'description',
                 margin: 10,
                 allowBlank: false, 
@@ -28,7 +28,8 @@ Ext.define('TP.view.document.Edit', {
                 msgTarget: 'side',
                 buttonText: 'Choisir le fichier...',
                 margin: 10,
-                allowBlank: false
+                allowBlank: false,
+                width: 450
 
             },
             {

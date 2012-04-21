@@ -55,7 +55,7 @@ class MyUserController < ApplicationController
   # PUT /users/1.xml
   def update
     @user = User.find(params[:id])
-
+    params[:my_user].delete(:password) if params[:my_user][:password].empty?
     respond_to do |format|
       if @user.update_attributes(params[:my_user])
         format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
@@ -64,6 +64,8 @@ class MyUserController < ApplicationController
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+        format.json  { render :json => @user.errors, :status => :unprocessable_entity }
+
       end
     end
   end

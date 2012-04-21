@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   has_many :contacts
   has_many :reminders
   has_many :dossiers
-  attr_accessor :full_name
+  attr_accessor :full_name, :nom_complet
   
   
   
