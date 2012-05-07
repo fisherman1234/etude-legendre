@@ -1,7 +1,8 @@
 class ParametresCabinet < ActiveRecord::Base
   require 'zip/zip'
   require 'zip/zipfilesystem'
-  require 'CSV'
+  require 'csv'
+  
   has_many :users, :dependent => :destroy
   has_many :dossiers
   has_many :type_expertises
