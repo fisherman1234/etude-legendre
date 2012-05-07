@@ -23,6 +23,8 @@ Ext.define('TP.controller.Activites', {
             'activiteList button[action=add_convocation]': {
                 click: this.addConvocation
             },
+            
+            
             'activiteList button[action=courrier_add]': {
                 click: this.addCourrier
             },
@@ -34,7 +36,9 @@ Ext.define('TP.controller.Activites', {
             'activiteEditConvocation button[action=save]': {
                 click: this.saveConvocation
             },
-
+            'activiteEditConvocation button[action=editConvocationDoc]': {
+                click: this.editConvocationDoc
+            },
             'activiteEditConvocation button[action=cancelAddConvocation]': {
                 click: this.cancelAddConvocation
             },
@@ -361,7 +365,6 @@ Ext.define('TP.controller.Activites', {
         comWin = button.up("window");
         formActivite = comWin.items.items[0].items.items[0];
         if (typeof formActivite.getRecord() == "undefined") {
-            console.log('cancelAddDocument : this is a new record, we delete');
             activiteRecord = Ext.getStore('TP.store.Activites').getAt(0);
             Ext.getStore('TP.store.Activites').remove(activiteRecord);
             Ext.getStore('TP.store.Activites').sync();
@@ -404,6 +407,48 @@ Ext.define('TP.controller.Activites', {
         comWin.show();
 
     },
+    editConvocationDoc: function(button){
+      comWin = button.up("window");
+
+      formActivite = comWin.items.items[0];
+      values = formActivite.getValues();
+      a = this;
+      // first, save the doc
+      if (formActivite.form.isValid()) {
+          activite = formActivite.getRecord();
+          if (typeof activite == 'undefined') {
+              activite = Ext.ModelManager.create(values, 'TP.model.Activite');
+              Ext.getStore('TP.store.Activites').insert(0, activite);
+
+          } else {
+              activite.set(values);
+          }
+          Ext.getStore('TP.store.Activites').sync();
+          
+          if (activite.data.linked_activite_id !== 0 && Ext.getStore('TP.store.Activites').findRecord('id', activite.data.linked_activite_id) !== null){
+            this.editCourrier(Ext.getStore('TP.store.Activites').findRecord('id', activite.data.linked_activite_id));
+            comWin.close();
+            
+          } else {
+            // wait to receive activite id if needed ...
+            loadText = 'Enregistrement ...';
+            Ext.getBody().mask(loadText, 'loading');
+            index = Ext.getStore('TP.store.Activites').indexOf(activite);
+            var timer = setInterval(function() {
+                var new_activite = Ext.getStore('TP.store.Activites').getAt(index);
+                if (!new_activite.phantom) {
+                    comWin.close();
+                    typeActivite = Ext.getStore('TP.store.TypeActivites').findRecord('id', values.type_activite_id);
+                    a.addCourrier(null, null, null, new_activite.data.id, typeActivite.data.description);
+                    clearInterval(timer);
+                    Ext.getBody().unmask();
+                }
+            },
+            200);
+          }          
+      }
+      
+    },
     saveConvocation: function(button) {
         comWin = button.up("window");
 
@@ -444,7 +489,7 @@ Ext.define('TP.controller.Activites', {
 
         comWin.close();
     },
-    addCourrier: function(linked_activite_id) {
+    addCourrier: function(button, event, el, linked_activite_id, type_activite) {
         //
         //Clear the datastores & prepares silots to store associated records
         Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.clear = 'true';
@@ -457,6 +502,7 @@ Ext.define('TP.controller.Activites', {
         dossier_id = Ext.getStore('TP.store.Activites').proxy.extraParams.dossier;
         Ext.getStore('TP.store.ContactDossiers').proxy.extraParams.dossier = dossier_id;
         Ext.getStore('TP.store.ContactDossiers').load();
+        
         if (typeof(linked_activite_id) == 'undefined'){
           activite = Ext.ModelManager.create({},
           'TP.model.Activite');
@@ -470,6 +516,13 @@ Ext.define('TP.controller.Activites', {
         var timer = setInterval(function() {
             activite = Ext.getStore('TP.store.Activites').getAt(0);
             if (!activite.phantom) {
+                if (typeof(linked_activite_id) != 'undefined'){
+                  var originActi = Ext.getStore('TP.store.Activites').findRecord('id', linked_activite_id);
+                  originActi.set({linked_activite_id:activite.data.id});
+                  Ext.getStore('TP.store.Activites').sync();
+                }
+                
+              
                 Ext.getStore('TP.store.ActiviteToDocuments').proxy.extraParams.activite_id = activite.data.id;
                 // Crée pour un ID
                 communication = Ext.ModelManager.create({},
@@ -496,6 +549,26 @@ Ext.define('TP.controller.Activites', {
         200);
 
         comWin = Ext.widget('activiteEditCourrier');
+        if (typeof(type_activite) != 'undefined'){
+          type_act_record=Ext.getStore('TP.store.TypeActivites').findRecord('description', 'Courrier : '+type_activite);
+          
+          if (typeof(type_act_record)!='undefined' && type_act_record !== null){
+            actForm = comWin.items.items[1].items.items[0];
+            communicationForm = comWin.items.items[1].items.items[1];
+            actForm.items.items[0].setValue(type_act_record.data.id);
+            var msgId = type_act_record.data.message_template_id;
+            
+            if (msgId !== null) {
+                var messageTemplate = Ext.getStore('TP.store.MessageTemplates').findRecord('id', msgId);
+                if (messageTemplate !== null) {
+                    communicationForm.items.items[0].setValue(messageTemplate.data.mail_subject);
+                    communicationForm.items.items[1].setValue(messageTemplate.data.message_body);
+                    communicationForm.items.items[2].setValue(messageTemplate.data.letter_body);
+                }
+
+            }
+          }
+        }
     },
     cancelAddCourrier: function(button) {
         comWin = button.up('window');

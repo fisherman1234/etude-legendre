@@ -193,5 +193,45 @@ Ext.define('TP.store.MessageTemplateFields', {
     {
         field: '{{@communication.subject_id}}',
         description: 'Sujet de la communication'
+    },
+    {
+        field: '{{@convocation.description}}',
+        description: 'Description de la convocation'
+    },
+    {
+        field: '{{@convocation.no_accedit}}',
+        description: 'Numero d\'accedit'
+    },
+    {
+        field: '{{@convocation.terme_date}}',
+        description: 'Date de la convocation'
+    },
+    {
+        field: '{{@convocation.heure}}',
+        description: 'Heure de la convocation'
+    },
+    {
+        field: '{{@convocation.adresse1}}',
+        description: 'Convocation : adresse1'
+    },
+    {
+        field: '{{@convocation.adresse2}}',
+        description: 'Convocation : adresse2'
+    },
+    {
+        field: '{{@convocation.adresse3}}',
+        description: 'Convocation : adresse3'
+    },
+    {
+        field: '{{@convocation.code_postal}}',
+        description: 'Convocation : code postal'
+    },
+    {
+        field: '{{@convocation.ville}}',
+        description: 'Convocation : ville'
+    },
+    {
+        field: '{{@convocation.pays}}',
+        description: 'Convocation : pays'
     }]
 });

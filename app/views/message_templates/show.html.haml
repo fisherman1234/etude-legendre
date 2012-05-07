@@ -89,10 +89,10 @@
     
   #corps-message
     %p #{@contact.genre_lettre},
-    %p= raw @template.render( 'dossier' => @dossier, 'destinataire'=> @contact, 'expert' => @expert, 'communication' => @communication) 
+    %p= raw @template.render( 'dossier' => @dossier, 'destinataire'=> @contact, 'expert' => @expert, 'communication' => @communication, 'convocation' => @convocation) 
     #salutation
       %p Veuillez agréer, #{@contact.genre_lettre}, l'expression de mes salutations distinguées.
-      %p#signature= raw @template_signature.render( 'dossier' => @dossier, 'destinataire'=> @concom, 'expert' => @expert, 'communication' => @communication)
+      %p#signature= raw @template_signature.render( 'dossier' => @dossier, 'destinataire'=> @concom, 'expert' => @expert, 'communication' => @communication, 'convocation' => @convocation)
   
   #autres-destinataires
     - if @other_recipients.count != 0

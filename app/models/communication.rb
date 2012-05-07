@@ -47,6 +47,7 @@ class Communication < ActiveRecord::Base
       
       book = Spreadsheet::Workbook.new
       sheet1 = book.create_worksheet
+      sheet1.name = "Email"
       sheet1.row(0).push 'Dossier', @dossier.nom_dossier, 'Référence', self.activite.description
       sheet1.row(1).push 'Communication', description, 'Date', self.activite.date_visite
       sheet1.row(3).push 'Destinataire', 'Email', 'Adresse', 'Moyen d\'envoi', 'Lien du fichier', 'Corps du mail'
@@ -58,7 +59,7 @@ class Communication < ActiveRecord::Base
       i = 4
       self.contact_to_communications.each do |concom|
         contact = concom.contact
-        sheet1.row(i).push contact.full_name, contact.email, contact.full_adresse, concom.transmission_medium.try(:description), concom.generate_template_doc_link, @template.render( 'dossier' => @dossier, 'destinataire'=> contact, 'expert' => @expert, 'communication' => @communication) 
+        sheet1.row(i).push contact.full_name, contact.email, contact.full_adresse, concom.transmission_medium.try(:description), concom.generate_template_doc_link, @template.render( 'dossier' => @dossier, 'destinataire'=> contact, 'expert' => @expert, 'communication' => self, 'convocation' => Activite.find(self.activite.linked_activite_id)) 
         i +=1
       end
       sheet2 = book.create_worksheet

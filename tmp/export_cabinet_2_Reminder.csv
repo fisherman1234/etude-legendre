@@ -1,0 +1,10 @@
+activite_id,created_at,description,dossier_id,id,priorite,reminder_date,updated_at,user_id
+,2011-08-28 16:47:38 UTC,OKWakak,31,10,,2011-08-24,2011-08-28 16:47:38 UTC,
+,2011-08-28 16:49:57 UTC,Visite Tuiles,31,11,,2011-08-23,2011-08-28 16:49:57 UTC,
+,2011-08-28 19:12:34 UTC,Rappel,32,14,,2011-08-30,2011-08-28 19:12:34 UTC,2
+,2011-08-29 10:37:22 UTC,Premier rappel,34,19,Haute,2011-08-31,2012-01-25 21:38:07 UTC,2
+,2011-11-29 16:22:54 UTC,organiser réunion,42,23,Moyenne,2011-11-30,2011-11-29 18:30:43 UTC,2
+,2012-01-01 23:03:21 UTC,délai pour dire,43,25,Moyenne,2012-02-02,2012-01-01 23:03:21 UTC,2
+,2012-02-16 08:32:46 UTC,Délai courrier,34,27,Moyenne,2012-03-01,2012-02-16 08:32:46 UTC,2
+,2012-02-26 08:30:19 UTC,délai de réponse courrier à Me toto,42,29,Basse,2012-03-12,2012-02-26 08:30:19 UTC,2
+,2012-03-18 05:52:33 UTC,suite tribunal affaire XXX,42,30,Basse,2012-03-30,2012-03-18 05:52:33 UTC,11

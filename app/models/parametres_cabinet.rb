@@ -1,4 +1,7 @@
 class ParametresCabinet < ActiveRecord::Base
+  require 'zip/zip'
+  require 'zip/zipfilesystem'
+  require 'CSV'
   has_many :users, :dependent => :destroy
   has_many :dossiers
   has_many :type_expertises
@@ -140,6 +143,48 @@ class ParametresCabinet < ActiveRecord::Base
   
   def en_tete
     AWS::S3::S3Object.url_for(self.papier_en_tete.path, self.papier_en_tete.bucket_name, :expires_in => 10.year)
+  end
+  
+  def export_full
+    @dossiers = self.dossiers
+    file_name = "export_cabinet_#{id}.zip"
+    pathZip = "#{RAILS_ROOT}/tmp/#{file_name}"
+    %x[rm #{pathZip}]
+    zipfile = Zip::ZipFile.open(pathZip, Zip::ZipFile::CREATE)
+    
+    root_items = %w[User Institution Contact Dossier]
+    root_items.each do |root_item|
+      file_name = "export_cabinet_#{id}_#{root_item}.csv"
+      first = 0
+      CSV.open("#{RAILS_ROOT}/tmp/#{file_name}", "w") do |csv|
+        eval(root_item).where(:parametres_cabinet_id => self.id).each do |object|
+          if first == 0
+            csv << object.attributes.keys
+            first = 1
+          end
+          csv << object.attributes.values
+        end
+      end
+      zipfile.add("#{file_name}", "#{RAILS_ROOT}/tmp/#{file_name}")
+    end
+    
+    child_items = %w[Expense Reminder Document]
+    child_items.each do |child_item|
+      file_name = "export_cabinet_#{id}_#{child_item}.csv"
+      CSV.open("#{RAILS_ROOT}/tmp/#{file_name}", "w") do |csv|
+        first = 0
+        eval(child_item).where('dossier_id in (?)', @dossiers.collect{|l| l.id}).flatten.each do |object|
+          if first == 0
+            csv << object.attributes.keys
+            first = 1
+          end
+          csv << object.attributes.values
+        end
+      end
+      zipfile.add("#{file_name}", "#{RAILS_ROOT}/tmp/#{file_name}")
+    end
+    zipfile.commit
+    return pathZip
   end
 end
 

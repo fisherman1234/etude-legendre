@@ -28,8 +28,11 @@
   = f.submit "Créer cet utilisateur"
 %br
 %br
+%a{:href =>"/export/cabinet?id=#{@parametres_cabinet.id}"} Exporter ce cabinet
+%br
+%br
 %a{:href =>"/parametres_cabinets"} Retour
 |
 %a{:href =>"javascript: if (confirm('Confirmer la suppression ? Cela supprimera également les utilisateurs associés au cabinet')) { window.location.href='/parametres_cabinets/#{@parametres_cabinet.id}/destroy' } else { void('') };"} Supprimer ce cabinet
-  
+
   

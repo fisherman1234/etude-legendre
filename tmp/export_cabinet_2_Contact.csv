@@ -1,0 +1,37 @@
+adresse1,adresse2,adresse3,avocat_au_barreau,civilite,code_postal,contact_medium_id,created_at,email,fax,genre_adresse,genre_lettre,id,institution_id,nom,notes,parametres_cabinet_id,pays,portable,prenom,site_web,telephone,type_intervenant_id,updated_at,user_id,ville
+15 RUE DU ROCHER,"","",DE PARIS,2,75016,2,2011-06-01 14:41:11 UTC,THIBAULT.POISSON+JUDITH_LAW@GMAIL.COM,"",M le juge,M le juge,1,1,LAW,premier exemple de contact,2,FRANCE,"",JUDITH,WWW.LOYERETABELLO.COM,+33.1.23.23.23.23,2,2011-08-11 17:39:36 UTC,,PARIS
+"","","",paris,1,"",1,2011-06-01 14:45:46 UTC,"","",M le juge,M le juge,2,2,WILSON,"",2,"","",CHARLES,THIBAULT.POISSON+CHARLES_WILSON@GMAIL.COM,"",1,2011-08-15 15:12:33 UTC,,""
+ 2 RUE DE LA COMMANDERIE,5° GAUCHE,"",DE PARIS,2,92160,1,2011-06-01 14:47:23 UTC,THIBAULT.POISSON+ROBERT_MISSIONE@GMAIL.COM,+33.1.22.33.44.55,M,M le juge,3,2,MISSIONNÉ,â€‹,2,FRANCE,+33.6.72.66.41.902,AlfredO,"",+33.1.42.37.12.22,1,2011-08-15 22:51:23 UTC,,ANTONY
+"","","","",2,"",1,2011-06-01 14:49:32 UTC,THIBAULT.POISSON+JULIEN_BRAUN@GMAIL.COM,"",M le juge,M le juge,4,1,BRAUN,â€‹,2,"","",Lucien,"","",1,2011-08-29 11:27:51 UTC,,""
+15 RUE DU CLOS DE L'ABBAYE,"","","",2,92160,3,2011-06-05 15:41:53 UTC,"",+33.6.72.66.41.90,M,Monsieur,7,2,POISSONNIER,â€‹,2,FRANCE,"",THIBAULT,"",+33.6.72.66.41.90,,2011-08-15 22:24:28 UTC,,ANTONY
+15 RUE DU CLOS DE L'ABBAYE,"","","",1,92160,1,2011-06-06 08:06:26 UTC,dl.consultant@free.fr,09 55 21 33 78,M,Monsieur,8,3,LEGENDRE,â€‹,2,FRANCE,06 71 64 57 41,Dominique,WWW.RAIDECP.NET,09 50 21 33 78,4,2012-01-01 09:48:06 UTC,,ANTONY
+2 RUE DE L'EXPERT,"",5 RUE DU JUBILE,"",1,92160,,2011-06-09 13:21:22 UTC,"",+33.1.23.34.34.34,"","",11,,POISSON,â€‹,2,FRANCE,"",THIBAULT,"",+33.1.12.12.12.12,,2011-08-15 21:36:11 UTC,,Antony
+2 RUE DE L'EXPERT,"",5 RUE DU JUBILE,"",2,92160,,2011-06-09 13:22:23 UTC,"",+33.1.23.34.34.34,"","",12,,POISSON,â€‹,2,FRANCE,"",THIBAULTS,"",+33.1.12.12.12.12,,2011-08-15 22:09:02 UTC,,Antony
+2 RUE DE L'EXPERT,"",5 RUE DU JUBILE,"",2,92160,,2011-06-09 13:23:01 UTC,"",+33.1.23.34.34.34,"","",13,2,POISSONNIER,â€‹,2,FRANCE,"",THIBAULT,"",+33.1.12.12.12.12,,2011-08-15 23:17:27 UTC,,Antony
+2 RUE DE L'EXPERT,"",5 RUE DU JUBILE,"",1,92160,,2011-06-09 13:43:17 UTC,thibault.poisson@gmail.com,+33.1.23.34.34.34,"","",14,,POISSON,<br>,2,FRANCE,"",Thibault,"",+33.1.12.12.12.12,4,2012-03-18 09:21:45 UTC,2,Antony
+2 RUE DE L'EXPERT,"",5 RUE DU JUBILE,"",0,92160,,2011-08-15 16:46:27 UTC,"",+33.1.23.34.34.34,"","",23,0,POISSON,â€‹,2,FRANCE,"",THIBAULT,"",+33.1.12.12.12.12,,2011-08-15 16:46:27 UTC,,Antony
+"","","","",1,"",,2011-08-15 19:45:18 UTC,"","","","",24,0,"",â€‹,2,"","",Thibault,"","",,2011-08-15 19:45:18 UTC,,""
+"","","","",0,"",,2011-08-15 19:46:31 UTC,"","","","",25,0,"",â€‹,2,"","",qsd,"","",,2011-08-15 19:46:31 UTC,,""
+"","","","",3,"",,2011-08-15 19:53:43 UTC,"","","","",26,0,Blachier,â€‹,2,"","",Ariane,"","",,2011-08-15 19:53:43 UTC,,""
+"","","","",3,"",,2011-08-15 19:55:53 UTC,"","","","",27,0,Blachier2,â€‹,2,"","",Ariane,"","",,2011-08-15 19:55:53 UTC,,""
+"","","","",1,"",,2011-08-15 19:58:16 UTC,"","","","",28,0,De Niro,â€‹,2,"","",RobertAB,"","",,2011-08-15 19:59:35 UTC,,""
+"","","","",2,"",,2011-08-15 22:57:02 UTC,"","","","",30,,Poisson,â€‹,2,"","",Christine,"","",,2011-08-15 22:57:02 UTC,,""
+"","","","",1,"",,2011-08-29 11:31:22 UTC,"","","","",31,2,AM,undefined,2,"","",Z12,"","",2,2011-08-29 11:33:15 UTC,,""
+"","","",,1,"",,2011-08-29 18:07:02 UTC,dl.consultant@free.fr,"","","",40,,Legendre,,2,"",,Dominique,"","",,2012-02-27 09:38:57 UTC,11,""
+"","","",,1,"",,2011-08-30 04:57:17 UTC,dl.consultant@free.fr,"","","",42,,Legendre,,2,"",,Dominique,"","",,2012-02-27 09:38:57 UTC,11,""
+"","","",de Paris,1,"",,2011-09-10 05:51:13 UTC,dl.consultant@free.fr,09 55 21 33 78,Monsieur,Monsieur,43,7,Legendre,undefined,2,"",06 71 64 57 41,D.,"",01 39 78 64 27,,2011-09-10 05:51:13 UTC,,""
+"","","","",2,"",,2011-09-23 16:22:49 UTC,"","",Madame,Madame,44,10,MOUTY-TARDIEU,undefined,2,"","",Julie,"",01 40 97 14 29,1,2011-09-24 04:57:18 UTC,,""
+"","","","",2,"",,2011-09-23 17:03:13 UTC,"","","","",45,10,SIXDENIER,undefined,2,"","",Ghislaine,"",01 40 97 14 29,1,2011-09-24 04:01:21 UTC,,""
+"",7 RUE DU DOCTEUR ALBERT CALMETTE,"","",1,92110,,2011-09-24 03:58:25 UTC,claude.hurel@free.fr,0955 21 33 78,"","",46,,HUREL,â,2,"",06 71 64 57 41,Claude,"",01 39 78 64 27,,2012-03-18 06:37:47 UTC,,CLICHY-LA-GARENNE
+"",45 BD VICTOR HUGO,"","",2,92110,,2011-09-24 04:10:13 UTC,virginie@free.fr,"",Maître,Maître,47,11,MAIZEROI,undefined,2,"","",Virginie,"","",,2012-02-29 05:25:39 UTC,,""
+"","","",Paris,1,"",,2011-09-24 04:33:11 UTC,lesourd-desforges@lesourd-desforges.fr,"","","",48,,CHAMAS,undefined,2,"","",x,"","",2,2011-09-24 04:33:11 UTC,,""
+"","","","",2,"",,2011-11-30 14:59:54 UTC,"","",Madame,Madame le magistrat,50,10,MOUTY-TARDIEU,undefined,2,"","",Julie,"",0140971429,1,2011-11-30 14:59:54 UTC,,""
+"","","","",1,"",,2012-01-01 09:09:19 UTC,"","",Monsieur,Monsieur le Président,53,14,GENICON,undefined,2,"","",François,"","",1,2012-01-01 09:09:19 UTC,,""
+"","","","",1,"",,2012-01-01 09:25:38 UTC,"","",Monsieur,Monsieur,54,,GAILLARD,undefined,2,"","",Nicolas,"","",,2012-01-01 09:25:38 UTC,,""
+"","","",St Malo,2,"",,2012-01-01 09:33:24 UTC,caroline.legoff@avocat-conseil.fr,02 99 40 41 75,Maître,Maître,55,,LE GOFF,undefined,2,"","",Caroline,"",02 99 20 61 50,2,2012-01-01 09:45:18 UTC,,""
+"",RUE DES PRAIRIES,"","",1,35400,,2012-01-01 09:36:10 UTC,"","",Monsieur,Monsieur,56,,CARLO,undefined,2,"","",Hubert ,"","",,2012-01-01 09:36:10 UTC,,SAINT-MALO
+"","","",St-Malo,2,"",,2012-01-01 09:40:11 UTC,igr.avocat@wanadoo.fr,02 99 40 17 08,Maître,Maître,57,,GERARD,undefined,2,"","",Isabelle ,"",02 99 40 08 00,2,2012-01-01 09:40:11 UTC,,""
+"","","","",1,"",,2012-01-02 07:43:36 UTC,"","",Monsieur,Monsieur,58,,DURAND,â,2,"","",Jacques,"","",4,2012-01-02 07:43:36 UTC,,""
+"","","","",2,"",,2012-02-25 18:02:19 UTC,"","",Madame,Madame,60,10,SIXDENIER,"",2,"","",Ghislaine,"","",1,2012-02-25 18:02:19 UTC,,""
+,,,,,,,2012-02-26 10:23:28 UTC,clayre.frogetlegendre@gmail.com,,,,62,,FROGET-LEGENDRE,,2,,,Clayre,,,,2012-02-27 09:38:57 UTC,17,
+,,,,,,,2012-02-27 09:31:49 UTC,ezieuzr@gmail.com,,,,64,,siofudp,,2,,,test2,,,,2012-02-27 09:31:49 UTC,19,

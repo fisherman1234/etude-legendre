@@ -31,6 +31,11 @@ Ext.define('TP.view.activite.EditConvocation', {
 
         },
         {
+            text: 'Editer la convocation',
+            action: 'editConvocationDoc'
+
+        },
+        {
             text: 'Enregistrer',
             action: 'save'
 

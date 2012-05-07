@@ -25,7 +25,8 @@ Ext.define('TP.model.Activite', {
         "name": 'type_activite_id'
     },
     {
-        "name": 'linked_activite_id'
+        "name": 'linked_activite_id',
+        "type": "int"
     },
     {
         "name": "description"

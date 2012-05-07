@@ -22,6 +22,8 @@ class Activite < ActiveRecord::Base
   
   before_save :set_date
   
+  liquid_methods :id, :type_activite_id, :description, :no_accedit, :adresse1, :adresse2, :adresse3, :code_postal, :ville, :pays, :heure, :commentaires, :is_confidentiel, :terme_date, :created_at, :updated_at, :dossier_id, :message_template_id, :add_to_gcal, :date_visite
+  
   def set_date
     if terme_date.nil?
       self.terme_date = Time.now.to_date

@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'CSV'
 class ExportController < ApplicationController
   def partieList
     @dossier = Dossier.find(params[:id])
@@ -210,5 +211,13 @@ class ExportController < ApplicationController
     book.write "#{RAILS_ROOT}/tmp/list_pieces.xls"
     send_file "#{RAILS_ROOT}/tmp/list_pieces.xls"
   end
+  
+  #params[:model] in (User, Institution, Contact, Dossier)
+  def export_cabinet
+    @cabinet = ParametresCabinet.find(params[:id])
+    send_file @cabinet.export_full
+  end
+  
+  
   
 end
