@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'CSV'
+require 'csv'
 class ExportController < ApplicationController
   def partieList
     @dossier = Dossier.find(params[:id])
