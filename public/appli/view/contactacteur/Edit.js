@@ -41,12 +41,6 @@ Ext.define('TP.view.contactacteur.Edit', {
                     anchor: '100%'
                 },
                 {
-                    xtype: 'textfield',
-                    fieldLabel: 'Montant du devis',
-                    name: 'montant_devis',
-                    anchor: '100%'
-                },
-                {
                     xtype: 'textarea',
                     fieldLabel: 'Notes',
                     name: 'notes',
