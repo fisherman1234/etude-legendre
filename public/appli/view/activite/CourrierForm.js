@@ -72,6 +72,18 @@ Ext.define('TP.view.activite.CourrierForm', {
             }]
         },
         {
+            xtype: 'fieldcontainer',
+            fieldLabel: 'Adresse',
+            defaultType: 'checkboxfield',
+            items: [
+                {
+                    boxLabel  : 'Imprimer l\'adresse de correspondance',
+                    name      : 'stamp',
+                    inputValue: '1',
+                    id        : 'checkbox1'
+                }]
+        },
+        {
             xtype: 'button',
             // c'est le même que d'utiliser "new Ext.Button()" (voir doc)
             text: 'Ajouter un rappel',
