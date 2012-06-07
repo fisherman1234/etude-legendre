@@ -8,6 +8,8 @@
       %td= user.full_name
       %td
         %a{:href =>"javascript: if (confirm('Confirmer la suppression ?')) { window.location.href='/users/#{user.id}/destroy' } else { void('') };"} Supprimer
+      %td
+        %a{:href =>"javascript: if (confirm('Confirmer la suppression du mot de passe ?')) { window.location.href='/users/#{user.id}/remove_password' } else { void('') };"} Suspendre le compte
 
 %h1 Créer un utilisateur pour le cabinet
 - form_for(@user) do |f|

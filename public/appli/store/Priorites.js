@@ -3,12 +3,12 @@ Ext.define('TP.store.Priorites', {
     fields: ['description'],
     autoLoad: true,
     data: [{
-        description: 'Basse'
+        description: '0_Basse'
     },
     {
-        description: 'Moyenne'
+        description: '1_Moyenne'
     },
     {
-        description: 'Haute'
+        description: '2_Haute'
     }]
 });

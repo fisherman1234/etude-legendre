@@ -94,6 +94,7 @@ EtudeLegendre::Application.routes.draw do
   match "users/:id/destroy", :to => "users#destroy"
   match "parametres_cabinets/:id/destroy", :to => "parametres_cabinets#destroy"
 
+  match "users/:id/remove_password", :to => "users#remove_password"
   
   match "users/connexion", :to => "users#connexion", :method => :get 
   match "contacts/:id/destroy", :to => "contacts#destroy", :method => :post 

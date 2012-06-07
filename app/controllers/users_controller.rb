@@ -79,6 +79,20 @@ class UsersController < ApplicationController
     end
   end
   
+  # DELETE /dossiers/1
+  # DELETE /dossiers/1.xml
+  def remove_password
+    @user = User.find(params[:id])
+    @user.password = "temporarily_disabled"
+    @user.save
+    respond_to do |format|
+      format.html { redirect_to("/parametres_cabinets/#{@user.parametres_cabinet_id}/edit") }
+      format.xml  { head :ok }
+    end
+  end
+  
+  
+  
   # Current user
   # GET /users/current_user_signed_in
   def current_user_signed_in
