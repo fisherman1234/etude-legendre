@@ -50,11 +50,13 @@ class ConsignationsController < ApplicationController
   # POST /consignations.xml
   def create
     @consignation = Consignation.new(params[:consignation])
+    @consignation.dossier_id = params[:dossier]
 
     respond_to do |format|
       if @consignation.save
         format.html { redirect_to(@consignation, :notice => 'Consignation was successfully created.') }
         format.xml  { render :xml => @consignation, :status => :created, :location => @consignation }
+        format.json {render :json => {"success"=>true,"data"=>@consignation}}        
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @consignation.errors, :status => :unprocessable_entity }
@@ -71,6 +73,8 @@ class ConsignationsController < ApplicationController
       if @consignation.update_attributes(params[:consignation])
         format.html { redirect_to(@consignation, :notice => 'Consignation was successfully updated.') }
         format.xml  { head :ok }
+        format.json {render :json => {"success"=>true,"data"=>@consignation}}
+        
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @consignation.errors, :status => :unprocessable_entity }
@@ -87,6 +91,8 @@ class ConsignationsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(consignations_url) }
       format.xml  { head :ok }
+      format.json {render :json => {"success"=>true,"data"=>[]}}
+      
     end
   end
   
@@ -95,6 +101,7 @@ class ConsignationsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(consignations_url) }
       format.xml  { head :ok }
+      
     end
   end
 end

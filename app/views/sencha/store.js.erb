@@ -1,0 +1,4 @@
+Ext.define('TP.store.<%= @model.to_s.pluralize %>', {
+    extend: 'Ext.data.Store',
+    model: 'TP.model.<%= @model.to_s %>'
+});

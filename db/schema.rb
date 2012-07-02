@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120421151746) do
+ActiveRecord::Schema.define(:version => 20120702152621) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -111,6 +111,8 @@ ActiveRecord::Schema.define(:version => 20120421151746) do
     t.integer  "user_id"
     t.integer  "contact_id"
     t.string   "description"
+    t.float    "amount"
+    t.string   "status"
   end
 
   create_table "contact_acteurs", :force => true do |t|

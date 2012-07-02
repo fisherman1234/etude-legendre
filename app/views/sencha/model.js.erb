@@ -1,0 +1,20 @@
+Ext.define('TP.model.<%= @model.to_s%>', {
+    extend: 'Ext.data.Model',
+    proxy: {
+        type: 'rest',
+        url: '/<%= @model.name.underscore.pluralize.downcase%>',
+        format: 'json',
+        reader: {
+            type: 'json',
+            root: 'data',
+		        totalProperty: 'totalSize'
+
+        },
+        writer: {
+            type: 'json',
+            root: '<%= @model.name.underscore %>',
+            writeAllFields: false
+        }
+    },
+    fields: <%= raw @model.column_names %>
+});

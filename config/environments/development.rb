@@ -12,7 +12,7 @@ EtudeLegendre::Application.configure do
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
   config.action_view.debug_rjs             = true
-  config.action_controller.perform_caching = false
+  #config.action_controller.perform_caching = false
   config.i18n.locale = :fr
   config.i18n.default_locale = :fr
   
@@ -26,5 +26,8 @@ EtudeLegendre::Application.configure do
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
+  
+  config.action_controller.perform_caching = true
+  
 end
 

@@ -54,6 +54,8 @@ Ext.define('TP.store.Dossiers', {
 							Ext.getStore('TP.store.Expenses').loadData(resp.expenses);
 							Ext.getStore('TP.store.Documents').loadData(resp.documents);
 							Ext.getStore('TP.store.ContactActeurs').loadData(resp.contact_acteurs);
+							Ext.getStore('TP.store.Consignations').loadData(resp.consignations);
+
 							Ext.getStore('TP.store.Acteurs').loadData(resp.acteurs);
 							Ext.getStore('TP.store.Communications').loadData(resp.communications);
 							Ext.getStore('TP.store.TreeActeurs').setRootNode(resp.tree);
@@ -90,6 +92,9 @@ Ext.define('TP.store.Dossiers', {
           dossier: dossier_id
       };
 			Ext.getStore('TP.store.TreeActeurs').proxy.extraParams = {
+          dossier: dossier_id //todo
+      };
+      Ext.getStore('TP.store.Consignations').proxy.extraParams = {
           dossier: dossier_id //todo
       };
 		}
