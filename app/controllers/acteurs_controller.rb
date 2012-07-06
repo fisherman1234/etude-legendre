@@ -102,7 +102,7 @@ class ActeursController < ApplicationController
          contact_acteurs = []
          acteur.contact_acteurs.each do |con_act|
            if con_act.contact
-             contact_content = {:id => con_act.id, :text => con_act.contact.full_name, :qualite_procedurale => con_act.qualite_procedurale.try(:description), :institution=>con_act.contact.institution.try(:nom), :email => con_act.contact.try(:email), :telephone => con_act.contact.try(:telephone), :leaf => true}
+             contact_content = {:id => con_act.id, :text => con_act.contact.full_name_inc_civilite, :qualite_procedurale => con_act.qualite_procedurale.try(:description), :institution=>con_act.contact.institution.try(:nom), :email => con_act.contact.try(:email), :telephone => con_act.contact.try(:telephone), :leaf => true}
              contact_acteurs.push(contact_content)
             end
          end
