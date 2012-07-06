@@ -33,16 +33,14 @@ Ext.define('TP.view.contact.EditForm', {
                 xtype: 'textfield',
                 fieldLabel: 'Prénom',
                 anchor: '96%',
-                name: 'prenom',
-                allowBlank: false
+                name: 'prenom'
 
             },
             {
                 xtype: 'textfield',
                 fieldLabel: 'Nom',
                 anchor: '96%',
-                name: 'nom',
-                allowBlank: false
+                name: 'nom'
 
             }]
         },

@@ -11,12 +11,13 @@ Ext.define('TP.view.communication.CallForm', {
             anchor: '96%',
             name: 'sender_id',
             store: 'TP.store.Contacts',
-            displayField: 'nom_complet',
+            displayField: 'full_name',
             valueField: 'id',
             hiddenName: 'sender_id',
             queryMode: 'local',
             forceSelection: true,
             allowBlank: false
+            
         },
         {
             xtype: 'fieldcontainer',

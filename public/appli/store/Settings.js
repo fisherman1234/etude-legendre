@@ -72,5 +72,10 @@ Ext.define('TP.store.Settings', {
         id: 17,
         description: 'Types de documents',
         card_id: 13
+    },
+    {
+        id: 18,
+        description: 'Civilites',
+        card_id: 14
     }]
 });

@@ -58,6 +58,9 @@ Ext.define('TP.view.menu.Settings', {
             },
             {
                 xtype: 'menuTypeDocuments'
+            },
+            {
+                xtype: 'menuCivilites'
             }]
 
         }];

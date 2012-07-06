@@ -8,6 +8,26 @@ Ext.define('TP.store.Contacts', {
                 console.log('updated');
                 store2.load();
             }
-        }
+        },
+        datachanged: function(store){
+          if (typeof(store.lastsync) === 'undefined' || (new Date()-store.lastsync > 10000)){
+            store.lastsync = new Date();
+              console.log(store);
+              store.sort([
+                  {
+                      property : 'nom',
+                      direction: 'ASC'
+                  },
+                  {
+                      property : 'entreprise',
+                      direction: 'ASC'
+                  }
+              ]);
+            }
+          }
+          
+
+          
+
     }
 });

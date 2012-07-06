@@ -7,6 +7,8 @@ class CivilitesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @civilites }
+      format.json {render :json => {"success"=>true,"data"=>@civilites}}
+      
     end
   end
 
@@ -18,6 +20,8 @@ class CivilitesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @civilite }
+      format.json {render :json => {"success"=>true,"data"=>@civilites}}
+      
     end
   end
 
@@ -46,6 +50,8 @@ class CivilitesController < ApplicationController
       if @civilite.save
         format.html { redirect_to(@civilite, :notice => 'Civilite was successfully created.') }
         format.xml  { render :xml => @civilite, :status => :created, :location => @civilite }
+        format.json {render :json => {"success"=>true,"data"=>@civilite}}
+        
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @civilite.errors, :status => :unprocessable_entity }
@@ -61,6 +67,8 @@ class CivilitesController < ApplicationController
     respond_to do |format|
       if @civilite.update_attributes(params[:civilite])
         format.html { redirect_to(@civilite, :notice => 'Civilite was successfully updated.') }
+        format.json {render :json => {"success"=>true,"data"=>@civilite}}
+        
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -78,6 +86,8 @@ class CivilitesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(civilites_url) }
       format.xml  { head :ok }
+      format.json {render :json => {"success"=>true,"data"=>[]}}
+      
     end
   end
 end

@@ -12,7 +12,20 @@ Ext.define('TP.view.contact.EditLight', {
                 xtype: 'container',
                 padding: 10,
                 layout: 'anchor',
-                items: [
+                items: [{
+                    xtype: 'combo',
+                    fieldLabel: "Civilité",
+                    anchor: '96%',
+                    name: 'civilite',
+                    store: 'TP.store.Civilites',
+                    displayField: 'description',
+                    valueField: 'id',
+                    hiddenName: 'civilite',
+                    queryMode: 'local',
+                    forceSelection: true,
+                    allowBlank: false
+
+                },
                 {
                     xtype: 'textfield',
                     fieldLabel: 'Nom',

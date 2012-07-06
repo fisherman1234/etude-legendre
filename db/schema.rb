@@ -160,7 +160,6 @@ ActiveRecord::Schema.define(:version => 20120702152621) do
   create_table "contacts", :force => true do |t|
     t.string   "nom"
     t.string   "prenom"
-    t.integer  "civilite"
     t.string   "adresse1"
     t.string   "adresse2"
     t.string   "adresse3"
@@ -183,6 +182,7 @@ ActiveRecord::Schema.define(:version => 20120702152621) do
     t.integer  "contact_medium_id"
     t.integer  "user_id"
     t.integer  "parametres_cabinet_id"
+    t.integer  "civilite"
   end
 
   create_table "document_to_communications", :force => true do |t|

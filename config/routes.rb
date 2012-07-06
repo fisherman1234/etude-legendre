@@ -133,8 +133,8 @@ EtudeLegendre::Application.routes.draw do
   match "export/list_pieces", :to => "export#list_pieces"
   match "export/cabinet", :to => "export#export_cabinet"
 
-  match "appli/model/:model", :to => "sencha#model"
-  match "appli/store/:plural_model", :to => "sencha#store"
+  #match "appli/model/:model", :to => "sencha#model"
+  #match "appli/store/:plural_model", :to => "sencha#store"
 
   
   resources :my_user
