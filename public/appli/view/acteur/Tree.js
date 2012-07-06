@@ -11,7 +11,7 @@ Ext.define('TP.view.acteur.Tree', {
         xtype: 'treecolumn',
         text: 'Nom',
         dataIndex: 'text',
-        flex: 1
+        flex: 2
     },
     {
         text: 'Qualité procédurale',
