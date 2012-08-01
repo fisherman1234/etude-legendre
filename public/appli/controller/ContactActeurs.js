@@ -142,6 +142,7 @@ Ext.define('TP.controller.ContactActeurs', {
                 panel.new_record.set(formValues);
                 Ext.getStore('TP.store.ContactActeurs').insert(0, panel.new_record);
                 Ext.getStore('TP.store.ContactActeurs').sync();
+                //Ext.getStore('TP.store.Contacts').sortasc();
                 button.up("window").close();
             }
 

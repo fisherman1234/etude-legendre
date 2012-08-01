@@ -1,6 +1,18 @@
 Ext.define('TP.store.Contacts', {
     extend: 'Ext.data.Store',
     model: 'TP.model.Contact',
+    sortasc: function(){
+      this.sort([
+          {
+              property : 'nom',
+              direction: 'ASC'
+          },
+          {
+              property : 'entreprise',
+              direction: 'ASC'
+          }
+      ]);
+    },
     listeners: {
         write: function(store, operation) {
 						store2 = Ext.getStore('TP.store.TreeActeurs');
@@ -10,6 +22,8 @@ Ext.define('TP.store.Contacts', {
             }
         },
         datachanged: function(store){
+          /*
+          Not a good idea : mess up of all contact inserts afterwards
           if (typeof(store.lastsync) === 'undefined' || (new Date()-store.lastsync > 10000)){
             store.lastsync = new Date();
               console.log(store);
@@ -24,6 +38,7 @@ Ext.define('TP.store.Contacts', {
                   }
               ]);
             }
+            */
           }
           
 

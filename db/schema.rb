@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120702152621) do
+ActiveRecord::Schema.define(:version => 20120801125241) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -182,7 +182,7 @@ ActiveRecord::Schema.define(:version => 20120702152621) do
     t.integer  "contact_medium_id"
     t.integer  "user_id"
     t.integer  "parametres_cabinet_id"
-    t.integer  "civilite"
+    t.integer  "civilite_id"
   end
 
   create_table "document_to_communications", :force => true do |t|
