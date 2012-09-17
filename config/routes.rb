@@ -118,8 +118,9 @@ EtudeLegendre::Application.routes.draw do
 
   match 'dossiers/:id/consignations', :to => 'dossiers#consignations' , :method => :get  
   match 'consignations/:id/destroy', :to => 'consignations#destroy' , :method => :post  
-  match 'message_templates/:id/destroy', :to => 'dossiers#destroy' , :method => :get  
+  match 'message_templates/:id/destroy', :to => 'message_templates#destroy' , :method => :get  
   
+  match 'message_templates/:id/mark_as_global', :to => 'message_templates#mark_as_global'
   
   match "expenses/:id/destroy", :to => "expenses#destroy", :method => :post 
   match "activites/:id/expenses", :to => "activites#expenses", :method => :get 

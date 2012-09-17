@@ -8,7 +8,7 @@ class MessageTemplatesController < ApplicationController
   
   #uses_tiny_mce 
   def index
-    @message_templates = current_user.parametres_cabinet.message_templates.all
+    @message_templates = current_user.parametres_cabinet.message_templates.all + MessageTemplate.where('parametres_cabinet_id = 0')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -143,5 +143,15 @@ class MessageTemplatesController < ApplicationController
   end
   
 
+  def mark_as_global
+    @message_template = MessageTemplate.find(params[:id])
+    @copy = MessageTemplate.new
+    @copy.message_body = @message_template.message_body
+    @copy.mail_subject = @message_template.mail_subject
+    @copy.letter_body = @message_template.letter_body
+    @copy.parametres_cabinet_id = 0
+    @copy.save
+    redirect_to '/message_templates'
+  end
 
 end

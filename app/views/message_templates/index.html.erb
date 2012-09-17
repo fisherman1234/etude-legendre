@@ -1,23 +1,23 @@
 <h1>Liste des modèles de messages</h1>
-
-<table id="liste-dossiers" style="width: 100%;">
+<p>En cliquant sur "rendre commun", une copie du modèle sera créée et rendue commune à tous les utilisateurs.</p>
+<table id="liste-dossiers" style="width: 100%;" border=1>
   <tr>
-    <th>Description</th>
-    <th>Sujet</th>
+    <th>Modèle</th>
+    <th>Object</th>
+    <th>Extrait</th>
     <th></th>
     <th></th>
+    
   </tr>
 
 <% @message_templates.each do |message_template| %>
   <tr>
-    <td><%= message_template.description %></td>
+    <td><%= message_template.parametres_cabinet_id == 0 ? "X" : ""%>
     <td><%= message_template.mail_subject %></td>
-    <td><%= link_to 'Editer ', edit_message_template_path(message_template) %></td>
-    <td><%= link_to 'Supprimer', message_template, :confirm => 'Confirmer ?', :method => :delete %></td>
+    <td><%= strip_tags(message_template.message_body.gsub(/<!--[\s\S]*?-->/, "")) %></td>
+    <td><a href="/message_templates/<%= message_template.id %>/mark_as_global">Rendre commun</td>
+    <td><a href="/message_templates/<%= message_template.id %>/destroy">Supprimer</td>
+      
   </tr>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'Nouveau', new_message_template_path %>
