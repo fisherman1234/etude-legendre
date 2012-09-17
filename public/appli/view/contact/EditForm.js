@@ -198,6 +198,29 @@ Ext.define('TP.view.contact.EditForm', {
                         queryMode: 'local'
 
                     }]
+                },
+                {
+                    xtype: 'fieldcontainer',
+                    combineErrors: true,
+                    layout: 'hbox',
+                    padding: 5,
+                    defaults: {
+                        flex: 1,
+                        margin: '0 5 0 0'
+                    },
+                    items: [
+                    {
+                        xtype: 'combo',
+                        fieldLabel: "Moyen de contact",
+                        forceSelection: true,
+                        anchor: '96%',
+                        name: 'contact_medium_id',
+                        store: 'TP.store.TransmissionMediums',
+                        displayField: 'description',
+                        valueField: 'id',
+                        hiddenName: 'contact_medium_id',
+                        queryMode: 'local'
+                    }]
                 }]
             },
             {
