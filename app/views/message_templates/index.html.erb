@@ -14,7 +14,7 @@
   <tr>
     <td><%= message_template.parametres_cabinet_id == 0 ? "X" : ""%>
     <td><%= message_template.mail_subject %></td>
-    <td><%= message_template.message_body.nil? "" : strip_tags(message_template.message_body.gsub(/<!--[\s\S]*?-->/, "")) %></td>
+    <td><%= message_template.message_body.nil? ? "" : strip_tags(message_template.message_body.gsub(/<!--[\s\S]*?-->/, "")) %></td>
     <td><a href="/message_templates/<%= message_template.id %>/mark_as_global">Rendre commun</td>
     <td><a href="/message_templates/<%= message_template.id %>/destroy">Supprimer</td>
       
