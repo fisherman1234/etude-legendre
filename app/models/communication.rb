@@ -66,7 +66,7 @@ class Communication < ActiveRecord::Base
       
       self.contact_to_communications.each do |concom|
         contact = concom.contact
-        sheet1.row(i).push contact.full_name, contact.email, contact.full_adresse, concom.transmission_medium.try(:description), concom.generate_template_doc_link, @template.render( 'dossier' => @dossier, 'destinataire'=> contact, 'expert' => @expert, 'communication' => self, 'convocation' => @convocation) 
+        sheet1.row(i).push contact.try(:full_name), contact.try(:email), contact.try(:full_adresse), concom.transmission_medium.try(:description), concom.generate_template_doc_link, @template.render( 'dossier' => @dossier, 'destinataire'=> contact, 'expert' => @expert, 'communication' => self, 'convocation' => @convocation) 
         i +=1
       end
       sheet2 = book.create_worksheet
