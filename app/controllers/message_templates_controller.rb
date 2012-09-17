@@ -149,6 +149,7 @@ class MessageTemplatesController < ApplicationController
     @copy.message_body = @message_template.message_body
     @copy.mail_subject = @message_template.mail_subject
     @copy.letter_body = @message_template.letter_body
+    @copy.description = @message_template.description
     @copy.parametres_cabinet_id = 0
     @copy.save
     redirect_to '/message_templates'
