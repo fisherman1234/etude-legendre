@@ -15,6 +15,7 @@ class Contact < ActiveRecord::Base
   def default_values
     self.prenom ||= ''
     self.nom ||= ''
+    self.contact_medium_id ||= 1
     
   end
   

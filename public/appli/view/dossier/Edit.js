@@ -250,6 +250,12 @@ Ext.define('TP.view.dossier.Edit', {
                         name: 'adresse2'
                     },
                     {
+                        xtype: 'textfield',
+                        fieldLabel: 'Adresse',
+                        anchor: '96%',
+                        name: 'adresse3'
+                    },
+                    {
                         xtype: 'container',
                         layout: 'column',
                         items: [{
