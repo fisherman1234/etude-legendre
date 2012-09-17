@@ -57,9 +57,16 @@ class Communication < ActiveRecord::Base
         k = k+1
       end
       i = 4
+      
+      if self.activite.linked_activite_id && self.activite.linked_activite_id != 0
+        @convocation = Activite.find(self.activite.linked_activite_id)
+      else
+        @convocation = Activite.new
+      end
+      
       self.contact_to_communications.each do |concom|
         contact = concom.contact
-        sheet1.row(i).push contact.full_name, contact.email, contact.full_adresse, concom.transmission_medium.try(:description), concom.generate_template_doc_link, @template.render( 'dossier' => @dossier, 'destinataire'=> contact, 'expert' => @expert, 'communication' => self, 'convocation' => Activite.find(self.activite.linked_activite_id)) 
+        sheet1.row(i).push contact.full_name, contact.email, contact.full_adresse, concom.transmission_medium.try(:description), concom.generate_template_doc_link, @template.render( 'dossier' => @dossier, 'destinataire'=> contact, 'expert' => @expert, 'communication' => self, 'convocation' => @convocation) 
         i +=1
       end
       sheet2 = book.create_worksheet

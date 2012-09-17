@@ -72,7 +72,12 @@ class ContactToCommunication < ActiveRecord::Base
     @other_recipients = @communication.contact_to_communications.find(:all, :conditions => ["id != ? AND (transmission_medium_id = 2 OR transmission_medium_id=3)", @concom.id])
     @other_copy = @communication.contact_to_communications.find(:all, :conditions => ["id != ? AND transmission_medium_id =1", @concom.id])
     @expert = @dossier.user.contacts.first
-    @convocation = Activite.find(@communication.activite.linked_activite_id)
+    
+    if @communication.activite.linked_activite_id && @communication.activite.linked_activite_id != 0
+      @convocation = Activite.find(@communication.activite.linked_activite_id)
+    else
+      @convocation = Activite.new
+    end
     
     @template_signature = Liquid::Template.parse(@dossier.user.signature_lettres)
     @template = Liquid::Template.parse(@communication.letter_body)
