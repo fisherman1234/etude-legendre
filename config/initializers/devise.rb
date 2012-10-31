@@ -141,21 +141,24 @@ Devise.setup do |config|
   # end
 end
 
+
+=begin
 module Devise
   class FailureApp
     def respond          
-          if http_auth? && request.env["HTTP_USEXBASIC"]!="true"
-            http_auth
-          elsif http_auth? && request.env["HTTP_USEXBASIC"]=="true"
-            self.status = 401
-            self.headers["WWW-Authenticate"] = "XBasic"
-            self.content_type = request.format.to_s
-            self.response_body = http_auth_body
-          elsif warden_options[:recall]
-            recall
-          else
-            redirect
-          end
-        end
+      if http_auth? && request.env["HTTP_USEXBASIC"]!="true"
+        http_auth
+      elsif http_auth? && request.env["HTTP_USEXBASIC"]=="true"
+        self.status = 401
+        self.headers["WWW-Authenticate"] = "XBasic"
+        self.content_type = request.format.to_s
+        self.response_body = http_auth_body
+      elsif warden_options[:recall]
+        recall
+      else
+        redirect
+      end
+    end
   end
 end
+=end

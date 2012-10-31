@@ -13,7 +13,7 @@ Ext.define('TP.view.contacttocommunication.ListShort', {
             renderer: function(val) {
                 if (val !== null) {
                   if (Ext.getStore('TP.store.ContactDossiers').findRecord('id', val) !== null){
-                    return Ext.getStore('TP.store.ContactDossiers').findRecord('id', val).data.nom_complet;
+                    return Ext.getStore('TP.store.ContactDossiers').findRecord('id', val).data.full_name;
                   }
                 }
             }

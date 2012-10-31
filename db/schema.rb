@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120801125241) do
+ActiveRecord::Schema.define(:version => 20121031134255) do
 
   create_table "acteurs", :force => true do |t|
     t.integer  "type_acteur_id"
@@ -160,6 +160,7 @@ ActiveRecord::Schema.define(:version => 20120801125241) do
   create_table "contacts", :force => true do |t|
     t.string   "nom"
     t.string   "prenom"
+    t.integer  "civilite_id"
     t.string   "adresse1"
     t.string   "adresse2"
     t.string   "adresse3"
@@ -182,7 +183,7 @@ ActiveRecord::Schema.define(:version => 20120801125241) do
     t.integer  "contact_medium_id"
     t.integer  "user_id"
     t.integer  "parametres_cabinet_id"
-    t.integer  "civilite_id"
+    t.string   "institution_description"
   end
 
   create_table "document_to_communications", :force => true do |t|

@@ -14,7 +14,7 @@ Ext.define('TP.model.Contact', {
             writeAllFields: false
         }
     },
-    fields: ['id', 'nom', 'prenom', 'civilite_id', 'adresse1', 'adresse2', 'adresse3', 'code_postal', 'ville', 'pays', 'telephone', 'fax', 'portable', 'email', 'site_web', 'institution_id', 'genre_adresse', 'genre_lettre', 'type_intervenant_id', 'avocat_au_barreau', 'notes', 'contact_medium_id', 'nom_complet', {
+    fields: ['id', 'nom', 'prenom', 'civilite_id', 'adresse1', 'adresse2', 'adresse3', 'code_postal', 'ville', 'pays', 'telephone', 'fax', 'portable', 'email', 'site_web', 'institution_id', 'genre_adresse', 'genre_lettre', 'type_intervenant_id', 'avocat_au_barreau', 'notes', 'contact_medium_id', 'nom_complet', 'institution_description', {
         name: 'full_name',
         type: 'string',
         convert: function(v, rec) {

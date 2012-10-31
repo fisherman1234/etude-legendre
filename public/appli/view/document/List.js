@@ -32,7 +32,7 @@ Ext.define('TP.view.document.List', {
 	            if (value !== null) {
                   a = Ext.getStore('TP.store.Contacts').findRecord('id', value);
                   if (a !== null) {
-                      return a.data.nom_complet;
+                      return a.data.full_name;
                   }
               }
             }

@@ -40,7 +40,7 @@ Ext.define('TP.view.consignation.List', {
                 if (value !== null) {
                     a = Ext.getStore('TP.store.Contacts').findRecord('id', value);
                     if (a !== null) {
-                        return a.data.nom_complet;
+                        return a.data.full_name;
                     }
                 }
             },
@@ -50,7 +50,7 @@ Ext.define('TP.view.consignation.List', {
                 queryMode: 'local',
                 name: 'contact_id',
                 store: 'TP.store.Contacts',
-                displayField: 'nom_complet',
+                displayField: 'full_name',
                 valueField: 'id',
                 hiddenName: 'contact_id'
             }

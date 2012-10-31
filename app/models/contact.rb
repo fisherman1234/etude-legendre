@@ -16,10 +16,19 @@ class Contact < ActiveRecord::Base
     self.prenom ||= ''
     self.nom ||= ''
     self.contact_medium_id ||= 1
-    if self.institution_id.changed? && !self.institution_id.nil?
+    if self.institution_id_changed? && !self.institution_id.nil?
       self.institution_description = self.institution.nom
     end
     
+  end
+  
+  def self.set_companies
+    Contact.all.each do |contact|
+      if !contact.institution_id.nil?
+        contact.institution_description = contact.institution.nom
+        contact.save
+      end
+    end
   end
   
   def civilite

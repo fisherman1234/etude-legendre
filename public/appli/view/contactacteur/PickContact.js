@@ -14,7 +14,7 @@ Ext.define('TP.view.contactacteur.PickContact', {
         anchor: '96%',
         name: 'contact_id',
         store: 'TP.store.Contacts',
-        displayField: 'nom_complet',
+        displayField: 'full_name',
         valueField: 'id',
         hiddenName: 'contact_id',
         queryMode: 'local'

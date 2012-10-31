@@ -27,7 +27,17 @@ Ext.define('TP.view.contacttocommunication.ListLarge', {
             dataIndex: 'contact_id',
             renderer: function(val) {
                 if (val !== null) {
-                    return Ext.getStore('TP.store.ContactDossiers').findRecord('id', val).data.nom_complet;
+                    return Ext.getStore('TP.store.ContactDossiers').findRecord('id', val).data.full_name;
+                }
+            },
+            flex: 1
+        },
+        {
+            header: 'Enreprise',
+            dataIndex: 'contact_id',
+            renderer: function(val) {
+                if (val !== null) {
+                    return Ext.getStore('TP.store.ContactDossiers').findRecord('id', val).data.entreprise;
                 }
             },
             flex: 1

@@ -17,7 +17,7 @@ Ext.define('TP.view.document.Edit', {
                 fieldLabel: 'Description/No de pièce',
                 name: 'description',
                 margin: 10,
-                allowBlank: false, 
+                allowBlank: false,
                 width: 450
             },
             {
@@ -53,7 +53,7 @@ Ext.define('TP.view.document.Edit', {
                 anchor: '96%',
                 name: 'contact_id',
                 store: 'TP.store.Contacts',
-                displayField: 'nom_complet',
+                displayField: 'full_name',
                 valueField: 'id',
                 hiddenName: 'contact_id',
                 forceSelection: true

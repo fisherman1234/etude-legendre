@@ -31,7 +31,12 @@ Ext.define('TP.view.contact.ListLarge', {
         }];
         this.columns = [{
             header: 'Nom',
-            dataIndex: 'nom_complet',
+            dataIndex: 'full_name',
+            flex: 1
+        },
+        {
+            header: 'Entreprise',
+            dataIndex: 'entreprise',
             flex: 1
         },
         {
