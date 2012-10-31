@@ -22,7 +22,6 @@ class User < ActiveRecord::Base
 
   def full_name
     return prenom.to_s+' '+nom.to_s
-
   end
 
 
