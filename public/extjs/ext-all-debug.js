@@ -66854,9 +66854,9 @@ Ext.define('Ext.window.MessageBox', {
     
     buttonText: {
         ok: 'OK',
-        yes: 'Yes',
-        no: 'No',
-        cancel: 'Cancel'
+        yes: 'Oui',
+        no: 'Non',
+        cancel: 'Annuler'
     },
 
     buttonIds: [

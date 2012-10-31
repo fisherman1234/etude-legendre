@@ -16,6 +16,9 @@ class Contact < ActiveRecord::Base
     self.prenom ||= ''
     self.nom ||= ''
     self.contact_medium_id ||= 1
+    if self.institution_id.changed? && !self.institution_id.nil?
+      self.institution_description = self.institution.nom
+    end
     
   end
   
